@@ -4,6 +4,6 @@ import store.streetvendor.domain.domain.member.Member;
 
 public interface MemberRepositoryCustom {
 
-	Member findMemberById(Long memberId);
+    Member findMemberById(Long memberId);
 
 }

@@ -12,35 +12,35 @@ import javax.persistence.*;
 @Entity
 public class Member extends BaseTimeEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = false)
-	private String name;
+    @Column(nullable = false)
+    private String name;
 
-	@Column(nullable = false)
-	private String nickName;
+    @Column(nullable = false)
+    private String nickName;
 
-	@Column(nullable = false)
-	private String email;
+    @Column(nullable = false)
+    private String email;
 
-	private String profileUrl;
+    private String profileUrl;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private MemberProvider provider;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MemberProvider provider;
 
-	private Member(String name, String nickName, String email, String profileUrl, MemberProvider provider) {
-		this.name = name;
-		this.nickName = nickName;
-		this.email = email;
-		this.profileUrl = profileUrl;
-		this.provider = provider;
-	}
+    private Member(String name, String nickName, String email, String profileUrl, MemberProvider provider) {
+        this.name = name;
+        this.nickName = nickName;
+        this.email = email;
+        this.profileUrl = profileUrl;
+        this.provider = provider;
+    }
 
-	public static Member newGoogleInstance(String name, String nickName, String email, String profileUrl) {
-		return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE);
-	}
+    public static Member newGoogleInstance(String name, String nickName, String email, String profileUrl) {
+        return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE);
+    }
 
 }

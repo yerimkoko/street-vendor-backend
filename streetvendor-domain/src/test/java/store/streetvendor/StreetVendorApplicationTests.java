@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class StreetVendorApplicationTests {
 
-	@Test
-	void contextsLoad() {
+    @Test
+    void contextsLoad() {
 
-	}
+    }
 
 }
