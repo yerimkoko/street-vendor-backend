@@ -1,0 +1,4 @@
+rootProject.name = 'streetvendor'
+include 'streetvendor-api'
+include 'streetvendor-domain'
+

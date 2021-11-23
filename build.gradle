@@ -1,0 +1,52 @@
+buildscript {
+    ext {
+        springBootVersion = "2.5.7"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+allprojects {
+    group = "store.streetvendor"
+}
+
+subprojects {
+    apply {
+        plugin("java-library")
+        plugin("eclipse")
+        plugin("org.springframework.boot")
+        plugin("io.spring.dependency-management")
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    sourceCompatibility = "11"
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+        // Lombok
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+
+        // Test
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}

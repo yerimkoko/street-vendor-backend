@@ -1,0 +1,12 @@
+server:
+  port: 7777
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+spring:
+  profiles:
+    active: local
+    default: local
+    include:
+      - domain
