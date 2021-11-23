@@ -19,10 +19,28 @@ public class Member extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String name;
 
-	public Member(String name) {
+	@Column(nullable = false)
+	private String nickName;
+
+	@Column(nullable = false)
+	private String email;
+
+	private String profileUrl;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private MemberProvider provider;
+
+	private Member(String name, String nickName, String email, String profileUrl, MemberProvider provider) {
 		this.name = name;
+		this.nickName = nickName;
+		this.email = email;
+		this.profileUrl = profileUrl;
+		this.provider = provider;
 	}
 
-	// 차후 필드 추가
+	public static Member newGoogleInstance(String name, String nickName, String email, String profileUrl) {
+		return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE);
+	}
 
 }
