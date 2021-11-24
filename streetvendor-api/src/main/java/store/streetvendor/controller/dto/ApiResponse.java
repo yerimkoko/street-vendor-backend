@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ApiResponse<T> {
 
-    public static final ApiResponse<String> OK = new ApiResponse<>("", "", "");
+    public static final ApiResponse<String> OK = new ApiResponse<>("", "", "성공");
 
     private final String code;
 
