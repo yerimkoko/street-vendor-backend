@@ -34,7 +34,13 @@ public class MemberServiceTest {
         String nickName = "토끼";
         String name = "고토끼";
         String profileUrl = "234234tokki.jpg";
-        MemberSignUpRequestDto requestDto = new MemberSignUpRequestDto(name, nickName, email, profileUrl);
+
+        MemberSignUpRequestDto requestDto = MemberSignUpRequestDto.testBuilder()
+            .name(name)
+            .nickName(nickName)
+            .email(email)
+            .profileUrl(profileUrl)
+            .build();
 
         // when
         memberService.signUp(requestDto);
@@ -42,26 +48,29 @@ public class MemberServiceTest {
         // then
         List<Member> members = memberRepository.findAll();
         assertThat(members).hasSize(1);
-        assertThat(members.get(0).getEmail()).isEqualTo(email);
-        assertThat(members.get(0).getName()).isEqualTo(name);
-        assertThat(members.get(0).getProfileUrl()).isEqualTo(profileUrl);
-        assertThat(members.get(0).getNickName()).isEqualTo(nickName);
-
+        assertMember(members.get(0), name, nickName, email, profileUrl);
     }
 
     @Test
-    void 닉네임을_중복체크한다() {
+    void 닉네임이_중복인경우_에러가_발생한다() {
         // given
         String email = "tokki@gmail.com";
         String nickName = "토끼";
         String name = "고토끼";
         String profileUrl = "234234tokki.jpg";
         MemberSignUpRequestDto requestDto = new MemberSignUpRequestDto(name, nickName, email, profileUrl);
-        memberService.signUp(requestDto);
+        memberRepository.save(Member.newGoogleInstance(name, nickName, email, profileUrl));
 
         // when & then
         assertThatThrownBy(() -> memberService.signUp(requestDto))
             .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    private void assertMember(Member member, String name, String nickName, String email, String profileUrl) {
+        assertThat(member.getName()).isEqualTo(name);
+        assertThat(member.getNickName()).isEqualTo(nickName);
+        assertThat(member.getEmail()).isEqualTo(email);
+        assertThat(member.getProfileUrl()).isEqualTo(profileUrl);
     }
 
 }

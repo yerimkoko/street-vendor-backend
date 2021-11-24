@@ -15,14 +15,16 @@ public class MemberService {
 
     @Transactional
     public Long signUp(MemberSignUpRequestDto requestDto) {
-        Member doubleCheckNickName = memberRepository.findMemberIdByNickName(requestDto.getNickName());
-        if (doubleCheckNickName != null) {
-            throw new IllegalArgumentException(String.format("(%s)는 중복된 닉네임 입니다. 다른 닉네임을 입력해주세요!", requestDto.getNickName()));
-        }
-        Member member = memberRepository.save(Member.newGoogleInstance(requestDto.getName(), requestDto.getNickName(), requestDto.getEmail(),
-            requestDto.getProfileUrl()));
+        validateDuplicatedNickName(requestDto.getNickName());
+        Member member = memberRepository.save(requestDto.toEntity());
         return member.getId();
     }
 
+    private void validateDuplicatedNickName(String nickName) {
+        Member member = memberRepository.findMemberIdByNickName(nickName);
+        if (member != null) {
+            throw new IllegalArgumentException(String.format("(%s)는 중복된 닉네임 입니다. 다른 닉네임을 입력해주세요!", nickName));
+        }
+    }
 
 }

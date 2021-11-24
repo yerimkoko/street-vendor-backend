@@ -1,0 +1,9 @@
+POST {{host_api}}/api/v1/sign-up
+Content-Type: application/json
+
+{
+    "name": "고토끼",
+    "nickName": "토끼",
+    "email": "tokki@streetVendor.com",
+    "pictureUrl": "tokki.jpg"
+}
