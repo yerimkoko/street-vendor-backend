@@ -19,4 +19,12 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
             ).fetchOne();
     }
 
+    @Override
+    public Member findMemberIdByNickName(String nickName) {
+        return queryFactory.selectFrom(member)
+            .where(
+                member.nickName.eq(nickName)
+            ).fetchOne();
+    }
+
 }
