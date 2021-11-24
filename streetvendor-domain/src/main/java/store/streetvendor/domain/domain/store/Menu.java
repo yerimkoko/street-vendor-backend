@@ -1,6 +1,7 @@
 package store.streetvendor.domain.domain.store;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
@@ -26,10 +27,29 @@ public class Menu extends BaseTimeEntity {
     @Column(nullable = false)
     private String price;
 
+    private String pictureUrl;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private MenuSalesStatus salesStatus;
 
-    private String pictureUrl;
+    @Builder(access = AccessLevel.PRIVATE)
+    private Menu(Store store, String name, String price, String pictureUrl, MenuSalesStatus salesStatus) {
+        this.store = store;
+        this.name = name;
+        this.price = price;
+        this.pictureUrl = pictureUrl;
+        this.salesStatus = salesStatus;
+    }
+
+    public static Menu of(Store store, String name, String price, String pictureUrl) {
+        return Menu.builder()
+            .store(store)
+            .name(name)
+            .price(price)
+            .pictureUrl(pictureUrl)
+            .salesStatus(MenuSalesStatus.ON_SALE)
+            .build();
+    }
 
 }

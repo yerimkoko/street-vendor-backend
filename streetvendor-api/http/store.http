@@ -1,0 +1,27 @@
+### 새로운 가게를 등록합니다.
+POST {{host_api}}/api/v1/store?memberId=1
+Content-Type: application/json
+
+{
+    "name": "토끼의 붕어빵 창업",
+    "pictureUrl": "https://store.com",
+    "startTime": "09:00",
+    "endTime": "15:00",
+    "location": "신정네거리",
+    "menus": [
+        {
+            "pictureUrl": "https://menu.com",
+            "name": "팥 붕어빵 5개",
+            "price": "2000원"
+        },
+        {
+            "pictureUrl": "https://menu.com",
+            "name": "슈크림 5개",
+            "price": "2000원"
+        }
+    ],
+    "paymentMethods": [
+        "CASH",
+        "ACCOUNT_TRANSFER"
+    ]
+}

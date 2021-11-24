@@ -24,4 +24,13 @@ public class Payment extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
+    private Payment(Store store, PaymentMethod paymentMethod) {
+        this.store = store;
+        this.paymentMethod = paymentMethod;
+    }
+
+    public static Payment of(Store store, PaymentMethod paymentMethod) {
+        return new Payment(store, paymentMethod);
+    }
+
 }
