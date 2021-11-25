@@ -10,7 +10,7 @@ import java.time.LocalTime;
 
 @NoArgsConstructor
 @Getter
-public class StoreDto {
+public class StoreResponseDto {
 
     private Long storeId;
 
@@ -30,8 +30,8 @@ public class StoreDto {
 
 
     @Builder
-    public StoreDto(Long storeId, Long bossId, String name, String pictureUrl, String location, String description,
-                    LocalTime startTime, LocalTime endTime) {
+    public StoreResponseDto(Long storeId, Long bossId, String name, String pictureUrl, String location, String description,
+                            LocalTime startTime, LocalTime endTime) {
         this.storeId = storeId;
         this.bossId = bossId;
         this.name = name;
@@ -42,8 +42,8 @@ public class StoreDto {
         this.endTime = endTime;
     }
 
-    public static StoreDto of(Store store) {
-        return StoreDto.builder()
+    public static StoreResponseDto of(Store store) {
+        return StoreResponseDto.builder()
             .storeId(store.getId())
             .bossId(store.getMemberId())
             .name(store.getName())

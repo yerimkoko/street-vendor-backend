@@ -1,10 +1,11 @@
 package store.streetvendor.service.member;
 
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberServiceUtils {
 
     public static Member findByMemberId(MemberRepository memberRepository, Long memberId) {

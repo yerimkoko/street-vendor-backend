@@ -3,7 +3,7 @@ package store.streetvendor.controller.store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import store.streetvendor.controller.dto.ApiResponse;
-import store.streetvendor.controller.dto.store.StoreDto;
+import store.streetvendor.controller.dto.store.StoreResponseDto;
 import store.streetvendor.controller.dto.store.StoreUpdateRequest;
 import store.streetvendor.service.store.StoreService;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
@@ -24,13 +24,13 @@ public class StoreController {
         return ApiResponse.OK;
     }
 
-    @GetMapping("/api/v1/store")
-    public ApiResponse<List<StoreDto>> getStores(@RequestParam Long memberId) {
+    @GetMapping("/api/v1/my-stores")
+    public ApiResponse<List<StoreResponseDto>> getMyStores(@RequestParam Long memberId) {
         return ApiResponse.success(storeService.getMyStoreList(memberId));
     }
 
     @PutMapping("/api/v1/store/{storeId}")
-    public ApiResponse<String> updateStore(@RequestBody Long memberId, @PathVariable Long storeId,
+    public ApiResponse<String> updateStore(@RequestParam Long memberId, @PathVariable Long storeId,
                                          @RequestBody StoreUpdateRequest request) {
         storeService.updateMyStore(memberId, storeId, request);
         return ApiResponse.OK;

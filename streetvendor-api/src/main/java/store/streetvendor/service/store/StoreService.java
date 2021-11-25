@@ -3,13 +3,12 @@ package store.streetvendor.service.store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.streetvendor.controller.dto.store.StoreDto;
+import store.streetvendor.controller.dto.store.StoreResponseDto;
 import store.streetvendor.controller.dto.store.StoreUpdateRequest;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
-import store.streetvendor.domain.domain.store.StoreStatus;
 import store.streetvendor.service.member.MemberServiceUtils;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
 
@@ -30,14 +29,14 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public List<StoreDto> getMyStoreList(Long memberId) {
+    public List<StoreResponseDto> getMyStoreList(Long memberId) {
         List<Store> stores = storeRepository.findStoreByBossId(memberId);
         return getStores(stores);
     }
 
-    private List<StoreDto> getStores(List<Store> stores) {
+    private List<StoreResponseDto> getStores(List<Store> stores) {
         return stores.stream()
-            .map(StoreDto::of)
+            .map(StoreResponseDto::of)
             .collect(Collectors.toList());
     }
 
