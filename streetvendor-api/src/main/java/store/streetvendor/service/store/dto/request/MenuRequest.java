@@ -12,16 +12,18 @@ public class MenuRequest {
 
     private String name;
 
-    private String price;
+    private int amount;
+
+    private int price;
 
     private String pictureUrl;
 
     public Menu toEntity(Store store) {
-        return Menu.of(store, name, price, pictureUrl);
+        return Menu.of(store, name, amount, price, pictureUrl);
     }
 
-    public static MenuRequest testInstance(String name, String price, String pictureUrl) {
-        return new MenuRequest(name, price, pictureUrl);
+    public static MenuRequest testInstance(String name, int amount, int price, String pictureUrl) {
+        return new MenuRequest(name, amount, price, pictureUrl);
     }
 
 }

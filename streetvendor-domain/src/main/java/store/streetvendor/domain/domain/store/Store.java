@@ -31,6 +31,8 @@ public class Store extends BaseTimeEntity {
 
     private String location;
 
+    private String description;
+
     @Embedded
     private OpeningTime openingTime;
 
@@ -44,21 +46,23 @@ public class Store extends BaseTimeEntity {
     private final List<Payment> paymentMethods = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    private Store(Long memberId, String name, String pictureUrl, String location, OpeningTime openingTime, StoreStatus status) {
+    private Store(Long memberId, String name, String pictureUrl, String location, String description, OpeningTime openingTime, StoreStatus status) {
         this.memberId = memberId;
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.location = location;
+        this.description = description;
         this.openingTime = openingTime;
         this.status = status;
     }
 
-    public static Store newInstance(Long memberId, String name, String pictureUrl, String location, LocalTime startTime, LocalTime endTime) {
+    public static Store newInstance(Long memberId, String name, String pictureUrl, String location, String description, LocalTime startTime, LocalTime endTime) {
         return Store.builder()
             .memberId(memberId)
             .name(name)
             .pictureUrl(pictureUrl)
             .location(location)
+            .description(description)
             .openingTime(OpeningTime.of(startTime, endTime))
             .status(StoreStatus.ACTIVE)
             .build();
@@ -79,6 +83,18 @@ public class Store extends BaseTimeEntity {
             .map(paymentMethod -> Payment.of(this, paymentMethod))
             .collect(Collectors.toList())
         );
+    }
+
+    public void update(String name, String description, String pictureUrl, String location, LocalTime startTime, LocalTime endTime) {
+        this.name = name;
+        this.description = description;
+        this.pictureUrl = pictureUrl;
+        this.location = location;
+        this.openingTime = OpeningTime.of(startTime, endTime);
+    }
+
+    public void delete() {
+        this.status = StoreStatus.DELETED;
     }
 
 }
