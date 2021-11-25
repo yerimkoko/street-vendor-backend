@@ -126,6 +126,8 @@ class StoreServiceTest {
 
         // when
         storeService.updateMyStore(store.getMemberId(), store.getId(), request);
+
+        // then
         List<Store> stores = storeRepository.findAll();
         assertThat(stores).hasSize(1);
         assertStore(stores.get(0), newName, newPictureUrl, newLocation, newDescription, member.getId(), newStartTime, newEndTime);
