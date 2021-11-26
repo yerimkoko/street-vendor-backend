@@ -12,7 +12,9 @@ import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
 import store.streetvendor.service.store.dto.request.MenuRequest;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -60,7 +62,6 @@ class StoreServiceTest {
         List<MenuRequest> menuRequests = List.of(MenuRequest.testInstance(menuName, menuAmount, menuPrice, menuPictureUrl));
         List<PaymentMethod> paymentMethods = List.of(PaymentMethod.CASH, PaymentMethod.ACCOUNT_TRANSFER);
 
-
         AddNewStoreRequest request = AddNewStoreRequest.testBuilder()
             .name(name)
             .pictureUrl(pictureUrl)
@@ -93,12 +94,14 @@ class StoreServiceTest {
     @Test
     void 가게를_수정한다() {
         // given
+        // member
         String email = "tokki@gmail.com";
         String nickName = "토끼";
         String memberName = "고토끼";
         String profileUrl = "234234tokki.jpg";
         Member member = memberRepository.save(Member.newGoogleInstance(memberName, nickName, email, profileUrl));
 
+        // store
         Long memberId = member.getId();
         String name = "토끼의 붕어빵 가게";
         String pictureUrl = "https://rabbit.com";
@@ -107,6 +110,7 @@ class StoreServiceTest {
         LocalTime startTime = LocalTime.of(17, 0);
         LocalTime endTime = LocalTime.of(21, 0);
 
+        // newStore
         String newName = "토끼의 붕어빵";
         String newPictureUrl = "rabbit.jpg";
         String newLocation = "신정네거리 3번 출구";
@@ -115,6 +119,20 @@ class StoreServiceTest {
         LocalTime newEndTime = LocalTime.of(22, 0);
 
         Store store = storeRepository.save(Store.newInstance(memberId, name, pictureUrl, location, description, startTime, endTime));
+
+        // menu
+        String menuName = "슈크림 붕어빵";
+        int menuPrice = 1000;
+        int menuAmount = 1;
+        String menuPictureUrl = "https://menu.com";
+        List<MenuRequest> menuRequests = List.of(MenuRequest.testInstance(menuName, menuAmount, menuPrice, menuPictureUrl));
+        List<Menu> menus = menuRequests.stream().map(menu -> menu.toEntity(store)).collect(Collectors.toList());
+        PaymentMethod accountTransfer = PaymentMethod.ACCOUNT_TRANSFER;
+        PaymentMethod cash = PaymentMethod.CASH;
+
+        // paymentMethod
+        List<PaymentMethod> methods = List.of(accountTransfer, cash);
+
         StoreUpdateRequest request = StoreUpdateRequest.testBuilder()
             .name(newName)
             .pictureUrl(newPictureUrl)
@@ -122,15 +140,27 @@ class StoreServiceTest {
             .description(newDescription)
             .startTime(newStartTime)
             .endTime(newEndTime)
+            .menus(menus)
+            .methods(methods)
             .build();
+
 
         // when
         storeService.updateMyStore(store.getMemberId(), store.getId(), request);
 
         // then
         List<Store> stores = storeRepository.findAll();
+        List<Menu> menuList = menuRepository.findAll();
+        List<Payment> payments = paymentRepository.findAll();
+
         assertThat(stores).hasSize(1);
+        assertThat(menuList).hasSize(1);
+        assertThat(payments).hasSize(2);
         assertStore(stores.get(0), newName, newPictureUrl, newLocation, newDescription, member.getId(), newStartTime, newEndTime);
+        assertMenu(menuList.get(0), store.getId(), menuName, menuAmount, menuPrice, menuPictureUrl);
+        assertPayment(payments.get(0), store.getId(), accountTransfer);
+        assertPayment(payments.get(1), store.getId(), cash);
+
     }
 
     @Test

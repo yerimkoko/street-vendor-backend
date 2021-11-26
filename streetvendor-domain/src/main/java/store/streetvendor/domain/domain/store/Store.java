@@ -85,16 +85,31 @@ public class Store extends BaseTimeEntity {
         );
     }
 
-    public void update(String name, String description, String pictureUrl, String location, LocalTime startTime, LocalTime endTime) {
+    public void update(String name, String description, String pictureUrl, String location,
+                       LocalTime startTime, LocalTime endTime, List<Menu> menus, List<PaymentMethod> methods) {
         this.name = name;
         this.description = description;
         this.pictureUrl = pictureUrl;
         this.location = location;
         this.openingTime = OpeningTime.of(startTime, endTime);
+        this.updateMenus(menus);
+        this.updatePayments(methods);
+    }
+
+    public void updateMenus(List<Menu> newMenus) {
+        this.menus.clear();
+        this.addMenus(newMenus);
+    }
+
+    public void updatePayments(List<PaymentMethod> methods) {
+        this.paymentMethods.clear();
+        this.addPayments(methods);
+
     }
 
     public void delete() {
         this.status = StoreStatus.DELETED;
     }
+
 
 }
