@@ -4,8 +4,12 @@ package store.streetvendor.controller.dto.store;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import store.streetvendor.domain.domain.store.Menu;
+import store.streetvendor.domain.domain.store.Payment;
+import store.streetvendor.domain.domain.store.PaymentMethod;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -22,14 +26,21 @@ public class StoreUpdateRequest {
 
     private LocalTime endTime;
 
+    private List<Menu> menus;
+
+    private List<PaymentMethod> methods;
+
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
-    public StoreUpdateRequest(String name, String pictureUrl, String location, String description, LocalTime startTime, LocalTime endTime) {
+    public StoreUpdateRequest(String name, String pictureUrl, String location, String description,
+                              LocalTime startTime, LocalTime endTime, List<Menu> menus, List<PaymentMethod> methods) {
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.location = location;
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.menus = menus;
+        this.methods = methods;
     }
 
 }
