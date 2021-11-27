@@ -1,4 +1,4 @@
-package store.streetvendor.config;
+package store.streetvendor.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
