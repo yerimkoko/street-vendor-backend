@@ -47,7 +47,7 @@ public class StoreService {
         store.updateStoreInfo(updateRequest.getName(), updateRequest.getDescription(), updateRequest.getPictureUrl(),
             updateRequest.getLocation(), updateRequest.getStartTime(), updateRequest.getEndTime());
         store.updateMenus(updateRequest.getMenus());
-        store.updatePayments(updateRequest.getMethods());
+        store.updatePayments(updateRequest.getPaymentMethods());
     }
 
     @Transactional

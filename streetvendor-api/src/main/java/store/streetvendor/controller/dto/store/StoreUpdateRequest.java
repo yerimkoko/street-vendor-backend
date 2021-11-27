@@ -28,11 +28,11 @@ public class StoreUpdateRequest {
 
     private List<Menu> menus;
 
-    private List<PaymentMethod> methods;
+    private List<PaymentMethod> paymentMethods;
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
     public StoreUpdateRequest(String name, String pictureUrl, String location, String description,
-                              LocalTime startTime, LocalTime endTime, List<Menu> menus, List<PaymentMethod> methods) {
+                              LocalTime startTime, LocalTime endTime, List<Menu> menus, List<PaymentMethod> paymentMethods) {
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.location = location;
@@ -40,7 +40,7 @@ public class StoreUpdateRequest {
         this.startTime = startTime;
         this.endTime = endTime;
         this.menus = menus;
-        this.methods = methods;
+        this.paymentMethods = paymentMethods;
     }
 
 }
