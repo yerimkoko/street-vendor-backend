@@ -30,6 +30,7 @@ public class StoreService {
 
     @Transactional(readOnly = true)
     public List<StoreResponseDto> getMyStoreList(Long memberId) {
+        // TODO 메뉴랑 결제 방법도 함께 반환해주세요! @yerimkoko
         List<Store> stores = storeRepository.findStoreByBossId(memberId);
         return getStores(stores);
     }

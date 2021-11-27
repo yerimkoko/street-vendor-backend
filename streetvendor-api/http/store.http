@@ -1,6 +1,7 @@
 ### 새로운 가게를 등록합니다.
-POST {{host_api}}/api/v1/store?memberId=1
+POST {{host_api}}/api/v1/store
 Content-Type: application/json
+Authorization: Bearer {{SESSION}}
 
 {
     "name": "토끼의 붕어빵 창업",
@@ -8,16 +9,19 @@ Content-Type: application/json
     "startTime": "09:00",
     "endTime": "15:00",
     "location": "신정네거리",
+    "description": "가게 설명",
     "menus": [
         {
             "pictureUrl": "https://menu.com",
-            "name": "팥 붕어빵 5개",
-            "price": "2000원"
+            "name": "팥 붕어빵",
+            "price": "2000",
+            "amount": 2
         },
         {
             "pictureUrl": "https://menu.com",
-            "name": "슈크림 5개",
-            "price": "2000원"
+            "name": "슈크림",
+            "price": "2000",
+            "amount": 5
         }
     ],
     "paymentMethods": [
@@ -25,3 +29,8 @@ Content-Type: application/json
         "ACCOUNT_TRANSFER"
     ]
 }
+
+
+### 나의 가게 목록을 조회합니다.
+GET {{host_api}}/api/v1/my-stores
+Authorization: Bearer {{SESSION}}
