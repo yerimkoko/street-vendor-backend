@@ -1,4 +1,4 @@
-# 인텔리제이에서 잘 못읽어들이는 경우가 있어서 일단 api 모듈에 위치시킴.
+# 인텔리제이에서 잘 못 읽어들이는 경우가 있어서 일단 api 모듈에 위치시킴.
 spring:
   jpa:
     properties:
@@ -29,4 +29,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+  sql:
+    init:
+      data-locations: classpath:schema-h2.sql
 ---
