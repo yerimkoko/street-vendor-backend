@@ -85,15 +85,13 @@ public class Store extends BaseTimeEntity {
         );
     }
 
-    public void update(String name, String description, String pictureUrl, String location,
-                       LocalTime startTime, LocalTime endTime, List<Menu> menus, List<PaymentMethod> methods) {
+    public void updateStoreInfo(String name, String description, String pictureUrl, String location,
+                       LocalTime startTime, LocalTime endTime) {
         this.name = name;
         this.description = description;
         this.pictureUrl = pictureUrl;
         this.location = location;
         this.openingTime = OpeningTime.of(startTime, endTime);
-        this.updateMenus(menus);
-        this.updatePayments(methods);
     }
 
     public void updateMenus(List<Menu> newMenus) {
@@ -101,9 +99,9 @@ public class Store extends BaseTimeEntity {
         this.addMenus(newMenus);
     }
 
-    public void updatePayments(List<PaymentMethod> methods) {
+    public void updatePayments(List<PaymentMethod> paymentMethods) {
         this.paymentMethods.clear();
-        this.addPayments(methods);
+        this.addPayments(paymentMethods);
 
     }
 

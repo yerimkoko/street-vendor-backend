@@ -31,7 +31,7 @@ public class StoreController {
 
     @PutMapping("/api/v1/store/{storeId}")
     public ApiResponse<String> updateStore(@RequestParam Long memberId, @PathVariable Long storeId,
-                                         @RequestBody StoreUpdateRequest request) {
+                                           @RequestBody StoreUpdateRequest request) {
         storeService.updateMyStore(memberId, storeId, request);
         return ApiResponse.OK;
     }

@@ -44,9 +44,10 @@ public class StoreService {
     public void updateMyStore(Long memberId, Long storeId, StoreUpdateRequest updateRequest) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, member.getId());
-        store.update(updateRequest.getName(), updateRequest.getDescription(), updateRequest.getPictureUrl(),
-            updateRequest.getLocation(), updateRequest.getStartTime(), updateRequest.getEndTime(), updateRequest.getMenus(),
-            updateRequest.getMethods());
+        store.updateStoreInfo(updateRequest.getName(), updateRequest.getDescription(), updateRequest.getPictureUrl(),
+            updateRequest.getLocation(), updateRequest.getStartTime(), updateRequest.getEndTime());
+        store.updateMenus(updateRequest.getMenus());
+        store.updatePayments(updateRequest.getMethods());
     }
 
     @Transactional
@@ -55,6 +56,5 @@ public class StoreService {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, member.getId());
         store.delete();
     }
-
 
 }
