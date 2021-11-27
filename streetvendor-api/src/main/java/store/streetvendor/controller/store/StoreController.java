@@ -2,8 +2,8 @@ package store.streetvendor.controller.store;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import store.streetvendor.config.Auth;
-import store.streetvendor.config.MemberId;
+import store.streetvendor.config.auth.Auth;
+import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.dto.ApiResponse;
 import store.streetvendor.controller.dto.store.StoreResponseDto;
 import store.streetvendor.controller.dto.store.StoreUpdateRequest;

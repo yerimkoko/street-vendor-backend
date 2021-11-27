@@ -1,4 +1,4 @@
-package store.streetvendor.config;
+package store.streetvendor.config.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
-import static store.streetvendor.config.AuthConstants.MEMBER_ID;
+import static store.streetvendor.config.auth.AuthConstants.MEMBER_ID;
 
 @RequiredArgsConstructor
 @Component

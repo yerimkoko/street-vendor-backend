@@ -1,4 +1,4 @@
-package store.streetvendor.config;
+package store.streetvendor.config.auth;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.validation.constraints.NotNull;
 
-import static store.streetvendor.config.AuthConstants.MEMBER_ID;
+import static store.streetvendor.config.auth.AuthConstants.MEMBER_ID;
 
 @Component
 public class MemberIdResolver implements HandlerMethodArgumentResolver {

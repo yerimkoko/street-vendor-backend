@@ -10,7 +10,7 @@ import store.streetvendor.service.member.MemberService;
 
 import javax.servlet.http.HttpSession;
 
-import static store.streetvendor.config.AuthConstants.MEMBER_ID;
+import static store.streetvendor.config.auth.AuthConstants.MEMBER_ID;
 
 @RequiredArgsConstructor
 @RestController
