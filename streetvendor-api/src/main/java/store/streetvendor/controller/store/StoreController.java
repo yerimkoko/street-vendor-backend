@@ -2,6 +2,8 @@ package store.streetvendor.controller.store;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import store.streetvendor.config.Auth;
+import store.streetvendor.config.MemberId;
 import store.streetvendor.controller.dto.ApiResponse;
 import store.streetvendor.controller.dto.store.StoreResponseDto;
 import store.streetvendor.controller.dto.store.StoreUpdateRequest;
@@ -17,27 +19,30 @@ public class StoreController {
 
     private final StoreService storeService;
 
-    // memberId는 차후 변경하고 일단 파라미터로 받음
+    @Auth
     @PostMapping("/api/v1/store")
-    public ApiResponse<String> addNewStore(@Valid @RequestBody AddNewStoreRequest request, @RequestParam Long memberId) {
+    public ApiResponse<String> addNewStore(@Valid @RequestBody AddNewStoreRequest request, @MemberId Long memberId) {
         storeService.addNewStore(request, memberId);
         return ApiResponse.OK;
     }
 
+    @Auth
     @GetMapping("/api/v1/my-stores")
-    public ApiResponse<List<StoreResponseDto>> getMyStores(@RequestParam Long memberId) {
+    public ApiResponse<List<StoreResponseDto>> getMyStores(@MemberId Long memberId) {
         return ApiResponse.success(storeService.getMyStoreList(memberId));
     }
 
+    @Auth
     @PutMapping("/api/v1/store/{storeId}")
-    public ApiResponse<String> updateStore(@RequestParam Long memberId, @PathVariable Long storeId,
-                                           @RequestBody StoreUpdateRequest request) {
+    public ApiResponse<String> updateStore(@MemberId Long memberId, @PathVariable Long storeId,
+                                           @Valid @RequestBody StoreUpdateRequest request) {
         storeService.updateMyStore(memberId, storeId, request);
         return ApiResponse.OK;
     }
 
+    @Auth
     @DeleteMapping("/api/v1/store/{storeId}")
-    public ApiResponse<String> deleteStore(@RequestParam Long memberId, @PathVariable Long storeId) {
+    public ApiResponse<String> deleteStore(@MemberId Long memberId, @PathVariable Long storeId) {
         storeService.deleteMyStore(memberId, storeId);
         return ApiResponse.OK;
     }

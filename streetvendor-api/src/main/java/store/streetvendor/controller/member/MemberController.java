@@ -10,9 +10,12 @@ import store.streetvendor.service.member.MemberService;
 
 import javax.servlet.http.HttpSession;
 
+import static store.streetvendor.config.AuthConstants.MEMBER_ID;
+
 @RequiredArgsConstructor
 @RestController
 public class MemberController {
+
     private final MemberService memberService;
 
     private final HttpSession httpSession;
@@ -20,7 +23,7 @@ public class MemberController {
     @PostMapping("/api/v1/sign-up")
     public ApiResponse<String> signUp(@RequestBody MemberSignUpRequestDto request) {
         Long memberId = memberService.signUp(request);
-        httpSession.setAttribute("memberId", memberId);
+        httpSession.setAttribute(MEMBER_ID, memberId);
         return ApiResponse.success(httpSession.getId());
     }
 

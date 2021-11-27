@@ -1,5 +1,4 @@
 ### 회원가입을 합니다.
-
 POST {{host_api}}/api/v1/sign-up
 Content-Type: application/json
 
@@ -10,3 +9,6 @@ Content-Type: application/json
     "pictureUrl": "tokki.jpg"
 }
 
+> {%
+client.global.set("SESSION", response.body["data"])
+%}
