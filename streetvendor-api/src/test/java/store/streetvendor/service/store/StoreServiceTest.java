@@ -199,7 +199,7 @@ class StoreServiceTest {
     private void assertMenu(Menu menu, Long storeId, String menuName, int menuAmount, int menuPrice, String menuPictureUrl) {
         assertThat(menu.getStore().getId()).isEqualTo(storeId);
         assertThat(menu.getName()).isEqualTo(menuName);
-        assertThat(menu.getAmount()).isEqualTo(menuAmount);
+        assertThat(menu.getCount()).isEqualTo(menuAmount);
         assertThat(menu.getPrice()).isEqualTo(menuPrice);
         assertThat(menu.getPictureUrl()).isEqualTo(menuPictureUrl);
     }

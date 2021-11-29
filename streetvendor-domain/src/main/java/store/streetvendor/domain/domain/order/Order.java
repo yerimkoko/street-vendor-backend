@@ -1,6 +1,7 @@
 package store.streetvendor.domain.domain.order;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
@@ -26,5 +27,28 @@ public class Order extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderMenu> orderMenus = new ArrayList<>();
+
+    @Builder(access = AccessLevel.PRIVATE)
+    private Order(Long storeId, Long memberId, List<OrderMenu> orderMenus) {
+        this.storeId = storeId;
+        this.memberId = memberId;
+    }
+
+    public static Order newOrder(Long storeId, Long memberId) {
+        return Order.builder()
+            .storeId(storeId)
+            .memberId(memberId)
+            .build();
+    }
+
+    public void addMenus(List<OrderMenu> menus) {
+        for (OrderMenu menu : menus) {
+            this.addMenu(menu);
+        }
+    }
+
+    public void addMenu(OrderMenu menu) {
+        this.orderMenus.add(menu);
+    }
 
 }

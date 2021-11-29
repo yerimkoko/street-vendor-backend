@@ -25,7 +25,7 @@ public class Menu extends BaseTimeEntity {
     private String name;
 
     @Column(nullable = false)
-    private int amount;
+    private int count;
 
     @Column(nullable = false)
     private int price;
@@ -37,24 +37,25 @@ public class Menu extends BaseTimeEntity {
     private MenuSalesStatus salesStatus;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private Menu(Store store, String name, int amount, int price, String pictureUrl, MenuSalesStatus salesStatus) {
+    private Menu(Store store, String name, int count, int price, String pictureUrl, MenuSalesStatus salesStatus) {
         this.store = store;
         this.name = name;
-        this.amount = amount;
+        this.count = count;
         this.price = price;
         this.pictureUrl = pictureUrl;
         this.salesStatus = salesStatus;
     }
 
-    public static Menu of(Store store, String name, int amount, int price, String pictureUrl) {
+    public static Menu of(Store store, String name, int count, int price, String pictureUrl) {
         return Menu.builder()
             .store(store)
             .name(name)
-            .amount(amount)
+            .count(count)
             .price(price)
             .pictureUrl(pictureUrl)
             .salesStatus(MenuSalesStatus.ON_SALE)
             .build();
     }
+
 
 }
