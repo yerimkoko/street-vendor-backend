@@ -29,7 +29,7 @@ public class Order extends BaseTimeEntity {
     private final List<OrderMenu> orderMenus = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    private Order(Long storeId, Long memberId, List<OrderMenu> orderMenus) {
+    public Order(Long storeId, Long memberId) {
         this.storeId = storeId;
         this.memberId = memberId;
     }

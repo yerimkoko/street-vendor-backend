@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.order.Order;
-import store.streetvendor.domain.domain.store.Menu;
+import store.streetvendor.domain.domain.order.OrderMenu;
 import store.streetvendor.domain.domain.store.Store;
 
 import javax.validation.constraints.NotBlank;
@@ -20,17 +20,20 @@ public class AddNewOrderRequest {
     // TODO: long vs Long 구분해보기.
     private long storeId;
 
+
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
     public AddNewOrderRequest(@NotBlank long storeId, List<OrderMenusRequest> menus) {
         this.storeId = storeId;
         this.menus = menus;
     }
 
-
-    public Order toEntity(Store store, Menu orderMenu, Long memberId) {
-         Order order = Order.newOrder(storeId, memberId);
-        order.addMenus(this.menus.stream()
-            .map(menu -> menu.toEntity(store, orderMenu))
+    public Order toEntity(Store store) {
+        Order order = Order.newOrder(store.getId(), store.getMemberId());
+        List<OrderMenu> orderMenus = this.menus.stream()
+            .map(menu -> menu.toEntity(store, order))
             .collect(Collectors.toList());
-
+        order.addMenus(orderMenus);
+        return order;
     }
+
+}

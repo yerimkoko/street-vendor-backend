@@ -14,21 +14,15 @@ import store.streetvendor.service.store.StoreServiceUtils;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+
     private final StoreRepository storeRepository;
 
     @Transactional
     public void addNewOrder(AddNewOrderRequest request, Long memberId) {
-        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, memberId, request.getStoreId());
-        
-
-
-
-
-
-
-
+        Store store = StoreServiceUtils
+            .findStoreByStoreIdAndMemberId(storeRepository, memberId, request.getStoreId());
+        orderRepository.save(request.toEntity(store));
 
     }
-
 
 }

@@ -2,7 +2,6 @@ package store.streetvendor.domain.domain.store.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import store.streetvendor.domain.domain.order.OrderMenu;
 import store.streetvendor.domain.domain.order.repository.projection.OrderMenusProjection;
 import store.streetvendor.domain.domain.order.repository.projection.QOrderMenusProjection;
 import store.streetvendor.domain.domain.store.Store;
@@ -28,6 +27,7 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
     @Override
     public Store findStoreByStoreIdAndMemberId(Long id, Long memberId) {
         return jpaQueryFactory.selectFrom(store)
+            .innerJoin(store.menus, menu).fetchJoin()
             .where(
                 store.id.eq(id),
                 store.memberId.eq(memberId)
