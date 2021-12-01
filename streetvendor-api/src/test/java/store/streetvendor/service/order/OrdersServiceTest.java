@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.domain.domain.order.Order;
+import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.domain.domain.store.Menu;
 import store.streetvendor.domain.domain.store.Store;
@@ -20,7 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class OrderServiceTest {
+public class OrdersServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -36,9 +36,10 @@ public class OrderServiceTest {
 
     @AfterEach
     void cleanUp() {
-        memberRepository.deleteAllInBatch();
-        orderRepository.deleteAllInBatch();
-        storeRepository.deleteAllInBatch();
+
+        orderRepository.deleteAll();
+        storeRepository.deleteAll();
+        memberRepository.deleteAll();
     }
 
     @Test
@@ -90,7 +91,7 @@ public class OrderServiceTest {
         orderService.addNewOrder(addNewOrderRequest, member.getId());
 
         // then
-        List<Order> orders = orderRepository.findAll();
+        List<Orders> orders = orderRepository.findAll();
         assertThat(orders).hasSize(1);
         assertThat(orders.get(0).getMemberId()).isEqualTo(member.getId());
 

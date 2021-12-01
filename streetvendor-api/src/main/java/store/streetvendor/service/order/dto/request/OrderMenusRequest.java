@@ -3,7 +3,7 @@ package store.streetvendor.service.order.dto.request;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.domain.domain.order.Order;
+import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order.OrderMenu;
 import store.streetvendor.domain.domain.store.Menu;
 import store.streetvendor.domain.domain.store.Store;
@@ -22,9 +22,9 @@ public class OrderMenusRequest {
         this.totalCount = totalCount;
     }
 
-    public OrderMenu toEntity(Store store, Order order) {
+    public OrderMenu toEntity(Store store, Orders orders) {
         Menu menu = store.findMenu(menuId);
-        return new OrderMenu(order, menu.getId(), menu.getCount(), menu.getName(), menu.getPrice(), totalCount);
+        return new OrderMenu(orders, menu.getId(), menu.getCount(), menu.getName(), menu.getPrice(), totalCount);
     }
 
 }

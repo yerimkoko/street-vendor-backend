@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Order extends BaseTimeEntity {
+public class Orders extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,17 +25,17 @@ public class Order extends BaseTimeEntity {
     @Column(nullable = false)
     private Long memberId;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderMenu> orderMenus = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    public Order(Long storeId, Long memberId) {
+    public Orders(Long storeId, Long memberId) {
         this.storeId = storeId;
         this.memberId = memberId;
     }
 
-    public static Order newOrder(Long storeId, Long memberId) {
-        return Order.builder()
+    public static Orders newOrder(Long storeId, Long memberId) {
+        return Orders.builder()
             .storeId(storeId)
             .memberId(memberId)
             .build();

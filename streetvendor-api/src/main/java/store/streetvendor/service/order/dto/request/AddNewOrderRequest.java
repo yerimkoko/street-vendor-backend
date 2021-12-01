@@ -3,7 +3,7 @@ package store.streetvendor.service.order.dto.request;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.domain.domain.order.Order;
+import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order.OrderMenu;
 import store.streetvendor.domain.domain.store.Store;
 
@@ -27,13 +27,13 @@ public class AddNewOrderRequest {
         this.menus = menus;
     }
 
-    public Order toEntity(Store store) {
-        Order order = Order.newOrder(store.getId(), store.getMemberId());
+    public Orders toEntity(Store store) {
+        Orders orders = Orders.newOrder(store.getId(), store.getMemberId());
         List<OrderMenu> orderMenus = this.menus.stream()
-            .map(menu -> menu.toEntity(store, order))
+            .map(menu -> menu.toEntity(store, orders))
             .collect(Collectors.toList());
-        order.addMenus(orderMenus);
-        return order;
+        orders.addMenus(orderMenus);
+        return orders;
     }
 
 }

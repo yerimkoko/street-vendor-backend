@@ -15,6 +15,4 @@ public interface StoreRepositoryCustom {
 
     OrderMenusProjection findMenuInfoByStoreIdAndMemberId(Long storeId, Long memberId);
 
-
-
 }

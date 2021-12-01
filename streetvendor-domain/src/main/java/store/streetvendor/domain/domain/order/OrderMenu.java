@@ -19,8 +19,8 @@ public class OrderMenu extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    @JoinColumn(name = "orders_id", nullable = false)
+    private Orders orders;
 
     @Column(nullable = false)
     private Long menuId;
@@ -38,8 +38,8 @@ public class OrderMenu extends BaseTimeEntity {
     private int totalCount;
 
     @Builder
-    public OrderMenu(Order order, Long menuId, int count, String purchaseName, int purchasePrice, int totalCount) {
-        this.order = order;
+    public OrderMenu(Orders orders, Long menuId, int count, String purchaseName, int purchasePrice, int totalCount) {
+        this.orders = orders;
         this.menuId = menuId;
         this.count = count;
         this.purchaseName = purchaseName;
@@ -47,9 +47,9 @@ public class OrderMenu extends BaseTimeEntity {
         this.totalCount = totalCount;
     }
 
-    public static OrderMenu of(Order order, Menu menu, int totalCount) {
+    public static OrderMenu of(Orders orders, Menu menu, int totalCount) {
         return OrderMenu.builder()
-            .order(order)
+            .orders(orders)
             .menuId(menu.getId())
             .count(menu.getCount())
             .purchaseName(menu.getName())
