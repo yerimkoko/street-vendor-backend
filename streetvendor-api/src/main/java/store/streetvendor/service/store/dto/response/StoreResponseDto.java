@@ -4,9 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import store.streetvendor.domain.domain.store.Menu;
+import store.streetvendor.domain.domain.store.Payment;
 import store.streetvendor.domain.domain.store.Store;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -28,10 +31,14 @@ public class StoreResponseDto {
 
     private LocalTime endTime;
 
+    private List<Payment> paymentMethods;
+
+    private List<Menu> menus;
+
 
     @Builder
     public StoreResponseDto(Long storeId, Long bossId, String name, String pictureUrl, String location, String description,
-                            LocalTime startTime, LocalTime endTime) {
+                            LocalTime startTime, LocalTime endTime, List<Payment> paymentMethods, List<Menu> menus) {
         this.storeId = storeId;
         this.bossId = bossId;
         this.name = name;
@@ -40,6 +47,8 @@ public class StoreResponseDto {
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.paymentMethods = paymentMethods;
+        this.menus = menus;
     }
 
     public static StoreResponseDto of(Store store) {
@@ -52,6 +61,8 @@ public class StoreResponseDto {
             .description(store.getDescription())
             .startTime(store.getOpeningTime().getStartTime())
             .endTime(store.getOpeningTime().getEndTime())
+            .paymentMethods(store.getPaymentMethods())
+            .menus(store.getMenus())
             .build();
     }
 }

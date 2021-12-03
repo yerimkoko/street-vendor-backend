@@ -27,8 +27,8 @@ public class AddNewOrderRequest {
         this.menus = menus;
     }
 
-    public Orders toEntity(Store store) {
-        Orders orders = Orders.newOrder(store.getId(), store.getMemberId());
+    public Orders toEntity(Store store, Long memberId) {
+        Orders orders = Orders.newOrder(store.getId(), memberId);
         List<OrderMenu> orderMenus = this.menus.stream()
             .map(menu -> menu.toEntity(store, orders))
             .collect(Collectors.toList());

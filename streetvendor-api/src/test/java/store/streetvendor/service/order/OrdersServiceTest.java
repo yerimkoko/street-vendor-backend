@@ -4,8 +4,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.domain.domain.order.OrderMenu;
 import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.domain.domain.store.Menu;
@@ -36,37 +38,49 @@ public class OrdersServiceTest {
 
     @AfterEach
     void cleanUp() {
-
         orderRepository.deleteAll();
         storeRepository.deleteAll();
         memberRepository.deleteAll();
     }
 
-    @Test
-    void 주문을_한다() {
-        // given
+    private Member createMember() {
         String name = "yerimkoko";
         String nickName = "yerimko";
         String email = "gochi97@naver.com";
         String pictureUrl = "https://rabbit.com";
 
+        Member member = Member.newGoogleInstance(name, nickName, email, pictureUrl);
+        return memberRepository.save(member);
+
+    }
+
+    private Store createStore(Member member) {
         String location = "신정네거리 3번출구";
         String description = "토끼네";
-        LocalTime startTime = LocalTime.of(10,00,00);
-        LocalTime endTime = LocalTime.of(18,00,00);
+        LocalTime startTime = LocalTime.of(10, 00, 00);
+        LocalTime endTime = LocalTime.of(18, 00, 00);
 
-        // menu
-        String menuName = "슈크림 2개";
+        return Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), description, location, startTime, endTime);
+    }
+
+    private Menu createMenu(Store store) {
         int count = 2;
         int price = 2000;
+        String menuName = "슈크림 2개";
+        String pictureUrl = "https://rabbit.shop";
+        return Menu.of(store, menuName, count, price, pictureUrl);
+    }
 
-        Member member = Member.newGoogleInstance(name, nickName, email, pictureUrl);
-        memberRepository.save(member);
+    @Test
+    @Transactional
+    void 주문을_한다() {
+        // given
+        Member member = createMember();
+        Store store = createStore(member);
+        Menu menu = createMenu(store);
 
-        Store store = Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), description, location, startTime, endTime);
-
-        Menu menu = Menu.of(store, menuName, count, price, pictureUrl);
         List<Menu> menus = List.of(menu);
+
         store.addMenus(menus);
 
         storeRepository.save(store);
@@ -93,9 +107,13 @@ public class OrdersServiceTest {
         // then
         List<Orders> orders = orderRepository.findAll();
         assertThat(orders).hasSize(1);
-        assertThat(orders.get(0).getMemberId()).isEqualTo(member.getId());
+        assertOrder(orders.get(0), member.getId(), store.getId(), menu.getId());
+    }
 
-
+    void assertOrder(Orders orders, Long memberId, Long storeId, Long menuId) {
+        assertThat(orders.getOrderMenus().get(0).getMenuId()).isEqualTo(menuId);
+        assertThat(orders.getMemberId()).isEqualTo(memberId);
+        assertThat(orders.getStoreId()).isEqualTo(storeId);
     }
 
 }

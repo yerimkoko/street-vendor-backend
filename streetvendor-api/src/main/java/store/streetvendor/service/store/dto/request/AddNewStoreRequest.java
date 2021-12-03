@@ -26,12 +26,9 @@ public class AddNewStoreRequest {
     private String description;
 
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private LocalTime startTime;
 
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-
     private LocalTime endTime;
 
     private List<MenuRequest> menus;
