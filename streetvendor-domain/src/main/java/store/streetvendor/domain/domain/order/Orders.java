@@ -51,4 +51,11 @@ public class Orders extends BaseTimeEntity {
         this.orderMenus.add(menu);
     }
 
+    public void changeStatus(OrderStatus status) {
+
+
+
+    }
+
+
 }
