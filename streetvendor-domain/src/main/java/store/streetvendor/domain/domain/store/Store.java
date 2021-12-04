@@ -42,13 +42,6 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Menu> menus = new ArrayList<>();
 
-    public Menu findMenu(long menuId) {
-        return this.menus.stream()
-            .filter(menu -> menu.getId().equals(menuId))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("메뉴는 존재하지 않습니다."));
-    }
-
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Payment> paymentMethods = new ArrayList<>();
 
@@ -73,6 +66,13 @@ public class Store extends BaseTimeEntity {
             .openingTime(OpeningTime.of(startTime, endTime))
             .status(StoreStatus.ACTIVE)
             .build();
+    }
+
+    public Menu findMenu(long menuId) {
+        return this.menus.stream()
+            .filter(menu -> menu.getId().equals(menuId))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException(String.format("(%s)의 메뉴는 존재하지 않습니다.", menuId)));
     }
 
     public void addMenus(List<Menu> menus) {

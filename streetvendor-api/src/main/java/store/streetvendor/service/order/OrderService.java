@@ -20,7 +20,7 @@ public class OrderService {
     @Transactional
     public void addNewOrder(AddNewOrderRequest request, Long memberId) {
         Store store = StoreServiceUtils
-            .findStoreByStoreIdAndMemberId(storeRepository, request.getStoreId());
+            .findStoreByStoreIdAndMemberId(storeRepository, request.getStoreId(), memberId);
         orderRepository.save(request.toEntity(store, memberId));
     }
 

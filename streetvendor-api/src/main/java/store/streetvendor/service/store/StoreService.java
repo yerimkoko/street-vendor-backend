@@ -43,10 +43,11 @@ public class StoreService {
     @Transactional
     public void updateMyStore(Long memberId, Long storeId, StoreUpdateRequest updateRequest) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
-        Store store = storeRepository.findStoreByStoreIdAndMemberId(storeId, member.getId());
-        if (store == null) {
-            throw new IllegalArgumentException(String.format("해당하는 (%s) 상점이 존재하지 않습니다.", storeId));
-        }
+//        Store store = storeRepository.findStoreByStoreIdAndMemberId(storeId, member.getId());
+//        if (store == null) {
+//            throw new IllegalArgumentException(String.format("해당하는 (%s) 상점이 존재하지 않습니다.", storeId));
+//        }
+        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, member.getId());
         store.updateStoreInfo(updateRequest.getName(), updateRequest.getDescription(), updateRequest.getPictureUrl(),
             updateRequest.getLocation(), updateRequest.getStartTime(), updateRequest.getEndTime());
         store.updateMenus(updateRequest.getMenus());
