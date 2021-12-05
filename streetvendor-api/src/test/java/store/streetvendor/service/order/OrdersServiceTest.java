@@ -61,7 +61,7 @@ public class OrdersServiceTest {
 
         List<Menu> menus = List.of(menu);
 
-        store.addMenus(menus);
+        store.addMenus(List.of(menu));
 
         storeRepository.save(store);
 
@@ -127,5 +127,6 @@ public class OrdersServiceTest {
         String pictureUrl = "https://rabbit.shop";
         return Menu.of(store, menuName, count, price, pictureUrl);
     }
+
 
 }

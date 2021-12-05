@@ -1,6 +1,10 @@
 package store.streetvendor.domain.domain.order.repository;
 
-public interface OrderRepositoryCustom {
+import store.streetvendor.domain.domain.order.repository.projection.OrdersToBossProjection;
 
+import java.util.List;
+
+public interface OrderRepositoryCustom {
+    List<OrdersToBossProjection> findOrdersByStoreId(Long storeId);
 
 }

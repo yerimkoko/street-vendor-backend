@@ -25,6 +25,11 @@ public class Orders extends BaseTimeEntity {
     @Column(nullable = false)
     private Long memberId;
 
+    @Column(nullable = false)
+    private OrderStatus orderStatus;
+
+    private OrderHistory orderHistory;
+
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderMenu> orderMenus = new ArrayList<>();
 
@@ -32,6 +37,7 @@ public class Orders extends BaseTimeEntity {
     public Orders(Long storeId, Long memberId) {
         this.storeId = storeId;
         this.memberId = memberId;
+        this.orderStatus = OrderStatus.REQUEST;
     }
 
     public static Orders newOrder(Long storeId, Long memberId) {
@@ -51,9 +57,20 @@ public class Orders extends BaseTimeEntity {
         this.orderMenus.add(menu);
     }
 
-    public void changeStatus(OrderStatus status) {
+    public void changeStatusToReady() {
+        this.orderStatus = OrderStatus.READY;
+    }
 
+    public void changeStatusToComplete() {
+        this.orderStatus = OrderStatus.COMPLETE;
+    }
 
+    public void cancelOrder() {
+        this.orderHistory = OrderHistory.CANCELED;
+    }
+
+    public void completedOrder() {
+        this.orderHistory = OrderHistory.DONE;
 
     }
 
