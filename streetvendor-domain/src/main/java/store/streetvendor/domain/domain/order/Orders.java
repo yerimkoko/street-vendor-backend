@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
+import store.streetvendor.domain.domain.store.Menu;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,8 +28,6 @@ public class Orders extends BaseTimeEntity {
 
     @Column(nullable = false)
     private OrderStatus orderStatus;
-
-    private OrderHistory orderHistory;
 
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderMenu> orderMenus = new ArrayList<>();
@@ -65,14 +64,6 @@ public class Orders extends BaseTimeEntity {
         this.orderStatus = OrderStatus.COMPLETE;
     }
 
-    public void cancelOrder() {
-        this.orderHistory = OrderHistory.CANCELED;
-    }
-
-    public void completedOrder() {
-        this.orderHistory = OrderHistory.DONE;
-
-    }
 
 
 }

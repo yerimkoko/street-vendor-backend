@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.store.Menu;
-import store.streetvendor.domain.domain.store.Payment;
 import store.streetvendor.domain.domain.store.PaymentMethod;
 
 import java.time.LocalTime;

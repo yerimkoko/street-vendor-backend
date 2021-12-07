@@ -2,8 +2,7 @@ package store.streetvendor.domain.domain.order.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import store.streetvendor.domain.domain.order.repository.projection.OrdersToBossProjection;
-import store.streetvendor.domain.domain.order.repository.projection.QOrdersToBossProjection;
+import store.streetvendor.domain.domain.order.Orders;
 
 import java.util.List;
 
@@ -16,14 +15,9 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<OrdersToBossProjection> findOrdersByStoreId(Long storeId) {
-        return jpaQueryFactory.select(new QOrdersToBossProjection(orders.memberId,
-            orders.id,
-            orders.orderStatus,
-            orders.orderMenus,
-            orders.createdAt
-        ))
-            .from(orders)
+    public List<Orders> findOrdersByStoreId(Long storeId) {
+        return jpaQueryFactory
+            .selectFrom(orders)
             .where(orders.storeId.eq(storeId))
             .fetch();
     }

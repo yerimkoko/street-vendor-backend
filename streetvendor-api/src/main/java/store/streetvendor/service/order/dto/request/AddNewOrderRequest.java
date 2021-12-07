@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order.OrderMenu;
+import store.streetvendor.domain.domain.store.Menu;
 import store.streetvendor.domain.domain.store.Store;
 
 import javax.validation.constraints.NotBlank;
@@ -28,12 +29,12 @@ public class AddNewOrderRequest {
     }
 
     public Orders toEntity(Store store, Long memberId) {
-        Orders orders = Orders.newOrder(store.getId(), memberId);
+        Orders order = Orders.newOrder(store.getId(), memberId);
         List<OrderMenu> orderMenus = this.menus.stream()
-            .map(menu -> menu.toEntity(store, orders))
+            .map(orderMenu -> orderMenu.toEntity(order, store))
             .collect(Collectors.toList());
-        orders.addMenus(orderMenus);
-        return orders;
+        order.addMenus(orderMenus);
+        return order;
     }
 
 }

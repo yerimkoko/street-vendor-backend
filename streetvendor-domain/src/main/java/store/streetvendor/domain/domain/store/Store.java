@@ -68,7 +68,7 @@ public class Store extends BaseTimeEntity {
             .build();
     }
 
-    public Menu findMenu(long menuId) {
+    public Menu findMenu(Long menuId) {
         return this.menus.stream()
             .filter(menu -> menu.getId().equals(menuId))
             .findFirst()

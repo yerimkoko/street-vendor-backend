@@ -22,43 +22,29 @@ public class OrderMenu extends BaseTimeEntity {
     @JoinColumn(name = "orders_id", nullable = false)
     private Orders orders;
 
-    @Column(nullable = false)
-    private Long menuId;
+    @ManyToOne
+    @JoinColumn(name = "menu_id", nullable = false)
+    private Menu menu;
 
     @Column(nullable = false)
     private int count;
 
     @Column(nullable = false)
-    private String purchaseName;
-
-    @Column(nullable = false)
-    private int purchasePrice;
-
-    @Column(nullable = false)
-    private int totalCount;
-
-    @Column(nullable = false)
     private int totalPrice;
 
     @Builder
-    public OrderMenu(Orders orders, Long menuId, int count, String purchaseName, int purchasePrice, int totalCount) {
+    public OrderMenu(Orders orders, Menu menu, int count) {
         this.orders = orders;
-        this.menuId = menuId;
+        this.menu = menu;
         this.count = count;
-        this.purchaseName = purchaseName;
-        this.purchasePrice = purchasePrice;
-        this.totalCount = totalCount;
-        this.totalPrice = purchasePrice * totalCount;
+        this.totalPrice = count * menu.getPrice();
     }
 
-    public static OrderMenu of(Orders orders, Menu menu, int totalCount) {
+    public static OrderMenu of(Orders orders, Menu menu, int count) {
         return OrderMenu.builder()
             .orders(orders)
-            .menuId(menu.getId())
-            .count(menu.getCount())
-            .purchaseName(menu.getName())
-            .purchasePrice(menu.getPrice())
-            .totalCount(totalCount)
+            .menu(menu)
+            .count(count)
             .build();
     }
 

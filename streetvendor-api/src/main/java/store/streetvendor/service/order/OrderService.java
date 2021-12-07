@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.order.Orders;
-import store.streetvendor.domain.domain.order.repository.projection.OrdersToBossProjection;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
@@ -29,12 +28,12 @@ public class OrderService {
             .findStoreByStoreIdAndMemberId(storeRepository, request.getStoreId(), memberId);
         orderRepository.save(request.toEntity(store, memberId));
     }
-    // 사장님 기준 (주문을 받았을 때) -> 주문을 확인하는 로직
 
+    // 사장님 기준 (주문을 받았을 때) -> 주문을 확인하는 로직
     @Transactional
     public List<OrderListToBossResponse> allOrderList(Long storeId, Long memberId) {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
-        List<OrdersToBossProjection> orders = orderRepository.findOrdersByStoreId(store.getId());
+        List<Orders> orders = orderRepository.findOrdersByStoreId(store.getId());
         return orders.stream().map(OrderListToBossResponse::of).collect(Collectors.toList());
     }
 

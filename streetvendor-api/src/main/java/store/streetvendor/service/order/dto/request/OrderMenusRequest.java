@@ -12,19 +12,18 @@ import store.streetvendor.domain.domain.store.Store;
 @NoArgsConstructor
 public class OrderMenusRequest {
 
-    private long menuId;
+    private Long menuId;
 
-    private int totalCount;
+    private int count;
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
-    public OrderMenusRequest(long menuId, int totalCount) {
-        this.menuId = menuId;
-        this.totalCount = totalCount;
+    public OrderMenusRequest(Menu menu, int count) {
+        this.menuId = menu.getId();
+        this.count = count;
     }
 
-    public OrderMenu toEntity(Store store, Orders orders) {
-        Menu menu = store.findMenu(menuId);
-        return new OrderMenu(orders, menu.getId(), menu.getCount(), menu.getName(), menu.getPrice(), totalCount);
+    public OrderMenu toEntity(Orders order, Store store) {
+        return new OrderMenu(order, store.findMenu(menuId), count);
     }
 
 }

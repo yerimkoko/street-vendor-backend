@@ -70,8 +70,8 @@ public class OrdersServiceTest {
         int totalCount = 2;
 
         OrderMenusRequest orderMenusRequest = OrderMenusRequest.testBuilder()
-            .menuId(findMenu.getId())
-            .totalCount(totalCount)
+            .menu(findMenu)
+            .count(totalCount)
             .build();
 
         List<OrderMenusRequest> orderMenusRequests = List.of(orderMenusRequest);
@@ -91,7 +91,7 @@ public class OrdersServiceTest {
 
         List<OrderMenu> orderMenus = orderMenuRepository.findAll();
         assertThat(orderMenus).hasSize(1);
-        assertThat(orderMenus.get(0).getMenuId()).isEqualTo(menus.get(0).getId());
+        assertThat(orderMenus.get(0).getMenu().getId()).isEqualTo(menus.get(0).getId());
     }
 
     void assertOrder(Orders orders, Long memberId, Long storeId) {
