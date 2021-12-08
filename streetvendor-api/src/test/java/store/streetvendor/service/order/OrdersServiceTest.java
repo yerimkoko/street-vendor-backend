@@ -100,13 +100,33 @@ public class OrdersServiceTest {
         orderRepository.save(myOrder);
 
         // when
-        orderService.changeStatusToReady(store.getId(), member.getId(), myOrder.getId());
+        orderService.changeStatus(store.getId(), member.getId(), myOrder.getId());
 
         // then
         List<Orders> orders = orderRepository.findAll();
         assertThat(orders).hasSize(1);
         assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.READY);
 
+    }
+
+    @Test
+    void 사장님에게_주문상태가_READY일때_COMPLETE로_변경한다() {
+        // given
+        Member member = createMember();
+        Store store = createStore(member);
+        storeRepository.save(store);
+
+        Orders myOrder = Orders.newOrder(store.getId(), member.getId());
+        Orders order = orderRepository.save(myOrder);
+        order.changeStatusToReady();
+
+        // when
+        orderService.changeStatus(store.getId(), member.getId(), order.getId());
+
+        // then
+        List<Orders> orders = orderRepository.findAll();
+        assertThat(orders).hasSize(1);
+        assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.COMPLETE);
     }
 
     void assertOrder(Orders orders, Long memberId, Long storeId) {

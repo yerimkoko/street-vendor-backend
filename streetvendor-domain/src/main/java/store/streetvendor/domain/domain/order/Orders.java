@@ -64,5 +64,4 @@ public class Orders extends BaseTimeEntity {
         this.orderStatus = OrderStatus.COMPLETE;
     }
 
-
 }

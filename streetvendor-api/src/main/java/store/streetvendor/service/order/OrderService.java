@@ -3,6 +3,7 @@ package store.streetvendor.service.order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.streetvendor.domain.domain.order.OrderStatus;
 import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
@@ -39,12 +40,13 @@ public class OrderService {
 
 
     @Transactional
-    public void changeStatusToReady(Long storeId, Long memberId, Long orderId) {
+    public void changeStatus(Long storeId, Long memberId, Long orderId) {
         StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, orderId);
-
-        order.changeStatusToReady();
-
+        if (order.getOrderStatus() == OrderStatus.REQUEST) {
+            order.changeStatusToReady();
+        }
+        order.changeStatusToComplete();
     }
 
 }
