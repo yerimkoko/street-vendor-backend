@@ -1,0 +1,22 @@
+POST {{host_api}}/api/v1/order
+Content-Type: application/json
+Authorization: Bearer {{SESSION}}
+
+{
+    "menus": [
+        {
+            "menuId": 1,
+            "count": 4
+        },
+        {
+            "menuId": 2,
+            "count": 3
+        }
+    ],
+    "storeId": 1
+}
+
+
+###
+GET {{host_api}}/api/v1/orders/1
+Authorization: Bearer {{SESSION}}

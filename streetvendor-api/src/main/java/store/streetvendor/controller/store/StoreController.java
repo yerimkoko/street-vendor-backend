@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import store.streetvendor.config.auth.Auth;
 import store.streetvendor.config.auth.MemberId;
-import store.streetvendor.controller.dto.ApiResponse;
-import store.streetvendor.controller.dto.store.StoreResponseDto;
-import store.streetvendor.controller.dto.store.StoreUpdateRequest;
+import store.streetvendor.controller.ApiResponse;
+import store.streetvendor.service.store.dto.response.StoreResponseDto;
+import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
 import store.streetvendor.service.store.StoreService;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
 

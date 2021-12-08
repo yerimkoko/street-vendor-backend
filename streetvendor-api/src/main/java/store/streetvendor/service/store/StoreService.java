@@ -3,8 +3,8 @@ package store.streetvendor.service.store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.streetvendor.controller.dto.store.StoreResponseDto;
-import store.streetvendor.controller.dto.store.StoreUpdateRequest;
+import store.streetvendor.service.store.dto.response.StoreResponseDto;
+import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.Store;
@@ -30,7 +30,6 @@ public class StoreService {
 
     @Transactional(readOnly = true)
     public List<StoreResponseDto> getMyStoreList(Long memberId) {
-        // TODO 메뉴랑 결제 방법도 함께 반환해주세요! @yerimkoko
         List<Store> stores = storeRepository.findStoreByBossId(memberId);
         return getStores(stores);
     }
@@ -54,8 +53,15 @@ public class StoreService {
     @Transactional
     public void deleteMyStore(Long memberId, Long storeId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
-        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, member.getId());
+        Store store = storeRepository.findStoreByStoreIdAndMemberId(storeId, member.getId());
+        if (store == null) {
+            throw new IllegalArgumentException(String.format("해당하는 (%s) 상점이 존재하지 않습니다.", storeId));
+        }
         store.delete();
     }
 
+    @Transactional
+    public void changeStatusToReady(Long memberId, Long storeId) {
+        
+    }
 }

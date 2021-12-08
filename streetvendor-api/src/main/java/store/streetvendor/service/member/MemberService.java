@@ -3,7 +3,7 @@ package store.streetvendor.service.member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.streetvendor.controller.dto.member.MemberSignUpRequestDto;
+import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 

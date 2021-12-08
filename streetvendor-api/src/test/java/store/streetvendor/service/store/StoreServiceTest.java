@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import store.streetvendor.controller.dto.store.StoreUpdateRequest;
+import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.*;
@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 class StoreServiceTest {
@@ -41,6 +42,29 @@ class StoreServiceTest {
         menuRepository.deleteAllInBatch();
         storeRepository.deleteAllInBatch();
         memberRepository.deleteAllInBatch();
+    }
+
+    private Member createMember() {
+        String name = "yerimkoko";
+        String nickName = "yerimko";
+        String email = "gochi97@naver.com";
+        String pictureUrl = "https://rabbit.com";
+
+        Member member = Member.newGoogleInstance(name, nickName, email, pictureUrl);
+        return memberRepository.save(member);
+    }
+
+    private Store createStore(Member member) {
+        // store
+        Long memberId = member.getId();
+        String name = "토끼의 붕어빵 가게";
+        String pictureUrl = "https://rabbit.com";
+        String location = "신정네거리역 1번 출구";
+        String description = "슈크림 2개 1000원 입니다!";
+        LocalTime startTime = LocalTime.of(17, 0);
+        LocalTime endTime = LocalTime.of(21, 0);
+
+        return storeRepository.save(Store.newInstance(memberId, name, pictureUrl, location, description, startTime, endTime));
     }
 
     @Test
@@ -93,21 +117,26 @@ class StoreServiceTest {
     @Test
     void 가게를_수정한다() {
         // given
-        // member
-        String email = "tokki@gmail.com";
-        String nickName = "토끼";
-        String memberName = "고토끼";
-        String profileUrl = "234234tokki.jpg";
-        Member member = memberRepository.save(Member.newGoogleInstance(memberName, nickName, email, profileUrl));
+        Member member = createMember();
+        Store store = createStore(member);
 
-        // store
-        Long memberId = member.getId();
-        String name = "토끼의 붕어빵 가게";
-        String pictureUrl = "https://rabbit.com";
-        String location = "신정네거리역 1번 출구";
-        String description = "슈크림 2개 1000원 입니다!";
-        LocalTime startTime = LocalTime.of(17, 0);
-        LocalTime endTime = LocalTime.of(21, 0);
+        // menu
+        String menuName = "슈크림 붕어빵";
+        int menuPrice = 1000;
+        int menuAmount = 1;
+        String menuPictureUrl = "https://menu.com";
+        List<MenuRequest> menuRequests = List.of(MenuRequest.testInstance(menuName, menuAmount, menuPrice, menuPictureUrl));
+        List<Menu> menus = menuRequests.stream().map(menu -> menu.toEntity(store)).collect(Collectors.toList());
+
+        store.addMenus(menus);
+        store.addPayments(List.of(PaymentMethod.CASH));
+
+        // paymentMethod
+        PaymentMethod accountTransfer = PaymentMethod.ACCOUNT_TRANSFER;
+        PaymentMethod cash = PaymentMethod.CASH;
+
+        List<PaymentMethod> paymentMethods = List.of(accountTransfer, cash);
+
 
         // newStore
         String newName = "토끼의 붕어빵";
@@ -117,21 +146,6 @@ class StoreServiceTest {
         LocalTime newStartTime = LocalTime.of(18, 0);
         LocalTime newEndTime = LocalTime.of(22, 0);
 
-        Store store = storeRepository.save(Store.newInstance(memberId, name, pictureUrl, location, description, startTime, endTime));
-
-        // menu
-        String menuName = "슈크림 붕어빵";
-        int menuPrice = 1000;
-        int menuAmount = 1;
-        String menuPictureUrl = "https://menu.com";
-        List<MenuRequest> menuRequests = List.of(MenuRequest.testInstance(menuName, menuAmount, menuPrice, menuPictureUrl));
-        List<Menu> menus = menuRequests.stream().map(menu -> menu.toEntity(store)).collect(Collectors.toList());
-        PaymentMethod accountTransfer = PaymentMethod.ACCOUNT_TRANSFER;
-        PaymentMethod cash = PaymentMethod.CASH;
-
-        // paymentMethod
-        List<PaymentMethod> methods = List.of(accountTransfer, cash);
-
         StoreUpdateRequest request = StoreUpdateRequest.testBuilder()
             .name(newName)
             .pictureUrl(newPictureUrl)
@@ -140,9 +154,8 @@ class StoreServiceTest {
             .startTime(newStartTime)
             .endTime(newEndTime)
             .menus(menus)
-            .paymentMethods(methods)
+            .paymentMethods(paymentMethods)
             .build();
-
 
         // when
         storeService.updateMyStore(store.getMemberId(), store.getId(), request);
@@ -155,6 +168,7 @@ class StoreServiceTest {
         assertThat(stores).hasSize(1);
         assertThat(menuList).hasSize(1);
         assertThat(payments).hasSize(2);
+
         assertStore(stores.get(0), newName, newPictureUrl, newLocation, newDescription, member.getId(), newStartTime, newEndTime);
         assertMenu(menuList.get(0), store.getId(), menuName, menuAmount, menuPrice, menuPictureUrl);
         assertPayment(payments.get(0), store.getId(), accountTransfer);
@@ -163,26 +177,61 @@ class StoreServiceTest {
     }
 
     @Test
+    void 가게를_수정하려고_했을_때_가게_id가_없는경우() {
+        // given
+        Member member = createMember();
+
+        Store store = createStore(member);
+
+        // newStore
+        String newName = "토끼의 붕어빵";
+        String newPictureUrl = "rabbit.jpg";
+        String newLocation = "신정네거리 3번 출구";
+        String newDescription = "슈크림 3개 1000원 이벤트!";
+        LocalTime newStartTime = LocalTime.of(18, 0);
+        LocalTime newEndTime = LocalTime.of(22, 0);
+
+        // menu
+        String menuName = "슈크림 붕어빵";
+        int menuPrice = 1000;
+        int menuAmount = 1;
+        String menuPictureUrl = "https://menu.com";
+        List<MenuRequest> menuRequests = List.of(MenuRequest.testInstance(menuName, menuAmount, menuPrice, menuPictureUrl));
+        List<Menu> menus = menuRequests.stream().map(menu -> menu.toEntity(store)).collect(Collectors.toList());
+        PaymentMethod accountTransfer = PaymentMethod.ACCOUNT_TRANSFER;
+        PaymentMethod cash = PaymentMethod.CASH;
+
+        store.addMenus(List.of(Menu.of(store, menuName, menuAmount, menuPrice, menuPictureUrl)));
+        store.addPayments(List.of(PaymentMethod.CASH));
+
+        // paymentMethod
+        List<PaymentMethod> paymentMethods = List.of(accountTransfer, cash);
+
+        StoreUpdateRequest request = StoreUpdateRequest.testBuilder()
+            .name(newName)
+            .pictureUrl(newPictureUrl)
+            .location(newLocation)
+            .description(newDescription)
+            .startTime(newStartTime)
+            .endTime(newEndTime)
+            .menus(menus)
+            .paymentMethods(paymentMethods)
+            .build();
+
+        // when & then
+        assertThatThrownBy(() -> storeService.updateMyStore(member.getId(), store.getId() + 1, request))
+            .isInstanceOf(IllegalArgumentException.class);
+
+    }
+
+    @Test
     void 가게를_삭제한다() {
         // given
-        String email = "tokki@gmail.com";
-        String nickName = "토끼";
-        String memberName = "고토끼";
-        String profileUrl = "234234tokki.jpg";
-        Member member = memberRepository.save(Member.newGoogleInstance(memberName, nickName, email, profileUrl));
-
-        Long memberId = member.getId();
-        String name = "토끼의 붕어빵 가게";
-        String pictureUrl = "https://rabbit.com";
-        String location = "신정네거리역 1번 출구";
-        String description = "슈크림 2개 1000원 입니다!";
-        LocalTime startTime = LocalTime.of(17, 0);
-        LocalTime endTime = LocalTime.of(21, 0);
-
-        Store store = storeRepository.save(Store.newInstance(memberId, name, pictureUrl, location, description, startTime, endTime));
+        Member member = createMember();
+        Store store = createStore(member);
 
         // when
-        storeService.deleteMyStore(memberId, store.getId());
+        storeService.deleteMyStore(member.getId(), store.getId());
 
         // then
         List<Store> stores = storeRepository.findAll();
@@ -199,7 +248,7 @@ class StoreServiceTest {
     private void assertMenu(Menu menu, Long storeId, String menuName, int menuAmount, int menuPrice, String menuPictureUrl) {
         assertThat(menu.getStore().getId()).isEqualTo(storeId);
         assertThat(menu.getName()).isEqualTo(menuName);
-        assertThat(menu.getAmount()).isEqualTo(menuAmount);
+        assertThat(menu.getCount()).isEqualTo(menuAmount);
         assertThat(menu.getPrice()).isEqualTo(menuPrice);
         assertThat(menu.getPictureUrl()).isEqualTo(menuPictureUrl);
     }

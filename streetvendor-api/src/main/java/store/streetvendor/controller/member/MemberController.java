@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import store.streetvendor.controller.dto.ApiResponse;
-import store.streetvendor.controller.dto.member.MemberSignUpRequestDto;
+import store.streetvendor.controller.ApiResponse;
 import store.streetvendor.service.member.MemberService;
+import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
 
 import javax.servlet.http.HttpSession;
 
