@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface OrderRepositoryCustom {
     List<Orders> findOrdersByStoreId(Long storeId);
-
+    Orders findByOrderId(Long orderId);
 }

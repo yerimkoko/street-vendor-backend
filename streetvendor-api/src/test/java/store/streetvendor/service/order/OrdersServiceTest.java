@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.domain.domain.order.OrderMenu;
-import store.streetvendor.domain.domain.order.OrderMenuRepository;
-import store.streetvendor.domain.domain.order.Orders;
-import store.streetvendor.domain.domain.order.OrderRepository;
+import store.streetvendor.domain.domain.order.*;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.request.OrderMenusRequest;
@@ -92,6 +89,46 @@ public class OrdersServiceTest {
         assertThat(orderMenus.get(0).getMenu().getId()).isEqualTo(menus.get(0).getId());
     }
 
+    @Test
+    void 사장님이_들어온_주문을_확인하고_준비중_상태로_변경한다() {
+        // given
+        Member member = createMember();
+        Store store = createStore(member);
+        storeRepository.save(store);
+
+        Orders myOrder = Orders.newOrder(store.getId(), member.getId());
+        orderRepository.save(myOrder);
+
+        // when
+        orderService.changeStatus(store.getId(), member.getId(), myOrder.getId());
+
+        // then
+        List<Orders> orders = orderRepository.findAll();
+        assertThat(orders).hasSize(1);
+        assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.READY);
+
+    }
+
+    @Test
+    void 사장님에게_주문상태가_READY일때_COMPLETE로_변경한다() {
+        // given
+        Member member = createMember();
+        Store store = createStore(member);
+        storeRepository.save(store);
+
+        Orders myOrder = Orders.newOrder(store.getId(), member.getId());
+        Orders order = orderRepository.save(myOrder);
+        order.changeStatusToReady();
+
+        // when
+        orderService.changeStatus(store.getId(), member.getId(), order.getId());
+
+        // then
+        List<Orders> orders = orderRepository.findAll();
+        assertThat(orders).hasSize(1);
+        assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.COMPLETE);
+    }
+
     void assertOrder(Orders orders, Long memberId, Long storeId) {
         assertThat(orders.getMemberId()).isEqualTo(memberId);
         assertThat(orders.getStoreId()).isEqualTo(storeId);
@@ -112,8 +149,8 @@ public class OrdersServiceTest {
     private Store createStore(Member member) {
         String location = "신정네거리 3번출구";
         String description = "토끼네";
-        LocalTime startTime = LocalTime.of(10, 00);
-        LocalTime endTime = LocalTime.of(18, 00);
+        LocalTime startTime = LocalTime.of(10, 0);
+        LocalTime endTime = LocalTime.of(18, 0);
 
         return Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), description, location, startTime, endTime);
     }

@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
-import store.streetvendor.domain.domain.store.Menu;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -33,16 +32,17 @@ public class Orders extends BaseTimeEntity {
     private final List<OrderMenu> orderMenus = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    public Orders(Long storeId, Long memberId) {
+    public Orders(Long storeId, Long memberId, OrderStatus orderStatus) {
         this.storeId = storeId;
         this.memberId = memberId;
-        this.orderStatus = OrderStatus.REQUEST;
+        this.orderStatus = orderStatus;
     }
 
     public static Orders newOrder(Long storeId, Long memberId) {
         return Orders.builder()
             .storeId(storeId)
             .memberId(memberId)
+            .orderStatus(OrderStatus.REQUEST)
             .build();
     }
 
@@ -63,7 +63,5 @@ public class Orders extends BaseTimeEntity {
     public void changeStatusToComplete() {
         this.orderStatus = OrderStatus.COMPLETE;
     }
-
-
 
 }

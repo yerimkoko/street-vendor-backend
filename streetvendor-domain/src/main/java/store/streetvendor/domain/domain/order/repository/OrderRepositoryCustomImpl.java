@@ -22,4 +22,12 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
             .fetch();
     }
 
+    @Override
+    public Orders findByOrderId(Long orderId) {
+        return jpaQueryFactory
+            .selectFrom(orders)
+            .where(orders.id.eq(orderId))
+            .fetchOne();
+    }
+
 }

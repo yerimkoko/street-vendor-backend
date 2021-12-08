@@ -116,5 +116,4 @@ public class Store extends BaseTimeEntity {
         this.status = StoreStatus.DELETED;
     }
 
-
 }
