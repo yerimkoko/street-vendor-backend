@@ -41,15 +41,9 @@ public class OrderService {
     @Transactional
     public void changeStatusToReady(Long storeId, Long memberId, Long orderId) {
         StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
-
-        Orders order = orderRepository.findByOrderId(orderId);
-
-        if (order == null) {
-            throw new IllegalArgumentException(String.format("(%s)에 해당하는 주문이 없습니다.", orderId));
-        }
+        Orders order = OrderServiceUtils.findByOrderId(orderRepository, orderId);
 
         order.changeStatusToReady();
-
 
     }
 
