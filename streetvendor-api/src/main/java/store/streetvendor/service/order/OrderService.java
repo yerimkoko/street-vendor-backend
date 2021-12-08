@@ -41,6 +41,7 @@ public class OrderService {
     @Transactional
     public void changeStatusToReady() {
 
+
     }
 
 }

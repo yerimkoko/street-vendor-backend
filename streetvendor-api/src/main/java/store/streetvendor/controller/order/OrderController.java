@@ -34,4 +34,5 @@ public class OrderController {
     public ApiResponse<List<OrderListToBossResponse>> checkOrders(@MemberId Long memberId, @PathVariable Long storeId) {
         return ApiResponse.success(orderService.allOrderList(storeId, memberId));
     }
+
 }

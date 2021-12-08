@@ -45,10 +45,8 @@ public class OrdersServiceTest {
 
     @AfterEach
     void cleanUp() {
-        menuRepository.deleteAllInBatch();
-        paymentRepository.deleteAllInBatch();
         orderRepository.deleteAll();
-        storeRepository.deleteAllInBatch();
+        storeRepository.deleteAll();
         memberRepository.deleteAll();
     }
 
@@ -114,8 +112,8 @@ public class OrdersServiceTest {
     private Store createStore(Member member) {
         String location = "신정네거리 3번출구";
         String description = "토끼네";
-        LocalTime startTime = LocalTime.of(10, 00, 00);
-        LocalTime endTime = LocalTime.of(18, 00, 00);
+        LocalTime startTime = LocalTime.of(10, 00);
+        LocalTime endTime = LocalTime.of(18, 00);
 
         return Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), description, location, startTime, endTime);
     }

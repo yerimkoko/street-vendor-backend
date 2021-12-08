@@ -59,4 +59,9 @@ public class StoreService {
         }
         store.delete();
     }
+
+    @Transactional
+    public void changeStatusToReady(Long memberId, Long storeId) {
+        
+    }
 }
