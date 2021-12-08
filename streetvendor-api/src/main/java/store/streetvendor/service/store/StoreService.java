@@ -31,10 +31,6 @@ public class StoreService {
     @Transactional(readOnly = true)
     public List<StoreResponseDto> getMyStoreList(Long memberId) {
         List<Store> stores = storeRepository.findStoreByBossId(memberId);
-        return getStores(stores);
-    }
-
-    private List<StoreResponseDto> getStores(List<Store> stores) {
         return stores.stream()
             .map(StoreResponseDto::of)
             .collect(Collectors.toList());

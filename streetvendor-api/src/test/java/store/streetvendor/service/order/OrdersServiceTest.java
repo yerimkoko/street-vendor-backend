@@ -32,12 +32,6 @@ public class OrdersServiceTest {
     private OrderService orderService;
 
     @Autowired
-    private MenuRepository menuRepository;
-
-    @Autowired
-    private PaymentRepository paymentRepository;
-
-    @Autowired
     private OrderMenuRepository orderMenuRepository;
 
     @AfterEach

@@ -6,10 +6,12 @@ import lombok.NoArgsConstructor;
 
 import store.streetvendor.domain.domain.store.Menu;
 import store.streetvendor.domain.domain.store.Payment;
+import store.streetvendor.domain.domain.store.PaymentMethod;
 import store.streetvendor.domain.domain.store.Store;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -31,14 +33,13 @@ public class StoreResponseDto {
 
     private LocalTime endTime;
 
-    private List<Payment> paymentMethods;
+    private List<PaymentMethod> paymentMethods;
 
-    private List<Menu> menus;
-
+    private List<MenuResponse> menus;
 
     @Builder
     public StoreResponseDto(Long storeId, Long bossId, String name, String pictureUrl, String location, String description,
-                            LocalTime startTime, LocalTime endTime, List<Payment> paymentMethods, List<Menu> menus) {
+                            LocalTime startTime, LocalTime endTime, List<PaymentMethod> paymentMethods, List<MenuResponse> menus) {
         this.storeId = storeId;
         this.bossId = bossId;
         this.name = name;
@@ -61,8 +62,17 @@ public class StoreResponseDto {
             .description(store.getDescription())
             .startTime(store.getOpeningTime().getStartTime())
             .endTime(store.getOpeningTime().getEndTime())
-            .paymentMethods(store.getPaymentMethods())
-            .menus(store.getMenus())
+            .paymentMethods(store.getPaymentMethods().stream()
+                .map(Payment::getPaymentMethod)
+                .collect(Collectors.toList()))
+            .menus(getMenuList(store))
             .build();
+    }
+
+    private static List<MenuResponse> getMenuList(Store store) {
+        return store.getMenus().stream()
+            .map(MenuResponse::of)
+            .collect(Collectors.toList());
+
     }
 }
