@@ -40,13 +40,21 @@ public class OrderService {
 
 
     @Transactional
-    public void changeStatus(Long storeId, Long memberId, Long orderId) {
+    public void changeStatusToReady(Long storeId, Long memberId, Long orderId) {
         StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, orderId);
         if (order.getOrderStatus() == OrderStatus.REQUEST) {
             order.changeStatusToReady();
         }
-        order.changeStatusToComplete();
+    }
+
+    @Transactional
+    public void changeStatusToComplete(Long storeId, Long memberId, Long orderId) {
+        StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
+        Orders order = OrderServiceUtils.findByOrderId(orderRepository, orderId);
+        if (order.getOrderStatus() == OrderStatus.READY) {
+            order.changeStatusToComplete();
+        }
     }
 
 }

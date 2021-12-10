@@ -94,7 +94,7 @@ public class OrdersServiceTest {
         orderRepository.save(myOrder);
 
         // when
-        orderService.changeStatus(store.getId(), member.getId(), myOrder.getId());
+        orderService.changeStatusToReady(store.getId(), member.getId(), myOrder.getId());
 
         // then
         List<Orders> orders = orderRepository.findAll();
@@ -110,16 +110,19 @@ public class OrdersServiceTest {
         Store store = createStore(member);
         storeRepository.save(store);
 
-        Orders myOrder = Orders.newOrder(store.getId(), member.getId());
-        Orders order = orderRepository.save(myOrder);
+        Orders order = orderRepository.save(Orders.newOrder(store.getId(), member.getId()));
         order.changeStatusToReady();
+        orderRepository.save(order);
 
         // when
-        orderService.changeStatus(store.getId(), member.getId(), order.getId());
+        orderService.changeStatusToComplete(store.getId(), member.getId(), order.getId());
 
         // then
+        System.out.println("status: " + order.getOrderStatus());
+
         List<Orders> orders = orderRepository.findAll();
         assertThat(orders).hasSize(1);
+
         assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.COMPLETE);
     }
 
