@@ -48,9 +48,16 @@ public class OrdersServiceTest {
         Store store = createStore(member);
         Menu menu = createMenu(store);
 
+        Days friDay = Days.FRI;
+        LocalTime startTime = LocalTime.of(8,0);
+        LocalTime endTime = LocalTime.of(10,0);
+        BusinessHours businessHours = createBusinessHours(store, friDay, startTime, endTime);
+
         List<Menu> menus = List.of(menu);
 
         store.addMenus(List.of(menu));
+
+        store.addBusinessDays(List.of(businessHours));
 
         storeRepository.save(store);
 
@@ -118,13 +125,13 @@ public class OrdersServiceTest {
         orderService.changeStatusToComplete(store.getId(), member.getId(), order.getId());
 
         // then
-        System.out.println("status: " + order.getOrderStatus());
-
         List<Orders> orders = orderRepository.findAll();
         assertThat(orders).hasSize(1);
 
         assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.COMPLETE);
     }
+
+
 
     void assertOrder(Orders orders, Long memberId, Long storeId) {
         assertThat(orders.getMemberId()).isEqualTo(memberId);
@@ -146,10 +153,8 @@ public class OrdersServiceTest {
     private Store createStore(Member member) {
         String location = "신정네거리 3번출구";
         String description = "토끼네";
-        LocalTime startTime = LocalTime.of(10, 0);
-        LocalTime endTime = LocalTime.of(18, 0);
 
-        return Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), description, location, startTime, endTime);
+        return Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), location, description);
     }
 
     private Menu createMenu(Store store) {
@@ -160,5 +165,8 @@ public class OrdersServiceTest {
         return Menu.of(store, menuName, count, price, pictureUrl);
     }
 
+    private BusinessHours createBusinessHours(Store store, Days days, LocalTime startTime, LocalTime endTime) {
+        return BusinessHours.of(store, days, startTime, endTime);
+    }
 
 }

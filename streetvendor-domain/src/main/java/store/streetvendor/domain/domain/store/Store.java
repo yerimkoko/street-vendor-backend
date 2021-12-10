@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
 
 import javax.persistence.*;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,9 +32,6 @@ public class Store extends BaseTimeEntity {
 
     private String description;
 
-    @Embedded
-    private OpeningTime openingTime;
-
     @Enumerated(EnumType.STRING)
     private StoreStatus status;
 
@@ -45,25 +41,26 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Payment> paymentMethods = new ArrayList<>();
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<BusinessHours> businessDays = new ArrayList<>();
+
     @Builder(access = AccessLevel.PRIVATE)
-    private Store(Long memberId, String name, String pictureUrl, String location, String description, OpeningTime openingTime, StoreStatus status) {
+    private Store(Long memberId, String name, String pictureUrl, String location, String description, StoreStatus status) {
         this.memberId = memberId;
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.location = location;
         this.description = description;
-        this.openingTime = openingTime;
         this.status = status;
     }
 
-    public static Store newInstance(Long memberId, String name, String pictureUrl, String location, String description, LocalTime startTime, LocalTime endTime) {
+    public static Store newInstance(Long memberId, String name, String pictureUrl, String location, String description) {
         return Store.builder()
             .memberId(memberId)
             .name(name)
             .pictureUrl(pictureUrl)
             .location(location)
             .description(description)
-            .openingTime(OpeningTime.of(startTime, endTime))
             .status(StoreStatus.ACTIVE)
             .build();
     }
@@ -92,13 +89,15 @@ public class Store extends BaseTimeEntity {
         );
     }
 
-    public void updateStoreInfo(String name, String description, String pictureUrl, String location,
-                       LocalTime startTime, LocalTime endTime) {
+    public void addBusinessDays(List<BusinessHours> businessHours) {
+        this.businessDays.addAll(businessHours);
+    }
+
+    public void updateStoreInfo(String name, String description, String pictureUrl, String location) {
         this.name = name;
         this.description = description;
         this.pictureUrl = pictureUrl;
         this.location = location;
-        this.openingTime = OpeningTime.of(startTime, endTime);
     }
 
     public void updateMenus(List<Menu> newMenus) {
@@ -106,10 +105,15 @@ public class Store extends BaseTimeEntity {
         this.addMenus(newMenus);
     }
 
+    public void updateBusinessDaysInfo(List<BusinessHours> businessHours) {
+        this.businessDays.clear();
+        this.addBusinessDays(businessHours);
+
+    }
+
     public void updatePayments(List<PaymentMethod> paymentMethods) {
         this.paymentMethods.clear();
         this.addPayments(paymentMethods);
-
     }
 
     public void delete() {

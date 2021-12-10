@@ -41,8 +41,8 @@ public class StoreService {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, member.getId());
         store.updateStoreInfo(updateRequest.getName(), updateRequest.getDescription(), updateRequest.getPictureUrl(),
-            updateRequest.getLocation(), updateRequest.getStartTime(), updateRequest.getEndTime());
-        store.updateMenus(updateRequest.getMenus());
+            updateRequest.getLocation());
+        store.updateMenus(updateRequest.toMenus(store));
         store.updatePayments(updateRequest.getPaymentMethods());
     }
 

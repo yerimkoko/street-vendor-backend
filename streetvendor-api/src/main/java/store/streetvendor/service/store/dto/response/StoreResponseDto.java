@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import store.streetvendor.domain.domain.store.Menu;
 import store.streetvendor.domain.domain.store.Payment;
 import store.streetvendor.domain.domain.store.PaymentMethod;
 import store.streetvendor.domain.domain.store.Store;
@@ -60,8 +59,6 @@ public class StoreResponseDto {
             .pictureUrl(store.getPictureUrl())
             .location(store.getLocation())
             .description(store.getDescription())
-            .startTime(store.getOpeningTime().getStartTime())
-            .endTime(store.getOpeningTime().getEndTime())
             .paymentMethods(store.getPaymentMethods().stream()
                 .map(Payment::getPaymentMethod)
                 .collect(Collectors.toList()))
