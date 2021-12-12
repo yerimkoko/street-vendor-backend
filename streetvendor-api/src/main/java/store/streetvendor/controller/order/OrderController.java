@@ -42,4 +42,12 @@ public class OrderController {
         return ApiResponse.OK;
     }
 
+    @Auth
+    @ApiOperation(value = "(사용자용) 주문 취소하기 API")
+    @PostMapping("/api/v1/orders/{orderId}")
+    public ApiResponse<String> cancelOrderByUser(@MemberId Long memberId, @PathVariable Long orderId) {
+        orderService.cancelOrderByUser(orderId, memberId);
+        return ApiResponse.OK;
+    }
+
 }

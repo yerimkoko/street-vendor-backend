@@ -16,6 +16,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 public class OrdersServiceTest {
@@ -151,6 +152,25 @@ public class OrdersServiceTest {
         assertThat(orders.get(0).getOrderCanceled()).isEqualTo(OrderCanceled.CANCELED);
     }
 
+    @Test
+    void 사용자가_주문을_취소한다() {
+        // given
+        Member boss = createMember();
+        Member user = createMember();
+        Store store = createStore(boss);
+        storeRepository.save(store);
+
+        Orders order = orderRepository.save(Orders.newOrder(store.getId(), user.getId()));
+
+        // when
+        orderService.cancelOrderByUser(order.getId(), user.getId());
+
+        // then
+        List<Orders> orders = orderRepository.findAll();
+        assertThat(orders).hasSize(1);
+        assertThat(orders.get(0).getOrderCanceled()).isEqualTo(OrderCanceled.CANCELED);
+
+    }
 
 
     void assertOrder(Orders orders, Long memberId, Long storeId) {

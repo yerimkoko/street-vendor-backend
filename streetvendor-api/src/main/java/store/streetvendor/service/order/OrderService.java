@@ -56,7 +56,13 @@ public class OrderService {
     public void cancelOrderByBoss(Long storeId, Long orderId, Long bossId) {
         StoreServiceUtils.validateExistsStore(storeRepository, storeId, bossId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, orderId);
-        order.cancelOrder();
+        order.cancelOrderByBoss();
+    }
+
+    @Transactional
+    public void cancelOrderByUser(Long orderId, Long memberId) {
+        Orders order = OrderServiceUtils.findMyOrderByOrderIdAndMemberId(orderRepository, orderId, memberId);
+        order.cancelOrderByUser();
     }
 
 }

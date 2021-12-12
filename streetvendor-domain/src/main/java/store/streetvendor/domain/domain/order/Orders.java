@@ -74,10 +74,20 @@ public class Orders extends BaseTimeEntity {
         }
     }
 
-    public void cancelOrder() {
-        if (!this.orderStatus.cantCancelOrder()) {
-            this.orderCanceled = OrderCanceled.CANCELED;
+    public void cancelOrderByBoss() {
+        if (this.orderStatus != OrderStatus.COMPLETE) {
+            cancelOrder();
         }
+    }
+
+    public void cancelOrderByUser() {
+        if (this.orderStatus == OrderStatus.REQUEST) {
+            cancelOrder();
+        }
+    }
+
+    private void cancelOrder() {
+        this.orderCanceled = OrderCanceled.CANCELED;
     }
 
 }
