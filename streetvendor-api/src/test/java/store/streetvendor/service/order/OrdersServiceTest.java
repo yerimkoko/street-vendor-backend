@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.*;
+import store.streetvendor.domain.domain.order.repository.OrderCanceled;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.request.OrderMenusRequest;
@@ -129,6 +130,25 @@ public class OrdersServiceTest {
         assertThat(orders).hasSize(1);
 
         assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.COMPLETE);
+    }
+
+    @Test
+    void 사장님이_주문을_취소한다() {
+        // given
+        Member boss = createMember();
+        Member user = createMember();
+        Store store = createStore(boss);
+        storeRepository.save(store);
+
+        Orders order = orderRepository.save(Orders.newOrder(store.getId(), user.getId()));
+
+        // when
+        orderService.cancelOrderByBoss(store.getId(), order.getId(), boss.getId());
+
+        // then
+        List<Orders> orders = orderRepository.findAll();
+        assertThat(orders).hasSize(1);
+        assertThat(orders.get(0).getOrderCanceled()).isEqualTo(OrderCanceled.CANCELED);
     }
 
 

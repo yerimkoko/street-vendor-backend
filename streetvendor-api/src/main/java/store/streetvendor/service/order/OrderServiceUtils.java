@@ -1,11 +1,13 @@
 package store.streetvendor.service.order;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.domain.domain.order.Orders;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderServiceUtils {
-    OrderServiceUtils() {
-    }
+
     public static Orders findByOrderId(OrderRepository orderRepository, Long orderId) {
         Orders order = orderRepository.findByOrderId(orderId);
         if (order == null) {
@@ -13,4 +15,5 @@ public class OrderServiceUtils {
         }
         return order;
     }
+
 }

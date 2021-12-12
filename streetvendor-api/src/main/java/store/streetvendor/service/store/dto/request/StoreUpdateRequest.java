@@ -3,6 +3,7 @@ package store.streetvendor.service.store.dto.request;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import store.streetvendor.domain.domain.store.BusinessHours;
 import store.streetvendor.domain.domain.store.Menu;
 import store.streetvendor.domain.domain.store.PaymentMethod;
 import store.streetvendor.domain.domain.store.Store;
@@ -42,6 +43,12 @@ public class StoreUpdateRequest {
     public List<Menu> toMenus(Store store) {
         return this.menus.stream()
             .map(menu -> menu.toEntity(store))
+            .collect(Collectors.toList());
+    }
+
+    public List<BusinessHours> toBusinessHours(Store store) {
+        return this.businessHours.stream()
+            .map(businessHours -> businessHours.toEntity(store))
             .collect(Collectors.toList());
     }
 
