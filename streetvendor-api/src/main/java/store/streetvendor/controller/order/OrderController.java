@@ -36,7 +36,7 @@ public class OrderController {
 
     @Auth
     @ApiOperation(value = "(사장님용) 주문 취소하기 API")
-    @PostMapping("/api/v1/orders/{storeId}/{orderId}")
+    @DeleteMapping("/api/v1/{storeId}/orders/{orderId}/cancel}")
     public ApiResponse<String> cancelOrder(@MemberId Long memberId, @PathVariable Long storeId, @PathVariable Long orderId) {
         orderService.cancelOrderByBoss(storeId, orderId, memberId);
         return ApiResponse.OK;
@@ -44,7 +44,7 @@ public class OrderController {
 
     @Auth
     @ApiOperation(value = "(사용자용) 주문 취소하기 API")
-    @PostMapping("/api/v1/orders/{orderId}")
+    @DeleteMapping("/api/v1/orders/{orderId}/cancel")
     public ApiResponse<String> cancelOrderByUser(@MemberId Long memberId, @PathVariable Long orderId) {
         orderService.cancelOrderByUser(orderId, memberId);
         return ApiResponse.OK;

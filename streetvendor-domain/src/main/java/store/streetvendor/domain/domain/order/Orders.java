@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
-import store.streetvendor.domain.domain.order.repository.OrderCanceled;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,21 +25,21 @@ public class Orders extends BaseTimeEntity {
     @Column(nullable = false)
     private Long memberId;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @Column(nullable = false)
-    private OrderCanceled orderCanceled;
+    @Enumerated(EnumType.STRING)
+    private OrderStatusCanceled orderStatusCanceled;
 
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderMenu> orderMenus = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    public Orders(Long storeId, Long memberId, OrderStatus orderStatus, OrderCanceled orderCanceled) {
+    public Orders(Long storeId, Long memberId, OrderStatus orderStatus, OrderStatusCanceled orderStatusCanceled) {
         this.storeId = storeId;
         this.memberId = memberId;
         this.orderStatus = orderStatus;
-        this.orderCanceled = orderCanceled;
+        this.orderStatusCanceled = orderStatusCanceled;
     }
 
     public static Orders newOrder(Long storeId, Long memberId) {
@@ -48,7 +47,7 @@ public class Orders extends BaseTimeEntity {
             .storeId(storeId)
             .memberId(memberId)
             .orderStatus(OrderStatus.REQUEST)
-            .orderCanceled(OrderCanceled.ACTIVE)
+            .orderStatusCanceled(OrderStatusCanceled.ACTIVE)
             .build();
     }
 
@@ -75,19 +74,29 @@ public class Orders extends BaseTimeEntity {
     }
 
     public void cancelOrderByBoss() {
-        if (this.orderStatus != OrderStatus.COMPLETE) {
-            cancelOrder();
-        }
+        validateCompleteOrder();
+        cancelOrder();
     }
 
     public void cancelOrderByUser() {
-        if (this.orderStatus == OrderStatus.REQUEST) {
-            cancelOrder();
-        }
+        validateRequestOrder();
+        validateCompleteOrder();
+        cancelOrder();
     }
 
     private void cancelOrder() {
-        this.orderCanceled = OrderCanceled.CANCELED;
+        this.orderStatusCanceled = OrderStatusCanceled.CANCELED;
+    }
+
+    private void validateCompleteOrder() {
+        if (this.orderStatus.cantCancelOrder()) {
+            throw new IllegalArgumentException(String.format("주문이 (%s)일 때에는 변경할 수 없습니다.", orderStatus));
+        }
+    }
+    private void validateRequestOrder() {
+        if (this.orderStatus.cantUserCancelOrder()) {
+            throw new IllegalArgumentException(String.format("주문이 (%s)일 때에는 변경할 수 없습니다.", orderStatus));
+        }
     }
 
 }

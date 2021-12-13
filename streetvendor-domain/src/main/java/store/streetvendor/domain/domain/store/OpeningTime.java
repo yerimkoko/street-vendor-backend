@@ -1,7 +1,6 @@
 package store.streetvendor.domain.domain.store;
 
 import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

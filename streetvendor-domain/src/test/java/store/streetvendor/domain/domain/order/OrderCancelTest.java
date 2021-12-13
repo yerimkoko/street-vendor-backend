@@ -1,0 +1,33 @@
+package store.streetvendor.domain.domain.order;
+
+
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+public class OrderCancelTest {
+
+    @Test
+    void 거래완료된_상품일때_order는_취소되지_않는다() {
+        // given
+        Orders order = Orders.newOrder(1L, 999L);
+        order.changeStatusToReady();
+        order.changeStatusToComplete();
+
+        // when & then
+        assertThatThrownBy(order::cancelOrderByUser).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(order::cancelOrderByBoss).isInstanceOf(IllegalArgumentException.class);
+
+    }
+
+    @Test
+    void 사용자는_READY상태에서_취소하지_못한다() {
+        // given
+        Orders order = Orders.newOrder(999L, 1L);
+        order.changeStatusToReady();
+
+        // when & then
+        assertThatThrownBy(order::cancelOrderByUser).isInstanceOf(IllegalArgumentException.class);
+    }
+
+}

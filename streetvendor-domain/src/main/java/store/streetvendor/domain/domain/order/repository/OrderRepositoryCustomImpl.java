@@ -2,6 +2,7 @@ package store.streetvendor.domain.domain.order.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import store.streetvendor.domain.domain.order.OrderStatusCanceled;
 import store.streetvendor.domain.domain.order.Orders;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
         return jpaQueryFactory
             .selectFrom(orders)
             .where(orders.storeId.eq(storeId),
-                orders.orderCanceled.eq(OrderCanceled.ACTIVE))
+                orders.orderStatusCanceled.eq(OrderStatusCanceled.ACTIVE))
             .fetch();
     }
 
@@ -28,7 +29,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
         return jpaQueryFactory
             .selectFrom(orders)
             .where(orders.id.eq(orderId),
-                orders.orderCanceled.eq(OrderCanceled.ACTIVE))
+                orders.orderStatusCanceled.eq(OrderStatusCanceled.ACTIVE))
             .fetchOne();
     }
 
@@ -38,7 +39,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
             .selectFrom(orders)
             .where(orders.id.eq(orderId),
                 orders.memberId.eq(memberId),
-                orders.orderCanceled.eq(OrderCanceled.ACTIVE))
+                orders.orderStatusCanceled.eq(OrderStatusCanceled.ACTIVE))
             .fetch();
     }
 
@@ -48,7 +49,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
             .selectFrom(orders)
             .where(orders.id.eq(orderId),
                 orders.memberId.eq(memberId),
-                orders.orderCanceled.eq(OrderCanceled.ACTIVE))
+                orders.orderStatusCanceled.eq(OrderStatusCanceled.ACTIVE))
             .fetchOne();
     }
 
