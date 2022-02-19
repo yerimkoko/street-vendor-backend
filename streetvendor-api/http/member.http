@@ -12,3 +12,11 @@ Content-Type: application/json
 > {%
 client.global.set("SESSION", response.body["data"])
 %}
+
+
+### 회원을 탈퇴합니다.
+PUT {{host_api}}/api/v1/sign-out
+Content-Type: application/json
+Authorization: Bearer {{SESSION}}
+
+
