@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.*;
+import store.streetvendor.domain.domain.order.OrderStatusCanceled;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.request.OrderMenusRequest;
@@ -15,6 +16,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 public class OrdersServiceTest {
@@ -131,7 +133,44 @@ public class OrdersServiceTest {
         assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.COMPLETE);
     }
 
+    @Test
+    void 사장님이_주문을_취소한다() {
+        // given
+        Member boss = createMember();
+        Member user = createMember();
+        Store store = createStore(boss);
+        storeRepository.save(store);
 
+        Orders order = orderRepository.save(Orders.newOrder(store.getId(), user.getId()));
+
+        // when
+        orderService.cancelOrderByBoss(store.getId(), order.getId(), boss.getId());
+
+        // then
+        List<Orders> orders = orderRepository.findAll();
+        assertThat(orders).hasSize(1);
+        assertThat(orders.get(0).getOrderStatusCanceled()).isEqualTo(OrderStatusCanceled.CANCELED);
+    }
+
+    @Test
+    void 사용자가_주문을_취소한다() {
+        // given
+        Member boss = createMember();
+        Member user = createMember();
+        Store store = createStore(boss);
+        storeRepository.save(store);
+
+        Orders order = orderRepository.save(Orders.newOrder(store.getId(), user.getId()));
+
+        // when
+        orderService.cancelOrderByUser(order.getId(), user.getId());
+
+        // then
+        List<Orders> orders = orderRepository.findAll();
+        assertThat(orders).hasSize(1);
+        assertThat(orders.get(0).getOrderStatusCanceled()).isEqualTo(OrderStatusCanceled.CANCELED);
+
+    }
 
     void assertOrder(Orders orders, Long memberId, Long storeId) {
         assertThat(orders.getMemberId()).isEqualTo(memberId);

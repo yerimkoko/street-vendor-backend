@@ -16,4 +16,11 @@ public class StoreServiceUtils {
         return store;
     }
 
+    public static void validateExistsStore(StoreRepository storeRepository, Long storeId, Long memberId) {
+        Store store = storeRepository.findStoreByStoreIdAndMemberId(storeId, memberId);
+        if (store == null) {
+            throw new IllegalArgumentException(String.format("해당하는 (%s) 상점이 존재하지 않습니다.", storeId));
+        }
+    }
+
 }

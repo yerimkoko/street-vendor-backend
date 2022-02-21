@@ -21,7 +21,6 @@ public class AddNewOrderRequest {
     // TODO: long vs Long 구분해보기.
     private long storeId;
 
-
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
     public AddNewOrderRequest(@NotBlank long storeId, List<OrderMenusRequest> menus) {
         this.storeId = storeId;

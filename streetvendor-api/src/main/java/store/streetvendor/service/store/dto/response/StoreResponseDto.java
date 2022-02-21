@@ -70,6 +70,6 @@ public class StoreResponseDto {
         return store.getMenus().stream()
             .map(MenuResponse::of)
             .collect(Collectors.toList());
-
     }
+
 }

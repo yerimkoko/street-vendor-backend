@@ -25,17 +25,21 @@ public class Orders extends BaseTimeEntity {
     @Column(nullable = false)
     private Long memberId;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatusCanceled orderStatusCanceled;
 
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderMenu> orderMenus = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    public Orders(Long storeId, Long memberId, OrderStatus orderStatus) {
+    public Orders(Long storeId, Long memberId, OrderStatus orderStatus, OrderStatusCanceled orderStatusCanceled) {
         this.storeId = storeId;
         this.memberId = memberId;
         this.orderStatus = orderStatus;
+        this.orderStatusCanceled = orderStatusCanceled;
     }
 
     public static Orders newOrder(Long storeId, Long memberId) {
@@ -43,6 +47,7 @@ public class Orders extends BaseTimeEntity {
             .storeId(storeId)
             .memberId(memberId)
             .orderStatus(OrderStatus.REQUEST)
+            .orderStatusCanceled(OrderStatusCanceled.ACTIVE)
             .build();
     }
 
@@ -57,11 +62,41 @@ public class Orders extends BaseTimeEntity {
     }
 
     public void changeStatusToReady() {
-        this.orderStatus = OrderStatus.READY;
+        if (this.orderStatus.canChangeToReady()) {
+            this.orderStatus = OrderStatus.READY;
+        }
     }
 
     public void changeStatusToComplete() {
-        this.orderStatus = OrderStatus.COMPLETE;
+        if (this.orderStatus == OrderStatus.READY) {
+            this.orderStatus = OrderStatus.COMPLETE;
+        }
+    }
+
+    public void cancelOrderByBoss() {
+        validateCompleteOrder();
+        cancelOrder();
+    }
+
+    public void cancelOrderByUser() {
+        validateRequestOrder();
+        validateCompleteOrder();
+        cancelOrder();
+    }
+
+    private void cancelOrder() {
+        this.orderStatusCanceled = OrderStatusCanceled.CANCELED;
+    }
+
+    private void validateCompleteOrder() {
+        if (this.orderStatus.cantCancelOrder()) {
+            throw new IllegalArgumentException(String.format("주문이 (%s)일 때에는 변경할 수 없습니다.", orderStatus));
+        }
+    }
+    private void validateRequestOrder() {
+        if (this.orderStatus.cantUserCancelOrder()) {
+            throw new IllegalArgumentException(String.format("주문이 (%s)일 때에는 변경할 수 없습니다.", orderStatus));
+        }
     }
 
 }

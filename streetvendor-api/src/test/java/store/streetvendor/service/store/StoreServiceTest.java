@@ -59,14 +59,14 @@ class StoreServiceTest {
 
         String menuName = "팥 붕어빵";
         int menuPrice = 2000;
-        int menuAmount = 1;
+        int count = 1;
         String menuPictureUrl = "https://menu.com";
 
         LocalTime startTime = LocalTime.of(9,0);
         LocalTime endTime = LocalTime.of(18,0);
         Days friDay = Days.FRI;
 
-        List<MenuRequest> menuRequests = List.of(MenuRequest.testInstance(menuName, menuAmount, menuPrice, menuPictureUrl));
+        List<MenuRequest> menuRequests = List.of(MenuRequest.testInstance(menuName, count, menuPrice, menuPictureUrl));
         List<PaymentMethod> paymentMethods = List.of(PaymentMethod.CASH, PaymentMethod.ACCOUNT_TRANSFER);
         List<BusinessHourRequest> businessHour = List.of(new BusinessHourRequest(startTime, endTime, friDay));
 
@@ -90,7 +90,7 @@ class StoreServiceTest {
 
         List<Menu> menus = menuRepository.findAll();
         assertThat(menus).hasSize(1);
-        assertMenu(menus.get(0), stores.get(0).getId(), menuName, menuAmount, menuPrice, menuPictureUrl);
+        assertMenu(menus.get(0), stores.get(0).getId(), menuName, count, menuPrice, menuPictureUrl);
 
         List<Payment> payments = paymentRepository.findAll();
         assertThat(payments).hasSize(2);
@@ -127,7 +127,7 @@ class StoreServiceTest {
 
         String menuName = "슈크림 붕어빵";
         int menuPrice = 1000;
-        int menuAmount = 1;
+        int count = 1;
         String menuPictureUrl = "https://menu.com";
 
         StoreUpdateRequest request = StoreUpdateRequest.testBuilder()
@@ -135,7 +135,7 @@ class StoreServiceTest {
             .pictureUrl(newPictureUrl)
             .location(newLocation)
             .description(newDescription)
-            .menus(List.of(MenuRequest.testInstance(menuName, menuPrice, menuAmount, menuPictureUrl)))
+            .menus(List.of(MenuRequest.testInstance(menuName, count, menuPrice, menuPictureUrl)))
             .paymentMethods(List.of(accountTransfer, cash))
             .businessHours(List.of(new BusinessHourRequest(newStartTime, newEndTime, saturday)))
             .build();
@@ -155,7 +155,7 @@ class StoreServiceTest {
         assertThat(findBusinessHours).hasSize(1);
 
         assertStore(stores.get(0), newName, newPictureUrl, newLocation, newDescription, member.getId());
-        assertMenu(menuList.get(0), store.getId(), menuName, menuAmount, menuPrice, menuPictureUrl);
+        assertMenu(menuList.get(0), store.getId(), menuName, count, menuPrice, menuPictureUrl);
         assertPayment(payments.get(0), store.getId(), accountTransfer);
         assertPayment(payments.get(1), store.getId(), cash);
 
@@ -203,7 +203,6 @@ class StoreServiceTest {
         // when & then
         assertThatThrownBy(() -> storeService.updateMyStore(member.getId(), store.getId() + 1, request))
             .isInstanceOf(IllegalArgumentException.class);
-
     }
 
     @Test
@@ -219,7 +218,6 @@ class StoreServiceTest {
         List<Store> stores = storeRepository.findAll();
         assertThat(stores).hasSize(1);
         assertThat(stores.get(0).getStatus()).isEqualTo(StoreStatus.DELETED);
-
     }
 
     private Member createMember() {
@@ -256,10 +254,10 @@ class StoreServiceTest {
         assertThat(payment.getPaymentMethod()).isEqualTo(paymentMethod);
     }
 
-    private void assertMenu(Menu menu, Long storeId, String menuName, int menuAmount, int menuPrice, String menuPictureUrl) {
+    private void assertMenu(Menu menu, Long storeId, String menuName, int count, int menuPrice, String menuPictureUrl) {
         assertThat(menu.getStore().getId()).isEqualTo(storeId);
         assertThat(menu.getName()).isEqualTo(menuName);
-        assertThat(menu.getCount()).isEqualTo(menuAmount);
+        assertThat(menu.getCount()).isEqualTo(count);
         assertThat(menu.getPrice()).isEqualTo(menuPrice);
         assertThat(menu.getPictureUrl()).isEqualTo(menuPictureUrl);
     }

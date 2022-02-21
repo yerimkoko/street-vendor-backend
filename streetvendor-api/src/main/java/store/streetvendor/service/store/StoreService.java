@@ -5,11 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.service.store.dto.response.StoreResponseDto;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
-import store.streetvendor.domain.domain.member.Member;
-import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
-import store.streetvendor.service.member.MemberServiceUtils;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
 
 import java.util.List;
@@ -20,8 +17,6 @@ import java.util.stream.Collectors;
 public class StoreService {
 
     private final StoreRepository storeRepository;
-
-    private final MemberRepository memberRepository;
 
     @Transactional
     public void addNewStore(AddNewStoreRequest request, Long memberId) {
@@ -37,22 +32,17 @@ public class StoreService {
     }
 
     @Transactional
-    public void updateMyStore(Long memberId, Long storeId, StoreUpdateRequest updateRequest) {
-        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
-        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, member.getId());
-        store.updateStoreInfo(updateRequest.getName(), updateRequest.getDescription(), updateRequest.getPictureUrl(),
-            updateRequest.getLocation());
-        store.updateMenus(updateRequest.toMenus(store));
-        store.updatePayments(updateRequest.getPaymentMethods());
+    public void updateMyStore(Long memberId, Long storeId, StoreUpdateRequest request) {
+        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
+        store.updateStoreInfo(request.getName(), request.getDescription(), request.getPictureUrl(), request.getLocation());
+        store.updateMenus(request.toMenus(store));
+        store.updatePayments(request.getPaymentMethods());
+        store.updateBusinessDaysInfo(request.toBusinessHours(store));
     }
 
     @Transactional
     public void deleteMyStore(Long memberId, Long storeId) {
-        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
-        Store store = storeRepository.findStoreByStoreIdAndMemberId(storeId, member.getId());
-        if (store == null) {
-            throw new IllegalArgumentException(String.format("해당하는 (%s) 상점이 존재하지 않습니다.", storeId));
-        }
+        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
         store.delete();
     }
 

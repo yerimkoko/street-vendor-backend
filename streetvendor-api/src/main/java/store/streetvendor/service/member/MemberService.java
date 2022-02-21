@@ -27,11 +27,4 @@ public class MemberService {
         }
     }
 
-    @Transactional
-    public Long signOut(Long memberId) {
-        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
-        member.changeStatus();
-        return memberId;
-    }
-
 }
