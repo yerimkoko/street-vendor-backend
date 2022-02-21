@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import store.streetvendor.domain.domain.member.MemberStatus;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
@@ -50,6 +51,22 @@ public class MemberServiceTest {
         assertThat(members).hasSize(1);
         assertMember(members.get(0), name, nickName, email, profileUrl);
     }
+
+    @Test
+    void 회원을_탈퇴하면_status가_바뀐다() {
+        // given
+        Member member = memberRepository.save(Member.newGoogleInstance("name", "nickName", "email", "profile"));
+
+        // when
+        memberService.signOut(member.getId());
+
+        // then
+        List<Member> members = memberRepository.findAll();
+        assertThat(members).hasSize(1);
+        assertThat(members.get(0).getStatus()).isEqualTo(MemberStatus.SIGN_OUT);
+
+    }
+
 
     @Test
     void 닉네임이_중복인경우_에러가_발생한다() {
