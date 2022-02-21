@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+import store.streetvendor.domain.domain.member.Member;
+import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.domain.domain.member.MemberStatus;
+import store.streetvendor.service.member.MemberServiceUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +27,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     private final SessionRepository<? extends Session> sessionRepository;
 
+    private final MemberRepository memberRepository;
+
     @Override
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, Object handler) {
         if (!(handler instanceof HandlerMethod)) {
@@ -36,7 +42,13 @@ public class AuthInterceptor implements HandlerInterceptor {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (StringUtils.hasLength(header) && header.startsWith(BEARER_PREFIX)) {
             String sessionId = removeBearer(header);
-            request.setAttribute(MEMBER_ID, getUserId(sessionId));
+            Long userId = getUserId(sessionId);
+            Member member = MemberServiceUtils.findByMemberId(memberRepository, userId);
+            if (member.getStatus() == MemberStatus.SIGN_OUT) {
+                throw new IllegalArgumentException("탈퇴한 회원입니다.");
+            }
+            request.setAttribute(MEMBER_ID, userId);
+
             return true;
         }
         throw new IllegalArgumentException(String.format("비어 있거나 Bearer 타입이 아닌 잘못된 헤더 (%S) 입니다", header));
