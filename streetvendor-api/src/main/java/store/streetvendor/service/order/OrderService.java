@@ -3,7 +3,10 @@ package store.streetvendor.service.order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.streetvendor.domain.domain.order.OrderMenu;
+import store.streetvendor.domain.domain.order.OrderStatus;
 import store.streetvendor.domain.domain.order.Orders;
+import store.streetvendor.domain.domain.order_history.OrderHistory;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
@@ -63,6 +66,13 @@ public class OrderService {
     public void cancelOrderByUser(Long orderId, Long memberId) {
         Orders order = OrderServiceUtils.findMyOrderByOrderIdAndMemberId(orderRepository, orderId, memberId);
         order.cancelOrderByUser();
+    }
+
+    @Transactional
+    public void addToCompletedOrder(Long storeId, Long orderId, List<OrderMenu> menus) {
+        OrderHistory orderHistory = OrderHistory.newHistory(storeId, orderId);
+
+
     }
 
 }

@@ -74,7 +74,6 @@ public class Orders extends BaseTimeEntity {
     }
 
     public void cancelOrderByBoss() {
-        validateCompleteOrder();
         cancelOrder();
     }
 

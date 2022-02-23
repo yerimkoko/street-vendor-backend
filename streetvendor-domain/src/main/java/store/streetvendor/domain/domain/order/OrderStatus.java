@@ -1,9 +1,13 @@
 package store.streetvendor.domain.domain.order;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum OrderStatus {
-    REQUEST,
-    READY,
-    COMPLETE;
+    REQUEST("유저가 주문을 할 때"),
+    READY("사장님이 주문을 승인할 때(조리를 한다)"),
+    COMPLETE("사장님이 조리를 완료한 후 유저에게 완료되었음을 알려줌");
 
     public boolean canChangeToReady() {
         return this == OrderStatus.REQUEST;
@@ -16,5 +20,7 @@ public enum OrderStatus {
     public boolean cantUserCancelOrder() {
         return this == OrderStatus.READY;
     }
+
+    private final String description;
 
 }
