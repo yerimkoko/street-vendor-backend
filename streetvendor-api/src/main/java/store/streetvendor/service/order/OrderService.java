@@ -4,14 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.order.OrderMenu;
-import store.streetvendor.domain.domain.order.OrderStatus;
 import store.streetvendor.domain.domain.order.Orders;
-import store.streetvendor.domain.domain.order_history.OrderHistory;
+import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
+import store.streetvendor.service.order_history.dto.AddNewOrderHistoryRequest;
 import store.streetvendor.service.store.StoreServiceUtils;
 
 import java.util.List;
@@ -24,6 +24,8 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     private final StoreRepository storeRepository;
+
+    private final OrderHistoryRepository historyRepository;
 
     @Transactional
     public void addNewOrder(AddNewOrderRequest request, Long memberId) {
@@ -49,10 +51,11 @@ public class OrderService {
     }
 
     @Transactional
-    public void changeStatusToComplete(Long storeId, Long memberId, Long orderId) {
+    public void changeStatusToComplete(Long storeId, Long memberId, Long orderId, AddNewOrderHistoryRequest request) {
         StoreServiceUtils.validateExistsStore(storeRepository, storeId, memberId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, orderId);
         order.changeStatusToComplete();
+        addToCompletedOrder(request, memberId);
     }
 
     @Transactional
@@ -69,10 +72,11 @@ public class OrderService {
     }
 
     @Transactional
-    public void addToCompletedOrder(Long storeId, Long orderId, List<OrderMenu> menus) {
-        OrderHistory orderHistory = OrderHistory.newHistory(storeId, orderId);
-
-
+    public void addToCompletedOrder(AddNewOrderHistoryRequest request, Long memberId) {
+        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, request.getStoreId(), memberId);
+        Orders order = OrderServiceUtils.findByOrderId(orderRepository, request.getOrderId());
+        orderRepository.delete(order);
+        historyRepository.save(request.toEntity(store.getId(), store.getMemberId()));
     }
 
 }

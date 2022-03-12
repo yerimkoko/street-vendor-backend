@@ -24,7 +24,7 @@ public class OrderHistory extends BaseTimeEntity {
     @Column(nullable = false)
     private Long storeId;
 
-    @OneToMany(mappedBy = "order_history", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "orderHistory", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderHistoryMenu> menus = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
@@ -39,6 +39,19 @@ public class OrderHistory extends BaseTimeEntity {
             .memberId(memberId)
             .build();
     }
+
+    public void addMenus(List<OrderHistoryMenu> menus) {
+        for (OrderHistoryMenu menu : menus) {
+            this.addMenu(menu);
+        }
+
+    }
+
+    public void addMenu(OrderHistoryMenu menu) {
+        this.menus.add(menu);
+    }
+
+
 
 
 }

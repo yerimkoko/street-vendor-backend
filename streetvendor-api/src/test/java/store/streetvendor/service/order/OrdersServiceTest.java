@@ -11,12 +11,13 @@ import store.streetvendor.domain.domain.order.OrderStatusCanceled;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.request.OrderMenusRequest;
+import store.streetvendor.service.order_history.dto.AddNewOrderHistoryRequest;
+import store.streetvendor.service.order_history.dto.OrderHistoryMenusRequest;
 
 import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 public class OrdersServiceTest {
@@ -51,8 +52,8 @@ public class OrdersServiceTest {
         Menu menu = createMenu(store);
 
         Days friDay = Days.FRI;
-        LocalTime startTime = LocalTime.of(8,0);
-        LocalTime endTime = LocalTime.of(10,0);
+        LocalTime startTime = LocalTime.of(8, 0);
+        LocalTime endTime = LocalTime.of(10, 0);
         BusinessHours businessHours = createBusinessHours(store, friDay, startTime, endTime);
 
         List<Menu> menus = List.of(menu);
@@ -120,17 +121,56 @@ public class OrdersServiceTest {
         storeRepository.save(store);
 
         Orders order = orderRepository.save(Orders.newOrder(store.getId(), member.getId()));
+
+        Menu menu = Menu.of(store, "슈붕", 3, 1000, "http:/3");
+
+        OrderMenu orderMenu = OrderMenu.of(order, menu, 3);
+        List<OrderHistoryMenusRequest> menusRequest = List.of(new OrderHistoryMenusRequest(menu, orderMenu));
+        AddNewOrderHistoryRequest request = new AddNewOrderHistoryRequest(order.getId(), store.getId(), menusRequest);
+
         order.changeStatusToReady();
         orderRepository.save(order);
 
         // when
-        orderService.changeStatusToComplete(store.getId(), member.getId(), order.getId());
+        orderService.changeStatusToComplete(store.getId(), member.getId(), order.getId(), request);
 
         // then
         List<Orders> orders = orderRepository.findAll();
         assertThat(orders).hasSize(1);
 
         assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.COMPLETE);
+    }
+
+    @Test
+    void 주문이_거래완료가_되면_기존_Order가_삭제된다() {
+        // given
+        Member member = createMember();
+        Store store = createStore(member);
+        Menu menu = createMenu(store);
+        store.addMenus(List.of(menu));
+        storeRepository.save(store);
+
+        Orders order = orderRepository.save(Orders.newOrder(store.getId(), member.getId()));
+        OrderMenu orderMenu = createOrderMenu(order, menu);
+
+        OrderHistoryMenusRequest menusRequest = OrderHistoryMenusRequest.builder()
+            .orderMenu(orderMenu)
+            .menu(menu)
+            .build();
+
+        AddNewOrderHistoryRequest request = AddNewOrderHistoryRequest.builder()
+            .orderId(order.getId())
+            .menus(List.of(menusRequest))
+            .storeId(store.getId())
+            .build();
+
+        // when
+        orderService.addToCompletedOrder(request, member.getId());
+
+        // then
+        List<Orders> orders = orderRepository.findAll();
+        assertThat(orders).isEmpty();
+
     }
 
     @Test
@@ -176,6 +216,14 @@ public class OrdersServiceTest {
         assertThat(orders.getMemberId()).isEqualTo(memberId);
         assertThat(orders.getStoreId()).isEqualTo(storeId);
     }
+
+    private OrderMenu createOrderMenu(Orders orders, Menu menu) {
+        int count = 3;
+        OrderMenu orderMenu = OrderMenu.of(orders, menu, count);
+        return orderMenuRepository.save(orderMenu);
+    }
+
+
 
 
     private Member createMember() {
