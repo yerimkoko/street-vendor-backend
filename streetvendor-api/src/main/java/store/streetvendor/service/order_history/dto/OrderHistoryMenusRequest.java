@@ -23,7 +23,7 @@ public class OrderHistoryMenusRequest {
     @Builder
     public OrderHistoryMenusRequest(Menu menu, OrderMenu orderMenu) {
         this.menuName = menu.getName();
-        this.count = menu.getCount();
+        this.count = menu.getMenuCount();
         this.price = menu.getPrice();
         this.totalCount = orderMenu.getCount();
     }

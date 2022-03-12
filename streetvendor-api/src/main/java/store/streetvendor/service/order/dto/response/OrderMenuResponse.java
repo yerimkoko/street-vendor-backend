@@ -28,7 +28,7 @@ public class OrderMenuResponse {
         return OrderMenuResponse.builder()
             .menuId(orderMenu.getMenu().getId())
             .menuName(orderMenu.getMenu().getName())
-            .count(orderMenu.getMenu().getCount() * orderMenu.getCount())
+            .count(orderMenu.getMenu().getMenuCount() * orderMenu.getCount())
             .price(orderMenu.getMenu().getPrice() * orderMenu.getCount())
             .build();
 

@@ -63,13 +63,13 @@ public class Orders extends BaseTimeEntity {
 
     public void changeStatusToReady() {
         if (this.orderStatus.canChangeToReady()) {
-            this.orderStatus = OrderStatus.READY;
+            this.orderStatus = OrderStatus.PREPARING;
         }
     }
 
     public void changeStatusToComplete() {
-        if (this.orderStatus == OrderStatus.READY) {
-            this.orderStatus = OrderStatus.COMPLETE;
+        if (this.orderStatus == OrderStatus.PREPARING) {
+            this.orderStatus = OrderStatus.READY_TO_PICK_UP;
         }
     }
 

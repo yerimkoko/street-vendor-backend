@@ -109,7 +109,7 @@ public class OrdersServiceTest {
         // then
         List<Orders> orders = orderRepository.findAll();
         assertThat(orders).hasSize(1);
-        assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.READY);
+        assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.PREPARING);
 
     }
 
@@ -136,9 +136,8 @@ public class OrdersServiceTest {
 
         // then
         List<Orders> orders = orderRepository.findAll();
-        assertThat(orders).hasSize(1);
+        assertThat(orders).isEmpty();
 
-        assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.COMPLETE);
     }
 
     @Test

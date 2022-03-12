@@ -24,7 +24,7 @@ public class MenuResponse {
     private MenuSalesStatus salesStatus;
 
     public static MenuResponse of(Menu menu) {
-        return new MenuResponse(menu.getId(), menu.getName(), menu.getCount(), menu.getPrice(),
+        return new MenuResponse(menu.getId(), menu.getName(), menu.getMenuCount(), menu.getPrice(),
             menu.getPictureUrl(), menu.getSalesStatus());
     }
 
