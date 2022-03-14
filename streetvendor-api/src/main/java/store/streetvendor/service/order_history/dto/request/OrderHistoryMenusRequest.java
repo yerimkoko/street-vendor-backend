@@ -1,4 +1,4 @@
-package store.streetvendor.service.order_history.dto;
+package store.streetvendor.service.order_history.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -20,15 +20,18 @@ public class OrderHistoryMenusRequest {
 
     private int totalCount;
 
+    private String pictureUrl;
+
     @Builder
     public OrderHistoryMenusRequest(Menu menu, OrderMenu orderMenu) {
         this.menuName = menu.getName();
         this.count = menu.getMenuCount();
         this.price = menu.getPrice();
         this.totalCount = orderMenu.getCount();
+        this.pictureUrl = menu.getPictureUrl();
     }
 
     public OrderHistoryMenu toEntity(OrderHistory orderHistory) {
-        return new OrderHistoryMenu(orderHistory, menuName, count, price);
+        return new OrderHistoryMenu(orderHistory, menuName, count, price, pictureUrl);
     }
 }

@@ -26,16 +26,20 @@ public class OrderHistoryMenu extends BaseTimeEntity {
     @Column(nullable = false)
     private int price;
 
+    @Column(nullable = false)
+    private String pictureUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_history_id", nullable = false)
     private OrderHistory orderHistory;
 
     @Builder(access = AccessLevel.PRIVATE)
-    public OrderHistoryMenu(OrderHistory orderHistory, String menuName, int count, int price) {
+    public OrderHistoryMenu(OrderHistory orderHistory, String menuName, int count, int price, String pictureUrl) {
         this.orderHistory = orderHistory;
         this.menuName = menuName;
         this.count = count;
         this.price = price;
+        this.pictureUrl = pictureUrl;
     }
 
     public static OrderHistoryMenu of(String menuName, int count, int price) {

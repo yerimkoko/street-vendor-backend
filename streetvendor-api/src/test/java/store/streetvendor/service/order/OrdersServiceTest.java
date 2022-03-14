@@ -11,8 +11,8 @@ import store.streetvendor.domain.domain.order.OrderStatusCanceled;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.request.OrderMenusRequest;
-import store.streetvendor.service.order_history.dto.AddNewOrderHistoryRequest;
-import store.streetvendor.service.order_history.dto.OrderHistoryMenusRequest;
+import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
+import store.streetvendor.service.order_history.dto.request.OrderHistoryMenusRequest;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -221,8 +221,6 @@ public class OrdersServiceTest {
         OrderMenu orderMenu = OrderMenu.of(orders, menu, count);
         return orderMenuRepository.save(orderMenu);
     }
-
-
 
 
     private Member createMember() {

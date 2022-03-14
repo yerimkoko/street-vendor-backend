@@ -10,7 +10,7 @@ import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
-import store.streetvendor.service.order_history.dto.AddNewOrderHistoryRequest;
+import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
 import store.streetvendor.service.store.StoreServiceUtils;
 
 import java.util.List;

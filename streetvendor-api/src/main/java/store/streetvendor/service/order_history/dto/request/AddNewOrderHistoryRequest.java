@@ -1,4 +1,4 @@
-package store.streetvendor.service.order_history.dto;
+package store.streetvendor.service.order_history.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
