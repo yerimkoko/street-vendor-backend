@@ -3,6 +3,7 @@ package store.streetvendor.service.order_history.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.order_history.OrderHistory;
 import store.streetvendor.domain.domain.order_history.OrderHistoryMenu;
 
@@ -13,28 +14,30 @@ import java.util.stream.Collectors;
 @Getter
 public class OrderHistoryResponse {
 
-    private Long memberId;
-
     private Long orderId;
 
-    private Long storeId;
+    private OrderHistoryMemberResponse member;
+
+    private OrderHistoryStoreResponse store;
 
     private List<OrderHistoryMenuResponse> menus;
 
     @Builder
-    public OrderHistoryResponse(Long memberId, Long orderId, Long storeId, List<OrderHistoryMenuResponse> menus) {
-        this.memberId = memberId;
+    public OrderHistoryResponse(Long orderId, List<OrderHistoryMenuResponse> menus, OrderHistoryMemberResponse member, OrderHistoryStoreResponse store) {
         this.orderId = orderId;
-        this.storeId = storeId;
         this.menus = menus;
+        this.member = member;
+        this.store = store;
     }
 
-    public static OrderHistoryResponse of(OrderHistory orderHistory) {
+    public static OrderHistoryResponse of(OrderHistory orderHistory, OrderHistoryStoreResponse storeResponse, Member member) {
+
         List<OrderHistoryMenu> orderHistoryMenus = orderHistory.getMenus();
+
         return OrderHistoryResponse.builder()
             .orderId(orderHistory.getId())
-            .storeId(orderHistory.getStoreId())
-            .memberId(orderHistory.getMemberId())
+            .store(storeResponse)
+            .member(OrderHistoryMemberResponse.of(member))
             .menus(orderHistoryMenus.stream()
                 .map(OrderHistoryMenuResponse::of)
                 .collect(Collectors.toList()))

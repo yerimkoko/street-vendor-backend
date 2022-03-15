@@ -20,7 +20,7 @@ public class OrderHistoryController {
     private final OrderHistoryService orderHistoryService;
 
     @Auth
-    @ApiOperation(value = "OrderHisotry 가져오기")
+    @ApiOperation(value = "OrderHistory 가져오기")
     @GetMapping("/api/v1/order-history/{storeId}")
     public ApiResponse<List<OrderHistoryResponse>> getOrderHistoryList(@PathVariable Long storeId, @MemberId Long bossId) {
         return ApiResponse.success(orderHistoryService.getOrderHistory(storeId, bossId));
