@@ -3,20 +3,16 @@ package store.streetvendor.service.order_history;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.OrderRepository;
-import store.streetvendor.domain.domain.order.Orders;
+import store.streetvendor.domain.domain.order_history.OrderHistory;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
-import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
-import store.streetvendor.service.member.MemberServiceUtils;
-import store.streetvendor.service.order.OrderServiceUtils;
-import store.streetvendor.service.order_history.dto.request.OrderHistoryMenusRequest;
-import store.streetvendor.service.order_history.dto.response.OrderHistoryMenuResponse;
 import store.streetvendor.service.order_history.dto.response.OrderHistoryResponse;
+import store.streetvendor.service.store.StoreServiceUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @RequiredArgsConstructor
@@ -31,11 +27,15 @@ public class OrderHistoryService {
 
     private final OrderHistoryRepository orderHistoryRepository;
 
-    private void getOrderHistory(Long storeId, List<OrderHistoryMenuResponse> menuResponse) {
-        Store store = storeRepository.findStoreByStoreId(storeId);
+    public List<OrderHistoryResponse> getOrderHistory(Long storeId, Long bossId) {
 
-        return;
+        StoreServiceUtils.validateExistsStore(storeRepository, storeId, bossId);
 
+        List<OrderHistory> orderHistoryList = orderHistoryRepository.findByOrderHistoryByStoreId(storeId);
+
+        return orderHistoryList.stream()
+            .map(OrderHistoryResponse::of)
+            .collect(Collectors.toList());
 
     }
 

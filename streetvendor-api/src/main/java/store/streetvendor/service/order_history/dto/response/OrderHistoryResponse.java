@@ -1,9 +1,9 @@
 package store.streetvendor.service.order_history.dto.response;
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import store.streetvendor.domain.domain.order_history.OrderHistory;
 import store.streetvendor.domain.domain.order_history.OrderHistoryMenu;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class OrderHistoryResponse {
 
     private List<OrderHistoryMenuResponse> menus;
 
-    @Builder(access = AccessLevel.PRIVATE)
+    @Builder
     public OrderHistoryResponse(Long memberId, Long orderId, Long storeId, List<OrderHistoryMenuResponse> menus) {
         this.memberId = memberId;
         this.orderId = orderId;
@@ -29,14 +29,14 @@ public class OrderHistoryResponse {
         this.menus = menus;
     }
 
-    public static OrderHistoryResponse toEntity(Long memberId, Long storeId, Long orderId, List<OrderHistoryMenuResponse> historyMenus, OrderHistoryMenu historyMenu) {
+    public static OrderHistoryResponse of(OrderHistory orderHistory) {
+        List<OrderHistoryMenu> orderHistoryMenus = orderHistory.getMenus();
         return OrderHistoryResponse.builder()
-            .orderId(orderId)
-            .storeId(storeId)
-            .memberId(memberId)
-            .menus(historyMenus.stream()
-                .map(menu -> OrderHistoryMenuResponse
-                    .toEntity(historyMenu, storeId))
+            .orderId(orderHistory.getId())
+            .storeId(orderHistory.getStoreId())
+            .memberId(orderHistory.getMemberId())
+            .menus(orderHistoryMenus.stream()
+                .map(OrderHistoryMenuResponse::of)
                 .collect(Collectors.toList()))
             .build();
     }

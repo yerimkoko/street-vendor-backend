@@ -44,14 +44,10 @@ public class OrderHistory extends BaseTimeEntity {
         for (OrderHistoryMenu menu : menus) {
             this.addMenu(menu);
         }
-
     }
 
     public void addMenu(OrderHistoryMenu menu) {
         this.menus.add(menu);
     }
-
-
-
 
 }

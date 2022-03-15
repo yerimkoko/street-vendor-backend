@@ -13,8 +13,6 @@ public class OrderHistoryMenuResponse {
 
     private String menuName;
 
-    private Long storeId;
-
     private int menuCount;
 
     private int price;
@@ -25,26 +23,29 @@ public class OrderHistoryMenuResponse {
 
     private String pictureUrl;
 
+    private OrderHistoryMenu menu;
+
     @Builder(access = AccessLevel.PRIVATE)
-    public OrderHistoryMenuResponse(Long storeId, String menuName, int menuCount, int price, int count, int totalPrice, String pictureUrl) {
-        this.storeId = storeId;
+    public OrderHistoryMenuResponse(String menuName, int menuCount, int price, int count,
+                                    int totalPrice, String pictureUrl, OrderHistoryMenu menu) {
         this.menuName = menuName;
         this.menuCount = menuCount;
         this.price = price;
         this.count = count;
         this.totalPrice = totalPrice;
         this.pictureUrl = pictureUrl;
+        this.menu = menu;
     }
 
-    public static OrderHistoryMenuResponse toEntity(OrderHistoryMenu menus, Long storeId) {
+    public static OrderHistoryMenuResponse of(OrderHistoryMenu menu) {
         return OrderHistoryMenuResponse.builder()
-            .storeId(storeId)
-            .menuName(menus.getMenuName())
-            .menuCount(menus.getCount())
-            .price(menus.getPrice())
-            .count(menus.getCount())
-            .totalPrice(menus.getPrice() * menus.getCount())
-            .pictureUrl(menus.getPictureUrl())
+            .menuName(menu.getMenuName())
+            .menuCount(menu.getCount())
+            .price(menu.getPrice())
+            .count(menu.getCount())
+            .totalPrice(menu.getPrice() * menu.getCount())
+            .pictureUrl(menu.getPictureUrl())
+            .menu(menu)
             .build();
     }
 }
