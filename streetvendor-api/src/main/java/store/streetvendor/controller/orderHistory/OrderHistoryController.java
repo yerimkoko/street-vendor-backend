@@ -3,7 +3,7 @@ package store.streetvendor.controller.orderHistory;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import store.streetvendor.config.auth.Auth;
 import store.streetvendor.config.auth.MemberId;
@@ -20,11 +20,10 @@ public class OrderHistoryController {
     private final OrderHistoryService orderHistoryService;
 
     @Auth
-    @ApiOperation(value = "OrderHistory 가져오기")
-    @GetMapping("/api/v1/order-history/{storeId}")
-    public ApiResponse<List<OrderHistoryResponse>> getOrderHistoryList(@PathVariable Long storeId, @MemberId Long bossId) {
+    @ApiOperation(value = "사장님이 orderHistory 를 가져온다")
+    @GetMapping("/api/v1/order/histories")
+    public ApiResponse<List<OrderHistoryResponse>> getOrderHistoryList(@RequestParam Long storeId, @MemberId Long bossId) {
         return ApiResponse.success(orderHistoryService.getOrderHistory(storeId, bossId));
     }
-
 
 }

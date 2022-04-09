@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.order_history.OrderHistoryMenu;
 
-
 @Getter
 @NoArgsConstructor
 public class OrderHistoryMenuResponse {

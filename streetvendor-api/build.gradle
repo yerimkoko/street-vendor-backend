@@ -4,6 +4,7 @@ dependencies {
 
     // Domain Module
     implementation project(":streetvendor-domain")
+    implementation project(":streetvendor-external")
 
     // Swagger
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
