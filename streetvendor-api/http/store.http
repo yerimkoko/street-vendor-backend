@@ -27,6 +27,13 @@ Authorization: Bearer {{SESSION}}
     "paymentMethods": [
         "CASH",
         "ACCOUNT_TRANSFER"
+    ],
+    "businessHours": [
+        {
+            "startTime": "08:00",
+            "endTime": "08:01",
+            "days": "MON"
+        }
     ]
 }
 
