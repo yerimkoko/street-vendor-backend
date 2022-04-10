@@ -36,7 +36,7 @@ public class OrderController {
 
     @Auth
     @ApiOperation(value = "(사장님용) 주문 취소하기 API")
-    @DeleteMapping("/api/v1/{storeId}/orders/{orderId}/cancel}")
+    @DeleteMapping("/api/v1/{storeId}/orders/{orderId}/cancel")
     public ApiResponse<String> cancelOrder(@MemberId Long memberId, @PathVariable Long storeId, @PathVariable Long orderId) {
         orderService.cancelOrderByBoss(storeId, orderId, memberId);
         return ApiResponse.OK;
