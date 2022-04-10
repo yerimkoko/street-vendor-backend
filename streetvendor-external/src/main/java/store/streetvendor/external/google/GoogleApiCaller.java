@@ -14,6 +14,7 @@ public class GoogleApiCaller {
     public GoogleUserInfoResponse getGoogleUserProfileInfo(String accessToken) {
         return webClient.get()
             .uri("https://www.googleapis.com/oauth2/v2/userinfo")
+            .header(accessToken)
             .retrieve()
             .bodyToMono(GoogleUserInfoResponse.class)
             .block();
