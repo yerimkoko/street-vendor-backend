@@ -11,6 +11,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.member.MemberStatus;
+import store.streetvendor.exception.model.ErrorCode;
+import store.streetvendor.exception.model.UnAuthorizedException;
 import store.streetvendor.service.member.MemberServiceUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +48,10 @@ public class AuthInterceptor implements HandlerInterceptor {
             Member member = MemberServiceUtils.findByMemberId(memberRepository, userId);
             if (member.getStatus() == MemberStatus.SIGN_OUT) {
                 throw new IllegalArgumentException("탈퇴한 회원입니다.");
+            }
+
+            if (member.getId() == null) {
+                throw new UnAuthorizedException(ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
             }
             request.setAttribute(MEMBER_ID, userId);
 

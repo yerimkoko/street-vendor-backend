@@ -35,6 +35,7 @@ public class GoogleAuthService {
         }
 
         httpSession.setAttribute(MEMBER_ID, findMember.getId());
+
         return AuthResponse.logIn(httpSession.getId());
     }
 
