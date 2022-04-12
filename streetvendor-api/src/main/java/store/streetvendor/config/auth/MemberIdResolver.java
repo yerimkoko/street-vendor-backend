@@ -6,6 +6,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+import store.streetvendor.exception.model.UnAuthorizedException;
 
 import javax.validation.constraints.NotNull;
 
@@ -24,7 +25,7 @@ public class MemberIdResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(@NotNull MethodParameter parameter, ModelAndViewContainer mavContainer, @NotNull NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         if (parameter.getMethodAnnotation(Auth.class) == null) {
-            throw new IllegalArgumentException(String.format("인증이 필요한 컨트롤러에요. @Auth 어노테이션을 추가해주세요. 컨트롤러: (%s)", parameter.getMethod()));
+            throw new UnAuthorizedException(String.format("인증이 필요한 컨트롤러에요. @Auth 어노테이션을 추가해주세요. 컨트롤러: (%s)", parameter.getMethod()));
         }
         return webRequest.getAttribute(MEMBER_ID, 0);
     }

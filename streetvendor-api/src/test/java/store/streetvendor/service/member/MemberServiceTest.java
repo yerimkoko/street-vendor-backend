@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.domain.domain.member.MemberStatus;
+import store.streetvendor.exception.model.DuplicatedException;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
@@ -80,7 +81,7 @@ public class MemberServiceTest {
 
         // when & then
         assertThatThrownBy(() -> memberService.signUp(requestDto))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(DuplicatedException.class);
     }
 
     private void assertMember(Member member, String name, String nickName, String email, String profileUrl) {

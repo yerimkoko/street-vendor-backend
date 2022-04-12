@@ -55,7 +55,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
             return true;
         }
-        throw new IllegalArgumentException(String.format("비어 있거나 Bearer 타입이 아닌 잘못된 헤더 (%S) 입니다", header));
+        throw new UnAuthorizedException(String.format("비어 있거나 Bearer 타입이 아닌 잘못된 헤더 (%S) 입니다", header));
     }
 
     private Long getUserId(String sessionId) {

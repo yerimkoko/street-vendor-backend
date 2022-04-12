@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import store.streetvendor.controller.ApiResponse;
 
-import javax.validation.ValidationException;
-
 import java.net.BindException;
 
 import static store.streetvendor.exception.model.ErrorCode.*;
@@ -42,7 +40,7 @@ public class ExceptionControllerAdvice {
     }
 
     // Custom Exception
-    @ExceptionHandler(ValidationException.class)
+    @ExceptionHandler(UnAuthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ApiResponse<Object> handleUnAuthorizedException(UnAuthorizedException e) {
         log.error(e.getMessage(), e);
