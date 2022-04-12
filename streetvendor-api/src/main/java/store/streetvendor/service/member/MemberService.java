@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.service.member.dto.response.MemberInfoResponse;
 
 @RequiredArgsConstructor
 @Service
@@ -32,6 +33,12 @@ public class MemberService {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
         member.changeStatus();
         return memberId;
+    }
+
+    @Transactional
+    public MemberInfoResponse myInformation(Long memberId) {
+        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
+        return MemberInfoResponse.getInfo(member);
     }
 
 }

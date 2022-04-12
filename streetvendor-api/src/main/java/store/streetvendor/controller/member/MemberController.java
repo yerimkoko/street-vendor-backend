@@ -1,15 +1,13 @@
 package store.streetvendor.controller.member;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import store.streetvendor.config.auth.Auth;
 import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
 import store.streetvendor.service.member.MemberService;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
+import store.streetvendor.service.member.dto.response.MemberInfoResponse;
 
 import javax.servlet.http.HttpSession;
 
@@ -35,6 +33,12 @@ public class MemberController {
     public ApiResponse<Long> signOut(@MemberId Long memberId) {
         memberService.signOut(memberId);
         return ApiResponse.success(memberId);
+    }
+
+    @Auth
+    @GetMapping("/api/v1/my-page")
+    public ApiResponse<MemberInfoResponse> memberInfo(@MemberId Long memberId) {
+        return ApiResponse.success(memberService.myInformation(memberId));
     }
 
 }

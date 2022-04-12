@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.exception.model.NotFoundException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberServiceUtils {
@@ -16,7 +17,7 @@ public class MemberServiceUtils {
 
     private static void validateMember(Member member, Long memberId) {
         if (member == null) {
-            throw new IllegalArgumentException(String.format("(%s)에 해당하는 멤버는 존재하지 않습니다.", memberId));
+            throw new NotFoundException(String.format("(%s)에 해당하는 멤버는 존재하지 않습니다.", memberId));
         }
     }
 

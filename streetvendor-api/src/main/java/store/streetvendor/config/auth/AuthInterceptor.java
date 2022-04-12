@@ -12,6 +12,7 @@ import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.member.MemberStatus;
 import store.streetvendor.exception.model.ErrorCode;
+import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.exception.model.UnAuthorizedException;
 import store.streetvendor.service.member.MemberServiceUtils;
 
@@ -47,12 +48,9 @@ public class AuthInterceptor implements HandlerInterceptor {
             Long userId = getUserId(sessionId);
             Member member = MemberServiceUtils.findByMemberId(memberRepository, userId);
             if (member.getStatus() == MemberStatus.SIGN_OUT) {
-                throw new IllegalArgumentException("탈퇴한 회원입니다.");
+                throw new NotFoundException(ErrorCode.NOT_FOUND_EXCEPTION.getMessage() + "탈퇴한 회원입니다.");
             }
 
-            if (member.getId() == null) {
-                throw new UnAuthorizedException(ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
-            }
             request.setAttribute(MEMBER_ID, userId);
 
             return true;
@@ -63,7 +61,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     private Long getUserId(String sessionId) {
         Session session = sessionRepository.getSession(sessionId);
         if (session == null) {
-            throw new IllegalArgumentException(String.format("세션(%s) 이 존재하지 않아요", sessionId));
+            throw new UnAuthorizedException(ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage() + String.format("세션(%s) 이 존재하지 않아요 ", sessionId));
         }
         return session.getAttribute(MEMBER_ID);
     }
