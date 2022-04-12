@@ -1,5 +1,6 @@
 package store.streetvendor.controller.member;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import store.streetvendor.config.auth.Auth;
@@ -36,6 +37,7 @@ public class MemberController {
     }
 
     @Auth
+    @ApiOperation(value = "마이 페이지")
     @GetMapping("/api/v1/my-page")
     public ApiResponse<MemberInfoResponse> memberInfo(@MemberId Long memberId) {
         return ApiResponse.success(memberService.myInformation(memberId));
