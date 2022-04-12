@@ -40,7 +40,7 @@ public class MemberController {
     @ApiOperation(value = "마이 페이지")
     @GetMapping("/api/v1/my-page")
     public ApiResponse<MemberInfoResponse> memberInfo(@MemberId Long memberId) {
-        return ApiResponse.success(memberService.myInformation(memberId));
+        return ApiResponse.success(memberService.getMyInformation(memberId));
     }
 
 }

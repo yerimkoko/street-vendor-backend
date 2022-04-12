@@ -36,7 +36,7 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberInfoResponse myInformation(Long memberId) {
+    public MemberInfoResponse getMyInformation(Long memberId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
         return MemberInfoResponse.getInfo(member);
     }

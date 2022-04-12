@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.store.dto.request.BusinessHourRequest;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
 import store.streetvendor.domain.domain.member.Member;
@@ -202,7 +203,7 @@ class StoreServiceTest {
 
         // when & then
         assertThatThrownBy(() -> storeService.updateMyStore(member.getId(), store.getId() + 1, request))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(NotFoundException.class);
     }
 
     @Test
