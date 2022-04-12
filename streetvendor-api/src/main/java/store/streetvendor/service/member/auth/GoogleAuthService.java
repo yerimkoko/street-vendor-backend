@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.domain.domain.member.MemberStatus;
 import store.streetvendor.external.google.GoogleApiCaller;
 import store.streetvendor.external.google.dto.response.GoogleUserInfoResponse;
 import store.streetvendor.service.member.auth.dto.request.AuthRequest;
@@ -30,7 +31,7 @@ public class GoogleAuthService {
 
         Member findMember = memberRepository.findMemberIdByEmail(userInfoResponse.getEmail());
 
-        if (findMember == null) {
+        if (findMember == null || findMember.getStatus() == MemberStatus.SIGN_OUT) {
             return AuthResponse.signUp(userInfoResponse.getEmail(), userInfoResponse.getName(), userInfoResponse.getPicture());
         }
 

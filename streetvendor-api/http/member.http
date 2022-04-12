@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
     "name": "고토끼",
-    "nickName": "토끼",
-    "email": "tokki@streetVendor.com",
+    "nickName": "토끼3",
+    "email": "starpaks7@gmail.com",
     "pictureUrl": "tokki.jpg"
 }
 
@@ -16,6 +16,12 @@ client.global.set("SESSION", response.body["data"])
 
 ### 회원을 탈퇴합니다.
 PUT {{host_api}}/api/v1/sign-out
+Content-Type: application/json
+Authorization: Bearer {{SESSION}}
+
+
+### 회원 정보 조회
+GET {{host_api}}/api/v1/my-page
 Content-Type: application/json
 Authorization: Bearer {{SESSION}}
 
