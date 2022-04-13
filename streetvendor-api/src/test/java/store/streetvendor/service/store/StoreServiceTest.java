@@ -238,8 +238,9 @@ class StoreServiceTest {
         String pictureUrl = "https://rabbit.com";
         String location = "신정네거리역 1번 출구";
         String description = "슈크림 2개 1000원 입니다!";
+        StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
-        return storeRepository.save(Store.newInstance(memberId, name, pictureUrl, location, description));
+        return storeRepository.save(Store.newInstance(memberId, name, pictureUrl, location, description, category));
     }
 
     private Menu createMenu(Store store) {

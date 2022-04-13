@@ -33,6 +33,9 @@ public class Store extends BaseTimeEntity {
     private String description;
 
     @Enumerated(EnumType.STRING)
+    private StoreCategory category;
+
+    @Enumerated(EnumType.STRING)
     private StoreStatus status;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -45,16 +48,17 @@ public class Store extends BaseTimeEntity {
     private final List<BusinessHours> businessDays = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    private Store(Long memberId, String name, String pictureUrl, String location, String description, StoreStatus status) {
+    private Store(Long memberId, String name, String pictureUrl, String location, String description, StoreStatus status, StoreCategory category) {
         this.memberId = memberId;
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.location = location;
         this.description = description;
         this.status = status;
+        this.category = category;
     }
 
-    public static Store newInstance(Long memberId, String name, String pictureUrl, String location, String description) {
+    public static Store newInstance(Long memberId, String name, String pictureUrl, String location, String description, StoreCategory category) {
         return Store.builder()
             .memberId(memberId)
             .name(name)
@@ -62,6 +66,7 @@ public class Store extends BaseTimeEntity {
             .location(location)
             .description(description)
             .status(StoreStatus.ACTIVE)
+            .category(category)
             .build();
     }
 

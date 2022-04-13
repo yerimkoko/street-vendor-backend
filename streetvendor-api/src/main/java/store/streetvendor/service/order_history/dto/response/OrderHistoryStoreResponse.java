@@ -2,6 +2,7 @@ package store.streetvendor.service.order_history.dto.response;
 
 import lombok.Builder;
 import store.streetvendor.domain.domain.store.Store;
+import store.streetvendor.domain.domain.store.StoreCategory;
 
 public class OrderHistoryStoreResponse {
 
@@ -15,8 +16,10 @@ public class OrderHistoryStoreResponse {
 
     private String description;
 
+    private StoreCategory category;
+
     @Builder
-    public OrderHistoryStoreResponse(Long storeId, String name, String pictureUrl, String location, String description) {
+    public OrderHistoryStoreResponse(Long storeId, String name, String pictureUrl, String location, String description, StoreCategory category) {
         this.storeId = storeId;
         this.name = name;
         this.pictureUrl = pictureUrl;
@@ -31,6 +34,7 @@ public class OrderHistoryStoreResponse {
             .pictureUrl(store.getPictureUrl())
             .location(store.getLocation())
             .description(store.getDescription())
+            .category(store.getCategory())
             .build();
     }
 }

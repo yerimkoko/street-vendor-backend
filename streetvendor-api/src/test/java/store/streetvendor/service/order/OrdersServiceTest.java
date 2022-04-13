@@ -237,8 +237,9 @@ public class OrdersServiceTest {
     private Store createStore(Member member) {
         String location = "신정네거리 3번출구";
         String description = "토끼네";
+        StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
-        return Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), location, description);
+        return Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), location, description, category);
     }
 
     private Menu createMenu(Store store) {

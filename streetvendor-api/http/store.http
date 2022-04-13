@@ -10,6 +10,7 @@ Authorization: Bearer {{SESSION}}
     "endTime": "15:00",
     "location": "신정네거리",
     "description": "가게 설명",
+    "category": "BUNG_EO_PPANG",
     "menus": [
         {
             "pictureUrl": "https://menu.com",

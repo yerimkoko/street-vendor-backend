@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.store.Payment;
 import store.streetvendor.domain.domain.store.PaymentMethod;
 import store.streetvendor.domain.domain.store.Store;
+import store.streetvendor.domain.domain.store.StoreCategory;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -32,13 +33,15 @@ public class StoreResponseDto {
 
     private LocalTime endTime;
 
+    private StoreCategory category;
+
     private List<PaymentMethod> paymentMethods;
 
     private List<MenuResponse> menus;
 
     @Builder
     public StoreResponseDto(Long storeId, Long bossId, String name, String pictureUrl, String location, String description,
-                            LocalTime startTime, LocalTime endTime, List<PaymentMethod> paymentMethods, List<MenuResponse> menus) {
+                            LocalTime startTime, LocalTime endTime, StoreCategory category, List<PaymentMethod> paymentMethods, List<MenuResponse> menus) {
         this.storeId = storeId;
         this.bossId = bossId;
         this.name = name;
@@ -47,6 +50,7 @@ public class StoreResponseDto {
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.category = category;
         this.paymentMethods = paymentMethods;
         this.menus = menus;
     }
@@ -59,6 +63,7 @@ public class StoreResponseDto {
             .pictureUrl(store.getPictureUrl())
             .location(store.getLocation())
             .description(store.getDescription())
+            .category(store.getCategory())
             .paymentMethods(store.getPaymentMethods().stream()
                 .map(Payment::getPaymentMethod)
                 .collect(Collectors.toList()))
