@@ -50,13 +50,14 @@ class StoreServiceTest {
     }
 
     @Test
-    void 새로운_가게를_등록히면_가게와_메뉴와_결제_방법과_운영_시간이_저장된다() {
+    void 새로운_가게를_등록히면_가게와_가게분류와_메뉴와_결제_방법과_운영_시간이_저장된다() {
         // given
         Long memberId = 100000L;
         String name = "토끼의 붕어빵 가게";
         String pictureUrl = "https://rabbit.com";
         String location = "신정네거리역 1번 출구";
         String description = "슈크림 2개 1000원 입니다!";
+        StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
         String menuName = "팥 붕어빵";
         int menuPrice = 2000;
@@ -79,6 +80,7 @@ class StoreServiceTest {
             .menus(menuRequests)
             .paymentMethods(paymentMethods)
             .businessHours(businessHour)
+            .category(category)
             .build();
 
         // when
@@ -87,7 +89,7 @@ class StoreServiceTest {
         // then
         List<Store> stores = storeRepository.findAll();
         assertThat(stores).hasSize(1);
-        assertStore(stores.get(0), name, pictureUrl, location, description, memberId);
+        assertStore(stores.get(0), name, pictureUrl, location, description, memberId, category);
 
         List<Menu> menus = menuRepository.findAll();
         assertThat(menus).hasSize(1);
@@ -155,7 +157,7 @@ class StoreServiceTest {
         assertThat(payments).hasSize(2);
         assertThat(findBusinessHours).hasSize(1);
 
-        assertStore(stores.get(0), newName, newPictureUrl, newLocation, newDescription, member.getId());
+        assertStore(stores.get(0), newName, newPictureUrl, newLocation, newDescription, member.getId(), store.getCategory());
         assertMenu(menuList.get(0), store.getId(), menuName, count, menuPrice, menuPictureUrl);
         assertPayment(payments.get(0), store.getId(), accountTransfer);
         assertPayment(payments.get(1), store.getId(), cash);
@@ -264,12 +266,13 @@ class StoreServiceTest {
         assertThat(menu.getPictureUrl()).isEqualTo(menuPictureUrl);
     }
 
-    private void assertStore(Store store, String name, String pictureUrl, String location, String description, Long memberId) {
+    private void assertStore(Store store, String name, String pictureUrl, String location, String description, Long memberId, StoreCategory category) {
         assertThat(store.getName()).isEqualTo(name);
         assertThat(store.getPictureUrl()).isEqualTo(pictureUrl);
         assertThat(store.getLocation()).isEqualTo(location);
         assertThat(store.getDescription()).isEqualTo(description);
         assertThat(store.getMemberId()).isEqualTo(memberId);
+        assertThat(store.getCategory()).isEqualTo(category);
     }
 
 }
