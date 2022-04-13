@@ -10,4 +10,6 @@ public interface MemberRepositoryCustom {
 
     Member findMemberIdByEmail(String email);
 
+    Member findActiveMemberIdByEmail(String email);
+
 }
