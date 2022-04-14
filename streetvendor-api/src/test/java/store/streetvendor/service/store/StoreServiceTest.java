@@ -52,7 +52,7 @@ class StoreServiceTest {
     @Test
     void 새로운_가게를_등록히면_가게와_가게분류와_메뉴와_결제_방법과_운영_시간이_저장된다() {
         // given
-        Long memberId = 100000L;
+        Member member = createBossMember();
         String name = "토끼의 붕어빵 가게";
         String pictureUrl = "https://rabbit.com";
         String location = "신정네거리역 1번 출구";
@@ -84,12 +84,12 @@ class StoreServiceTest {
             .build();
 
         // when
-        storeService.addNewStore(request, memberId);
+        storeService.addNewStore(request, member.getId());
 
         // then
         List<Store> stores = storeRepository.findAll();
         assertThat(stores).hasSize(1);
-        assertStore(stores.get(0), name, pictureUrl, location, description, memberId, category);
+        assertStore(stores.get(0), name, pictureUrl, location, description, member.getId(), category);
 
         List<Menu> menus = menuRepository.findAll();
         assertThat(menus).hasSize(1);
@@ -104,6 +104,48 @@ class StoreServiceTest {
         assertThat(businessHours).hasSize(1);
         assertThat(businessHours.get(0).getDays()).isEqualTo(friDay);
         assertThat(businessHours.get(0).getOpeningTime()).isEqualTo(OpeningTime.of(startTime, endTime));
+    }
+
+    @Test
+    void 멤버의_사장님_정보가_없으면_에러가_나타난다() {
+        // given
+        Member member = createMember();
+
+        String name = "토끼의 붕어빵 가게";
+        String pictureUrl = "https://rabbit.com";
+        String location = "신정네거리역 1번 출구";
+        String description = "슈크림 2개 1000원 입니다!";
+        StoreCategory category = StoreCategory.BUNG_EO_PPANG;
+
+        String menuName = "팥 붕어빵";
+        int menuPrice = 2000;
+        int count = 1;
+        String menuPictureUrl = "https://menu.com";
+
+        LocalTime startTime = LocalTime.of(9,0);
+        LocalTime endTime = LocalTime.of(18,0);
+        Days friDay = Days.FRI;
+
+        List<MenuRequest> menuRequests = List.of(MenuRequest.testInstance(menuName, count, menuPrice, menuPictureUrl));
+        List<PaymentMethod> paymentMethods = List.of(PaymentMethod.CASH, PaymentMethod.ACCOUNT_TRANSFER);
+        List<BusinessHourRequest> businessHour = List.of(new BusinessHourRequest(startTime, endTime, friDay));
+
+        AddNewStoreRequest request = AddNewStoreRequest.testBuilder()
+            .name(name)
+            .pictureUrl(pictureUrl)
+            .location(location)
+            .description(description)
+            .menus(menuRequests)
+            .paymentMethods(paymentMethods)
+            .businessHours(businessHour)
+            .category(category)
+            .build();
+
+        // when & then
+        assertThatThrownBy(() -> storeService.addNewStore(request, member.getId()))
+            .isInstanceOf(NotFoundException.class);
+
+
     }
 
     @Test
@@ -226,10 +268,23 @@ class StoreServiceTest {
     private Member createMember() {
         String name = "yerimkoko";
         String nickName = "yerimko";
-        String email = "gochi97@naver.com";
+        String email = "street-vendor@naver.com";
         String pictureUrl = "https://rabbit.com";
 
         Member member = Member.newGoogleInstance(name, nickName, email, pictureUrl);
+        return memberRepository.save(member);
+    }
+
+    private Member createBossMember() {
+        String name = "yerimkoko";
+        String nickName = "yerimko";
+        String email = "gochi97@naver.com";
+        String pictureUrl = "https://rabbit.com";
+        String bossName = "고토끼";
+        String bossPhoneNumber = "010-2345-6789";
+
+        Member member = Member.bossInstance(name, nickName, email, pictureUrl, bossName, bossPhoneNumber);
+
         return memberRepository.save(member);
     }
 

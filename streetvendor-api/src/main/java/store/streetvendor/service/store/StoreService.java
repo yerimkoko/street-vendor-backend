@@ -3,6 +3,9 @@ package store.streetvendor.service.store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.streetvendor.domain.domain.member.Member;
+import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.store.dto.response.StoreResponseDto;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
 import store.streetvendor.domain.domain.store.Store;
@@ -18,8 +21,14 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
 
+    private final MemberRepository memberRepository;
+
     @Transactional
     public void addNewStore(AddNewStoreRequest request, Long memberId) {
+        Member member = memberRepository.findMemberById(memberId);
+        if (member.getBossName() == null || member.getPhoneNumber() == null) {
+            throw new NotFoundException("사장님 등록을 먼저 해 주세요.");
+        }
         storeRepository.save(request.toEntity(memberId));
     }
 

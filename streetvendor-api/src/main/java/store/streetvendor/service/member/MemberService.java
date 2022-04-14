@@ -3,9 +3,8 @@ package store.streetvendor.service.member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.streetvendor.domain.domain.member.MemberStatus;
 import store.streetvendor.exception.model.DuplicatedException;
-import store.streetvendor.exception.model.NotFoundException;
+import store.streetvendor.service.member.dto.request.MemberSaveBossInfoRequest;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
@@ -42,6 +41,12 @@ public class MemberService {
     public MemberInfoResponse getMyInformation(Long memberId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
         return MemberInfoResponse.getInfo(member);
+    }
+
+    @Transactional
+    public void saveMemberBossInfo(Long memberId, MemberSaveBossInfoRequest request) {
+        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
+        member.setBossNameAndNumber(request.getBossName(), request.getBossPhoneNumber());
     }
 
 }

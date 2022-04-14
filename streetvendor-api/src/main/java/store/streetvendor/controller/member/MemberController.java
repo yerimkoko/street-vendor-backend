@@ -7,6 +7,7 @@ import store.streetvendor.config.auth.Auth;
 import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
 import store.streetvendor.service.member.MemberService;
+import store.streetvendor.service.member.dto.request.MemberSaveBossInfoRequest;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
 import store.streetvendor.service.member.dto.response.MemberInfoResponse;
 
@@ -41,6 +42,14 @@ public class MemberController {
     @GetMapping("/api/v1/my-page")
     public ApiResponse<MemberInfoResponse> memberInfo(@MemberId Long memberId) {
         return ApiResponse.success(memberService.getMyInformation(memberId));
+    }
+
+    @Auth
+    @ApiOperation(value = "사장님 정보 등록 하기")
+    @PostMapping("/api/v1/bossInfo")
+    public ApiResponse<String> saveBossInfo(@MemberId Long memberId, @RequestBody MemberSaveBossInfoRequest request) {
+        memberService.saveMemberBossInfo(memberId, request);
+        return ApiResponse.OK;
     }
 
 }

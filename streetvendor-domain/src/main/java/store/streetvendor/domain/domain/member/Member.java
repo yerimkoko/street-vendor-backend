@@ -1,6 +1,7 @@
 package store.streetvendor.domain.domain.member;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
@@ -35,21 +36,37 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private MemberProvider provider;
 
-    private Member(String name, String nickName, String email, String profileUrl, MemberProvider provider, MemberStatus status) {
+    private String bossName;
+
+    private String phoneNumber;
+
+    @Builder
+    private Member(String name, String nickName, String email, String profileUrl, MemberProvider provider, MemberStatus status, String bossName, String phoneNumber) {
         this.name = name;
         this.nickName = nickName;
         this.email = email;
         this.profileUrl = profileUrl;
         this.provider = provider;
         this.status = status;
+        this.bossName = bossName;
+        this.phoneNumber = phoneNumber;
     }
 
     public static Member newGoogleInstance(String name, String nickName, String email, String profileUrl) {
-        return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE, MemberStatus.ACTIVE);
+        return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE, MemberStatus.ACTIVE, null, null);
+    }
+
+    public static Member bossInstance(String name, String nickName, String email, String profileUrl, String bossName, String phoneNumber) {
+        return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE, MemberStatus.ACTIVE, bossName, phoneNumber);
     }
 
     public void changeStatus() {
         this.status = MemberStatus.SIGN_OUT;
+    }
+
+    public void setBossNameAndNumber(String bossName, String phoneNumber) {
+        this.bossName = bossName;
+        this.phoneNumber = phoneNumber;
     }
 
 }
