@@ -1,8 +1,10 @@
 package store.streetvendor.service.member.dto.request;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MemberSaveBossInfoRequest {
 
     private String bossName;
@@ -13,6 +15,5 @@ public class MemberSaveBossInfoRequest {
         this.bossName = bossName;
         this.bossPhoneNumber = bossPhoneNumber;
     }
-
 
 }
