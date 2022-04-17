@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.member.Member;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -18,6 +20,7 @@ public class MemberSignUpRequestDto {
     @Size(min = 1, max = 8, message = "닉네임은 1~8자 이여야 합니다.")
     private String nickName;
 
+    @Email(message = "이메일 형식에 맞게 적어주세요.")
     private String email;
 
     private String profileUrl;

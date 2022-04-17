@@ -235,7 +235,7 @@ public class OrdersServiceTest {
     }
 
     private Store createStore(Member member) {
-        String location = "신정네거리 3번출구";
+        Location location = new Location(34.123123, 128.242424);
         String description = "토끼네";
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 

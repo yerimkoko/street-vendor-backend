@@ -8,7 +8,10 @@ Authorization: Bearer {{SESSION}}
     "pictureUrl": "https://store.com",
     "startTime": "09:00",
     "endTime": "15:00",
-    "location": "신정네거리",
+    "location": {
+      "latitude": 14.23232,
+      "longitude": 30.2323
+    },
     "description": "가게 설명",
     "category": "BUNG_EO_PPANG",
     "menus": [

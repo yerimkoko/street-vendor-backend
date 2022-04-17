@@ -4,10 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import store.streetvendor.domain.domain.store.Payment;
-import store.streetvendor.domain.domain.store.PaymentMethod;
-import store.streetvendor.domain.domain.store.Store;
-import store.streetvendor.domain.domain.store.StoreCategory;
+import store.streetvendor.domain.domain.store.*;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -25,7 +22,7 @@ public class StoreResponseDto {
 
     private String pictureUrl;
 
-    private String location;
+    private Location location;
 
     private String description;
 
@@ -40,7 +37,7 @@ public class StoreResponseDto {
     private List<MenuResponse> menus;
 
     @Builder
-    public StoreResponseDto(Long storeId, Long bossId, String name, String pictureUrl, String location, String description,
+    public StoreResponseDto(Long storeId, Long bossId, String name, String pictureUrl, Location location, String description,
                             LocalTime startTime, LocalTime endTime, StoreCategory category, List<PaymentMethod> paymentMethods, List<MenuResponse> menus) {
         this.storeId = storeId;
         this.bossId = bossId;

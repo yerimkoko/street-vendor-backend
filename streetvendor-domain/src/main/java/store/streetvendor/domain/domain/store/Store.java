@@ -28,7 +28,8 @@ public class Store extends BaseTimeEntity {
 
     private String pictureUrl;
 
-    private String location;
+    @Embedded
+    private Location location;
 
     private String description;
 
@@ -48,7 +49,7 @@ public class Store extends BaseTimeEntity {
     private final List<BusinessHours> businessDays = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    private Store(Long memberId, String name, String pictureUrl, String location, String description, StoreStatus status, StoreCategory category) {
+    private Store(Long memberId, String name, String pictureUrl, Location location, String description, StoreStatus status, StoreCategory category) {
         this.memberId = memberId;
         this.name = name;
         this.pictureUrl = pictureUrl;
@@ -58,7 +59,7 @@ public class Store extends BaseTimeEntity {
         this.category = category;
     }
 
-    public static Store newInstance(Long memberId, String name, String pictureUrl, String location, String description, StoreCategory category) {
+    public static Store newInstance(Long memberId, String name, String pictureUrl, Location location, String description, StoreCategory category) {
         return Store.builder()
             .memberId(memberId)
             .name(name)
@@ -98,11 +99,12 @@ public class Store extends BaseTimeEntity {
         this.businessDays.addAll(businessHours);
     }
 
-    public void updateStoreInfo(String name, String description, String pictureUrl, String location) {
+    public void updateStoreInfo(String name, String description, String pictureUrl, Location location, StoreCategory category) {
         this.name = name;
         this.description = description;
         this.pictureUrl = pictureUrl;
         this.location = location;
+        this.category = category;
     }
 
     public void updateMenus(List<Menu> newMenus) {

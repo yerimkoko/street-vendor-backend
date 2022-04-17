@@ -1,6 +1,7 @@
 package store.streetvendor.service.store.dto.request;
 
 import lombok.*;
+import store.streetvendor.domain.domain.store.Location;
 import store.streetvendor.domain.domain.store.PaymentMethod;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreCategory;
@@ -19,7 +20,7 @@ public class AddNewStoreRequest {
 
     private String pictureUrl;
 
-    private String location;
+    private Location location;
 
     private String description;
 
@@ -32,7 +33,7 @@ public class AddNewStoreRequest {
     private List<PaymentMethod> paymentMethods;
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
-    public AddNewStoreRequest(@NotBlank String name, String pictureUrl, String location, String description,
+    public AddNewStoreRequest(@NotBlank String name, String pictureUrl, Location location, String description,
                               StoreCategory category, List<MenuRequest> menus, List<PaymentMethod> paymentMethods, List<BusinessHourRequest> businessHours) {
         this.name = name;
         this.pictureUrl = pictureUrl;

@@ -12,6 +12,7 @@ import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
 import store.streetvendor.service.member.dto.response.MemberInfoResponse;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import static store.streetvendor.config.auth.AuthConstants.MEMBER_ID;
 
@@ -24,7 +25,7 @@ public class MemberController {
     private final HttpSession httpSession;
 
     @PostMapping("/api/v1/sign-up")
-    public ApiResponse<String> signUp(@RequestBody MemberSignUpRequestDto request) {
+    public ApiResponse<String> signUp(@Valid @RequestBody MemberSignUpRequestDto request) {
         Long memberId = memberService.signUp(request);
         httpSession.setAttribute(MEMBER_ID, memberId);
         return ApiResponse.success(httpSession.getId());
@@ -47,7 +48,7 @@ public class MemberController {
     @Auth
     @ApiOperation(value = "사장님 정보 등록 하기")
     @PostMapping("/api/v1/bossInfo")
-    public ApiResponse<String> saveBossInfo(@MemberId Long memberId, @RequestBody MemberSaveBossInfoRequest request) {
+    public ApiResponse<String> saveBossInfo(@MemberId Long memberId, @Valid @RequestBody MemberSaveBossInfoRequest request) {
         memberService.saveMemberBossInfo(memberId, request);
         return ApiResponse.OK;
     }

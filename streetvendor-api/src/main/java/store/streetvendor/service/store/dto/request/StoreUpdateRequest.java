@@ -3,10 +3,7 @@ package store.streetvendor.service.store.dto.request;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.domain.domain.store.BusinessHours;
-import store.streetvendor.domain.domain.store.Menu;
-import store.streetvendor.domain.domain.store.PaymentMethod;
-import store.streetvendor.domain.domain.store.Store;
+import store.streetvendor.domain.domain.store.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +15,7 @@ public class StoreUpdateRequest {
 
     private String pictureUrl;
 
-    private String location;
+    private Location location;
 
     private String description;
 
@@ -28,9 +25,11 @@ public class StoreUpdateRequest {
 
     private List<BusinessHourRequest> businessHours;
 
+    private StoreCategory category;
+
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
-    public StoreUpdateRequest(String name, String pictureUrl, String location, String description,
-                              List<MenuRequest> menus, List<PaymentMethod> paymentMethods, List<BusinessHourRequest> businessHours) {
+    public StoreUpdateRequest(String name, String pictureUrl, Location location, String description,
+                              List<MenuRequest> menus, List<PaymentMethod> paymentMethods, List<BusinessHourRequest> businessHours, StoreCategory category) {
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.location = location;
@@ -38,6 +37,7 @@ public class StoreUpdateRequest {
         this.menus = menus;
         this.paymentMethods = paymentMethods;
         this.businessHours = businessHours;
+        this.category = category;
     }
 
     public List<Menu> toMenus(Store store) {
