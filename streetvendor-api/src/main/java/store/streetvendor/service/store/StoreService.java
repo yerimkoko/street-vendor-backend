@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.exception.model.NotFoundException;
+import store.streetvendor.service.store.dto.request.AllStoresResponse;
+import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 import store.streetvendor.service.store.dto.response.StoreResponseDto;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
 import store.streetvendor.domain.domain.store.Store;
@@ -53,6 +55,23 @@ public class StoreService {
     public void deleteMyStore(Long memberId, Long storeId) {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
         store.delete();
+    }
+
+    @Transactional
+    public List<AllStoresResponse> getALlStoreList(Double latitude, Double longitude, Double level) {
+        List<AllStoresResponse> stores = storeRepository.findStoresByLongitudeAndLatitude(latitude, longitude, level)
+            .stream()
+            .map(AllStoresResponse::of)
+            .collect(Collectors.toList());
+        return stores;
+    }
+
+    @Transactional(readOnly = true)
+    public StoreDetailResponse getStoreDetail(Long storeId) {
+        Store store = storeRepository.findStoreByStoreId(storeId);
+        Member member = memberRepository.findMemberById(store.getMemberId());
+        return StoreDetailResponse.of(store, member);
+
     }
 
 }

@@ -42,4 +42,14 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
             ).fetch();
     }
 
+    @Override
+    public List<Store> findStoresByLongitudeAndLatitude(Double longitude, Double latitude, Double level) {
+        return jpaQueryFactory.selectFrom(store)
+            .where(
+                store.location.latitude.between(latitude-level, latitude+level),
+                store.location.longitude.between(longitude-level, latitude+level),
+                store.status.eq(StoreStatus.ACTIVE)
+            ).fetch();
+    }
+
 }

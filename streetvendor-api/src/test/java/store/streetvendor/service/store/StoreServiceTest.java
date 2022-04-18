@@ -206,6 +206,28 @@ class StoreServiceTest {
         assertThat(stores.get(0).getStatus()).isEqualTo(StoreStatus.DELETED);
     }
 
+    @Test
+    void 전체_가게_조회하다() {
+        // given
+        Double latitude = 35.2222;
+        Double longitude = 134.2222;
+        Double level = 2.0;
+
+        Member member = createBossMember();
+        Store store = createStore(member);
+
+
+        // when
+        storeService.getALlStoreList(latitude+level-1, longitude+level-1, level);
+
+        // then
+        List<Store> stores = storeRepository.findAll();
+        assertThat(stores).hasSize(1);
+        assertThat(stores.get(0).getName()).isEqualTo(store.getName());
+        assertStore(store, store.getName(), store.getPictureUrl(), store.getLocation(), store.getDescription(), store.getMemberId(), store.getCategory());
+
+    }
+
     private Member createMember() {
         String name = "yerimkoko";
         String nickName = "yerimko";
