@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import store.streetvendor.config.auth.Auth;
 import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
-import store.streetvendor.service.store.dto.request.AllStoresResponse;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 import store.streetvendor.service.store.dto.response.StoreResponseDto;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
@@ -55,18 +54,10 @@ public class StoreController {
     }
 
     @Auth
-    @ApiOperation(value = "지도에 있는 전체 가게 조회하기")
-    @GetMapping("/api/v1/stores")
-    public ApiResponse<List<AllStoresResponse>> allStores(@RequestBody Double latitude, @RequestBody Double longitude, @RequestBody Double level) {
-        return ApiResponse.success(storeService.getALlStoreList(latitude, longitude, level));
-    }
-
-    @Auth
-    @ApiOperation(value = "가게 디테일 조회하기")
+    @ApiOperation(value = "가게 상세정보 조회하기")
     @GetMapping("/api/v1/store/{storeId}")
     public ApiResponse<StoreDetailResponse> detailResponse(Long storeId) {
         return ApiResponse.success(storeService.getStoreDetail(storeId));
     }
-
 
 }

@@ -35,5 +35,4 @@ public class BusinessHours {
     public static BusinessHours of(Store store, Days days, LocalTime startTime, LocalTime endTime) {
         return new BusinessHours(store, days, startTime, endTime);
     }
-
 }

@@ -12,6 +12,7 @@ import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
 import store.streetvendor.service.store.dto.request.MenuRequest;
+import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -206,25 +207,26 @@ class StoreServiceTest {
         assertThat(stores.get(0).getStatus()).isEqualTo(StoreStatus.DELETED);
     }
 
-    @Test
-    void 전체_가게_조회하다() {
-        // given
-        Double latitude = 35.2222;
-        Double longitude = 134.2222;
-        Double level = 2.0;
 
+    @Test
+    void 가게_상세정보를_조회한다() {
+        // given
         Member member = createBossMember();
         Store store = createStore(member);
-
+        store.addMenus(List.of(createMenu(store)));
+        store.addPayments(List.of(PaymentMethod.CASH, PaymentMethod.ACCOUNT_TRANSFER));
+        LocalTime startTime = LocalTime.of(9, 0);
+        LocalTime endTime = LocalTime.of(18, 0);
+        Days friDay = Days.FRI;
+        store.addBusinessDays(List.of(BusinessHours.of(store, friDay, startTime, endTime)));
+        storeRepository.save(store);
 
         // when
-        storeService.getALlStoreList(latitude+level-1, longitude+level-1, level);
+        StoreDetailResponse detailResponse = storeService.getStoreDetail(store.getId());
 
         // then
-        List<Store> stores = storeRepository.findAll();
-        assertThat(stores).hasSize(1);
-        assertThat(stores.get(0).getName()).isEqualTo(store.getName());
-        assertStore(store, store.getName(), store.getPictureUrl(), store.getLocation(), store.getDescription(), store.getMemberId(), store.getCategory());
+        System.out.println(detailResponse);
+        assertThat(detailResponse.getOpeningTime().get(0).getDays()).isEqualTo(friDay);
 
     }
 

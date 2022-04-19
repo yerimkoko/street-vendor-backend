@@ -7,6 +7,7 @@ import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.store.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -23,17 +24,17 @@ public class StoreDetailResponse {
 
     private List<Menu> menuList;
 
-    private List<BusinessHours> businessHours;
+    private List<StoreOpeningTimeResponse> openingTime;
 
     @Builder
-    public StoreDetailResponse(Long storeId, String storeName, String bossNumber, String description, StoreCategory category, List<Menu> menuList, List<BusinessHours> businessHours) {
+    public StoreDetailResponse(Long storeId, String storeName, String bossNumber, String description, StoreCategory category, List<Menu> menuList, List<StoreOpeningTimeResponse> openingTime) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.bossNumber = bossNumber;
         this.description = description;
         this.category = category;
         this.menuList = menuList;
-        this.businessHours = businessHours;
+        this.openingTime = openingTime;
     }
 
     public static StoreDetailResponse of(Store store, Member member) {
@@ -44,7 +45,7 @@ public class StoreDetailResponse {
             .category(store.getCategory())
             .description(store.getDescription())
             .menuList(store.getMenus())
-            .businessHours(store.getBusinessDays())
+            .openingTime(store.getBusinessDays().stream().map(StoreOpeningTimeResponse::of).collect(Collectors.toList()))
             .build();
     }
 }

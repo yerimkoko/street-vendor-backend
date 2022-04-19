@@ -12,6 +12,4 @@ public interface StoreRepositoryCustom {
 
     List<Store> findStoreByBossId(Long bossId);
 
-    List<Store> findStoresByLongitudeAndLatitude(Double longitude, Double latitude, Double level);
-
 }

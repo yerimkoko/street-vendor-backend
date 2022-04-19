@@ -57,21 +57,11 @@ public class StoreService {
         store.delete();
     }
 
-    @Transactional
-    public List<AllStoresResponse> getALlStoreList(Double latitude, Double longitude, Double level) {
-        List<AllStoresResponse> stores = storeRepository.findStoresByLongitudeAndLatitude(latitude, longitude, level)
-            .stream()
-            .map(AllStoresResponse::of)
-            .collect(Collectors.toList());
-        return stores;
-    }
-
     @Transactional(readOnly = true)
     public StoreDetailResponse getStoreDetail(Long storeId) {
         Store store = storeRepository.findStoreByStoreId(storeId);
         Member member = memberRepository.findMemberById(store.getMemberId());
         return StoreDetailResponse.of(store, member);
-
     }
 
 }
