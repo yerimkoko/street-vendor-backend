@@ -38,7 +38,9 @@ public class StoreDetailResponse {
     }
 
     public static StoreDetailResponse of(Store store, Member member) {
-        List<MenuDetailResponse> menuDetailResponse = store.getMenus().stream().map(menu -> MenuDetailResponse.of(menu, store)).collect(Collectors.toList());
+        List<MenuDetailResponse> menuDetailResponse = store.getMenus().stream()
+            .map(MenuDetailResponse::of).collect(Collectors.toList());
+
         return StoreDetailResponse.builder()
             .storeId(store.getId())
             .storeName(store.getName())
