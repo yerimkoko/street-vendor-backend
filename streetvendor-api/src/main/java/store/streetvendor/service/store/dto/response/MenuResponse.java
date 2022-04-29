@@ -15,7 +15,7 @@ public class MenuResponse {
 
     private String name;
 
-    private int count;
+    private int menuCount;
 
     private int price;
 

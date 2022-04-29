@@ -142,7 +142,7 @@ class StoreServiceTest {
 
 
         assertStore(stores.get(0), updateRequest.getName(), updateRequest.getPictureUrl(), updateRequest.getLocation(), updateRequest.getDescription(), member.getId(), updateRequest.getCategory());
-        assertMenu(menuList.get(0), store.getId(), newMenuRequest.get(0).getName(), newMenuRequest.get(0).getAmount(), newMenuRequest.get(0).getPrice(), newMenuRequest.get(0).getPictureUrl());
+        assertMenu(menuList.get(0), store.getId(), newMenuRequest.get(0).getName(), newMenuRequest.get(0).getMenuCount(), newMenuRequest.get(0).getPrice(), newMenuRequest.get(0).getPictureUrl());
         assertPayment(payments.get(0), store.getId(), accountTransfer);
         assertPayment(payments.get(1), store.getId(), cash);
 
