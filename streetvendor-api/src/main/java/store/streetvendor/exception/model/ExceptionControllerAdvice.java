@@ -61,4 +61,11 @@ public class ExceptionControllerAdvice {
         return ApiResponse.error(e.getErrorCode().getCode(), e.getMessage());
     }
 
+    @ExceptionHandler(AlreadyExistedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiResponse<Object> handleAlreadyExistedException(AlreadyExistedException e) {
+        log.error(e.getErrorCode().getCode(), e);
+        return ApiResponse.error(e.getErrorCode().getCode(), e.getMessage());
+    }
+
 }

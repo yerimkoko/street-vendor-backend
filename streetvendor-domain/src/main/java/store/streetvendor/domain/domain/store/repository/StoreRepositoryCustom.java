@@ -1,7 +1,5 @@
 package store.streetvendor.domain.domain.store.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import store.streetvendor.domain.domain.store.Store;
 
 import java.util.List;

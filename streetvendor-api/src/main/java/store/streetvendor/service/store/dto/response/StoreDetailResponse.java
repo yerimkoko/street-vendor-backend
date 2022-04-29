@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 public class StoreDetailResponse {
+
     private Long storeId;
 
     private String storeName;

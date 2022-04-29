@@ -3,6 +3,7 @@ package store.streetvendor.service.member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.streetvendor.exception.model.AlreadyExistedException;
 import store.streetvendor.exception.model.DuplicatedException;
 import store.streetvendor.service.member.dto.request.MemberSaveBossInfoRequest;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
@@ -46,6 +47,9 @@ public class MemberService {
     @Transactional
     public void saveMemberBossInfo(Long memberId, MemberSaveBossInfoRequest request) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
+        if (member.getBossName() != null || member.getPhoneNumber() != null) {
+            throw new AlreadyExistedException(String.format("사장님 이름은 (%s)입니다. 가게를 계속 등록해주세요.", member.getBossName()));
+        }
         member.setBossNameAndNumber(request.getBossName(), request.getBossPhoneNumber());
     }
 
