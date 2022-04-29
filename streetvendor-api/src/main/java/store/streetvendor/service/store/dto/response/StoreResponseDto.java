@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 
 import store.streetvendor.domain.domain.store.*;
 
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @NoArgsConstructor
 @Getter
@@ -26,9 +26,7 @@ public class StoreResponseDto {
 
     private String description;
 
-    private LocalTime startTime;
-
-    private LocalTime endTime;
+    private List<StoreBusinessDayResponse> businessHours;
 
     private StoreCategory category;
 
@@ -38,21 +36,25 @@ public class StoreResponseDto {
 
     @Builder
     public StoreResponseDto(Long storeId, Long bossId, String name, String pictureUrl, Location location, String description,
-                            LocalTime startTime, LocalTime endTime, StoreCategory category, List<PaymentMethod> paymentMethods, List<MenuResponse> menus) {
+                            List<StoreBusinessDayResponse> businessHours, StoreCategory category, List<PaymentMethod> paymentMethods, List<MenuResponse> menus) {
         this.storeId = storeId;
         this.bossId = bossId;
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.location = location;
         this.description = description;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.businessHours = businessHours;
         this.category = category;
         this.paymentMethods = paymentMethods;
         this.menus = menus;
     }
 
     public static StoreResponseDto of(Store store) {
+        List<BusinessHours> businessHours = store.getBusinessDays().stream()
+            .map(business -> BusinessHours.of(store, business.getDays(), business.getOpeningTime().getStartTime(),
+                business.getOpeningTime().getEndTime()))
+            .collect(Collectors.toList());
+
         return StoreResponseDto.builder()
             .storeId(store.getId())
             .bossId(store.getMemberId())
@@ -65,6 +67,7 @@ public class StoreResponseDto {
                 .map(Payment::getPaymentMethod)
                 .collect(Collectors.toList()))
             .menus(getMenuList(store))
+            .businessHours(businessHours.stream().map(StoreBusinessDayResponse::of).collect(Collectors.toList()))
             .build();
     }
 

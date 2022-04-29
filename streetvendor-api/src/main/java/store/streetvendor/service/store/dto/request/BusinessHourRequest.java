@@ -27,4 +27,5 @@ public class BusinessHourRequest {
     public BusinessHours toEntity(Store store) {
         return BusinessHours.of(store, days, startTime, endTime);
     }
+
 }

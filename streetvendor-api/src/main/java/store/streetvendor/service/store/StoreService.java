@@ -1,12 +1,13 @@
 package store.streetvendor.service.store;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.exception.model.NotFoundException;
-import store.streetvendor.service.store.dto.request.AllStoresResponse;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 import store.streetvendor.service.store.dto.response.StoreResponseDto;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
@@ -62,6 +63,19 @@ public class StoreService {
         Store store = storeRepository.findStoreByStoreId(storeId);
         Member member = memberRepository.findMemberById(store.getMemberId());
         return StoreDetailResponse.of(store, member);
+    }
+
+//    @Transactional
+//    public ApiResponse<List<StoreResponseDto>> pagingResponse(Long lastId, int size) {
+//        List<Store> stores = storeRepository.findAll();
+//        Page<Store> storePage = fetchPages(lastId, size, stores);
+//        return
+//    }
+
+    private Page<Store> fetchPages(Long lastId, int size, List<Store> stores) {
+        PageRequest pageRequest = PageRequest.of(0, size);
+        return storeRepository.findAll(pageRequest);
+
     }
 
 }
