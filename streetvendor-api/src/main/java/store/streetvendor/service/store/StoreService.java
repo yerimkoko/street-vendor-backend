@@ -1,8 +1,6 @@
 package store.streetvendor.service.store;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
@@ -38,9 +36,7 @@ public class StoreService {
     @Transactional(readOnly = true)
     public List<StoreResponseDto> getMyStoreList(Long memberId) {
         List<Store> stores = storeRepository.findStoreByBossId(memberId);
-        return stores.stream()
-            .map(StoreResponseDto::of)
-            .collect(Collectors.toList());
+        return getStores(stores);
     }
 
     @Transactional
@@ -65,17 +61,16 @@ public class StoreService {
         return StoreDetailResponse.of(store, member);
     }
 
-//    @Transactional
-//    public ApiResponse<List<StoreResponseDto>> pagingResponse(Long lastId, int size) {
-//        List<Store> stores = storeRepository.findAll();
-//        Page<Store> storePage = fetchPages(lastId, size, stores);
-//        return
-//    }
+    @Transactional
+    public List<StoreResponseDto> getAllStoreList(int size, long lastId) {
+        List<Store> stores = storeRepository.findAllStoreBySizeAndLastId(size, lastId);
+        return getStores(stores);
+    }
 
-    private Page<Store> fetchPages(Long lastId, int size, List<Store> stores) {
-        PageRequest pageRequest = PageRequest.of(0, size);
-        return storeRepository.findAll(pageRequest);
-
+    private List<StoreResponseDto> getStores(List<Store> stores) {
+        return stores.stream()
+            .map(StoreResponseDto::of)
+            .collect(Collectors.toList());
     }
 
 }

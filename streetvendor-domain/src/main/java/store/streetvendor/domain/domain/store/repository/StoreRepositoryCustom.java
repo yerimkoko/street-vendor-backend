@@ -11,4 +11,7 @@ public interface StoreRepositoryCustom {
     Store findStoreByStoreIdAndMemberId(Long id, Long memberId);
 
     List<Store> findStoreByBossId(Long bossId);
+
+    List<Store> findAllStoreBySizeAndLastId(int size, long lastId);
+
 }

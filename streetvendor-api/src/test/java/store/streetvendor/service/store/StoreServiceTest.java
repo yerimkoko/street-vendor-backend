@@ -166,13 +166,13 @@ class StoreServiceTest {
         // menu
         String menuName = "슈크림 붕어빵";
         int menuPrice = 1000;
-        int menuAmount = 3;
+        int menuCount = 3;
         String menuPictureUrl = "https://menu.com";
-        List<MenuRequest> menuRequests = List.of(MenuRequest.testInstance(menuName, menuAmount, menuPrice, menuPictureUrl));
+        List<MenuRequest> menuRequests = List.of(MenuRequest.testInstance(menuName, menuCount, menuPrice, menuPictureUrl));
         PaymentMethod accountTransfer = PaymentMethod.ACCOUNT_TRANSFER;
         PaymentMethod cash = PaymentMethod.CASH;
 
-        store.addMenus(List.of(Menu.of(store, menuName, menuAmount, menuPrice, menuPictureUrl)));
+        store.addMenus(List.of(Menu.of(store, menuName, menuCount, menuPrice, menuPictureUrl)));
         store.addPayments(List.of(PaymentMethod.CASH));
 
         // paymentMethod
@@ -317,11 +317,11 @@ class StoreServiceTest {
 
     private List<MenuRequest> createNewMenuRequest() {
         String newName = "팥 붕어빵";
-        int amount = 3;
+        int menuCount = 3;
         int price = 2000;
         String pictureUrl = "rabbit";
 
-        return List.of(MenuRequest.testInstance(newName, amount, price, pictureUrl));
+        return List.of(MenuRequest.testInstance(newName, menuCount, price, pictureUrl));
     }
 
     private StoreUpdateRequest updateRequest(Store newStore, List<MenuRequest> newMenuRequests) {

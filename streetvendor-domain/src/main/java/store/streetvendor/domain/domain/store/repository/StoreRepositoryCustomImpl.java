@@ -42,4 +42,14 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
             ).fetch();
     }
 
+    @Override
+    public List<Store> findAllStoreBySizeAndLastId(int size, long lastId) {
+        return jpaQueryFactory
+            .selectFrom(store)
+            .limit(size)
+            .where(store.id.lt(lastId))
+            .orderBy(store.id.desc())
+            .fetch();
+    }
+
 }

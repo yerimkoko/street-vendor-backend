@@ -56,8 +56,14 @@ public class StoreController {
     @Auth
     @ApiOperation(value = "가게 상세정보 조회하기")
     @GetMapping("/api/v1/store/{storeId}")
-    public ApiResponse<StoreDetailResponse> detailResponse(Long storeId) {
+    public ApiResponse<StoreDetailResponse> detailResponse(@PathVariable Long storeId) {
         return ApiResponse.success(storeService.getStoreDetail(storeId));
+    }
+
+    @ApiOperation(value = "전체 가게 조회하기")
+    @GetMapping("/api/v1/stores")
+    public ApiResponse<List<StoreResponseDto>> allStores(@RequestParam int size, @RequestParam int lastId) {
+        return ApiResponse.success(storeService.getAllStoreList(size, lastId));
     }
 
 }
