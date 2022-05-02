@@ -66,4 +66,10 @@ public class StoreController {
         return ApiResponse.success(storeService.getAllStoreList(size, lastId));
     }
 
+    @ApiOperation(value = "거리로 부터 조회하기")
+    @GetMapping("/api/v1/stores/location")
+    public ApiResponse<List<StoreResponseDto>> allStoreByLocation(@RequestBody Double latitude, @RequestBody Double longitude, @RequestBody Double distance) {
+        return ApiResponse.success(storeService.getStoreByLocation(latitude, longitude, distance));
+    }
+
 }

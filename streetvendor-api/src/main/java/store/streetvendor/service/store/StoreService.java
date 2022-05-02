@@ -1,6 +1,7 @@
 package store.streetvendor.service.store;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
@@ -71,6 +72,12 @@ public class StoreService {
         return stores.stream()
             .map(StoreResponseDto::of)
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<StoreResponseDto> getStoreByLocation(@Param("latitude") Double latitude, @Param("longitude") Double longitude, @Param("distance")Double distance) {
+        List<Store> stores = storeRepository.findByLocationAndDistanceLessThan(latitude, longitude, distance);
+        return getStores(stores);
     }
 
 }
