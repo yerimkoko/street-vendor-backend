@@ -80,4 +80,5 @@ public class StoreService {
             .findByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance());
         return getStores(stores);
     }
+
 }

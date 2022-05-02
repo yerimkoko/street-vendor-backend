@@ -15,17 +15,16 @@ public class StoreDistanceRequest {
 
     private Double distance;
 
-    public StoreDistanceRequest(Double latitude, Double longitude, Double distance) {
+    public StoreDistanceRequest(Double latitude, Double longitude, Double distanceKm) {
         this.latitude = latitude;
         this.longitude = longitude;
-        this.distance = checkDistance(distance);
+        this.distance = checkDistance(distanceKm);
     }
 
-    private Double checkDistance(Double distance) {
-        distance /= 1000;
-        if (distance > DISTANCE_LIMIT) {
+    private Double checkDistance(Double distanceKm) {
+        if (distanceKm > DISTANCE_LIMIT) {
             return DISTANCE_LIMIT;
         }
-        return distance;
+        return distanceKm;
     }
 }
