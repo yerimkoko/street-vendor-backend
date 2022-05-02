@@ -1,12 +1,12 @@
 package store.streetvendor.service.store;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.exception.model.NotFoundException;
+import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 import store.streetvendor.service.store.dto.response.StoreResponseDto;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
@@ -75,9 +75,9 @@ public class StoreService {
     }
 
     @Transactional
-    public List<StoreResponseDto> getStoreByLocation(@Param("latitude") Double latitude, @Param("longitude") Double longitude, @Param("distance")Double distance) {
-        List<Store> stores = storeRepository.findByLocationAndDistanceLessThan(latitude, longitude, distance);
+    public List<StoreResponseDto> getStoreByLocation(StoreDistanceRequest request) {
+        List<Store> stores = storeRepository
+            .findByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance());
         return getStores(stores);
     }
-
 }
