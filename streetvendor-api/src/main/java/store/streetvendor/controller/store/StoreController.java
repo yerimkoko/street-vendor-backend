@@ -69,7 +69,7 @@ public class StoreController {
 
     @ApiOperation(value = "거리로 부터 조회하기")
     @GetMapping("/api/v1/stores/location")
-    public ApiResponse<List<StoreResponseDto>> allStoreByLocation(@RequestBody StoreDistanceRequest request) {
+    public ApiResponse<List<StoreResponseDto>> allStoreByLocation(StoreDistanceRequest request) {
         return ApiResponse.success(storeService.getStoreByLocation(request));
     }
 
