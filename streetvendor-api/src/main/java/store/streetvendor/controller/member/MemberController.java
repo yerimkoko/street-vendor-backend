@@ -53,4 +53,12 @@ public class MemberController {
         return ApiResponse.OK;
     }
 
+    @Auth
+    @ApiOperation(value = "사장님 정보 확인")
+    @GetMapping("/api/v1/boss/check")
+    public ApiResponse<String> checkBoss(@MemberId Long memberId) {
+        memberService.checkBoss(memberId);
+        return ApiResponse.OK;
+    }
+
 }
