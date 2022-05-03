@@ -7,6 +7,7 @@ import store.streetvendor.config.auth.Auth;
 import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
+import store.streetvendor.service.store.dto.response.MyStoreInfo;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 import store.streetvendor.service.store.dto.response.StoreResponseDto;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
@@ -33,8 +34,8 @@ public class StoreController {
     @Auth
     @ApiOperation(value = "내 가게 정보 불러오기")
     @GetMapping("/api/v1/my-stores")
-    public ApiResponse<List<StoreResponseDto>> getMyStores(@MemberId Long memberId) {
-        return ApiResponse.success(storeService.getMyStoreList(memberId));
+    public ApiResponse<List<MyStoreInfo>> getMyStores(@MemberId Long memberId) {
+        return ApiResponse.success(storeService.getMyStores(memberId));
     }
 
     @Auth

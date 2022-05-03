@@ -7,6 +7,7 @@ import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
+import store.streetvendor.service.store.dto.response.MyStoreInfo;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 import store.streetvendor.service.store.dto.response.StoreResponseDto;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
@@ -35,9 +36,9 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public List<StoreResponseDto> getMyStoreList(Long memberId) {
+    public List<MyStoreInfo> getMyStores(Long memberId) {
         List<Store> stores = storeRepository.findStoreByBossId(memberId);
-        return getStores(stores);
+        return getMyStores(stores);
     }
 
     @Transactional
@@ -71,6 +72,12 @@ public class StoreService {
     private List<StoreResponseDto> getStores(List<Store> stores) {
         return stores.stream()
             .map(StoreResponseDto::of)
+            .collect(Collectors.toList());
+    }
+
+    private List<MyStoreInfo> getMyStores(List<Store> stores) {
+        return stores.stream()
+            .map(MyStoreInfo::of)
             .collect(Collectors.toList());
     }
 
