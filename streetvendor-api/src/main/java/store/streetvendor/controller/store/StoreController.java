@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import store.streetvendor.config.auth.Auth;
 import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
+import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 import store.streetvendor.service.store.dto.response.StoreResponseDto;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
@@ -64,6 +65,12 @@ public class StoreController {
     @GetMapping("/api/v1/stores")
     public ApiResponse<List<StoreResponseDto>> allStores(@RequestParam int size, @RequestParam int lastId) {
         return ApiResponse.success(storeService.getAllStoreList(size, lastId));
+    }
+
+    @ApiOperation(value = "거리로 부터 조회하기")
+    @GetMapping("/api/v1/stores/location")
+    public ApiResponse<List<StoreResponseDto>> allStoreByLocation(StoreDistanceRequest request) {
+        return ApiResponse.success(storeService.getStoreByLocation(request));
     }
 
 }
