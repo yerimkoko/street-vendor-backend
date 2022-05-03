@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.domain.domain.store.StoreSalesStatus;
 import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
 import store.streetvendor.service.store.dto.response.MyStoreInfo;
@@ -86,6 +87,12 @@ public class StoreService {
         List<Store> stores = storeRepository
             .findByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance());
         return getStores(stores);
+    }
+
+    @Transactional
+    public void changeSalesStatus(Long memberId, Long storeId, StoreSalesStatus status) {
+        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
+        store.changeSalesStatus(status);
     }
 
 }

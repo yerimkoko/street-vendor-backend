@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import store.streetvendor.config.auth.Auth;
 import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
+import store.streetvendor.domain.domain.store.StoreSalesStatus;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
+import store.streetvendor.service.store.dto.request.UpdateStoreSalesStatusRequest;
 import store.streetvendor.service.store.dto.response.MyStoreInfo;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 import store.streetvendor.service.store.dto.response.StoreResponseDto;
@@ -72,6 +74,14 @@ public class StoreController {
     @GetMapping("/api/v1/stores/location")
     public ApiResponse<List<StoreResponseDto>> allStoreByLocation(StoreDistanceRequest request) {
         return ApiResponse.success(storeService.getStoreByLocation(request));
+    }
+
+    @Auth
+    @ApiOperation(value = "가게 open, off")
+    @PutMapping("/api/v1/store/sales-status/{storeId}")
+    public ApiResponse<String> changeSalesStatus(@MemberId Long memberId, @PathVariable Long storeId, @RequestBody UpdateStoreSalesStatusRequest request) {
+        storeService.changeSalesStatus(memberId, storeId, request.getSalesStatus());
+        return ApiResponse.OK;
     }
 
 }

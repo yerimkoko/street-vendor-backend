@@ -41,6 +41,9 @@ public class Store extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private StoreStatus status;
 
+    @Enumerated(EnumType.STRING)
+    private StoreSalesStatus salesStatus;
+
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Menu> menus = new ArrayList<>();
 
@@ -50,12 +53,13 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<BusinessHours> businessDays = new ArrayList<>();
 
-    @Builder(access = AccessLevel.PRIVATE)
-    private Store(Long memberId, String name, String pictureUrl, Location location, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
+    @Builder(access = AccessLevel.PACKAGE)
+    private Store(Long memberId, String name, String pictureUrl, Location location, StoreSalesStatus salesStatus, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
         this.memberId = memberId;
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.location = location;
+        this.salesStatus = salesStatus;
         this.storeDescription = storeDescription;
         this.locationDescription = locationDescription;
         this.status = status;
@@ -68,6 +72,7 @@ public class Store extends BaseTimeEntity {
             .name(name)
             .pictureUrl(pictureUrl)
             .location(location)
+            .salesStatus(StoreSalesStatus.CLOSED)
             .storeDescription(storeDescription)
             .locationDescription(locationDescription)
             .status(StoreStatus.ACTIVE)
@@ -129,6 +134,10 @@ public class Store extends BaseTimeEntity {
 
     public void delete() {
         this.status = StoreStatus.DELETED;
+    }
+
+    public void changeSalesStatus(StoreSalesStatus salesStatus) {
+        this.salesStatus = salesStatus;
     }
 
 }
