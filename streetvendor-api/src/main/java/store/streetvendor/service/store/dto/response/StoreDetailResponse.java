@@ -47,7 +47,7 @@ public class StoreDetailResponse {
             .storeName(store.getName())
             .bossNumber(member.getPhoneNumber())
             .category(store.getCategory())
-            .description(store.getDescription())
+            .description(store.getStoreDescription())
             .menuList(menuDetailResponse)
             .openingTime(store.getBusinessDays().stream().map(StoreOpeningTimeResponse::of).collect(Collectors.toList()))
             .build();

@@ -236,10 +236,11 @@ public class OrdersServiceTest {
 
     private Store createStore(Member member) {
         Location location = new Location(34.123123, 128.242424);
-        String description = "토끼네";
+        String storeDescription = "슈크림 붕어빵이 맛있어요";
+        String locationDescription = "당정역 1번 출구 앞";
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
-        return Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), location, description, category);
+        return Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), location, storeDescription, locationDescription, category);
     }
 
     private Menu createMenu(Store store) {

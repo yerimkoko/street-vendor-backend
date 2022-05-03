@@ -69,7 +69,7 @@ class StoreServiceTest {
         // then
         List<Store> stores = storeRepository.findAll();
         assertThat(stores).hasSize(1);
-        assertStore(stores.get(0), store.getName(), store.getPictureUrl(), store.getLocation(), store.getDescription(), member.getId(), store.getCategory());
+        assertStore(stores.get(0), store.getName(), store.getPictureUrl(), store.getLocation(), store.getStoreDescription(), member.getId(), store.getCategory());
 
         List<Menu> menus = menuRepository.findAll();
         assertThat(menus).hasSize(1);
@@ -259,10 +259,11 @@ class StoreServiceTest {
         String name = "토끼의 붕어빵 가게";
         String pictureUrl = "https://rabbit.com";
         Location location = new Location(34.232323, 128.242424);
-        String description = "슈크림 2개 1000원 입니다!";
+        String storeDescription = "슈크림 맛집 입니다!";
+        String locationDescription = "당정역 1번 출구 앞";
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
-        return storeRepository.save(Store.newInstance(memberId, name, pictureUrl, location, description, category));
+        return storeRepository.save(Store.newInstance(memberId, name, pictureUrl, location, storeDescription, locationDescription, category));
     }
 
 
@@ -286,11 +287,12 @@ class StoreServiceTest {
         // newStore
         String name = "토끼의 새로운 붕어빵";
         String pictureUrl = "tokki.jpg";
-        String description = "팥 3개 1000원!";
+        String storeDescription = "팥 붕어빵 맛집";
+        String locationDescription = "군포역 2번 출구 앞";
         StoreCategory category = OTHER_DESSERT;
         Location location = new Location(34.2222, 128.222);
 
-        return Store.newInstance(memberId, name, pictureUrl, location, description, category);
+        return Store.newInstance(memberId, name, pictureUrl, location, storeDescription, locationDescription, category);
     }
 
     private Menu createMenu(Store store) {
@@ -307,7 +309,8 @@ class StoreServiceTest {
             .name(store.getName())
             .pictureUrl(store.getPictureUrl())
             .location(store.getLocation())
-            .description(store.getDescription())
+            .storeDescription(store.getStoreDescription())
+            .locationDescription(store.getLocationDescription())
             .menus(menuRequests)
             .paymentMethods(paymentMethods)
             .businessHours(businessHour)
@@ -336,7 +339,7 @@ class StoreServiceTest {
             .name(newStore.getName())
             .pictureUrl(newStore.getPictureUrl())
             .location(newStore.getLocation())
-            .description(newStore.getDescription())
+            .description(newStore.getStoreDescription())
             .menus(newMenuRequests)
             .paymentMethods(List.of(accountTransfer, cash))
             .businessHours(List.of(new BusinessHourRequest(newStartTime, newEndTime, saturday)))
@@ -362,7 +365,7 @@ class StoreServiceTest {
         assertThat(store.getName()).isEqualTo(name);
         assertThat(store.getPictureUrl()).isEqualTo(pictureUrl);
         assertThat(store.getLocation()).isEqualTo(location);
-        assertThat(store.getDescription()).isEqualTo(description);
+        assertThat(store.getStoreDescription()).isEqualTo(description);
         assertThat(store.getMemberId()).isEqualTo(memberId);
         assertThat(store.getCategory()).isEqualTo(category);
     }

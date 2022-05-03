@@ -61,7 +61,7 @@ public class StoreResponseDto {
             .name(store.getName())
             .pictureUrl(store.getPictureUrl())
             .location(store.getLocation())
-            .description(store.getDescription())
+            .description(store.getStoreDescription())
             .category(store.getCategory())
             .paymentMethods(store.getPaymentMethods().stream()
                 .map(Payment::getPaymentMethod)

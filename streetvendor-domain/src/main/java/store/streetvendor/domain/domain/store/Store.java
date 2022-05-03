@@ -31,7 +31,9 @@ public class Store extends BaseTimeEntity {
     @Embedded
     private Location location;
 
-    private String description;
+    private String storeDescription;
+
+    private String locationDescription;
 
     @Enumerated(EnumType.STRING)
     private StoreCategory category;
@@ -49,23 +51,25 @@ public class Store extends BaseTimeEntity {
     private final List<BusinessHours> businessDays = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    private Store(Long memberId, String name, String pictureUrl, Location location, String description, StoreStatus status, StoreCategory category) {
+    private Store(Long memberId, String name, String pictureUrl, Location location, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
         this.memberId = memberId;
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.location = location;
-        this.description = description;
+        this.storeDescription = storeDescription;
+        this.locationDescription = locationDescription;
         this.status = status;
         this.category = category;
     }
 
-    public static Store newInstance(Long memberId, String name, String pictureUrl, Location location, String description, StoreCategory category) {
+    public static Store newInstance(Long memberId, String name, String pictureUrl, Location location, String storeDescription, String locationDescription, StoreCategory category) {
         return Store.builder()
             .memberId(memberId)
             .name(name)
             .pictureUrl(pictureUrl)
             .location(location)
-            .description(description)
+            .storeDescription(storeDescription)
+            .locationDescription(locationDescription)
             .status(StoreStatus.ACTIVE)
             .category(category)
             .build();
@@ -101,7 +105,7 @@ public class Store extends BaseTimeEntity {
 
     public void updateStoreInfo(String name, String description, String pictureUrl, Location location, StoreCategory category) {
         this.name = name;
-        this.description = description;
+        this.storeDescription = description;
         this.pictureUrl = pictureUrl;
         this.location = location;
         this.category = category;

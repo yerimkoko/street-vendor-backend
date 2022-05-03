@@ -15,17 +15,20 @@ public class OrderHistoryStoreResponse {
 
     private Location location;
 
-    private String description;
+    private String storeDescription;
+
+    private String locationDescription;
 
     private StoreCategory category;
 
     @Builder
-    public OrderHistoryStoreResponse(Long storeId, String name, String pictureUrl, Location location, String description, StoreCategory category) {
+    public OrderHistoryStoreResponse(Long storeId, String name, String pictureUrl, Location location, String storeDescription, String locationDescription, StoreCategory category) {
         this.storeId = storeId;
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.location = location;
-        this.description = description;
+        this.storeDescription = storeDescription;
+        this.locationDescription = locationDescription;
     }
 
     public static OrderHistoryStoreResponse of(Store store) {
@@ -34,7 +37,8 @@ public class OrderHistoryStoreResponse {
             .name(store.getName())
             .pictureUrl(store.getPictureUrl())
             .location(store.getLocation())
-            .description(store.getDescription())
+            .storeDescription(store.getStoreDescription())
+            .locationDescription(store.getLocationDescription())
             .category(store.getCategory())
             .build();
     }
