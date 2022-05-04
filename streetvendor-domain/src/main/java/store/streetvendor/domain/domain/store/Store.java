@@ -53,7 +53,7 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<BusinessHours> businessDays = new ArrayList<>();
 
-    @Builder(access = AccessLevel.PACKAGE)
+    @Builder
     private Store(Long memberId, String name, String pictureUrl, Location location, StoreSalesStatus salesStatus, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
         this.memberId = memberId;
         this.name = name;
@@ -73,6 +73,20 @@ public class Store extends BaseTimeEntity {
             .pictureUrl(pictureUrl)
             .location(location)
             .salesStatus(StoreSalesStatus.CLOSED)
+            .storeDescription(storeDescription)
+            .locationDescription(locationDescription)
+            .status(StoreStatus.ACTIVE)
+            .category(category)
+            .build();
+    }
+
+    public static Store newSalesStore(Long memberId, String name, String pictureUrl, Location location, String storeDescription, String locationDescription, StoreCategory category) {
+        return Store.builder()
+            .memberId(memberId)
+            .name(name)
+            .pictureUrl(pictureUrl)
+            .location(location)
+            .salesStatus(StoreSalesStatus.OPEN)
             .storeDescription(storeDescription)
             .locationDescription(locationDescription)
             .status(StoreStatus.ACTIVE)

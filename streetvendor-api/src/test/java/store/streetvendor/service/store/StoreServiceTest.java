@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import store.streetvendor.exception.model.AlreadyExistedException;
 import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.store.dto.request.BusinessHourRequest;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
@@ -230,6 +231,36 @@ class StoreServiceTest {
 
     }
 
+    @Test
+    void 가게_운영을_시킨다() {
+        // given
+        Member member = createMember();
+        Store store = createStore(member);
+        StoreSalesStatus open = StoreSalesStatus.OPEN;
+
+        // when
+        storeService.changeSalesStatus(member.getId(), store.getId(), open);
+
+        // then
+        List<Store> stores = storeRepository.findAll();
+        assertThat(stores).hasSize(1);
+        assertThat(stores.get(0).getSalesStatus()).isEqualTo(open);
+
+    }
+    @Test
+    void 이미_운영중인_가게가_있는경우() {
+        // given
+        Member member = createMember();
+        createSalesStore(member);
+        Store store = createStore(member);
+
+        // when & then
+        assertThatThrownBy(() -> storeService.changeSalesStatus(member.getId(), store.getId(), StoreSalesStatus.OPEN))
+            .isInstanceOf(AlreadyExistedException.class);
+
+    }
+
+
     private Member createMember() {
         String name = "yerimkoko";
         String nickName = "yerimko";
@@ -264,6 +295,21 @@ class StoreServiceTest {
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
         return storeRepository.save(Store.newInstance(memberId, name, pictureUrl, location, storeDescription, locationDescription, category));
+    }
+
+    private Store createSalesStore(Member member) {
+        Store store = createNewStore(member.getId());
+        // store
+        Long memberId = member.getId();
+        String name = "토끼의 붕어빵 가게";
+        String pictureUrl = "https://rabbit.com";
+        Location location = new Location(34.232323, 128.242424);
+        String storeDescription = "슈크림 맛집 입니다!";
+        String locationDescription = "당정역 1번 출구 앞";
+        StoreCategory category = StoreCategory.BUNG_EO_PPANG;
+
+        return storeRepository.save(Store.newSalesStore(memberId, name, pictureUrl, location, storeDescription, locationDescription, category));
+
     }
 
 

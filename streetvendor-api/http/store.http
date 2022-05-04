@@ -37,9 +37,14 @@ Authorization: Bearer {{SESSION}}
             "days": "MON"
         },
         {
-            "startTime": "10:00",
-            "endTime": "15:00",
+            "startTime": "21:00",
+            "endTime": "24:00",
             "days": "TUE"
+        },
+        {
+            "startTime": "00:00",
+            "endTime": "04:00",
+            "days": "WED"
         }
     ]
 }

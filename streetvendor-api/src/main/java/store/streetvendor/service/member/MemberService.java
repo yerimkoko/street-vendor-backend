@@ -39,7 +39,7 @@ public class MemberService {
         return memberId;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public MemberInfoResponse getMyInformation(Long memberId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
         return MemberInfoResponse.getInfo(member);
@@ -54,7 +54,7 @@ public class MemberService {
         member.setBossNameAndNumber(request.getBossName(), request.getBossPhoneNumber());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public void checkBoss(Long memberId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
         if (member.getPhoneNumber() == null || member.getBossName() == null) {

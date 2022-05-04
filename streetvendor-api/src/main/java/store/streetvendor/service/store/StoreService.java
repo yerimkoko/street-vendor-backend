@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
+import store.streetvendor.exception.model.AlreadyExistedException;
 import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
 import store.streetvendor.service.store.dto.response.MyStoreInfo;
@@ -91,8 +92,12 @@ public class StoreService {
 
     @Transactional
     public void changeSalesStatus(Long memberId, Long storeId, StoreSalesStatus status) {
-        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
-        store.changeSalesStatus(status);
+        List<Store> stores = storeRepository.findStoresByMemberIdAndSalesStatus(memberId);
+        if (!stores.isEmpty()) {
+            throw new AlreadyExistedException(String.format("이미 영업중인 가게 (%s)가 있습니다. 가게를 종료해주세요.", stores.get(0).getId()));
+        }
+         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
+         store.changeSalesStatus(status);
     }
 
 }

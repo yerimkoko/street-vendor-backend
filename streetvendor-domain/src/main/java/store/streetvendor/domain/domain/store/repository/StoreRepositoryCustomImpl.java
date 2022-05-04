@@ -3,6 +3,7 @@ package store.streetvendor.domain.domain.store.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import store.streetvendor.domain.domain.store.Store;
+import store.streetvendor.domain.domain.store.StoreSalesStatus;
 import store.streetvendor.domain.domain.store.StoreStatus;
 
 import static store.streetvendor.domain.domain.store.QStore.store;
@@ -49,6 +50,18 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
             .limit(size)
             .where(store.id.lt(lastId))
             .orderBy(store.id.desc())
+            .fetch();
+    }
+
+    @Override
+    public List<Store> findStoresByMemberIdAndSalesStatus(Long memberId) {
+        return jpaQueryFactory
+            .selectFrom(store)
+            .where(
+                store.memberId.eq(memberId),
+                store.salesStatus.eq(StoreSalesStatus.OPEN),
+                store.status.eq(StoreStatus.ACTIVE)
+            )
             .fetch();
     }
 
