@@ -1,7 +1,6 @@
 package store.streetvendor.domain.domain.store.repository;
 
 import store.streetvendor.domain.domain.store.Store;
-import store.streetvendor.domain.domain.store.StoreSalesStatus;
 
 import java.util.List;
 

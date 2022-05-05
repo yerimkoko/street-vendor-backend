@@ -16,9 +16,21 @@ public class MemberServiceUtils {
         return member;
     }
 
+    public static Member findByBossId(MemberRepository memberRepository, Long memberId) {
+        Member member = findByMemberId(memberRepository, memberId);
+        validateBoss(member);
+        return member;
+    }
+
     private static void validateMember(Member member, Long memberId) {
         if (member == null) {
             throw new NotFoundException(String.format("(%s)에 해당하는 멤버는 존재하지 않습니다.", memberId));
+        }
+    }
+
+    public static void validateBoss(Member member) {
+        if (member.getBossName() == null || member.getPhoneNumber() == null) {
+            throw new NotFoundException("사장님 등록을 먼저 해 주세요.");
         }
     }
 
@@ -28,5 +40,4 @@ public class MemberServiceUtils {
             throw new DuplicatedException(String.format("(%s)는 중복된 닉네임 입니다. 다른 닉네임을 입력해주세요!", nickName));
         }
     }
-
 }

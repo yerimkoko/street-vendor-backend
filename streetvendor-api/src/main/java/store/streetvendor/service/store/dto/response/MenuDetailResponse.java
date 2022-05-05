@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.store.Menu;
+
 @NoArgsConstructor
 @Getter
 public class MenuDetailResponse {
