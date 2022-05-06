@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import store.streetvendor.config.auth.Auth;
 import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
+import store.streetvendor.domain.domain.store.StoreCategory;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
 import store.streetvendor.service.store.dto.request.UpdateStoreSalesStatusRequest;
 import store.streetvendor.service.store.dto.response.MyStoreInfo;
@@ -81,6 +82,12 @@ public class StoreController {
     public ApiResponse<String> changeSalesStatus(@MemberId Long memberId, @PathVariable Long storeId, @RequestBody UpdateStoreSalesStatusRequest request) {
         storeService.changeSalesStatus(memberId, storeId, request.getSalesStatus());
         return ApiResponse.OK;
+    }
+
+    @ApiOperation(value = "카테고리로 가게 조회하기")
+    @GetMapping("/api/v1/store/{category}")
+    public ApiResponse<List<StoreResponseDto>> storesByCategory(@PathVariable StoreCategory category) {
+        return ApiResponse.success(storeService.getStoreByCategory(category));
     }
 
 }

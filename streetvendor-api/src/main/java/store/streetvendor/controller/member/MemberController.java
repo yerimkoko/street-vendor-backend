@@ -24,6 +24,7 @@ public class MemberController {
 
     private final HttpSession httpSession;
 
+    @ApiOperation("회원 가입")
     @PostMapping("/api/v1/sign-up")
     public ApiResponse<String> signUp(@Valid @RequestBody MemberSignUpRequestDto request) {
         Long memberId = memberService.signUp(request);
@@ -32,6 +33,7 @@ public class MemberController {
     }
 
     @Auth
+    @ApiOperation(value = "회원 탈퇴")
     @PutMapping("/api/v1/sign-out")
     public ApiResponse<Long> signOut(@MemberId Long memberId) {
         memberService.signOut(memberId);

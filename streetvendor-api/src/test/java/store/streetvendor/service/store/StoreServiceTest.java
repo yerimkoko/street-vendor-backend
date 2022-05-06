@@ -226,7 +226,6 @@ class StoreServiceTest {
         StoreDetailResponse detailResponse = storeService.getStoreDetail(store.getId());
 
         // then
-        System.out.println(detailResponse);
         assertThat(detailResponse.getOpeningTime().get(0).getDays()).isEqualTo(friDay);
 
     }
@@ -258,6 +257,22 @@ class StoreServiceTest {
         assertThatThrownBy(() -> storeService.changeSalesStatus(member.getId(), store.getId(), StoreSalesStatus.OPEN))
             .isInstanceOf(AlreadyExistedException.class);
 
+    }
+
+    @Test
+    void 카테고리별_가게를_보여준다() {
+        // given
+        StoreCategory category = StoreCategory.BUNG_EO_PPANG;
+        Member member = createMember();
+        createSalesStore(member);
+
+        // when
+        storeService.getStoreByCategory(category);
+
+        // then
+        List<Store> stores = storeRepository.findAll();
+        assertThat(stores).hasSize(1);
+        assertThat(stores.get(0).getCategory()).isEqualTo(category);
     }
 
 

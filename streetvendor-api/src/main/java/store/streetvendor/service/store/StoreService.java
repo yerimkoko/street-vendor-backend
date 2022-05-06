@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.domain.domain.store.StoreCategory;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
 import store.streetvendor.exception.model.AlreadyExistedException;
 import store.streetvendor.service.member.MemberServiceUtils;
@@ -95,6 +96,12 @@ public class StoreService {
         }
          Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
          store.changeSalesStatus(status);
+    }
+
+    @Transactional(readOnly = true)
+    public List<StoreResponseDto> getStoreByCategory(StoreCategory category) {
+        List<Store> stores = storeRepository.findStoreByCategory(category);
+        return getStores(stores);
     }
 
 }

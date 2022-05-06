@@ -3,7 +3,6 @@ package store.streetvendor.service.member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.streetvendor.exception.model.AlreadyExistedException;
 import store.streetvendor.exception.model.DuplicatedException;
 import store.streetvendor.service.member.dto.request.MemberSaveBossInfoRequest;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
