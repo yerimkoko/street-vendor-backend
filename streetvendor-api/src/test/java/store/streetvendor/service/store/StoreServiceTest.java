@@ -226,7 +226,7 @@ class StoreServiceTest {
         StoreDetailResponse detailResponse = storeService.getStoreDetail(store.getId());
 
         // then
-        assertThat(detailResponse.getOpeningTime().get(0).getDays()).isEqualTo(friDay);
+        assertThat(detailResponse.getBusinessHours().get(0).getDays()).isEqualTo(friDay);
 
     }
 

@@ -25,7 +25,7 @@ public class StoreDetailResponse {
 
     private List<MenuDetailResponse> menuList;
 
-    private List<StoreBusinessDayResponse> openingTime;
+    private List<StoreBusinessDayResponse> businessHours;
 
     @Builder
     public StoreDetailResponse(Long storeId, String storeName, String bossNumber, String description, StoreCategory category, List<MenuDetailResponse> menuList, List<StoreBusinessDayResponse> businessHours) {
@@ -35,12 +35,13 @@ public class StoreDetailResponse {
         this.description = description;
         this.category = category;
         this.menuList = menuList;
-        this.openingTime = businessHours;
+        this.businessHours = businessHours;
     }
 
     public static StoreDetailResponse of(Store store, Member member) {
         List<MenuDetailResponse> menuDetailResponse = store.getMenus().stream()
-            .map(MenuDetailResponse::of).collect(Collectors.toList());
+            .map(MenuDetailResponse::of)
+            .collect(Collectors.toList());
 
         List<BusinessHours> businessHours = store.getBusinessDays().stream()
             .map(business -> BusinessHours.of(store, business.getDays(), business.getOpeningTime().getStartTime(), business.getOpeningTime().getEndTime()))

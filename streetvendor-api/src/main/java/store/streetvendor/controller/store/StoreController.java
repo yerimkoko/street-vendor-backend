@@ -59,7 +59,7 @@ public class StoreController {
 
     @Auth
     @ApiOperation(value = "가게 상세정보 조회하기")
-    @GetMapping("/api/v1/store/{storeId}")
+    @GetMapping("/api/v1/store/detail/{storeId}")
     public ApiResponse<StoreDetailResponse> detailResponse(@PathVariable Long storeId) {
         return ApiResponse.success(storeService.getStoreDetail(storeId));
     }
