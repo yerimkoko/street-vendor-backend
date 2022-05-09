@@ -25,22 +25,26 @@ public class StoreDetailResponse {
 
     private List<MenuDetailResponse> menuList;
 
-    private List<StoreOpeningTimeResponse> openingTime;
+    private List<StoreBusinessDayResponse> openingTime;
 
     @Builder
-    public StoreDetailResponse(Long storeId, String storeName, String bossNumber, String description, StoreCategory category, List<MenuDetailResponse> menuList, List<StoreOpeningTimeResponse> openingTime) {
+    public StoreDetailResponse(Long storeId, String storeName, String bossNumber, String description, StoreCategory category, List<MenuDetailResponse> menuList, List<StoreBusinessDayResponse> businessHours) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.bossNumber = bossNumber;
         this.description = description;
         this.category = category;
         this.menuList = menuList;
-        this.openingTime = openingTime;
+        this.openingTime = businessHours;
     }
 
     public static StoreDetailResponse of(Store store, Member member) {
         List<MenuDetailResponse> menuDetailResponse = store.getMenus().stream()
             .map(MenuDetailResponse::of).collect(Collectors.toList());
+
+        List<BusinessHours> businessHours = store.getBusinessDays().stream()
+            .map(business -> BusinessHours.of(store, business.getDays(), business.getOpeningTime().getStartTime(), business.getOpeningTime().getEndTime()))
+            .collect(Collectors.toList());
 
         return StoreDetailResponse.builder()
             .storeId(store.getId())
@@ -49,7 +53,8 @@ public class StoreDetailResponse {
             .category(store.getCategory())
             .description(store.getStoreDescription())
             .menuList(menuDetailResponse)
-            .openingTime(store.getBusinessDays().stream().map(StoreOpeningTimeResponse::of).collect(Collectors.toList()))
+            .businessHours(businessHours.stream().map(StoreBusinessDayResponse::of)
+                .collect(Collectors.toList()))
             .build();
     }
 }
