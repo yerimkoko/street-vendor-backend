@@ -21,19 +21,37 @@ public class StoreDetailResponse {
 
     private String description;
 
+    private String pictureUrl;
+
+    private String locationDescription;
+
+    private String storeDescription;
+
+    private Location location;
+
+    private StoreSalesStatus status;
+
     private StoreCategory category;
+
+    private List<PaymentMethod> payments;
 
     private List<MenuDetailResponse> menuList;
 
     private List<StoreBusinessDayResponse> businessHours;
 
     @Builder
-    public StoreDetailResponse(Long storeId, String storeName, String bossNumber, String description, StoreCategory category, List<MenuDetailResponse> menuList, List<StoreBusinessDayResponse> businessHours) {
+    public StoreDetailResponse(Long storeId, String storeName, String bossNumber, String description, String pictureUrl, String locationDescription, String storeDescription, Location location, StoreSalesStatus status, StoreCategory category, List<PaymentMethod> payments, List<MenuDetailResponse> menuList, List<StoreBusinessDayResponse> businessHours) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.bossNumber = bossNumber;
         this.description = description;
+        this.pictureUrl = pictureUrl;
+        this.locationDescription = locationDescription;
+        this.storeDescription = storeDescription;
+        this.location = location;
+        this.status = status;
         this.category = category;
+        this.payments = payments;
         this.menuList = menuList;
         this.businessHours = businessHours;
     }
@@ -52,9 +70,16 @@ public class StoreDetailResponse {
             .storeName(store.getName())
             .bossNumber(member.getPhoneNumber())
             .category(store.getCategory())
+            .pictureUrl(store.getPictureUrl())
             .description(store.getStoreDescription())
             .menuList(menuDetailResponse)
-            .businessHours(businessHours.stream().map(StoreBusinessDayResponse::of)
+            .location(store.getLocation())
+            .status(store.getSalesStatus())
+            .storeDescription(store.getStoreDescription())
+            .locationDescription(store.getLocationDescription())
+            .payments(store.getPaymentMethods().stream().map(Payment::getPaymentMethod).collect(Collectors.toList()))
+            .businessHours(businessHours.stream()
+                .map(StoreBusinessDayResponse::of)
                 .collect(Collectors.toList()))
             .build();
     }

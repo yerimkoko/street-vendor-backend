@@ -58,8 +58,8 @@ public class StoreService {
 
     @Transactional(readOnly = true)
     public StoreDetailResponse getStoreDetail(Long storeId) {
-        Store store = storeRepository.findStoreByStoreId(storeId);
-        Member member = memberRepository.findMemberById(store.getMemberId());
+        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
+        Member member = MemberServiceUtils.findByMemberId(memberRepository, store.getMemberId());
         return StoreDetailResponse.of(store, member);
     }
 

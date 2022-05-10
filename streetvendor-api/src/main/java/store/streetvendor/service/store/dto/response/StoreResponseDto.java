@@ -9,7 +9,6 @@ import store.streetvendor.domain.domain.store.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @NoArgsConstructor
 @Getter
 public class StoreResponseDto {
@@ -33,6 +32,7 @@ public class StoreResponseDto {
     private List<PaymentMethod> paymentMethods;
 
     private List<MenuResponse> menus;
+
 
     @Builder
     public StoreResponseDto(Long storeId, Long bossId, String name, String pictureUrl, Location location, String description,
@@ -63,9 +63,7 @@ public class StoreResponseDto {
             .location(store.getLocation())
             .description(store.getStoreDescription())
             .category(store.getCategory())
-            .paymentMethods(store.getPaymentMethods().stream()
-                .map(Payment::getPaymentMethod)
-                .collect(Collectors.toList()))
+            .paymentMethods(store.getPaymentMethods().stream().map(Payment::getPaymentMethod).collect(Collectors.toList()))
             .menus(getMenuList(store))
             .businessHours(businessHours.stream().map(StoreBusinessDayResponse::of).collect(Collectors.toList()))
             .build();

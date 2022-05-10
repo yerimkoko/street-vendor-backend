@@ -24,6 +24,7 @@ public class MenuDetailResponse {
     public static MenuDetailResponse of(Menu menu) {
         return MenuDetailResponse.builder()
             .menuName(menu.getName())
+            .menuCount(menu.getMenuCount())
             .menuPrice(menu.getPrice())
             .pictureUrl(menu.getPictureUrl())
             .build();
