@@ -19,4 +19,6 @@ public interface StoreRepositoryCustom {
 
     List<Store> findStoreByCategory(StoreCategory category);
 
+    Store findStoreBySalesStore(Long storeId);
+
 }

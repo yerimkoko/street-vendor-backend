@@ -19,8 +19,6 @@ public class StoreDetailResponse {
 
     private String bossNumber;
 
-    private String description;
-
     private String pictureUrl;
 
     private String locationDescription;
@@ -29,7 +27,7 @@ public class StoreDetailResponse {
 
     private Location location;
 
-    private StoreSalesStatus status;
+    private StoreSalesStatus salesStatus;
 
     private StoreCategory category;
 
@@ -40,16 +38,15 @@ public class StoreDetailResponse {
     private List<StoreBusinessDayResponse> businessHours;
 
     @Builder
-    public StoreDetailResponse(Long storeId, String storeName, String bossNumber, String description, String pictureUrl, String locationDescription, String storeDescription, Location location, StoreSalesStatus status, StoreCategory category, List<PaymentMethod> payments, List<MenuDetailResponse> menuList, List<StoreBusinessDayResponse> businessHours) {
+    public StoreDetailResponse(Long storeId, String storeName, String bossNumber, String pictureUrl, String locationDescription, String storeDescription, Location location, StoreSalesStatus salesStatus, StoreCategory category, List<PaymentMethod> payments, List<MenuDetailResponse> menuList, List<StoreBusinessDayResponse> businessHours) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.bossNumber = bossNumber;
-        this.description = description;
         this.pictureUrl = pictureUrl;
         this.locationDescription = locationDescription;
         this.storeDescription = storeDescription;
         this.location = location;
-        this.status = status;
+        this.salesStatus = salesStatus;
         this.category = category;
         this.payments = payments;
         this.menuList = menuList;
@@ -71,10 +68,9 @@ public class StoreDetailResponse {
             .bossNumber(member.getPhoneNumber())
             .category(store.getCategory())
             .pictureUrl(store.getPictureUrl())
-            .description(store.getStoreDescription())
             .menuList(menuDetailResponse)
             .location(store.getLocation())
-            .status(store.getSalesStatus())
+            .salesStatus(store.getSalesStatus())
             .storeDescription(store.getStoreDescription())
             .locationDescription(store.getLocationDescription())
             .payments(store.getPaymentMethods().stream().map(Payment::getPaymentMethod).collect(Collectors.toList()))

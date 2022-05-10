@@ -77,4 +77,14 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
             .fetch();
     }
 
+    @Override
+    public Store findStoreBySalesStore(Long storeId) {
+        return jpaQueryFactory
+            .selectFrom(store)
+            .where(
+                store.salesStatus.eq(StoreSalesStatus.OPEN)
+            )
+            .fetchOne();
+    }
+
 }
