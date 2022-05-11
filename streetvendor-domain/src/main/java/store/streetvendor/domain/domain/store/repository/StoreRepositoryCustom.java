@@ -2,6 +2,7 @@ package store.streetvendor.domain.domain.store.repository;
 
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreCategory;
+import store.streetvendor.domain.domain.store.StoreSalesStatus;
 
 import java.util.List;
 
@@ -15,10 +16,8 @@ public interface StoreRepositoryCustom {
 
     List<Store> findAllStoreBySizeAndLastId(int size, long lastId);
 
-    List<Store> findStoresByMemberIdAndSalesStatus(Long memberId);
-
     List<Store> findStoreByCategory(StoreCategory category);
 
-    Store findStoreBySalesStore(Long storeId);
+    List<Store> findStoreByBossIdAndSalesStatusStore(Long memberId, StoreSalesStatus salesStatus);
 
 }

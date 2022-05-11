@@ -8,7 +8,6 @@ import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
 import store.streetvendor.domain.domain.store.StoreCategory;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
-import store.streetvendor.service.store.dto.request.UpdateStoreSalesStatusRequest;
 import store.streetvendor.service.store.dto.response.MyStoreInfo;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 import store.streetvendor.service.store.dto.response.StoreResponseDto;
@@ -76,11 +75,20 @@ public class StoreController {
         return ApiResponse.success(storeService.getStoreByLocation(request));
     }
 
+
     @Auth
-    @ApiOperation(value = "가게 영업 시작 or 영업 종료하기")
-    @PutMapping("/api/v1/store/sales-status/{storeId}")
-    public ApiResponse<String> changeSalesStatus(@MemberId Long memberId, @PathVariable Long storeId, @RequestBody UpdateStoreSalesStatusRequest request) {
-        storeService.changeSalesStatus(memberId, storeId, request.getSalesStatus());
+    @ApiOperation(value = "가게 영업 시작하기")
+    @PutMapping("/api/v1/store/sales-status/open/{storeId}")
+    public ApiResponse<String> storeOpen(@MemberId Long memberId, @PathVariable Long storeId) {
+        storeService.storeOpen(memberId, storeId);
+        return ApiResponse.OK;
+    }
+
+    @Auth
+    @ApiOperation(value = "가게 영업 종료하기")
+    @PutMapping("/api/v1/store/sales-status/closed/{storeId}")
+    public ApiResponse<String> storeClosed(@MemberId Long memberId, @PathVariable Long storeId) {
+        storeService.storeClose(memberId, storeId);
         return ApiResponse.OK;
     }
 

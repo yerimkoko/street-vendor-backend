@@ -19,6 +19,7 @@ import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -89,15 +90,23 @@ public class StoreService {
     }
 
     @Transactional
-    public void changeSalesStatus(Long memberId, Long storeId, StoreSalesStatus status) {
-        List<Store> stores = storeRepository.findStoresByMemberIdAndSalesStatus(memberId);
-        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
+    public void storeOpen(Long memberId, Long storeId) {
+        StoreSalesStatus open = StoreSalesStatus.OPEN;
+        List<Store> stores = StoreServiceUtils.findByStoresBySalesStatus(storeRepository, memberId, open);
+        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberIdAndSalesStatus(storeRepository, storeId, memberId, open);
         if (!stores.isEmpty()) {
-            if (stores.get(0) != store) {
+            if (store != stores.get(0)) {
                 throw new AlreadyExistedException(String.format("이미 영업중인 가게 (%s)가 있습니다. 가게를 종료해주세요.", stores.get(0).getId()));
             }
         }
-        store.changeSalesStatus(status);
+        store.changeSalesStatus(open);
+    }
+
+    @Transactional
+    public void storeClose(Long memberId, Long storeId) {
+        StoreSalesStatus closed = StoreSalesStatus.CLOSED;
+        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberIdAndSalesStatus(storeRepository, storeId, memberId, closed);
+        store.changeSalesStatus(closed);
     }
 
     @Transactional(readOnly = true)

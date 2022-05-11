@@ -238,7 +238,7 @@ class StoreServiceTest {
         StoreSalesStatus open = StoreSalesStatus.OPEN;
 
         // when
-        storeService.changeSalesStatus(member.getId(), store.getId(), open);
+        storeService.storeOpen(member.getId(), store.getId());
 
         // then
         List<Store> stores = storeRepository.findAll();
@@ -246,6 +246,24 @@ class StoreServiceTest {
         assertThat(stores.get(0).getSalesStatus()).isEqualTo(open);
 
     }
+
+    @Test
+    void 가게를_종료시킨다() {
+        // given
+        Member member = createMember();
+        Store store = createSalesStore(member);
+        StoreSalesStatus close = StoreSalesStatus.CLOSED;
+
+        // when
+        storeService.storeClose(member.getId(), store.getId());
+
+        // when
+        List<Store> stores = storeRepository.findAll();
+        assertThat(stores).hasSize(1);
+        assertThat(stores.get(0).getSalesStatus()).isEqualTo(close);
+
+    }
+
     @Test
     void 이미_운영중인_가게가_있는경우() {
         // given
@@ -254,10 +272,33 @@ class StoreServiceTest {
         Store store = createStore(member);
 
         // when & then
-        assertThatThrownBy(() -> storeService.changeSalesStatus(member.getId(), store.getId(), StoreSalesStatus.OPEN))
+        assertThatThrownBy(() -> storeService.storeOpen(member.getId(), store.getId()))
             .isInstanceOf(AlreadyExistedException.class);
 
     }
+
+    @Test
+    void 운영중인_가게에_운영하기를_호출할_경우() {
+        // given
+        Member member = createMember();
+        Store store = createSalesStore(member);
+
+        // when & then
+        assertThatThrownBy(() -> storeService.storeOpen(member.getId(), store.getId()))
+            .isInstanceOf(AlreadyExistedException.class);
+    }
+
+    @Test
+    void 종료된_가게에_종료를_호출할경우() {
+        // given
+        Member member = createMember();
+        Store store = createStore(member);
+
+        // when & then
+        assertThatThrownBy(() -> storeService.storeClose(member.getId(), store.getId()))
+            .isInstanceOf(AlreadyExistedException.class);
+    }
+
 
     @Test
     void 카테고리별_가게를_보여준다() {

@@ -49,22 +49,11 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
         return jpaQueryFactory
             .selectFrom(store)
             .limit(size)
-            .where(store.id.lt(lastId))
+            .where(store.id.lt(lastId), store.status.eq(StoreStatus.ACTIVE))
             .orderBy(store.id.desc())
             .fetch();
     }
 
-    @Override
-    public List<Store> findStoresByMemberIdAndSalesStatus(Long memberId) {
-        return jpaQueryFactory
-            .selectFrom(store)
-            .where(
-                store.memberId.eq(memberId),
-                store.salesStatus.eq(StoreSalesStatus.OPEN),
-                store.status.eq(StoreStatus.ACTIVE)
-            )
-            .fetch();
-    }
 
     @Override
     public List<Store> findStoreByCategory(StoreCategory category) {
@@ -78,13 +67,15 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
     }
 
     @Override
-    public Store findStoreBySalesStore(Long storeId) {
+    public List<Store> findStoreByBossIdAndSalesStatusStore(Long memberId, StoreSalesStatus salesStatus) {
         return jpaQueryFactory
             .selectFrom(store)
             .where(
-                store.salesStatus.eq(StoreSalesStatus.OPEN)
+                store.salesStatus.eq(salesStatus),
+                store.memberId.eq(memberId),
+                store.status.eq(StoreStatus.ACTIVE)
             )
-            .fetchOne();
+            .fetch();
     }
 
 }
