@@ -354,8 +354,6 @@ class StoreServiceTest {
     }
 
     private Store createSalesStore(Member member) {
-        Store store = createNewStore(member.getId());
-        // store
         Long memberId = member.getId();
         String name = "토끼의 붕어빵 가게";
         String pictureUrl = "https://rabbit.com";

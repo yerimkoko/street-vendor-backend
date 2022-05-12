@@ -8,8 +8,6 @@ import store.streetvendor.domain.domain.store.StoreSalesStatus;
 import store.streetvendor.exception.model.AlreadyExistedException;
 import store.streetvendor.exception.model.NotFoundException;
 
-import java.util.List;
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StoreServiceUtils {
 
@@ -30,11 +28,6 @@ public class StoreServiceUtils {
         Store store = storeRepository.findStoreByStoreId(storeId);
         validateStore(store, storeId);
         return store;
-    }
-
-    public static List<Store> findByStoresBySalesStatus(StoreRepository storeRepository, Long memberId, StoreSalesStatus salesStatus) {
-        List<Store> stores = storeRepository.findStoreByBossIdAndSalesStatusStore(memberId, salesStatus);
-        return stores;
     }
 
     public static void validateExistsStore(StoreRepository storeRepository, Long storeId, Long memberId) {

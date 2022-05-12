@@ -19,7 +19,6 @@ import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -92,11 +91,11 @@ public class StoreService {
     @Transactional
     public void storeOpen(Long memberId, Long storeId) {
         StoreSalesStatus open = StoreSalesStatus.OPEN;
-        List<Store> stores = StoreServiceUtils.findByStoresBySalesStatus(storeRepository, memberId, open);
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberIdAndSalesStatus(storeRepository, storeId, memberId, open);
-        if (!stores.isEmpty()) {
-            if (store != stores.get(0)) {
-                throw new AlreadyExistedException(String.format("이미 영업중인 가게 (%s)가 있습니다. 가게를 종료해주세요.", stores.get(0).getId()));
+        Store findAlreadyOpenedStore = storeRepository.findStoreByMemberIdAndSalesStatusStore(memberId, open);
+        if (findAlreadyOpenedStore != null) {
+            if (findAlreadyOpenedStore != store) {
+                throw new AlreadyExistedException(String.format("이미 영업중인 가게 (%s)가 있습니다. 가게를 종료해주세요.", findAlreadyOpenedStore.getId()));
             }
         }
         store.changeSalesStatus(open);
