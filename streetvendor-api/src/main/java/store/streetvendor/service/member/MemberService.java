@@ -19,16 +19,11 @@ public class MemberService {
     @Transactional
     public Long signUp(MemberSignUpRequestDto requestDto) {
         validateDuplicatedNickName(requestDto.getNickName());
+        validateDuplicatedEmail(requestDto.getEmail());
         Member member = memberRepository.save(requestDto.toEntity());
         return member.getId();
     }
 
-    private void validateDuplicatedNickName(String nickName) {
-        Member member = memberRepository.findMemberIdByNickName(nickName);
-        if (member != null) {
-            throw new DuplicatedException(String.format("(%s)는 중복된 닉네임 입니다. 다른 닉네임을 입력해주세요!", nickName));
-        }
-    }
 
     @Transactional
     public Long signOut(Long memberId) {
@@ -52,6 +47,20 @@ public class MemberService {
     @Transactional(readOnly = true)
     public void checkBoss(Long memberId) {
         MemberServiceUtils.findByBossId(memberRepository, memberId);
+    }
+
+    private void validateDuplicatedNickName(String nickName) {
+        Member member = memberRepository.findMemberIdByNickName(nickName);
+        if (member != null) {
+            throw new DuplicatedException(String.format("(%s)는 중복된 닉네임 입니다. 다른 닉네임을 입력해주세요!", nickName));
+        }
+    }
+
+    private void validateDuplicatedEmail(String email) {
+        Member member = memberRepository.findMemberIdByEmail(email);
+        if (member != null) {
+            throw new DuplicatedException(String.format("(%s)는 이미 가입된 회원입니다. 기존 이메일로 로그인해주세요.", email));
+        }
     }
 
 }

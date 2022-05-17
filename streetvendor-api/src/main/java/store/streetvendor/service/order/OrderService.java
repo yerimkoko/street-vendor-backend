@@ -43,17 +43,17 @@ public class OrderService {
     }
 
     @Transactional
-    public void changeStatusToReady(Long storeId, Long memberId, Long orderId) {
+    public void changeStatusToPreparing(Long storeId, Long memberId, Long orderId) {
         StoreServiceUtils.validateExistsStore(storeRepository, storeId, memberId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, orderId);
-        order.changeStatusToReady();
+        order.changeStatusToPreparing();
     }
 
     @Transactional
-    public void changeStatusToComplete(Long storeId, Long memberId, Long orderId, AddNewOrderHistoryRequest request) {
+    public void changeStatusToReadyToPickUp(Long storeId, Long memberId, Long orderId, AddNewOrderHistoryRequest request) {
         StoreServiceUtils.validateExistsStore(storeRepository, storeId, memberId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, orderId);
-        order.changeStatusToComplete();
+        order.changeStatusToReadyToPickUp();
         addToCompletedOrder(request, memberId);
     }
 

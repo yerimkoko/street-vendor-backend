@@ -7,6 +7,7 @@ import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.StoreCategory;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
+import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.exception.model.AlreadyExistedException;
 import store.streetvendor.service.member.MemberServiceUtils;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
@@ -14,9 +15,9 @@ import store.streetvendor.service.store.dto.response.MyStoreInfo;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 import store.streetvendor.service.store.dto.response.StoreResponseDto;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
-import store.streetvendor.domain.domain.store.Store;
-import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
+import store.streetvendor.domain.domain.store.Store;
+import store.streetvendor.service.store.dto.response.StoreSimpleResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,29 +64,21 @@ public class StoreService {
         return StoreDetailResponse.of(store, member);
     }
 
-    @Transactional
-    public List<StoreResponseDto> getAllStoreList(int size, long lastId) {
+    @Transactional(readOnly = true)
+    public List<StoreSimpleResponse> getAllStoreList(int size, long lastId) {
         List<Store> stores = storeRepository.findAllStoreBySizeAndLastId(size, lastId);
-        return getStores(stores);
-    }
-
-    private List<StoreResponseDto> getStores(List<Store> stores) {
         return stores.stream()
-            .map(StoreResponseDto::of)
+            .map(StoreSimpleResponse::of)
             .collect(Collectors.toList());
     }
 
-    private List<MyStoreInfo> getMyStores(List<Store> stores) {
-        return stores.stream()
-            .map(MyStoreInfo::of)
-            .collect(Collectors.toList());
-    }
-
-    @Transactional
+    @Transactional(readOnly = true)
     public List<StoreResponseDto> getStoreByLocation(StoreDistanceRequest request) {
         List<Store> stores = storeRepository
             .findByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance());
-        return getStores(stores);
+        return stores.stream()
+            .map(StoreResponseDto::of)
+            .collect(Collectors.toList());
     }
 
     @Transactional
@@ -112,6 +105,18 @@ public class StoreService {
     public List<StoreResponseDto> getStoreByCategory(StoreCategory category) {
         List<Store> stores = storeRepository.findStoreByCategory(category);
         return getStores(stores);
+    }
+
+    private List<StoreResponseDto> getStores(List<Store> stores) {
+        return stores.stream()
+            .map(StoreResponseDto::of)
+            .collect(Collectors.toList());
+    }
+
+    private List<MyStoreInfo> getMyStores(List<Store> stores) {
+        return stores.stream()
+            .map(MyStoreInfo::of)
+            .collect(Collectors.toList());
     }
 
 }

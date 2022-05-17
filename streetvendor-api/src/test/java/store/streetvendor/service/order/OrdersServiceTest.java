@@ -104,7 +104,7 @@ public class OrdersServiceTest {
         orderRepository.save(myOrder);
 
         // when
-        orderService.changeStatusToReady(store.getId(), member.getId(), myOrder.getId());
+        orderService.changeStatusToPreparing(store.getId(), member.getId(), myOrder.getId());
 
         // then
         List<Orders> orders = orderRepository.findAll();
@@ -128,11 +128,11 @@ public class OrdersServiceTest {
         List<OrderHistoryMenusRequest> menusRequest = List.of(new OrderHistoryMenusRequest(menu, orderMenu));
         AddNewOrderHistoryRequest request = new AddNewOrderHistoryRequest(order.getId(), store.getId(), menusRequest);
 
-        order.changeStatusToReady();
+        order.changeStatusToPreparing();
         orderRepository.save(order);
 
         // when
-        orderService.changeStatusToComplete(store.getId(), member.getId(), order.getId(), request);
+        orderService.changeStatusToReadyToPickUp(store.getId(), member.getId(), order.getId(), request);
 
         // then
         List<Orders> orders = orderRepository.findAll();

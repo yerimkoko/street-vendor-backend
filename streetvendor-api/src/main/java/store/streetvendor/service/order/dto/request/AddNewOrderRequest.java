@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order.OrderMenu;
-import store.streetvendor.domain.domain.store.Menu;
 import store.streetvendor.domain.domain.store.Store;
 
 import javax.validation.constraints.NotBlank;
@@ -18,7 +17,6 @@ public class AddNewOrderRequest {
 
     private List<OrderMenusRequest> menus;
 
-    // TODO: long vs Long 구분해보기.
     private long storeId;
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")

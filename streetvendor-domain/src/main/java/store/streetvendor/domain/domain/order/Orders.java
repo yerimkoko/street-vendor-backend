@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Embeddable
 public class Orders extends BaseTimeEntity {
 
     @Id
@@ -61,13 +62,13 @@ public class Orders extends BaseTimeEntity {
         this.orderMenus.add(menu);
     }
 
-    public void changeStatusToReady() {
+    public void changeStatusToPreparing() {
         if (this.orderStatus.canChangeToReady()) {
             this.orderStatus = OrderStatus.PREPARING;
         }
     }
 
-    public void changeStatusToComplete() {
+    public void changeStatusToReadyToPickUp() {
         if (this.orderStatus == OrderStatus.PREPARING) {
             this.orderStatus = OrderStatus.READY_TO_PICK_UP;
         }

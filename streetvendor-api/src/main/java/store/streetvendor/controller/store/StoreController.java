@@ -14,6 +14,7 @@ import store.streetvendor.service.store.dto.response.StoreResponseDto;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
 import store.streetvendor.service.store.StoreService;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
+import store.streetvendor.service.store.dto.response.StoreSimpleResponse;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -65,7 +66,7 @@ public class StoreController {
 
     @ApiOperation(value = "전체 가게 조회하기")
     @GetMapping("/api/v1/stores")
-    public ApiResponse<List<StoreResponseDto>> allStores(@RequestParam int size, @RequestParam int lastId) {
+    public ApiResponse<List<StoreSimpleResponse>> allStores(@RequestParam int size, @RequestParam int lastId) {
         return ApiResponse.success(storeService.getAllStoreList(size, lastId));
     }
 

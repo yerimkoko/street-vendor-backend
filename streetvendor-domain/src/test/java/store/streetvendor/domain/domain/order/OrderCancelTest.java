@@ -11,8 +11,8 @@ public class OrderCancelTest {
     void 사용자는_거래완료된_상품일때_order는_취소되지_않는다() {
         // given
         Orders order = Orders.newOrder(1L, 999L);
-        order.changeStatusToReady();
-        order.changeStatusToComplete();
+        order.changeStatusToPreparing();
+        order.changeStatusToReadyToPickUp();
 
         // when & then
         assertThatThrownBy(order::cancelOrderByUser).isInstanceOf(IllegalArgumentException.class);
@@ -22,7 +22,7 @@ public class OrderCancelTest {
     void 사용자는_READY_상태에서_취소하지_못한다() {
         // given
         Orders order = Orders.newOrder(999L, 1L);
-        order.changeStatusToReady();
+        order.changeStatusToPreparing();
 
         // when & then
         assertThatThrownBy(order::cancelOrderByUser).isInstanceOf(IllegalArgumentException.class);
