@@ -14,10 +14,12 @@ public interface StoreRepositoryCustom {
 
     Store findStoreByMemberIdAndSalesStatusStore(Long memberId, StoreSalesStatus salesStatus);
 
+    // List<Store> findByLocationAndDistanceLessThanStore(Double latitude, Double longitude, Double distance);
+
     List<Store> findStoreByBossId(Long bossId);
 
     List<Store> findAllStoreBySizeAndLastId(int size, long lastId);
 
-    List<Store> findStoreByCategory(StoreCategory category);
+    List<Store> findStoreByCategory(StoreCategory category, StoreSalesStatus salesStatus);
 
 }

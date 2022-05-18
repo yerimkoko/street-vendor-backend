@@ -23,7 +23,6 @@ public interface StoreRepository extends JpaRepository<Store, Long>, StoreReposi
         "  GROUP BY id" +
         "  HAVING distance < :distance" +
         "  ORDER BY distance", nativeQuery = true)
-
     List<Store> findByLocationAndDistanceLessThan(@Param("latitude") final Double latitude,
                                                   @Param("longitude") final Double longitude,
                                                   @Param("distance") final Double distance);

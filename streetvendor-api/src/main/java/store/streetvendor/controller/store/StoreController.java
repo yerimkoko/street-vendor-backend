@@ -7,6 +7,7 @@ import store.streetvendor.config.auth.Auth;
 import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
 import store.streetvendor.domain.domain.store.StoreCategory;
+import store.streetvendor.service.store.dto.request.StoreCategoryRequest;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
 import store.streetvendor.service.store.dto.response.MyStoreInfo;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
@@ -95,8 +96,8 @@ public class StoreController {
 
     @ApiOperation(value = "카테고리로 가게 조회하기")
     @GetMapping("/api/v1/store/{category}")
-    public ApiResponse<List<StoreResponseDto>> storesByCategory(@PathVariable StoreCategory category) {
-        return ApiResponse.success(storeService.getStoreByCategory(category));
+    public ApiResponse<List<StoreResponseDto>> storesByCategory(StoreCategoryRequest request) {
+        return ApiResponse.success(storeService.getStoreByCategory(request));
     }
 
 }

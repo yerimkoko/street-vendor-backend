@@ -6,13 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.exception.model.AlreadyExistedException;
 import store.streetvendor.exception.model.NotFoundException;
-import store.streetvendor.service.store.dto.request.BusinessHourRequest;
-import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
+import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.*;
-import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
-import store.streetvendor.service.store.dto.request.MenuRequest;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 
 import java.time.LocalTime;
@@ -304,11 +301,14 @@ class StoreServiceTest {
     void 카테고리별_가게를_보여준다() {
         // given
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
+        StoreSalesStatus open = StoreSalesStatus.OPEN;
+
         Member member = createMember();
         createSalesStore(member);
+        StoreCategoryRequest request = new StoreCategoryRequest(category, open);
 
         // when
-        storeService.getStoreByCategory(category);
+        storeService.getStoreByCategory(request);
 
         // then
         List<Store> stores = storeRepository.findAll();

@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.domain.domain.store.StoreCategory;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
 import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.exception.model.AlreadyExistedException;
 import store.streetvendor.service.member.MemberServiceUtils;
+import store.streetvendor.service.store.dto.request.StoreCategoryRequest;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
 import store.streetvendor.service.store.dto.response.MyStoreInfo;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
@@ -102,8 +102,8 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public List<StoreResponseDto> getStoreByCategory(StoreCategory category) {
-        List<Store> stores = storeRepository.findStoreByCategory(category);
+    public List<StoreResponseDto> getStoreByCategory(StoreCategoryRequest request) {
+        List<Store> stores = storeRepository.findStoreByCategory(request.getCategory(), request.getSalesStatus());
         return getStores(stores);
     }
 
