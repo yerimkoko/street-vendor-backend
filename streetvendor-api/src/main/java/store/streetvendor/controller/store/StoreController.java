@@ -73,13 +73,13 @@ public class StoreController {
     @ApiOperation(value = "거리로 부터 영업중인 가게 조회하기")
     @GetMapping("/api/v1/stores/location/open")
     public ApiResponse<List<StoreResponseDto>> openedStoresByLocation(StoreDistanceRequest request) {
-        return ApiResponse.success(storeService.getOpenedStoreByLocation(request));
+        return ApiResponse.success(storeService.getOpenedStoresByLocation(request));
     }
 
     @ApiOperation(value = "거리로 부터 영업 종료된 가게 조회하기")
     @GetMapping("/api/v1/stores/location/closed")
     public ApiResponse<List<StoreResponseDto>> closedStoresByLocation(StoreDistanceRequest request) {
-        return ApiResponse.success(storeService.getClosedStoreByLocation(request));
+        return ApiResponse.success(storeService.getClosedStoresByLocation(request));
     }
 
     @Auth

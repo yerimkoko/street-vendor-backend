@@ -73,7 +73,7 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public List<StoreResponseDto> getOpenedStoreByLocation(StoreDistanceRequest request) {
+    public List<StoreResponseDto> getOpenedStoresByLocation(StoreDistanceRequest request) {
         List<Store> stores = storeRepository
             .findOpenedStoreByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance());
         return stores.stream()
@@ -82,7 +82,7 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public List<StoreResponseDto> getClosedStoreByLocation(StoreDistanceRequest request) {
+    public List<StoreResponseDto> getClosedStoresByLocation(StoreDistanceRequest request) {
         List<Store> stores = storeRepository
             .findClosedStoreByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance());
         return stores.stream()
