@@ -2,6 +2,7 @@ package store.streetvendor.service.store.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import store.streetvendor.domain.domain.store.StoreSalesStatus;
 
 @Getter
 @NoArgsConstructor
@@ -15,10 +16,13 @@ public class StoreDistanceRequest {
 
     private Double distance;
 
-    public StoreDistanceRequest(Double latitude, Double longitude, Double distanceKm) {
+    private String salesStatus;
+
+    public StoreDistanceRequest(Double latitude, Double longitude, Double distanceKm, String salesStatus) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.distance = checkDistance(distanceKm);
+        this.salesStatus = salesStatus(salesStatus);
     }
 
     private Double checkDistance(Double distanceKm) {
@@ -26,5 +30,9 @@ public class StoreDistanceRequest {
             return DISTANCE_LIMIT;
         }
         return distanceKm;
+    }
+
+    private String salesStatus(String salesStatus) {
+        return "'" + salesStatus + "'";
     }
 }

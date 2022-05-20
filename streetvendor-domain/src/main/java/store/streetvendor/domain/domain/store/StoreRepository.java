@@ -20,12 +20,30 @@ public interface StoreRepository extends JpaRepository<Store, Long>, StoreReposi
         "    )" +
         "  ) AS distance" +
         "  FROM store" +
-        "  WHERE store.sales_status = 'OPEN' AND store.status = 'ACTIVE' " +
+        "  WHERE store.status = 'ACTIVE' AND store.sales_status = 'OPEN' " +
         "  GROUP BY id" +
         "  HAVING distance < :distance" +
         "  ORDER BY distance", nativeQuery = true)
-    List<Store> findByLocationAndDistanceLessThan(@Param("latitude") final Double latitude,
+    List<Store> findOpenedStoreByLocationAndDistanceLessThan(@Param("latitude") final Double latitude,
                                                   @Param("longitude") final Double longitude,
                                                   @Param("distance") final Double distance);
 
+
+    @Query(value = "SELECT *, (" +
+        "    6371 * acos (" +
+        "      cos ( radians( :latitude ) )  " +
+        "      * cos( radians( latitude ) )" +
+        "      * cos( radians( longitude ) - radians( :longitude ) )" +
+        "      + sin ( radians( :latitude ) )" +
+        "      * sin( radians( latitude ) )" +
+        "    )" +
+        "  ) AS distance" +
+        "  FROM store" +
+        "  WHERE store.status = 'ACTIVE' AND store.sales_status = 'CLOSED' " +
+        "  GROUP BY id" +
+        "  HAVING distance < :distance" +
+        "  ORDER BY distance", nativeQuery = true)
+    List<Store> findClosedStoreByLocationAndDistanceLessThan(@Param("latitude") final Double latitude,
+                                                             @Param("longitude") final Double longitude,
+                                                             @Param("distance") final Double distance);
 }
