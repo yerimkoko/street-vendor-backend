@@ -29,6 +29,10 @@ public class StoreResponseDto {
 
     private StoreCategory category;
 
+    private StoreSalesStatus salesStatus;
+
+    private StoreStatus status;
+
     private List<PaymentMethod> paymentMethods;
 
     private List<MenuResponse> menus;
@@ -36,7 +40,8 @@ public class StoreResponseDto {
 
     @Builder
     public StoreResponseDto(Long storeId, Long bossId, String name, String pictureUrl, Location location, String description,
-                            List<StoreBusinessDayResponse> businessHours, StoreCategory category, List<PaymentMethod> paymentMethods, List<MenuResponse> menus) {
+                            List<StoreBusinessDayResponse> businessHours, StoreCategory category, StoreSalesStatus salesStatus,
+                            StoreStatus status, List<PaymentMethod> paymentMethods, List<MenuResponse> menus) {
         this.storeId = storeId;
         this.bossId = bossId;
         this.name = name;
@@ -47,6 +52,8 @@ public class StoreResponseDto {
         this.category = category;
         this.paymentMethods = paymentMethods;
         this.menus = menus;
+        this.salesStatus = salesStatus;
+        this.status = status;
     }
 
     public static StoreResponseDto of(Store store) {
@@ -65,6 +72,8 @@ public class StoreResponseDto {
             .category(store.getCategory())
             .paymentMethods(store.getPaymentMethods().stream().map(Payment::getPaymentMethod).collect(Collectors.toList()))
             .menus(getMenuList(store))
+            .status(store.getStatus())
+            .salesStatus(store.getSalesStatus())
             .businessHours(businessHours.stream().map(StoreBusinessDayResponse::of).collect(Collectors.toList()))
             .build();
     }

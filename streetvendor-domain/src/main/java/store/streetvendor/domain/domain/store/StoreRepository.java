@@ -20,6 +20,7 @@ public interface StoreRepository extends JpaRepository<Store, Long>, StoreReposi
         "    )" +
         "  ) AS distance" +
         "  FROM store" +
+        "  WHERE store.sales_status = 'OPEN' AND store.status = 'ACTIVE' " +
         "  GROUP BY id" +
         "  HAVING distance < :distance" +
         "  ORDER BY distance", nativeQuery = true)
