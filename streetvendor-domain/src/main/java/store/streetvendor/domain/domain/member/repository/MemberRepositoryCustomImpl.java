@@ -24,7 +24,8 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     public Member findMemberIdByNickName(String nickName) {
         return queryFactory.selectFrom(member)
             .where(
-                member.nickName.eq(nickName)
+                member.nickName.eq(nickName),
+                member.status.eq(MemberStatus.ACTIVE)
             ).fetchOne();
     }
 
@@ -32,7 +33,8 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     public Member findMemberIdByEmail(String email) {
         return queryFactory.selectFrom(member)
             .where(
-                member.email.eq(email)
+                member.email.eq(email),
+                member.status.eq(MemberStatus.ACTIVE)
             ).fetchOne();
     }
 
