@@ -8,13 +8,10 @@ import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
 import store.streetvendor.service.store.dto.request.StoreCategoryRequest;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
-import store.streetvendor.service.store.dto.response.MyStoreInfo;
-import store.streetvendor.service.store.dto.response.StoreDetailResponse;
-import store.streetvendor.service.store.dto.response.StoreResponseDto;
+import store.streetvendor.service.store.dto.response.*;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
 import store.streetvendor.service.store.StoreService;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
-import store.streetvendor.service.store.dto.response.StoreSimpleResponse;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -72,13 +69,13 @@ public class StoreController {
 
     @ApiOperation(value = "거리로 부터 영업중인 가게 조회하기")
     @GetMapping("/api/v1/stores/location/open")
-    public ApiResponse<List<StoreResponseDto>> openedStoresByLocation(StoreDistanceRequest request) {
+    public ApiResponse<List<StoreResponse>> openedStoresByLocation(StoreDistanceRequest request) {
         return ApiResponse.success(storeService.getOpenedStoresByLocation(request));
     }
 
     @ApiOperation(value = "거리로 부터 전체 가게 조회하기")
-    @GetMapping("/api/v1/stores/location/closed")
-    public ApiResponse<List<StoreResponseDto>> closedStoresByLocation(StoreDistanceRequest request) {
+    @GetMapping("/api/v1/stores/location")
+    public ApiResponse<List<StoreResponse>> closedStoresByLocation(StoreDistanceRequest request) {
         return ApiResponse.success(storeService.getAllStoresByLocation(request));
     }
 
@@ -100,7 +97,7 @@ public class StoreController {
 
     @ApiOperation(value = "카테고리로 가게 조회하기")
     @GetMapping("/api/v1/store/{category}")
-    public ApiResponse<List<StoreResponseDto>> storesByCategory(StoreCategoryRequest request) {
+    public ApiResponse<List<StoreResponse>> storesByCategory(StoreCategoryRequest request) {
         return ApiResponse.success(storeService.getStoresByCategoryAndLocationAndStoreStatus(request));
     }
 
