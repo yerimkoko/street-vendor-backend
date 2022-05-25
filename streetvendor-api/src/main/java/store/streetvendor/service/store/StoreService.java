@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.domain.domain.store.StoreCategory;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
 import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.exception.model.AlreadyExistedException;
@@ -84,7 +85,7 @@ public class StoreService {
     @Transactional(readOnly = true)
     public List<StoreResponseDto> getAllStoresByLocation(StoreDistanceRequest request) {
         List<Store> stores = storeRepository
-            .findClosedStoreByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance());
+            .findAllStoresByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance());
         return stores.stream()
             .map(StoreResponseDto::of)
             .collect(Collectors.toList());
@@ -111,16 +112,14 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public List<StoreResponseDto> getStoreByCategory(StoreCategoryRequest request) {
-        List<Store> stores = storeRepository.findStoreByCategory(request.getCategory(), request.getSalesStatus());
-        return getStores(stores);
-    }
-
-    private List<StoreResponseDto> getStores(List<Store> stores) {
-        return stores.stream()
+    public List<StoreResponseDto> getStoresByCategoryAndLocationAndStoreStatus(StoreCategoryRequest request) {
+        return storeRepository.findAllStoresByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance()).stream()
             .map(StoreResponseDto::of)
+            .filter(store -> store.getCategory().equals(request.getCategory()) &&
+                store.getSalesStatus().equals(request.getSalesStatus()))
             .collect(Collectors.toList());
     }
+
 
     private List<MyStoreInfo> getMyStores(List<Store> stores) {
         return stores.stream()

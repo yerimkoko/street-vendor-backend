@@ -34,10 +34,4 @@ public class MemberServiceUtils {
         }
     }
 
-    static void validateDuplicatedNickName(MemberRepository memberRepository, String nickName) {
-        Member member = memberRepository.findActiveMemberIdByNickName(nickName);
-        if (member != null) {
-            throw new DuplicatedException(String.format("(%s)는 중복된 닉네임 입니다. 다른 닉네임을 입력해주세요!", nickName));
-        }
-    }
 }

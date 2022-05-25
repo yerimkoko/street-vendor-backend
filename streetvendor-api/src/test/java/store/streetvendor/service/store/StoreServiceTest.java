@@ -296,24 +296,28 @@ class StoreServiceTest {
             .isInstanceOf(AlreadyExistedException.class);
     }
 
-
     @Test
     void 카테고리별_가게를_보여준다() {
         // given
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
         StoreSalesStatus open = StoreSalesStatus.OPEN;
+        StoreStatus status = StoreStatus.ACTIVE;
+        Double latitude = 37.78639644286605;
+        Double longitude = 126.40572677813635;
+        Double distance = 999.00;
 
         Member member = createMember();
         createSalesStore(member);
-        StoreCategoryRequest request = new StoreCategoryRequest(category, open);
+        StoreCategoryRequest request = new StoreCategoryRequest(category, open, status, latitude, longitude, distance);
 
         // when
-        storeService.getStoreByCategory(request);
+        storeService.getStoresByCategoryAndLocationAndStoreStatus(request);
 
         // then
         List<Store> stores = storeRepository.findAll();
         assertThat(stores).hasSize(1);
         assertThat(stores.get(0).getCategory()).isEqualTo(category);
+        assertThat(stores.get(0).getSalesStatus()).isEqualTo(open);
     }
 
 
@@ -345,7 +349,8 @@ class StoreServiceTest {
         Long memberId = member.getId();
         String name = "토끼의 붕어빵 가게";
         String pictureUrl = "https://rabbit.com";
-        Location location = new Location(34.232323, 128.242424);
+        Location location = new Location(37.78639644286605, 126.40572677813635);
+
         String storeDescription = "슈크림 맛집 입니다!";
         String locationDescription = "당정역 1번 출구 앞";
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;

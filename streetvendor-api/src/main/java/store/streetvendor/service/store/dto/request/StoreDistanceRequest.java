@@ -16,13 +16,13 @@ public class StoreDistanceRequest {
 
     private Double distance;
 
-    private String salesStatus;
+    private StoreSalesStatus salesStatus;
 
-    public StoreDistanceRequest(Double latitude, Double longitude, Double distanceKm, String salesStatus) {
+    public StoreDistanceRequest(Double latitude, Double longitude, Double distanceKm, StoreSalesStatus salesStatus) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.distance = checkDistance(distanceKm);
-        this.salesStatus = salesStatus(salesStatus);
+        this.salesStatus = salesStatus;
     }
 
     private Double checkDistance(Double distanceKm) {
@@ -32,7 +32,4 @@ public class StoreDistanceRequest {
         return distanceKm;
     }
 
-    private String salesStatus(String salesStatus) {
-        return "'" + salesStatus + "'";
-    }
 }

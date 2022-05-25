@@ -101,7 +101,7 @@ public class StoreController {
     @ApiOperation(value = "카테고리로 가게 조회하기")
     @GetMapping("/api/v1/store/{category}")
     public ApiResponse<List<StoreResponseDto>> storesByCategory(StoreCategoryRequest request) {
-        return ApiResponse.success(storeService.getStoreByCategory(request));
+        return ApiResponse.success(storeService.getStoresByCategoryAndLocationAndStoreStatus(request));
     }
 
 }
