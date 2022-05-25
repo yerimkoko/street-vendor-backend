@@ -68,6 +68,29 @@ public class MemberServiceTest {
 
     }
 
+    @Test
+    void 탈퇴한_회원이_재가입이_가능하다() {
+        // given
+        MemberSignUpRequestDto requestDto = MemberSignUpRequestDto.testBuilder()
+            .name("yerimko")
+            .email("chocozzang@gmail.com")
+            .nickName("yerimkoko")
+            .profileUrl("s3.com")
+            .build();
+        memberRepository.save(requestDto.signOutMemberToEntity());
+
+        // when
+        memberService.signUp(requestDto);
+
+        // then
+        List<Member> findMembers = memberRepository.findAll();
+        assertThat(findMembers).hasSize(2);
+        assertThat(requestDto.getEmail()).isEqualTo(findMembers.get(0).getEmail());
+        assertThat(requestDto.getEmail()).isEqualTo(findMembers.get(1).getEmail());
+
+
+    }
+
 
     @Test
     void 닉네임이_중복인경우_에러가_발생한다() {

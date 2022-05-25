@@ -21,19 +21,10 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public Member findMemberIdByNickName(String nickName) {
+    public Member findActiveMemberIdByNickName(String nickName) {
         return queryFactory.selectFrom(member)
             .where(
                 member.nickName.eq(nickName),
-                member.status.eq(MemberStatus.ACTIVE)
-            ).fetchOne();
-    }
-
-    @Override
-    public Member findMemberIdByEmail(String email) {
-        return queryFactory.selectFrom(member)
-            .where(
-                member.email.eq(email),
                 member.status.eq(MemberStatus.ACTIVE)
             ).fetchOne();
     }

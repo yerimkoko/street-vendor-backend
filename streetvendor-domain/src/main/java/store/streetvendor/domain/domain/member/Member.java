@@ -60,6 +60,10 @@ public class Member extends BaseTimeEntity {
         return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE, MemberStatus.ACTIVE, bossName, phoneNumber);
     }
 
+    public static Member signOutMemberInstance(String name, String nickName, String email, String profileUrl) {
+        return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE, MemberStatus.SIGN_OUT, null, null);
+    }
+
     public void changeStatus() {
         this.status = MemberStatus.SIGN_OUT;
     }

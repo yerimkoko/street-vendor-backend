@@ -6,9 +6,7 @@ public interface MemberRepositoryCustom {
 
     Member findMemberById(Long memberId);
 
-    Member findMemberIdByNickName(String nickName);
-
-    Member findMemberIdByEmail(String email);
+    Member findActiveMemberIdByNickName(String nickName);
 
     Member findActiveMemberIdByEmail(String email);
 
