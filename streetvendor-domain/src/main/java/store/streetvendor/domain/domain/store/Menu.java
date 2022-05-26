@@ -17,7 +17,7 @@ public class Menu extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
@@ -55,6 +55,19 @@ public class Menu extends BaseTimeEntity {
             .pictureUrl(pictureUrl)
             .salesStatus(MenuSalesStatus.ON_SALE)
             .build();
+    }
+
+    public Menu changeMenuStatus(MenuSalesStatus salesStatus) {
+        validateSalesStatus(salesStatus);
+        this.salesStatus = salesStatus;
+        return this;
+    }
+
+    private void validateSalesStatus(MenuSalesStatus salesStatus) {
+        if (this.getSalesStatus() == salesStatus) {
+            throw new IllegalArgumentException(String.format("이미 <%s> 상태입니다. 다시 확인해주세요.", salesStatus));
+        }
+
     }
 
 }

@@ -5,17 +5,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.domain.domain.store.StoreCategory;
-import store.streetvendor.domain.domain.store.StoreSalesStatus;
-import store.streetvendor.domain.domain.store.StoreRepository;
+import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.exception.model.AlreadyExistedException;
+import store.streetvendor.exception.model.DuplicatedException;
+import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.member.MemberServiceUtils;
 import store.streetvendor.service.store.dto.request.StoreCategoryRequest;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
 import store.streetvendor.service.store.dto.response.*;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
-import store.streetvendor.domain.domain.store.Store;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -115,6 +114,18 @@ public class StoreService {
             .filter(store -> store.getCategory().equals(request.getCategory()) &&
                 store.getSalesStatus().equals(request.getSalesStatus()))
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void changeMenuStatus(Long storeId, Long menuId, MenuSalesStatus salesStatus) {
+        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
+        List<Menu> menus = store.getMenus().stream()
+            .filter(menu -> menu.getId().equals(menuId))
+            .collect(Collectors.toList());
+        if (menus.size() != 1) {
+            throw new NotFoundException(String.format("(%s)에 해당하는 메뉴는 없습니다. 다시 확인 해주세요.", menuId));
+        }
+        menus.get(0).changeMenuStatus(salesStatus);
     }
 
 

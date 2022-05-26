@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
+import store.streetvendor.domain.domain.store.Menu;
+import store.streetvendor.domain.domain.store.MenuRepository;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
@@ -78,5 +80,6 @@ public class OrderService {
         historyRepository.save(request.toEntity(store.getId(), store.getMemberId()));
 
     }
+
 
 }

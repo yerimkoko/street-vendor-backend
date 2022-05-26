@@ -320,6 +320,28 @@ class StoreServiceTest {
         assertThat(stores.get(0).getSalesStatus()).isEqualTo(open);
     }
 
+    @Test
+    void 가게의_메뉴상태를_변경한다() {
+        // given
+        Member member = createMember();
+        Store store = createStore(member);
+        MenuSalesStatus soldOut = MenuSalesStatus.SOLD_OUT;
+        Menu menu = createMenu(store);
+        menuRepository.save(menu);
+
+        // when
+        storeService.changeMenuStatus(store.getId(), menu.getId(), soldOut);
+
+        // then
+        List<Store> stores = storeRepository.findAll();
+        List<Menu> menus = menuRepository.findAll();
+
+        MenuSalesStatus menuSalesStatus = menus.get(0).getSalesStatus();
+        assertThat(stores).hasSize(1);
+        assertThat(menus).hasSize(1);
+        assertThat(menuSalesStatus).isEqualTo(soldOut);
+    }
+
 
     private Member createMember() {
         String name = "yerimkoko";
