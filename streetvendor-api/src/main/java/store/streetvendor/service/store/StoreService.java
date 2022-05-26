@@ -117,8 +117,8 @@ public class StoreService {
     }
 
     @Transactional
-    public void changeMenuStatus(Long storeId, Long menuId, MenuSalesStatus salesStatus) {
-        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
+    public void changeMenuStatus(Long storeId, Long bossId, Long menuId, MenuSalesStatus salesStatus) {
+        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, bossId);
         List<Menu> menus = store.getMenus().stream()
             .filter(menu -> menu.getId().equals(menuId))
             .collect(Collectors.toList());

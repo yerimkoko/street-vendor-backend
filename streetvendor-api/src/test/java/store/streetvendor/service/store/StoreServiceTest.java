@@ -330,7 +330,7 @@ class StoreServiceTest {
         menuRepository.save(menu);
 
         // when
-        storeService.changeMenuStatus(store.getId(), menu.getId(), soldOut);
+        storeService.changeMenuStatus(store.getId(), member.getId(), menu.getId(), soldOut);
 
         // then
         List<Store> stores = storeRepository.findAll();

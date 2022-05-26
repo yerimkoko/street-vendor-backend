@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import store.streetvendor.config.auth.Auth;
 import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
+import store.streetvendor.domain.domain.store.MenuSalesStatus;
 import store.streetvendor.service.store.dto.request.StoreCategoryRequest;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
 import store.streetvendor.service.store.dto.response.*;
@@ -99,6 +100,13 @@ public class StoreController {
     @GetMapping("/api/v1/store/{category}")
     public ApiResponse<List<StoreResponse>> storesByCategory(StoreCategoryRequest request) {
         return ApiResponse.success(storeService.getStoresByCategoryAndLocationAndStoreStatus(request));
+    }
+
+    @ApiOperation(value = "메뉴 상태 수정하기(soldOut, onSales)")
+    @PutMapping("/api/v1/store/{storeId}/menu/{menuId}/{menuSalesStatus}")
+    public ApiResponse<String> changeMenuStatus(@MemberId Long bossId, @PathVariable Long storeId, @PathVariable Long menuId, @PathVariable MenuSalesStatus menuSalesStatus) {
+        storeService.changeMenuStatus(storeId, bossId, menuId, menuSalesStatus);
+        return ApiResponse.OK;
     }
 
 }
