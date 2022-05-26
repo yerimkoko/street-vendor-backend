@@ -1,5 +1,6 @@
 package store.streetvendor.domain.domain.store;
 
+import javassist.NotFoundException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -152,6 +153,13 @@ public class Store extends BaseTimeEntity {
 
     public void changeSalesStatus(StoreSalesStatus salesStatus) {
         this.salesStatus = salesStatus;
+    }
+
+    public Menu findMenuByMenuId(Long menuId) {
+        return this.menus.stream()
+            .filter(menu -> menu.getId().equals(menuId))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException(String.format("해당하는 <%s>가 없습니다.", menuId)));
     }
 
 }

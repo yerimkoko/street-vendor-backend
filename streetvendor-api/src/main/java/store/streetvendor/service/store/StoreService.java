@@ -119,13 +119,8 @@ public class StoreService {
     @Transactional
     public void changeMenuStatus(Long storeId, Long bossId, Long menuId, MenuSalesStatus salesStatus) {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, bossId);
-        List<Menu> menus = store.getMenus().stream()
-            .filter(menu -> menu.getId().equals(menuId))
-            .collect(Collectors.toList());
-        if (menus.size() != 1) {
-            throw new NotFoundException(String.format("(%s)에 해당하는 메뉴는 없습니다. 다시 확인 해주세요.", menuId));
-        }
-        menus.get(0).changeMenuStatus(salesStatus);
+        Menu menu = store.findMenuByMenuId(menuId);
+        menu.changeMenuStatus(salesStatus);
     }
 
 

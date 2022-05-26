@@ -67,7 +67,6 @@ public class Menu extends BaseTimeEntity {
         if (this.getSalesStatus() == salesStatus) {
             throw new IllegalArgumentException(String.format("이미 <%s> 상태입니다. 다시 확인해주세요.", salesStatus));
         }
-
     }
 
 }

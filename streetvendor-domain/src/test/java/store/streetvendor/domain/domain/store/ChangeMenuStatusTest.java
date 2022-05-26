@@ -2,6 +2,8 @@ package store.streetvendor.domain.domain.store;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -15,11 +17,10 @@ public class ChangeMenuStatusTest {
 
         Store store = Store.newSalesStore(999L, "붕어빵", "23.dd", location, "안뇽", "ㅋㅋ", StoreCategory.BUNG_EO_PPANG);
 
-        Menu menu = Menu.of(store, "붕어빵", 2, 1000, "33.dd");
+        Menu menu = Menu.of(store, "koko", 2, 1000, "33333");
 
         // when
         menu.changeMenuStatus(soldOut);
-
         // then
         assertThat(menu.getSalesStatus()).isEqualTo(soldOut);
 
