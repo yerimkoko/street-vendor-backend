@@ -7,8 +7,6 @@ import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.exception.model.AlreadyExistedException;
-import store.streetvendor.exception.model.DuplicatedException;
-import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.member.MemberServiceUtils;
 import store.streetvendor.service.store.dto.request.StoreCategoryRequest;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
@@ -122,7 +120,6 @@ public class StoreService {
         Menu menu = store.findMenuByMenuId(menuId);
         menu.changeMenuStatus(salesStatus);
     }
-
 
     private List<MyStoreInfo> getMyStores(List<Store> stores) {
         return stores.stream()

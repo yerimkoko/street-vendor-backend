@@ -5,10 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
-import store.streetvendor.domain.domain.store.Menu;
-import store.streetvendor.domain.domain.store.MenuRepository;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
+import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
@@ -30,8 +29,15 @@ public class OrderService {
 
     @Transactional
     public void addNewOrder(AddNewOrderRequest request, Long memberId) {
-        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, request.getStoreId(), memberId);
-        orderRepository.save(request.toEntity(store, memberId));
+        List<Store> stores = storeRepository.findOpenedStoreByLocationAndDistanceLessThan(request.getLocation().getLatitude(),
+            request.getLocation().getLongitude(),
+            request.getDistance());
+
+        Store findStore = stores.stream()
+            .map(store -> StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, store.getId(), store.getMemberId()))
+            .findFirst()
+            .get();
+        orderRepository.save(request.toEntity(findStore, memberId));
     }
 
     // 사장님 기준 (주문을 받았을 때) -> 주문을 확인하는 로직

@@ -1,6 +1,5 @@
 package store.streetvendor.domain.domain.store;
 
-import javassist.NotFoundException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

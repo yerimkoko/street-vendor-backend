@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order.OrderMenu;
+import store.streetvendor.domain.domain.store.Location;
 import store.streetvendor.domain.domain.store.Store;
 
 import javax.validation.constraints.NotBlank;
@@ -15,14 +16,20 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class AddNewOrderRequest {
 
+    private double distance;
+
     private List<OrderMenusRequest> menus;
+
+    private Location location;
 
     private long storeId;
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
-    public AddNewOrderRequest(@NotBlank long storeId, List<OrderMenusRequest> menus) {
+    public AddNewOrderRequest(@NotBlank long storeId, List<OrderMenusRequest> menus, Location location) {
         this.storeId = storeId;
+        this.location = location;
         this.menus = menus;
+        this.distance = 2;
     }
 
     public Orders toEntity(Store store, Long memberId) {

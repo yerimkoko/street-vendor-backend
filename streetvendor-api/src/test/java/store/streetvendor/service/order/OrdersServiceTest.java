@@ -48,7 +48,7 @@ public class OrdersServiceTest {
     void 주문을_한다() {
         // given
         Member member = createMember();
-        Store store = createStore(member);
+        Store store = openedStore(member);
         Menu menu = createMenu(store);
 
         Days friDay = Days.FRI;
@@ -75,8 +75,11 @@ public class OrdersServiceTest {
 
         List<OrderMenusRequest> orderMenusRequests = List.of(orderMenusRequest);
 
+        Location location = new Location(37.78639644286605, 126.40572677813635);
+
         AddNewOrderRequest addNewOrderRequest = AddNewOrderRequest.testBuilder()
             .storeId(store.getId())
+            .location(location)
             .menus(orderMenusRequests)
             .build();
 
@@ -114,7 +117,7 @@ public class OrdersServiceTest {
     }
 
     @Test
-    void 사장님에게_주문상태가_READY일때_COMPLETE로_변경한다() {
+    void 사장님에게_주문상태가_READY_TO_PICK_UP일때_PREPARING으로_변경한다() {
         // given
         Member member = createMember();
         Store store = createStore(member);
@@ -235,12 +238,21 @@ public class OrdersServiceTest {
     }
 
     private Store createStore(Member member) {
-        Location location = new Location(34.123123, 128.242424);
+        Location location = new Location(37.78639644286605, 126.40572677813635);
         String storeDescription = "슈크림 붕어빵이 맛있어요";
         String locationDescription = "당정역 1번 출구 앞";
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
         return Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), location, storeDescription, locationDescription, category);
+    }
+
+    private Store openedStore(Member member) {
+        Location location = new Location(37.78639644286605, 126.40572677813635);
+        String storeDescription = "슈크림 붕어빵이 맛있어요";
+        String locationDescription = "당정역 1번 출구 앞";
+        StoreCategory category = StoreCategory.BUNG_EO_PPANG;
+        return Store.newSalesStore(member.getId(), member.getName(), member.getProfileUrl(), location, storeDescription, locationDescription, category);
+
     }
 
     private Menu createMenu(Store store) {

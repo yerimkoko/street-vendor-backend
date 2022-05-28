@@ -67,16 +67,4 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
             .fetch();
     }
 
-    @Override
-    public List<Store> findStoreByCategory(StoreCategory category, StoreSalesStatus salesStatus) {
-        return jpaQueryFactory
-            .selectFrom(store)
-            .where(
-                store.category.eq(category),
-                store.status.eq(StoreStatus.ACTIVE),
-                store.salesStatus.eq(salesStatus)
-            )
-            .fetch();
-    }
-
 }

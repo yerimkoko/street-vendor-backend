@@ -20,6 +20,4 @@ public interface StoreRepositoryCustom {
 
     List<Store> findAllStoreBySizeAndLastId(int size, long lastId);
 
-    List<Store> findStoreByCategory(StoreCategory category, StoreSalesStatus salesStatus);
-
 }
