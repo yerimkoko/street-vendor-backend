@@ -12,6 +12,7 @@ import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
+import store.streetvendor.service.store.StoreService;
 import store.streetvendor.service.store.StoreServiceUtils;
 
 import java.util.List;
@@ -29,15 +30,12 @@ public class OrderService {
 
     @Transactional
     public void addNewOrder(AddNewOrderRequest request, Long memberId) {
-        List<Store> stores = storeRepository.findOpenedStoreByLocationAndDistanceLessThan(request.getLocation().getLatitude(),
+        StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, request.getStoreId(), memberId);
+        Store store = storeRepository.findOpenedStoreByStoreIdAndLocationAndDistanceLessThan(request.getStoreId(), request.getLocation().getLatitude(),
             request.getLocation().getLongitude(),
             request.getDistance());
 
-        Store findStore = stores.stream()
-            .map(store -> StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, store.getId(), store.getMemberId()))
-            .findFirst()
-            .get();
-        orderRepository.save(request.toEntity(findStore, memberId));
+        orderRepository.save(request.toEntity(store, memberId));
     }
 
     // 사장님 기준 (주문을 받았을 때) -> 주문을 확인하는 로직

@@ -9,6 +9,7 @@ import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.*;
 import store.streetvendor.domain.domain.order.OrderStatusCanceled;
 import store.streetvendor.domain.domain.store.*;
+import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.request.OrderMenusRequest;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
@@ -18,6 +19,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 public class OrdersServiceTest {
@@ -96,6 +98,7 @@ public class OrdersServiceTest {
         assertThat(orderMenus.get(0).getMenu().getId()).isEqualTo(menus.get(0).getId());
     }
 
+
     @Test
     void 사장님이_들어온_주문을_확인하고_준비중_상태로_변경한다() {
         // given
@@ -117,7 +120,7 @@ public class OrdersServiceTest {
     }
 
     @Test
-    void 사장님에게_주문상태가_READY_TO_PICK_UP일때_PREPARING으로_변경한다() {
+    void 사장님에게_주문상태가_READY_TO_PICK_UP_일때_PREPARING_으로_변경한다() {
         // given
         Member member = createMember();
         Store store = createStore(member);
@@ -144,7 +147,7 @@ public class OrdersServiceTest {
     }
 
     @Test
-    void 주문이_거래완료가_되면_기존_Order가_삭제된다() {
+    void 주문이_거래완료가_되면_기존_Order_가_삭제된다() {
         // given
         Member member = createMember();
         Store store = createStore(member);
