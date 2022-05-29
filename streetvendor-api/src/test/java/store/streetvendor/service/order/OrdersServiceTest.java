@@ -9,7 +9,6 @@ import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.*;
 import store.streetvendor.domain.domain.order.OrderStatusCanceled;
 import store.streetvendor.domain.domain.store.*;
-import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.request.OrderMenusRequest;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
@@ -19,7 +18,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 public class OrdersServiceTest {
