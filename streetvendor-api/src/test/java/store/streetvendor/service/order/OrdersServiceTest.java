@@ -9,6 +9,7 @@ import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.*;
 import store.streetvendor.domain.domain.order.OrderStatusCanceled;
 import store.streetvendor.domain.domain.store.*;
+import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.request.OrderMenusRequest;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
@@ -18,6 +19,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 public class OrdersServiceTest {
@@ -94,6 +96,43 @@ public class OrdersServiceTest {
         List<OrderMenu> orderMenus = orderMenuRepository.findAll();
         assertThat(orderMenus).hasSize(1);
         assertThat(orderMenus.get(0).getMenu().getId()).isEqualTo(menus.get(0).getId());
+    }
+
+    @Test
+    void 주문이_안될_때() {
+        // given
+        Member member = createMember();
+        Store store = openedStore(member);
+        Menu menu = createMenu(store);
+        Days friDay = Days.FRI;
+        LocalTime startTime = LocalTime.of(8, 0);
+        LocalTime endTime = LocalTime.of(10, 0);
+        BusinessHours businessHours = createBusinessHours(store, friDay, startTime, endTime);
+        store.addMenus(List.of(menu));
+        store.addBusinessDays(List.of(businessHours));
+        storeRepository.save(store);
+        Menu findMenu = store.findMenu(store.getMenus().get(0).getId());
+        int totalCount = 2;
+
+        OrderMenusRequest orderMenusRequest = OrderMenusRequest.testBuilder()
+            .menu(findMenu)
+            .count(totalCount)
+            .build();
+
+        List<OrderMenusRequest> orderMenusRequests = List.of(orderMenusRequest);
+
+        Location location = new Location(30.78639644286605, 126.40572677813635);
+
+        AddNewOrderRequest addNewOrderRequest = AddNewOrderRequest.testBuilder()
+            .storeId(store.getId())
+            .location(location)
+            .menus(orderMenusRequests)
+            .build();
+
+        // when & then
+        assertThatThrownBy(() -> orderService.addNewOrder(addNewOrderRequest, member.getId()))
+            .isInstanceOf(NotFoundException.class);
+
     }
 
 

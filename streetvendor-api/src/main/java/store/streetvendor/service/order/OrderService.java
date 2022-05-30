@@ -12,7 +12,6 @@ import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
-import store.streetvendor.service.store.StoreService;
 import store.streetvendor.service.store.StoreServiceUtils;
 
 import java.util.List;
@@ -34,6 +33,10 @@ public class OrderService {
         Store store = storeRepository.findOpenedStoreByStoreIdAndLocationAndDistanceLessThan(request.getStoreId(), request.getLocation().getLatitude(),
             request.getLocation().getLongitude(),
             request.getDistance());
+
+        if (store == null) {
+            throw new NotFoundException(String.format("찾으시는 가게 (%s)가 없습니다.", request.getStoreId()));
+        }
 
         orderRepository.save(request.toEntity(store, memberId));
     }
