@@ -1,13 +1,16 @@
-buildscript {
-    ext {
-        springBootVersion = "2.5.7"
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+plugins {
+    id "org.springframework.boot" version "2.5.7"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id "org.sonarqube" version "3.3"
+    id "jacoco"
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    jacocoVersion = "0.8.8"
 }
 
 allprojects {
@@ -20,6 +23,8 @@ subprojects {
         plugin("eclipse")
         plugin("org.springframework.boot")
         plugin("io.spring.dependency-management")
+        plugin("jacoco")
+        plugin("org.sonarqube")
     }
 
     repositories {
@@ -48,5 +53,36 @@ subprojects {
 
     test {
         useJUnitPlatform()
+        jacoco {
+            destinationFile = file("${buildDir}/jacoco/test.exec")
+        }
+    }
+}
+
+jacoco {
+    toolVersion = "${jacocoVersion}"
+}
+
+task testCoverage(type: JacocoReport, group: "verification") {
+    executionData(fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec"))
+
+    subprojects.forEach {
+        sourceSets(it.sourceSets.main as SourceSet)
+    }
+
+    reports {
+        xml.enabled true
+        html.enabled true
+        csv.enabled false
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "yerimkoko_street-vendor-backend"
+        property "sonar.organization", "yerimkoko"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/testCoverage/testCoverage.xml"
     }
 }
