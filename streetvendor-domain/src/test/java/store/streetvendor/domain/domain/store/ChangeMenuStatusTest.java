@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class ChangeMenuStatusTest {
+class ChangeMenuStatusTest {
 
     @Test
     void 메뉴의_상태가_변한다() {

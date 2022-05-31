@@ -7,7 +7,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class EqualsTest {
+class EqualsTest {
 
     @Test
     void 문제1() {
@@ -19,7 +19,8 @@ public class EqualsTest {
         Set<Person> people = Set.of(person);
 
         // then
-        assertThat(people.contains(personTwo)).isTrue();
+        assertThat(people).contains(personTwo);
+
     }
 
     class Person extends Object {

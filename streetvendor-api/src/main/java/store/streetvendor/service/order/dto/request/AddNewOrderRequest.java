@@ -3,8 +3,8 @@ package store.streetvendor.service.order.dto.request;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order.OrderMenu;
+import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.store.Location;
 import store.streetvendor.domain.domain.store.Store;
 

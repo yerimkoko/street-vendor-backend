@@ -11,7 +11,8 @@ import store.streetvendor.controller.ApiResponse;
 
 import java.net.BindException;
 
-import static store.streetvendor.exception.model.ErrorCode.*;
+import static store.streetvendor.exception.model.ErrorCode.UNAUTHORIZED_EXCEPTION;
+import static store.streetvendor.exception.model.ErrorCode.VALIDATION_EXCEPTION;
 
 @Slf4j
 @RestControllerAdvice

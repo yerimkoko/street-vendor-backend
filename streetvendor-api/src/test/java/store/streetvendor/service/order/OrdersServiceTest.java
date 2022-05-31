@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.*;
-import store.streetvendor.domain.domain.order.OrderStatusCanceled;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
@@ -22,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
-public class OrdersServiceTest {
+class OrdersServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;

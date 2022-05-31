@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.exception.model.DuplicatedException;
 import store.streetvendor.exception.model.NotFoundException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

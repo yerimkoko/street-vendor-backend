@@ -4,12 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import store.streetvendor.exception.model.AlreadyExistedException;
-import store.streetvendor.exception.model.NotFoundException;
-import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.*;
+import store.streetvendor.exception.model.AlreadyExistedException;
+import store.streetvendor.exception.model.NotFoundException;
+import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 
 import java.time.LocalTime;

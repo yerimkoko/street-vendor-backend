@@ -3,7 +3,6 @@ package store.streetvendor.service.order_history;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.domain.domain.order_history.OrderHistory;

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SaveBossInfoTest {
+class SaveBossInfoTest {
 
     @Test
     void 사장님_정보가_저장된다() {

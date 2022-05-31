@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class OrderCancelTest {
+class OrderCancelTest {
 
     @Test
     void 사용자는_거래완료된_상품일때_order는_취소되지_않는다() {
