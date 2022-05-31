@@ -19,6 +19,7 @@ public class ChangeMenuStatusTest {
 
         // when
         menu.changeMenuStatus(soldOut);
+
         // then
         assertThat(menu.getSalesStatus()).isEqualTo(soldOut);
 

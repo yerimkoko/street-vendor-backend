@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.*;
-import store.streetvendor.exception.model.AlreadyExistedException;
 import store.streetvendor.service.member.MemberServiceUtils;
 import store.streetvendor.service.store.dto.request.StoreCategoryRequest;
 import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
@@ -88,13 +87,10 @@ public class StoreService {
     @Transactional
     public void storeOpen(Long memberId, Long storeId) {
         StoreSalesStatus open = StoreSalesStatus.OPEN;
+
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberIdAndSalesStatus(storeRepository, storeId, memberId, open);
         Store findAlreadyOpenedStore = storeRepository.findStoreByMemberIdAndSalesStatusStore(memberId, open);
-        if (findAlreadyOpenedStore != null) {
-            if (findAlreadyOpenedStore != store) {
-                throw new AlreadyExistedException(String.format("이미 영업중인 가게 (%s)가 있습니다. 가게를 종료해주세요.", findAlreadyOpenedStore.getId()));
-            }
-        }
+        StoreServiceUtils.findStoreOpenedAndNotSameStatus(store, findAlreadyOpenedStore);
         store.changeSalesStatus(open);
     }
 
@@ -107,18 +103,20 @@ public class StoreService {
 
     @Transactional(readOnly = true)
     public List<StoreResponse> getStoresByCategoryAndLocationAndStoreStatus(StoreCategoryRequest request) {
-        return storeRepository.findAllStoresByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance()).stream()
+        return storeRepository.findAllStoresByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance())
+            .stream()
             .map(StoreResponse::of)
-            .filter(store -> store.getCategory().equals(request.getCategory()) &&
-                store.getSalesStatus().equals(request.getSalesStatus()))
+            .filter(store -> store.hasCategory(store.getCategory())
+                && store.isSalesStatus(store.getSalesStatus()))
             .collect(Collectors.toList());
     }
 
     @Transactional
     public void changeMenuStatus(Long storeId, Long bossId, Long menuId, MenuSalesStatus salesStatus) {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, bossId);
-        Menu menu = store.findMenuByMenuId(menuId);
-        menu.changeMenuStatus(salesStatus);
+        store.changeMenuSalesStatus(menuId, salesStatus);
+//        Menu menu = store.findMenuByMenuId(menuId);
+//        menu.changeMenuStatus(salesStatus);
     }
 
     private List<MyStoreInfo> getMyStores(List<Store> stores) {

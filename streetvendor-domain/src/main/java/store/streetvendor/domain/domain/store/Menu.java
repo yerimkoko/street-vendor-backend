@@ -69,4 +69,8 @@ public class Menu extends BaseTimeEntity {
         }
     }
 
+    public boolean isMenuId(Long menuId) {
+        return this.getId().equals(menuId);
+    }
+
 }

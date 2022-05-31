@@ -30,6 +30,13 @@ public class StoreServiceUtils {
         return store;
     }
 
+    public static Store findStoreOpenedAndNotSameStatus(Store store, Store findAlreadyOpenedStore) {
+        if (findAlreadyOpenedStore != null && findAlreadyOpenedStore != store) {
+            throw new AlreadyExistedException(String.format("이미 영업중인 가게 (%s)가 있습니다. 가게를 종료해주세요.", findAlreadyOpenedStore.getId()));
+        }
+        return store;
+    }
+
     public static void validateExistsStore(StoreRepository storeRepository, Long storeId, Long memberId) {
         Store store = storeRepository.findStoreByStoreIdAndMemberId(storeId, memberId);
         validateStore(store, storeId);
@@ -47,4 +54,5 @@ public class StoreServiceUtils {
             throw new AlreadyExistedException(String.format("(%s)는 이미 (%s) 상태입니다.", store.getId(), salesStatus));
         }
     }
+
 }

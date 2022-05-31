@@ -150,15 +150,16 @@ public class Store extends BaseTimeEntity {
         this.status = StoreStatus.DELETED;
     }
 
+
+    public void changeMenuSalesStatus(Long menuId, MenuSalesStatus salesStatus) {
+        this.menus.stream()
+            .filter(menu -> menu.isMenuId(menuId))
+            .forEach(menu -> menu.changeMenuStatus(salesStatus));
+    }
+
     public void changeSalesStatus(StoreSalesStatus salesStatus) {
         this.salesStatus = salesStatus;
     }
 
-    public Menu findMenuByMenuId(Long menuId) {
-        return this.menus.stream()
-            .filter(menu -> menu.getId().equals(menuId))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(String.format("해당하는 <%s>가 없습니다.", menuId)));
-    }
 
 }
