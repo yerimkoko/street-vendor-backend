@@ -1,8 +1,10 @@
 package store.streetvendor.domain.domain.sign_out_member;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
+import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberProvider;
 
 import javax.persistence.*;
@@ -36,8 +38,8 @@ public class SignOutMember extends BaseTimeEntity {
 
     private String phoneNumber;
 
-    public SignOutMember(Long id, Long memberId, String name, String nickName, String email, MemberProvider provider, String bossName, String phoneNumber) {
-        this.id = id;
+    @Builder
+    public SignOutMember(Long memberId, String name, String nickName, String email, MemberProvider provider, String bossName, String phoneNumber) {
         this.memberId = memberId;
         this.name = name;
         this.nickName = nickName;
@@ -45,5 +47,11 @@ public class SignOutMember extends BaseTimeEntity {
         this.provider = provider;
         this.bossName = bossName;
         this.phoneNumber = phoneNumber;
+    }
+
+    public static SignOutMember of(Member member) {
+        return new SignOutMember(member.getId(), member.getName(),
+            member.getNickName(), member.getEmail(), member.getProvider(), member.getBossName(), member.getPhoneNumber());
+
     }
 }
