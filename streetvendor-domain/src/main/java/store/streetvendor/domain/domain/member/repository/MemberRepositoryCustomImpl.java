@@ -3,7 +3,6 @@ package store.streetvendor.domain.domain.member.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import store.streetvendor.domain.domain.member.Member;
-import store.streetvendor.domain.domain.member.MemberStatus;
 
 import static store.streetvendor.domain.domain.member.QMember.member;
 
@@ -21,20 +20,18 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public Member findActiveMemberIdByNickName(String nickName) {
+    public Member findMemberIdByNickName(String nickName) {
         return queryFactory.selectFrom(member)
             .where(
-                member.nickName.eq(nickName),
-                member.status.eq(MemberStatus.ACTIVE)
+                member.nickName.eq(nickName)
             ).fetchOne();
     }
 
     @Override
-    public Member findActiveMemberIdByEmail(String email) {
+    public Member findMemberIdByEmail(String email) {
         return queryFactory.selectFrom(member)
             .where(
-                member.email.eq(email),
-                member.status.eq(MemberStatus.ACTIVE)
+                member.email.eq(email)
             ).fetchOne();
     }
 

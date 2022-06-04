@@ -46,11 +46,6 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (StringUtils.hasLength(header) && header.startsWith(BEARER_PREFIX)) {
             String sessionId = removeBearer(header);
             Long userId = getUserId(sessionId);
-            Member member = MemberServiceUtils.findByMemberId(memberRepository, userId);
-            if (member.getStatus() == MemberStatus.SIGN_OUT) {
-                throw new NotFoundException("탈퇴한 회원입니다.");
-            }
-
             request.setAttribute(MEMBER_ID, userId);
 
             return true;

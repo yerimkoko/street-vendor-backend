@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.domain.domain.sign_out_member.SignOutMemberRepository;
 import store.streetvendor.exception.model.DuplicatedException;
 import store.streetvendor.service.member.dto.request.MemberSaveBossInfoRequest;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
@@ -15,6 +16,8 @@ import store.streetvendor.service.member.dto.response.MemberInfoResponse;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
+    private final SignOutMemberRepository signOutMemberRepository;
 
     @Transactional
     public Long signUp(MemberSignUpRequestDto requestDto) {
@@ -28,7 +31,8 @@ public class MemberService {
     @Transactional
     public Long signOut(Long memberId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
-        member.changeStatus();
+        signOutMemberRepository.save(member.signOut());
+        memberRepository.delete(member);
         return memberId;
     }
 
@@ -50,14 +54,14 @@ public class MemberService {
     }
 
     private void validateDuplicatedNickName(String nickName) {
-        Member member = memberRepository.findActiveMemberIdByNickName(nickName);
+        Member member = memberRepository.findMemberIdByNickName(nickName);
         if (member != null) {
             throw new DuplicatedException(String.format("(%s)는 이미 사용중인 닉네임 입니다. 다른 닉네임을 입력해주세요.", nickName));
         }
     }
 
     private void validateDuplicatedEmail(String email) {
-        Member member = memberRepository.findActiveMemberIdByEmail(email);
+        Member member = memberRepository.findMemberIdByEmail(email);
         if (member != null) {
             throw new DuplicatedException(String.format("(%s)는 이미 가입된 회원입니다. 기존 이메일로 로그인해주세요.", email));
         }

@@ -22,7 +22,8 @@ public class SignOutMemberService {
     @Transactional
     public Long signOut(Long memberId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
-        signOutMemberRepository.save(SignOutMember.of(member));
+        // signOutMemberRepository.save(SignOutMember.of(member));
+        signOutMemberRepository.save(member.signOut());
         return member.getId();
     }
 }

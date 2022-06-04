@@ -31,6 +31,9 @@ public class SignOutMember extends BaseTimeEntity {
     private String email;
 
     @Column(nullable = false)
+    private String profileUrl;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private MemberProvider provider;
 
@@ -39,11 +42,12 @@ public class SignOutMember extends BaseTimeEntity {
     private String phoneNumber;
 
     @Builder
-    public SignOutMember(Long memberId, String name, String nickName, String email, MemberProvider provider, String bossName, String phoneNumber) {
+    public SignOutMember(Long memberId, String name, String nickName, String email, String profileUrl, MemberProvider provider, String bossName, String phoneNumber) {
         this.memberId = memberId;
         this.name = name;
         this.nickName = nickName;
         this.email = email;
+        this.profileUrl = profileUrl;
         this.provider = provider;
         this.bossName = bossName;
         this.phoneNumber = phoneNumber;
@@ -51,7 +55,7 @@ public class SignOutMember extends BaseTimeEntity {
 
     public static SignOutMember of(Member member) {
         return new SignOutMember(member.getId(), member.getName(),
-            member.getNickName(), member.getEmail(), member.getProvider(), member.getBossName(), member.getPhoneNumber());
-
+            member.getNickName(), member.getEmail(), member.getProfileUrl(), member.getProvider(), member.getBossName(), member.getPhoneNumber());
     }
+
 }

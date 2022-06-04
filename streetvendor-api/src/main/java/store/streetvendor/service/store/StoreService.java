@@ -93,7 +93,6 @@ public class StoreService {
     @Transactional
     public void storeOpen(Long memberId, Long storeId) {
         StoreSalesStatus open = StoreSalesStatus.OPEN;
-
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberIdAndSalesStatus(storeRepository, storeId, memberId, open);
         Store findAlreadyOpenedStore = storeRepository.findStoreByMemberIdAndSalesStatusStore(memberId, open);
         StoreServiceUtils.findStoreOpenedAndNotSameStatus(store, findAlreadyOpenedStore);

@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.member.MemberStatus;
+import store.streetvendor.domain.domain.sign_out_member.SignOutMember;
+import store.streetvendor.domain.domain.sign_out_member.SignOutMemberRepository;
 import store.streetvendor.exception.model.DuplicatedException;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
 
@@ -22,11 +24,15 @@ class MemberServiceTest {
     private MemberRepository memberRepository;
 
     @Autowired
+    private SignOutMemberRepository signOutMemberRepository;
+
+    @Autowired
     private MemberService memberService;
 
     @AfterEach
     void cleanUp() {
         memberRepository.deleteAll();
+        signOutMemberRepository.deleteAll();
     }
 
     @Test
@@ -54,7 +60,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void 회원을_탈퇴하면_status가_바뀐다() {
+    void 회원을_탈퇴하면_member_에서_사라지고_회원탈퇴_테이블에_저장된다() {
         // given
         Member member = memberRepository.save(Member.newGoogleInstance("name", "nickName", "email", "profile"));
 
@@ -63,34 +69,11 @@ class MemberServiceTest {
 
         // then
         List<Member> members = memberRepository.findAll();
-        assertThat(members).hasSize(1);
-        assertThat(members.get(0).getStatus()).isEqualTo(MemberStatus.SIGN_OUT);
+        List<SignOutMember> signOutMembers = signOutMemberRepository.findAll();
+        assertThat(members).hasSize(0);
+        assertThat(signOutMembers).hasSize(1);
 
     }
-
-    @Test
-    void 탈퇴한_회원이_재가입이_가능하다() {
-        // given
-        MemberSignUpRequestDto requestDto = MemberSignUpRequestDto.testBuilder()
-            .name("yerimko")
-            .email("chocozzang@gmail.com")
-            .nickName("yerimkoko")
-            .profileUrl("s3.com")
-            .build();
-        memberRepository.save(requestDto.signOutMemberToEntity());
-
-        // when
-        memberService.signUp(requestDto);
-
-        // then
-        List<Member> findMembers = memberRepository.findAll();
-        assertThat(findMembers).hasSize(2);
-        assertThat(requestDto.getEmail()).isEqualTo(findMembers.get(0).getEmail());
-        assertThat(requestDto.getEmail()).isEqualTo(findMembers.get(1).getEmail());
-
-
-    }
-
 
     @Test
     void 닉네임이_중복인경우_에러가_발생한다() {

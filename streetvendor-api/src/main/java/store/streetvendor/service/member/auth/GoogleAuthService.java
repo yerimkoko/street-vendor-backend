@@ -28,7 +28,7 @@ public class GoogleAuthService {
     public AuthResponse handleGoogleAuthentication(AuthRequest request) {
         GoogleUserInfoResponse userInfoResponse = googleApiCaller.getGoogleUserProfileInfo(request.getRequestToken());
 
-        Member findMember = memberRepository.findActiveMemberIdByEmail(userInfoResponse.getEmail());
+        Member findMember = memberRepository.findMemberIdByEmail(userInfoResponse.getEmail());
 
         if (findMember == null) {
             return AuthResponse.signUp(userInfoResponse.getEmail(), userInfoResponse.getName(), userInfoResponse.getPicture());
