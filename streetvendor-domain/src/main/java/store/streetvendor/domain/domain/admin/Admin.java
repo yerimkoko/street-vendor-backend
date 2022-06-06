@@ -23,8 +23,7 @@ public class Admin extends BaseTimeEntity {
 
     private String passWord;
 
-    public Admin(Long id, String email, String passWord) {
-        this.id = id;
+    public Admin(String email, String passWord) {
         this.email = email;
         this.passWord = passWord;
     }
