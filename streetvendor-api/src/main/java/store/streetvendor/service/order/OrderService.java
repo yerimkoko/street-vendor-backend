@@ -29,7 +29,7 @@ public class OrderService {
 
     @Transactional
     public void addNewOrder(AddNewOrderRequest request, Long memberId) {
-        StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, request.getStoreId(), memberId);
+        StoreServiceUtils.findByStoreId(storeRepository, request.getStoreId());
         Store store = storeRepository.findOpenedStoreByStoreIdAndLocationAndDistanceLessThan(request.getStoreId(), request.getLocation().getLatitude(),
             request.getLocation().getLongitude(),
             request.getDistance());
@@ -87,6 +87,5 @@ public class OrderService {
         historyRepository.save(request.toEntity(store.getId(), store.getMemberId()));
 
     }
-
 
 }

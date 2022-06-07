@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum ErrorCode {
     VALIDATION_EXCEPTION(ErrorStatusCode.VALIDATION_EXCEPTION, "입력이 잘못되었습니다."),
     UNAUTHORIZED_EXCEPTION(ErrorStatusCode.UNAUTHORIZED_EXCEPTION, "인가되지 않은 사용자 입니다. 다시 로그인 해 주세요."),
-    NOT_FOUND_EXCEPTION(ErrorStatusCode.NOTFOUND_EXCEPTION, "해당하는 페이지를 찾을 수 었습니다."),
+    NOT_FOUND_EXCEPTION(ErrorStatusCode.NOTFOUND_EXCEPTION, "해당하는 페이지를 찾을 수 없습니다."),
     DUPLICATED_EXCEPTION(ErrorStatusCode.CONFLICT, "중복되는 에러 입니다."),
     ALREADY_EXISTED_EXCEPTION(ErrorStatusCode.ALREADY_EXISTED_EXCEPTION, "이미 존재하는 값 입니다.");
 

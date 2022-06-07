@@ -8,13 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.domain.domain.member.MemberStatus;
 import store.streetvendor.exception.model.ErrorCode;
-import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.exception.model.UnAuthorizedException;
-import store.streetvendor.service.member.MemberServiceUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +43,6 @@ public class AuthInterceptor implements HandlerInterceptor {
             String sessionId = removeBearer(header);
             Long userId = getUserId(sessionId);
             request.setAttribute(MEMBER_ID, userId);
-
             return true;
         }
         throw new UnAuthorizedException(String.format("비어 있거나 Bearer 타입이 아닌 잘못된 헤더 (%S) 입니다", header));

@@ -120,8 +120,7 @@ public class StoreService {
     public void changeMenuStatus(Long storeId, Long bossId, Long menuId, MenuSalesStatus salesStatus) {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, bossId);
         store.changeMenuSalesStatus(menuId, salesStatus);
-//        Menu menu = store.findMenuByMenuId(menuId);
-//        menu.changeMenuStatus(salesStatus);
+
     }
 
     private List<MyStoreInfo> getMyStores(List<Store> stores) {
@@ -129,5 +128,6 @@ public class StoreService {
             .map(MyStoreInfo::of)
             .collect(Collectors.toList());
     }
+
 
 }

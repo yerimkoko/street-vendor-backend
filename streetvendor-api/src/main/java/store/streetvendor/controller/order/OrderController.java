@@ -49,4 +49,12 @@ public class OrderController {
         return ApiResponse.OK;
     }
 
+    @Auth
+    @ApiOperation(value = "사장님이 주문 상태 조리중으로 변경한다.")
+    @PutMapping("/api/v1/orders/preparing/{storeId}/{orderId}")
+    public ApiResponse<String> changeStatusToPreparing(@MemberId Long memberId, @PathVariable Long storeId, @PathVariable Long orderId) {
+        orderService.changeStatusToPreparing(storeId, memberId, orderId);
+        return ApiResponse.success("주문의 상태가 preparing으로 변경되었습니다.");
+    }
+
 }
