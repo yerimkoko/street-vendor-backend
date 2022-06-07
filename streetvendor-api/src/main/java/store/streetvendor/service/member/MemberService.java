@@ -6,10 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.sign_out_member.SignOutMemberRepository;
+import store.streetvendor.domain.domain.store.Store;
+import store.streetvendor.domain.domain.store.StoreRepository;
+import store.streetvendor.domain.domain.store.StoreSalesStatus;
 import store.streetvendor.exception.model.DuplicatedException;
 import store.streetvendor.service.member.dto.request.MemberSaveBossInfoRequest;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
 import store.streetvendor.service.member.dto.response.MemberInfoResponse;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -18,6 +23,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     private final SignOutMemberRepository signOutMemberRepository;
+
+    private final StoreRepository storeRepository;
 
     @Transactional
     public Long signUp(MemberSignUpRequestDto requestDto) {
@@ -31,10 +38,16 @@ public class MemberService {
     @Transactional
     public Long signOut(Long memberId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
+        List<Store> stores = storeRepository.findStoreByBossId(memberId);
+        Store openedStore = getOpenedStores(stores);
+        if (openedStore != null)
+            throw new DuplicatedException(String.format("<%s> 가게가 영업중입니다. 영업 종료를 먼저 해 주세요.", openedStore.getId()));
         signOutMemberRepository.save(member.signOut());
         memberRepository.delete(member);
         return memberId;
     }
+
+
 
     @Transactional(readOnly = true)
     public MemberInfoResponse getMyInformation(Long memberId) {
@@ -65,6 +78,14 @@ public class MemberService {
         if (member != null) {
             throw new DuplicatedException(String.format("(%s)는 이미 가입된 회원입니다. 기존 이메일로 로그인해주세요.", email));
         }
+    }
+
+    private Store getOpenedStores(List<Store> stores) {
+        return stores.stream()
+            .filter(store -> store.getSalesStatus()
+                .equals(StoreSalesStatus.OPEN))
+            .findFirst()
+            .orElse(null);
     }
 
 }
