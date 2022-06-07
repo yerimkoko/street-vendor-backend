@@ -3,6 +3,7 @@ package store.streetvendor.service.order.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.order.OrderMenu;
 import store.streetvendor.domain.domain.order.OrderStatus;
 import store.streetvendor.domain.domain.order.Orders;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class OrderListToBossResponse {
 
-    private Long memberId;
+    private String nickName;
 
     private Long orderId;
 
@@ -28,22 +29,22 @@ public class OrderListToBossResponse {
     private LocalDateTime createTime;
 
     @Builder
-    public OrderListToBossResponse(Long memberId, Long orderId, OrderStatus orderStatus, List<OrderMenuResponse> orderMenus, LocalDateTime createTime, int totalPrice) {
-        this.memberId = memberId;
+    public OrderListToBossResponse(Long orderId, String nickName, OrderStatus orderStatus, List<OrderMenuResponse> orderMenus, LocalDateTime createTime, int totalPrice) {
         this.orderId = orderId;
+        this.nickName = nickName;
         this.orderStatus = orderStatus;
         this.createTime = createTime;
         this.totalPrice = totalPrice;
         this.orderMenus = orderMenus;
     }
 
-    public static OrderListToBossResponse of(Orders orders) {
+    public static OrderListToBossResponse of(Orders orders, Member member) {
         return OrderListToBossResponse.builder()
-            .memberId(orders.getMemberId())
             .orderMenus(orders.getOrderMenus().stream()
                 .map(OrderMenuResponse::of)
                 .collect(Collectors.toList())
             )
+            .nickName(member.getNickName())
             .orderId(orders.getId())
             .orderStatus(orders.getOrderStatus())
             .createTime(orders.getCreatedAt())

@@ -3,6 +3,8 @@ package store.streetvendor.service.order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.streetvendor.domain.domain.member.Member;
+import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
@@ -25,6 +27,8 @@ public class OrderService {
 
     private final StoreRepository storeRepository;
 
+    private final MemberRepository memberRepository;
+
     private final OrderHistoryRepository historyRepository;
 
     @Transactional
@@ -46,8 +50,9 @@ public class OrderService {
     public List<OrderListToBossResponse> getAllOrders(Long storeId, Long memberId) {
         StoreServiceUtils.validateExistsStore(storeRepository, storeId, memberId);
         List<Orders> orders = orderRepository.findOrdersByStoreId(storeId);
+        Member member = memberRepository.findMemberById(memberId);
         return orders.stream()
-            .map(OrderListToBossResponse::of)
+            .map(order -> OrderListToBossResponse.of(order, member))
             .collect(Collectors.toList());
     }
 
