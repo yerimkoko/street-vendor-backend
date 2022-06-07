@@ -168,7 +168,7 @@ class OrdersServiceTest {
 
         OrderMenu orderMenu = OrderMenu.of(order, menu, 3);
         List<OrderHistoryMenusRequest> menusRequest = List.of(new OrderHistoryMenusRequest(menu, orderMenu));
-        AddNewOrderHistoryRequest request = new AddNewOrderHistoryRequest(order.getId(), store.getId(), menusRequest);
+        AddNewOrderHistoryRequest request = new AddNewOrderHistoryRequest(store.getId(), menusRequest, order.getId());
 
         order.changeStatusToPreparing();
         orderRepository.save(order);

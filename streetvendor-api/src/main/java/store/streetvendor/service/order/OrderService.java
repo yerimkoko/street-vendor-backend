@@ -89,7 +89,7 @@ public class OrderService {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, request.getStoreId(), memberId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, request.getOrderId());
         orderRepository.delete(order);
-        historyRepository.save(request.toEntity(store.getId(), store.getMemberId()));
+        historyRepository.save(request.toEntity(store, store.getMemberId(), order.getId()));
 
     }
 
