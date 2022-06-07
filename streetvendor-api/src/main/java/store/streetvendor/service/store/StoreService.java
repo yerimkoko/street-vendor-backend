@@ -9,6 +9,7 @@ import store.streetvendor.domain.domain.store.MenuSalesStatus;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
+import store.streetvendor.exception.model.DuplicatedException;
 import store.streetvendor.service.member.MemberServiceUtils;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
 import store.streetvendor.service.store.dto.request.StoreCategoryRequest;
@@ -54,6 +55,9 @@ public class StoreService {
     @Transactional
     public void deleteMyStore(Long memberId, Long storeId) {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
+        if (store.getSalesStatus() == StoreSalesStatus.OPEN) {
+            throw new DuplicatedException(String.format("<%s>의 가게는 열려있습니다. 먼저 영업을 종료해주세요.", store.getId()));
+        }
         store.delete();
     }
 
