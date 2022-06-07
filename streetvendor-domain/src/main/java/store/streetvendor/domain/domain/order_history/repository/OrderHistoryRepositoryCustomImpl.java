@@ -18,7 +18,7 @@ public class OrderHistoryRepositoryCustomImpl implements  OrderHistoryRepository
     public List<OrderHistory> findByOrderHistoryByStoreId(Long storeId) {
         return jpaQueryFactory.selectFrom(orderHistory)
             .where(
-                orderHistory.storeId.eq(storeId)
+                orderHistory.storeInfo.storeId.eq(storeId)
             ).fetch();
     }
 }

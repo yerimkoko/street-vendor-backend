@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
+import store.streetvendor.domain.domain.store.Store;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,21 +23,27 @@ public class OrderHistory extends BaseTimeEntity {
     private Long memberId;
 
     @Column(nullable = false)
-    private Long storeId;
+    @Embedded
+    private StoreInfo storeInfo;
+
+    @Column(nullable = false)
+    private Long orderId;
 
     @OneToMany(mappedBy = "orderHistory", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderHistoryMenu> menus = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    public OrderHistory(Long memberId, Long storeId) {
+    public OrderHistory(Long memberId, StoreInfo storeInfo, Long orderId) {
          this.memberId = memberId;
-         this.storeId = storeId;
+         this.storeInfo = storeInfo;
+         this.orderId = orderId;
     }
 
-    public static OrderHistory newHistory(Long storeId, Long memberId) {
+    public static OrderHistory newHistory(Store store, Long memberId, Long orderId) {
         return OrderHistory.builder()
-            .storeId(storeId)
+            .storeInfo(StoreInfo.of(store))
             .memberId(memberId)
+            .orderId(orderId)
             .build();
     }
 

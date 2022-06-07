@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.order_history.OrderHistory;
 import store.streetvendor.domain.domain.order_history.OrderHistoryMenu;
+import store.streetvendor.domain.domain.store.Store;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -16,19 +17,20 @@ public class AddNewOrderHistoryRequest {
 
     private Long orderId;
 
+    @NotBlank
     private Long storeId;
 
     private List<OrderHistoryMenusRequest> menus;
 
     @Builder
-    public AddNewOrderHistoryRequest(Long orderId, @NotBlank Long storeId, List<OrderHistoryMenusRequest> menus) {
-        this.orderId = orderId;
+    public AddNewOrderHistoryRequest(Long storeId, List<OrderHistoryMenusRequest> menus, Long orderId) {
         this.storeId = storeId;
         this.menus = menus;
+        this.orderId = orderId;
     }
 
-    public OrderHistory toEntity(Long storeId, Long memberId) {
-        OrderHistory orderHistory = OrderHistory.newHistory(storeId, memberId);
+    public OrderHistory toEntity(Store store, Long memberId, Long orderId) {
+        OrderHistory orderHistory = OrderHistory.newHistory(store, memberId, orderId);
         List<OrderHistoryMenu> historyMenus = this.menus.stream()
             .map(menu -> menu.toEntity(orderHistory))
             .collect(Collectors.toList());
