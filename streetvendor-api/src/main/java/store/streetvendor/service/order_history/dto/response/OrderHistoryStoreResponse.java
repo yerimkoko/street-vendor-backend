@@ -1,10 +1,14 @@
 package store.streetvendor.service.order_history.dto.response;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.store.Location;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreCategory;
 
+@NoArgsConstructor
+@Getter
 public class OrderHistoryStoreResponse {
 
     private Long storeId;
@@ -29,6 +33,7 @@ public class OrderHistoryStoreResponse {
         this.location = location;
         this.storeDescription = storeDescription;
         this.locationDescription = locationDescription;
+        this.category = category;
     }
 
     public static OrderHistoryStoreResponse of(Store store) {
