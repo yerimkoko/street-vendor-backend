@@ -21,4 +21,12 @@ public class OrderHistoryRepositoryCustomImpl implements  OrderHistoryRepository
                 orderHistory.storeInfo.storeId.eq(storeId)
             ).fetch();
     }
+
+    @Override
+    public List<OrderHistory> findByOrderHistoryByMemberId(Long memberId) {
+        return jpaQueryFactory.selectFrom(orderHistory)
+            .where(
+                orderHistory.memberId.eq(memberId)
+            ).fetch();
+    }
 }

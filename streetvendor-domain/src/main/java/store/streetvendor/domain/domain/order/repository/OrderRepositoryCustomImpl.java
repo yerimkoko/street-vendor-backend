@@ -25,22 +25,21 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     }
 
     @Override
+    public List<Orders> findOrdersByMemberId(Long memberId) {
+        return jpaQueryFactory
+            .selectFrom(orders)
+            .where(orders.memberId.eq(memberId),
+                orders.orderStatusCanceled.eq(OrderStatusCanceled.ACTIVE))
+            .fetch();
+    }
+
+    @Override
     public Orders findByOrderId(Long orderId) {
         return jpaQueryFactory
             .selectFrom(orders)
             .where(orders.id.eq(orderId),
                 orders.orderStatusCanceled.eq(OrderStatusCanceled.ACTIVE))
             .fetchOne();
-    }
-
-    @Override
-    public List<Orders> findOrdersByOrderIdAndMemberId(Long memberId, Long orderId) {
-        return jpaQueryFactory
-            .selectFrom(orders)
-            .where(orders.id.eq(orderId),
-                orders.memberId.eq(memberId),
-                orders.orderStatusCanceled.eq(OrderStatusCanceled.ACTIVE))
-            .fetch();
     }
 
     @Override

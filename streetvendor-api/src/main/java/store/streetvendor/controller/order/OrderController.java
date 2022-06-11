@@ -9,6 +9,7 @@ import store.streetvendor.controller.ApiResponse;
 import store.streetvendor.service.order.OrderService;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
+import store.streetvendor.service.order_history.dto.response.OrdersAndOrderHistoryResponse;
 
 import java.util.List;
 
@@ -55,6 +56,13 @@ public class OrderController {
     public ApiResponse<String> changeStatusToPreparing(@MemberId Long memberId, @PathVariable Long storeId, @PathVariable Long orderId) {
         orderService.changeStatusToPreparing(storeId, memberId, orderId);
         return ApiResponse.success("주문의 상태가 preparing으로 변경되었습니다.");
+    }
+
+    @Auth
+    @ApiOperation(value = "사용자가 모든 주문을 조회한다.")
+    @GetMapping("/api/v1/orders")
+    public ApiResponse<List<OrdersAndOrderHistoryResponse>> allMemberOrders(@MemberId Long memberId) {
+        return ApiResponse.success(orderService.myOrders(memberId));
     }
 
 }

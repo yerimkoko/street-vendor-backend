@@ -8,4 +8,6 @@ public interface OrderHistoryRepositoryCustom  {
 
     List<OrderHistory> findByOrderHistoryByStoreId(Long storeId);
 
+    List<OrderHistory> findByOrderHistoryByMemberId(Long memberId);
+
 }

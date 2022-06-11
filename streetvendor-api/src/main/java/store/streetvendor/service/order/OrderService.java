@@ -7,6 +7,7 @@ import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.domain.domain.order.Orders;
+import store.streetvendor.domain.domain.order_history.OrderHistory;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
@@ -14,10 +15,14 @@ import store.streetvendor.exception.model.NotFoundException;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
+import store.streetvendor.service.order_history.dto.request.OrdersAndOrderHistoryRequest;
+import store.streetvendor.service.order_history.dto.response.OrdersAndOrderHistoryResponse;
 import store.streetvendor.service.store.StoreServiceUtils;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -90,6 +95,33 @@ public class OrderService {
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, request.getOrderId());
         orderRepository.delete(order);
         historyRepository.save(request.toEntity(store, store.getMemberId(), order.getId()));
+
+    }
+
+    @Transactional
+    public List<OrdersAndOrderHistoryResponse> myOrders(Long memberId) {
+
+        List<Orders> orders = orderRepository.findOrdersByMemberId(memberId);
+
+        List<OrderHistory> orderHistories = historyRepository.findByOrderHistoryByMemberId(memberId);
+
+        List<OrdersAndOrderHistoryResponse> onOrders = orders.stream()
+            .map(order -> OrdersAndOrderHistoryResponse
+                .of(OrdersAndOrderHistoryRequest
+                    .onOrder(order, order.getOrderMenus()))
+            ).collect(Collectors.toList());
+
+        List<OrdersAndOrderHistoryResponse> complete = orderHistories.stream()
+            .map(orderHistory -> OrdersAndOrderHistoryResponse
+                .of(OrdersAndOrderHistoryRequest
+                    .completedOrder(orderHistory)))
+            .collect(Collectors.toList());
+
+        List<OrdersAndOrderHistoryResponse> allOrders = Stream.concat(onOrders.stream(), complete.stream())
+            .sorted(Comparator.comparing(OrdersAndOrderHistoryResponse::getOrderId))
+            .collect(Collectors.toList());
+
+        return allOrders;
 
     }
 

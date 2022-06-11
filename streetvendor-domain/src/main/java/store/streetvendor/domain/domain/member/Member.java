@@ -66,11 +66,6 @@ public class Member extends BaseTimeEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public Member findMember(Long memberId) {
-        if (!Objects.equals(this.id, memberId))
-            throw new IllegalArgumentException(String.format("찾으시는 <%s>는 존재하지 않습니다.", memberId));
-        return this;
-    }
 
     public SignOutMember signOut() {
         return SignOutMember.builder()

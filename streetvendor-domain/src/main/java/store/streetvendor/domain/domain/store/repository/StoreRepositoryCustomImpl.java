@@ -45,14 +45,6 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
             .fetchOne();
     }
 
-    @Override
-    public List<Store> findStoresByBossId(Long bossId) {
-        return jpaQueryFactory.selectFrom(store)
-            .where(
-                store.memberId.eq(bossId)
-            )
-            .fetch();
-    }
 
     @Override
     public List<Store> findStoreByBossId(Long memberId) {

@@ -18,13 +18,6 @@ public class OrderServiceUtils {
         return order;
     }
 
-    public static List<Orders> findByOrderIdAndMemberId(OrderRepository orderRepository, Long orderId, Long memberId) {
-        List<Orders> orders = orderRepository.findOrdersByOrderIdAndMemberId(orderId, memberId);
-        return orders.stream()
-            .filter(order -> order.getOrderStatus().equals(OrderStatus.REQUEST))
-            .collect(Collectors.toList());
-    }
-
     public static Orders findMyOrderByOrderIdAndMemberId(OrderRepository orderRepository, Long orderId, Long memberId) {
         Orders order = orderRepository.findByOrderAndMemberId(orderId, memberId);
         validateOrder(order, orderId);
