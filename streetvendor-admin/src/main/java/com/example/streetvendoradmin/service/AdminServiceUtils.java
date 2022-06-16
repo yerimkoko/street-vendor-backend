@@ -1,10 +1,10 @@
-package store.streetvendor.service.admin;
+package com.example.streetvendoradmin.service;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.admin.Admin;
 import store.streetvendor.domain.domain.admin.AdminRepository;
-import store.streetvendor.exception.model.UnAuthorizedException;
+import store.streetvendor.etc.UnAuthorizedException;
 
 import java.util.Optional;
 

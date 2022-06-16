@@ -1,4 +1,4 @@
-package store.streetvendor.exception.model;
+package store.streetvendor.etc;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

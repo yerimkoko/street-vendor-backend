@@ -1,4 +1,4 @@
-package store.streetvendor.exception.model;
+package store.streetvendor.etc;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +11,9 @@ import store.streetvendor.controller.ApiResponse;
 
 import java.net.BindException;
 
-import static store.streetvendor.exception.model.ErrorCode.UNAUTHORIZED_EXCEPTION;
-import static store.streetvendor.exception.model.ErrorCode.VALIDATION_EXCEPTION;
+import static store.streetvendor.etc.ErrorCode.UNAUTHORIZED_EXCEPTION;
+import static store.streetvendor.etc.ErrorCode.VALIDATION_EXCEPTION;
+
 
 @Slf4j
 @RestControllerAdvice

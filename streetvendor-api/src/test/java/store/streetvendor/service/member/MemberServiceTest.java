@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.domain.domain.member.MemberStatus;
 import store.streetvendor.domain.domain.sign_out_member.SignOutMember;
 import store.streetvendor.domain.domain.sign_out_member.SignOutMemberRepository;
-import store.streetvendor.exception.model.DuplicatedException;
+import store.streetvendor.etc.DuplicatedException;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
 
 import java.util.List;

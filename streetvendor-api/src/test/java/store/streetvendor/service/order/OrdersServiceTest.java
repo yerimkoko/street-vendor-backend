@@ -8,7 +8,7 @@ import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.*;
 import store.streetvendor.domain.domain.store.*;
-import store.streetvendor.exception.model.NotFoundException;
+import store.streetvendor.etc.NotFoundException;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.request.OrderMenusRequest;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;

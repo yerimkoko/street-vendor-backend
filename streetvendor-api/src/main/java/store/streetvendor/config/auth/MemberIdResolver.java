@@ -6,7 +6,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import store.streetvendor.exception.model.UnAuthorizedException;
+import store.streetvendor.etc.UnAuthorizedException;
 
 import javax.validation.constraints.NotNull;
 

@@ -2,4 +2,4 @@ rootProject.name = 'streetvendor'
 include 'streetvendor-api'
 include 'streetvendor-domain'
 include 'streetvendor-external'
-
+include 'streetvendor-admin'

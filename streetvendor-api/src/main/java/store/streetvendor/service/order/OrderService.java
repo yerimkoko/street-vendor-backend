@@ -11,7 +11,7 @@ import store.streetvendor.domain.domain.order_history.OrderHistory;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
-import store.streetvendor.exception.model.NotFoundException;
+import store.streetvendor.etc.NotFoundException;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
