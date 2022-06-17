@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.admin.Admin;
 import store.streetvendor.domain.domain.admin.AdminRepository;
-import store.streetvendor.etc.UnAuthorizedException;
+import store.streetvendor.exception.UnAuthorizedException;
 
 import java.util.Optional;
 
@@ -18,6 +18,5 @@ public class AdminServiceUtils {
         }
         return admin;
     }
-
 
 }

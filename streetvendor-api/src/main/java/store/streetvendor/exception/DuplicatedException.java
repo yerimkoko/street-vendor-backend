@@ -1,4 +1,4 @@
-package store.streetvendor.etc;
+package store.streetvendor.exception;
 
 public class DuplicatedException extends CustomException{
     public DuplicatedException(String message) {

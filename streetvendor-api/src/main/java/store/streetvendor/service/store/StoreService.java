@@ -9,7 +9,7 @@ import store.streetvendor.domain.domain.store.MenuSalesStatus;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
-import store.streetvendor.etc.DuplicatedException;
+import store.streetvendor.exception.DuplicatedException;
 import store.streetvendor.service.member.MemberServiceUtils;
 import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
 import store.streetvendor.service.store.dto.request.StoreCategoryRequest;

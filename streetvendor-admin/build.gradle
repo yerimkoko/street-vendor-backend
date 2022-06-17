@@ -16,6 +16,9 @@ dependencies {
     // Session
     implementation('org.springframework.session:spring-session:1.3.5.RELEASE')
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
+    implementation 'com.free-now.sauron.plugins:bcrypt-passwordencoder-checker:0.0.4'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'

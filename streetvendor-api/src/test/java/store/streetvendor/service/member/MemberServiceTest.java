@@ -8,7 +8,7 @@ import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.sign_out_member.SignOutMember;
 import store.streetvendor.domain.domain.sign_out_member.SignOutMemberRepository;
-import store.streetvendor.etc.DuplicatedException;
+import store.streetvendor.exception.DuplicatedException;
 import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
 
 import java.util.List;

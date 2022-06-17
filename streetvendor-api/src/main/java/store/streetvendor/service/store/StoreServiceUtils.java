@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
-import store.streetvendor.etc.AlreadyExistedException;
-import store.streetvendor.etc.NotFoundException;
+import store.streetvendor.exception.AlreadyExistedException;
+import store.streetvendor.exception.NotFoundException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StoreServiceUtils {

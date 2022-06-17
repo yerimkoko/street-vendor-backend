@@ -1,6 +1,5 @@
 package store.streetvendor.domain.domain.admin;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
@@ -21,10 +20,14 @@ public class Admin extends BaseTimeEntity {
 
     private String email;
 
-    private String passWord;
+    private String password;
 
-    public Admin(String email, String passWord) {
+    public Admin(String email, String password) {
         this.email = email;
-        this.passWord = passWord;
+        this.password = password;
+    }
+
+    public static Admin newAdmin(String email, String password) {
+        return new Admin(email, password);
     }
 }

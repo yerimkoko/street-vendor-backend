@@ -15,6 +15,7 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
     private final AuthInterceptor authInterceptor;
+
     private final MemberIdResolver memberIdResolver;
 
     @Override

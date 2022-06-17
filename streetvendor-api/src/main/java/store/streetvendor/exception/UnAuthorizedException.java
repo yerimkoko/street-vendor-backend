@@ -1,4 +1,4 @@
-package store.streetvendor.etc;
+package store.streetvendor.exception;
 
 public class UnAuthorizedException extends CustomException{
 

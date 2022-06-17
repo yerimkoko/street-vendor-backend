@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.etc.NotFoundException;
+import store.streetvendor.exception.NotFoundException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberServiceUtils {
