@@ -62,7 +62,7 @@ public class OrderController {
     @ApiOperation(value = "사용자가 모든 주문을 조회한다.")
     @GetMapping("/api/v1/orders")
     public ApiResponse<List<OrdersAndOrderHistoryResponse>> allMemberOrders(@MemberId Long memberId) {
-        return ApiResponse.success(orderService.myOrders(memberId));
+        return ApiResponse.success(orderService.memberOrders(memberId));
     }
 
 }

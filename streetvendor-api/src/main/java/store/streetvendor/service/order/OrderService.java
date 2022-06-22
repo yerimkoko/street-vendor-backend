@@ -99,7 +99,7 @@ public class OrderService {
     }
 
     @Transactional
-    public List<OrdersAndOrderHistoryResponse> myOrders(Long memberId) {
+    public List<OrdersAndOrderHistoryResponse> memberOrders(Long memberId) {
 
         List<Orders> orders = orderRepository.findOrdersByMemberId(memberId);
 

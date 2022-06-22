@@ -51,18 +51,18 @@ public class AdminService {
         if (admin != null) {
             throw new DuplicatedException(String.format("<%s>은 이미 존재합니다. 다른 이메일을 입력해 주세요.", email));
         }
-        // String encodePassword = passwordEncoder.encode(password);
-        // adminRepository.save(Admin.newAdmin(email, encodePassword));
+        String encodePassword = passwordEncoder.encode(password);
+        adminRepository.save(Admin.newAdmin(email, encodePassword));
     }
 
     @Transactional
-    public Long login(LoginRequest request) {
-        Admin admin = adminRepository.findByEmail(request.getEmail());
+    public Long login(LoginRequest loginRequest) {
+        Admin admin = adminRepository.findByEmail(loginRequest.getEmail());
         if (admin == null) {
-            throw new NotFoundException(String.format("<%s>에 해당하는 멤버는 존재하지 않습니다."));
+            throw new NotFoundException(String.format("<%s>에 해당하는 멤버는 존재하지 않습니다.", loginRequest.getEmail()));
         }
-        // passwordEncoder.matches(request.getPassword(), passwordEncoder.encode(request.getPassword()));
-        // httpSession.getAttribute(admin.getEmail());
+        passwordEncoder.matches(loginRequest.getPassword(), passwordEncoder.encode(loginRequest.getPassword()));
+        httpSession.getAttribute(admin.getEmail());
         return null;
 
     }
