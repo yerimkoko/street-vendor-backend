@@ -6,4 +6,6 @@ public interface AdminRepositoryCustom {
 
     Admin findByEmail(String email);
 
+    Admin findByAdminId(Long id);
+
 }

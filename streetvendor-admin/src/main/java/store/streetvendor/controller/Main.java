@@ -1,4 +1,4 @@
-package com.example.streetvendoradmin.controller;
+package store.streetvendor.controller;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

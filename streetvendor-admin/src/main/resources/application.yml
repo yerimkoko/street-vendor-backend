@@ -10,5 +10,4 @@ spring:
     default: local
     include:
       - domain
-      - api
 

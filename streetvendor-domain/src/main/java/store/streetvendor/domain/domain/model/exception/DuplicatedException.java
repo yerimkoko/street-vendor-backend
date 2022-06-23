@@ -1,4 +1,4 @@
-package store.streetvendor.exception;
+package store.streetvendor.domain.domain.model.exception;
 
 public class DuplicatedException extends CustomException{
     public DuplicatedException(String message) {

@@ -1,10 +1,10 @@
-package store.streetvendor.service.member;
+package store.streetvendor.domain.service.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.exception.NotFoundException;
+import store.streetvendor.domain.domain.model.exception.NotFoundException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberServiceUtils {

@@ -1,4 +1,4 @@
-package store.streetvendor.exception;
+package store.streetvendor.controller;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.extern.slf4j.Slf4j;
@@ -7,12 +7,15 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import store.streetvendor.controller.ApiResponse;
+import store.streetvendor.domain.domain.model.exception.AlreadyExistedException;
+import store.streetvendor.domain.domain.model.exception.DuplicatedException;
+import store.streetvendor.domain.domain.model.exception.NotFoundException;
+import store.streetvendor.domain.domain.model.exception.UnAuthorizedException;
 
 import java.net.BindException;
 
-import static store.streetvendor.exception.ErrorCode.UNAUTHORIZED_EXCEPTION;
-import static store.streetvendor.exception.ErrorCode.VALIDATION_EXCEPTION;
+import static store.streetvendor.domain.domain.model.exception.ErrorCode.UNAUTHORIZED_EXCEPTION;
+import static store.streetvendor.domain.domain.model.exception.ErrorCode.VALIDATION_EXCEPTION;
 
 
 @Slf4j

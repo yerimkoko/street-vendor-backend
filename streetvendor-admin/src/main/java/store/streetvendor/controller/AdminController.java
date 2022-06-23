@@ -1,12 +1,12 @@
-package com.example.streetvendoradmin.controller;
+package store.streetvendor.controller;
 
-import com.example.streetvendoradmin.controller.dto.request.LoginRequest;
-import com.example.streetvendoradmin.service.AdminService;
+import store.streetvendor.ApiResponse;
+import store.streetvendor.controller.dto.request.LoginRequest;
+import store.streetvendor.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import store.streetvendor.controller.ApiResponse;
 
 @RestController
 @RequiredArgsConstructor

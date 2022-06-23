@@ -11,7 +11,7 @@ import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.service.order_history.dto.response.OrderHistoryResponse;
 import store.streetvendor.service.order_history.dto.response.OrderHistoryStoreResponse;
-import store.streetvendor.service.store.StoreServiceUtils;
+import store.streetvendor.domain.service.utils.StoreServiceUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;

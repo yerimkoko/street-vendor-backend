@@ -6,9 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.domain.domain.sign_out_member.SignOutMember;
 import store.streetvendor.domain.domain.sign_out_member.SignOutMemberRepository;
-import store.streetvendor.service.member.MemberServiceUtils;
+import store.streetvendor.domain.service.utils.MemberServiceUtils;
 
 @Getter
 @Service

@@ -7,8 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.*;
-import store.streetvendor.exception.AlreadyExistedException;
-import store.streetvendor.exception.NotFoundException;
+import store.streetvendor.domain.domain.model.exception.AlreadyExistedException;
+import store.streetvendor.domain.domain.model.exception.NotFoundException;
 import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 

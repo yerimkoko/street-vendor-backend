@@ -1,4 +1,4 @@
-package store.streetvendor.exception;
+package store.streetvendor.domain.domain.model.exception;
 
 public class NotFoundException extends CustomException{
     public NotFoundException(String message) {

@@ -1,6 +1,6 @@
-package com.example.streetvendoradmin.service;
+package store.streetvendor.service;
 
-import com.example.streetvendoradmin.controller.dto.request.LoginRequest;
+import store.streetvendor.controller.dto.request.LoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,13 +9,14 @@ import store.streetvendor.domain.domain.admin.Admin;
 import store.streetvendor.domain.domain.admin.AdminRepository;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.domain.domain.model.exception.DuplicatedException;
+import store.streetvendor.domain.domain.model.exception.NotFoundException;
 import store.streetvendor.domain.domain.sign_out_member.SignOutMemberRepository;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
-import store.streetvendor.exception.DuplicatedException;
-import store.streetvendor.exception.NotFoundException;
-import store.streetvendor.service.store.StoreServiceUtils;
+import store.streetvendor.domain.service.utils.MemberServiceUtils;
+import store.streetvendor.domain.service.utils.StoreServiceUtils;
 
 import javax.servlet.http.HttpSession;
 
@@ -40,7 +41,11 @@ public class AdminService {
     @Transactional
     public Long signOutMember(Long memberId, Long adminId) {
         Member member = memberRepository.findMemberById(memberId);
-        AdminServiceUtils.validateAdmin(adminRepository, adminId);
+        MemberServiceUtils.findByMemberId(memberRepository, memberId);
+        Admin admin = adminRepository.findByAdminId(adminId);
+        if (admin == null) {
+            throw new DuplicatedException(String.format("<%s>는 관리자가 아닙니다. 관리자로 다시 로그인 해 주세요.", adminId));
+        }
         signOutMemberRepository.save(member.signOut());
         return member.getId();
     }
@@ -73,7 +78,11 @@ public class AdminService {
         if (store == null) {
             throw new NotFoundException(String.format("<%s>는 존재하는 아이디가 아닙니다.", storeId));
         }
-        AdminServiceUtils.validateAdmin(adminRepository, adminId);
+        Admin admin = adminRepository.findByAdminId(adminId);
+        if (admin == null) {
+            throw new NotFoundException(String.format("<%s>는 존재하는 아이디가 아닙니다.", storeId));
+        }
+
         store.changeSalesStatus(salesStatus);
     }
 

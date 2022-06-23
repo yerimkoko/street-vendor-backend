@@ -11,13 +11,14 @@ import store.streetvendor.domain.domain.order_history.OrderHistory;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
-import store.streetvendor.exception.NotFoundException;
+import store.streetvendor.domain.domain.model.exception.NotFoundException;
+import store.streetvendor.domain.service.utils.OrderServiceUtils;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
 import store.streetvendor.service.order_history.dto.request.OrdersAndOrderHistoryRequest;
 import store.streetvendor.service.order_history.dto.response.OrdersAndOrderHistoryResponse;
-import store.streetvendor.service.store.StoreServiceUtils;
+import store.streetvendor.domain.service.utils.StoreServiceUtils;
 
 import java.util.Comparator;
 import java.util.List;

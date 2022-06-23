@@ -1,12 +1,12 @@
-package store.streetvendor.service.store;
+package store.streetvendor.domain.service.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
-import store.streetvendor.exception.AlreadyExistedException;
-import store.streetvendor.exception.NotFoundException;
+import store.streetvendor.domain.domain.model.exception.AlreadyExistedException;
+import store.streetvendor.domain.domain.model.exception.NotFoundException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StoreServiceUtils {

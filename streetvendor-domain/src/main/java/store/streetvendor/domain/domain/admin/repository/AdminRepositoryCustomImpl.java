@@ -19,4 +19,13 @@ public class AdminRepositoryCustomImpl implements AdminRepositoryCustom{
             )
             .fetchOne();
     }
+
+    @Override
+    public Admin findByAdminId(Long id) {
+        return queryFactory.selectFrom(admin)
+            .where(
+                admin.id.eq(id)
+            )
+            .fetchOne();
+    }
 }
