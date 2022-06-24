@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.streetvendor.controller.dto.request.SignOutMemberRequest;
 import store.streetvendor.domain.domain.admin.Admin;
 import store.streetvendor.domain.domain.admin.AdminRepository;
 import store.streetvendor.domain.domain.member.Member;
@@ -39,12 +40,12 @@ public class AdminService {
 
     // TODO: adminId는 @AdminId로 받아서 확인할 수 있도록.
     @Transactional
-    public Long signOutMember(Long memberId, Long adminId) {
-        Member member = memberRepository.findMemberById(memberId);
-        MemberServiceUtils.findByMemberId(memberRepository, memberId);
-        Admin admin = adminRepository.findByAdminId(adminId);
+    public Long signOutMember(SignOutMemberRequest request) {
+        Member member = memberRepository.findMemberById(request.getMemberId());
+        MemberServiceUtils.findByMemberId(memberRepository, request.getMemberId());
+        Admin admin = adminRepository.findByAdminId(request.getAdminId());
         if (admin == null) {
-            throw new DuplicatedException(String.format("<%s>는 관리자가 아닙니다. 관리자로 다시 로그인 해 주세요.", adminId));
+            throw new DuplicatedException(String.format("<%s>는 관리자가 아닙니다. 관리자로 다시 로그인 해 주세요.", request.getAdminId()));
         }
         signOutMemberRepository.save(member.signOut());
         return member.getId();
