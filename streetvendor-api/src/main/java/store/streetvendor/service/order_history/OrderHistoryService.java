@@ -40,7 +40,8 @@ public class OrderHistoryService {
         List<OrderHistory> orderHistoryList = orderHistoryRepository.findByOrderHistoryByStoreId(storeId);
 
         return orderHistoryList.stream()
-            .map(orderHistory -> OrderHistoryResponse.of(orderHistory, storeResponse, memberRepository.findMemberById(orderHistory.getMemberId())))
+            .map(orderHistory -> OrderHistoryResponse.
+                of(orderHistory, storeResponse, memberRepository.findMemberById(orderHistory.getMemberId())))
             .collect(Collectors.toList());
     }
 

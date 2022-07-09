@@ -9,6 +9,7 @@ import store.streetvendor.controller.ApiResponse;
 import store.streetvendor.service.order.OrderService;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
+import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
 import store.streetvendor.service.order_history.dto.response.OrdersAndOrderHistoryResponse;
 
 import java.util.List;
@@ -55,7 +56,15 @@ public class OrderController {
     @PutMapping("/api/v1/orders/preparing/{storeId}/{orderId}")
     public ApiResponse<String> changeStatusToPreparing(@MemberId Long memberId, @PathVariable Long storeId, @PathVariable Long orderId) {
         orderService.changeStatusToPreparing(storeId, memberId, orderId);
-        return ApiResponse.success("주문의 상태가 preparing으로 변경되었습니다.");
+        return ApiResponse.success("주문의 상태가 (preparing)으로 변경되었습니다.");
+    }
+
+    @Auth
+    @ApiOperation(value = "사장님이 상태를 pickUp 으로 변경한다.")
+    @PutMapping("/api/v1/orders/readyToPickUp/{storeId}/{orderId}")
+    public ApiResponse<String> changeStatusToReadyToPickUp(@MemberId Long memberId, @PathVariable Long storeId, @PathVariable Long orderId, AddNewOrderHistoryRequest request) {
+        orderService.changeStatusToReadyToPickUp(storeId, memberId, orderId, request);
+        return ApiResponse.success("주문의 상태가 (pick_up 준비가 완료 되었습니다)");
     }
 
     @Auth
