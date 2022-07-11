@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.OrderRepository;
+import store.streetvendor.domain.domain.order.OrderStatusCanceled;
 import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order_history.OrderHistory;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
@@ -16,8 +17,7 @@ import store.streetvendor.domain.service.utils.OrderServiceUtils;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
-import store.streetvendor.service.order_history.dto.request.OrdersAndOrderHistoryRequest;
-import store.streetvendor.service.order_history.dto.response.OrdersAndOrderHistoryResponse;
+import store.streetvendor.service.order_history.dto.response.OrderAndHistoryResponse;
 import store.streetvendor.domain.service.utils.StoreServiceUtils;
 
 import java.util.Comparator;
@@ -70,10 +70,11 @@ public class OrderService {
     }
 
     @Transactional
-    public void changeStatusToReadyToPickUp(Long storeId, Long memberId, Long orderId, AddNewOrderHistoryRequest request) {
-        StoreServiceUtils.validateExistsStore(storeRepository, storeId, memberId);
-        Orders order = OrderServiceUtils.findByOrderId(orderRepository, orderId);
+    public void changeStatusToReadyToPickUp(Long memberId, AddNewOrderHistoryRequest request) {
+        StoreServiceUtils.validateExistsStore(storeRepository, request.getStoreId(), memberId);
+        Orders order = OrderServiceUtils.findByOrderId(orderRepository, request.getOrderId());
         order.changeStatusToReadyToPickUp();
+
         addToCompletedOrder(request, memberId);
     }
 
@@ -88,6 +89,10 @@ public class OrderService {
     public void cancelOrderByUser(Long orderId, Long memberId) {
         Orders order = OrderServiceUtils.findMyOrderByOrderIdAndMemberId(orderRepository, orderId, memberId);
         order.cancelOrderByUser();
+        orderRepository.delete(order);
+        Store store = StoreServiceUtils.findByStoreId(storeRepository, order.getStoreId());
+        OrderHistory orderHistory = OrderHistory.cancel(order, store);
+        historyRepository.save(orderHistory);
     }
 
     @Transactional
@@ -95,31 +100,27 @@ public class OrderService {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, request.getStoreId(), memberId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, request.getOrderId());
         orderRepository.delete(order);
-        historyRepository.save(request.toEntity(store, store.getMemberId(), order.getId()));
 
+        historyRepository.save(request.toEntity(store, store.getMemberId(), order.getId(), OrderStatusCanceled.ACTIVE));
     }
 
     @Transactional
-    public List<OrdersAndOrderHistoryResponse> memberOrders(Long memberId) {
+    public List<OrderAndHistoryResponse> memberOrders(Long memberId) {
 
         List<Orders> orders = orderRepository.findOrdersByMemberId(memberId);
 
         List<OrderHistory> orderHistories = historyRepository.findByOrderHistoryByMemberId(memberId);
 
-        List<OrdersAndOrderHistoryResponse> onOrders = orders.stream()
-            .map(order -> OrdersAndOrderHistoryResponse
-                .of(OrdersAndOrderHistoryRequest
-                    .onOrder(order, order.getOrderMenus()))
+        List<OrderAndHistoryResponse> onOrders = orders.stream()
+            .map(OrderAndHistoryResponse::onOrder
             ).collect(Collectors.toList());
 
-        List<OrdersAndOrderHistoryResponse> complete = orderHistories.stream()
-            .map(orderHistory -> OrdersAndOrderHistoryResponse
-                .of(OrdersAndOrderHistoryRequest
-                    .completedOrder(orderHistory)))
+        List<OrderAndHistoryResponse> complete = orderHistories.stream()
+            .map(OrderAndHistoryResponse::completedOrder)
             .collect(Collectors.toList());
 
-        List<OrdersAndOrderHistoryResponse> allOrders = Stream.concat(onOrders.stream(), complete.stream())
-            .sorted(Comparator.comparing(OrdersAndOrderHistoryResponse::getOrderId))
+        List<OrderAndHistoryResponse> allOrders = Stream.concat(onOrders.stream(), complete.stream())
+            .sorted(Comparator.comparing(OrderAndHistoryResponse::getOrderId))
             .collect(Collectors.toList());
 
         return allOrders;

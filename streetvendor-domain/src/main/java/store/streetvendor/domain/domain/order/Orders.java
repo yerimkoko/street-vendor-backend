@@ -29,9 +29,6 @@ public class Orders extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatusCanceled orderStatusCanceled;
-
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderMenu> orderMenus = new ArrayList<>();
 
@@ -40,7 +37,6 @@ public class Orders extends BaseTimeEntity {
         this.storeId = storeId;
         this.memberId = memberId;
         this.orderStatus = orderStatus;
-        this.orderStatusCanceled = orderStatusCanceled;
     }
 
     public static Orders newOrder(Long storeId, Long memberId) {
@@ -74,18 +70,20 @@ public class Orders extends BaseTimeEntity {
         }
     }
 
+    // TODO: remove
     public void cancelOrderByBoss() {
         cancelOrder();
     }
 
+    // TODO: remove
     public void cancelOrderByUser() {
         validateRequestOrder();
         validateCompleteOrder();
         cancelOrder();
     }
 
+    // TODO: remove
     private void cancelOrder() {
-        this.orderStatusCanceled = OrderStatusCanceled.CANCELED;
     }
 
     private void validateCompleteOrder() {

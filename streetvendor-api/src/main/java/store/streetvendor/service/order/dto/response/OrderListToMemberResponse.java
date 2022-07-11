@@ -43,7 +43,6 @@ public class OrderListToMemberResponse {
             .store(store)
             .orderId(order.getId())
             .orderStatus(order.getOrderStatus())
-            .active(order.getOrderStatusCanceled())
             .build();
     }
 }

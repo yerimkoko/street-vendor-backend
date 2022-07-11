@@ -14,8 +14,6 @@ import store.streetvendor.service.order_history.dto.response.OrderHistoryMenuRes
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @NoArgsConstructor
 @Getter
@@ -52,39 +50,6 @@ public class OrdersAndOrderHistoryRequest {
         this.orderMenuResponses = orderMenuResponses;
         this.orderHistoryMenuResponses = orderHistoryMenuResponses;
         this.orderTime = orderTime;
-    }
-
-    public static OrdersAndOrderHistoryRequest onOrder(Orders orders, List<OrderMenu> orderMenus) {
-        List<OrderMenuResponse> orderMenusResponse = orderMenus.stream()
-            .map(OrderMenuResponse::of)
-            .collect(Collectors.toList());
-
-        int total = orderMenusResponse.stream().mapToInt(OrderMenuResponse::getPrice).sum();
-
-        return OrdersAndOrderHistoryRequest.builder()
-            .memberId(orders.getMemberId())
-            .orderId(orders.getId())
-            .storeId(orders.getStoreId())
-            .orderStatus(orders.getOrderStatus())
-            .statusCanceled(orders.getOrderStatusCanceled())
-            .orderMenuResponses(orderMenusResponse)
-            .totalPrice(total)
-            .orderTime(orders.getCreatedAt())
-            .build();
-    }
-
-    public static OrdersAndOrderHistoryRequest completedOrder(OrderHistory orderHistory) {
-
-        List<OrderHistoryMenu> orderHistoryMenus = orderHistory.getMenus();
-
-        return OrdersAndOrderHistoryRequest.builder()
-            .memberId(orderHistory.getMemberId())
-            .orderStatus(null)
-            .orderHistoryMenuResponses(orderHistoryMenus.stream()
-                .map(OrderHistoryMenuResponse::of)
-                .collect(Collectors.toList()))
-            .orderTime(orderHistory.getCreatedAt())
-            .build();
     }
 
 }

@@ -19,8 +19,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     public List<Orders> findOrdersByStoreId(Long storeId) {
         return jpaQueryFactory
             .selectFrom(orders)
-            .where(orders.storeId.eq(storeId),
-                orders.orderStatusCanceled.eq(OrderStatusCanceled.ACTIVE))
+            .where(orders.storeId.eq(storeId))
             .fetch();
     }
 
@@ -28,8 +27,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     public List<Orders> findOrdersByMemberId(Long memberId) {
         return jpaQueryFactory
             .selectFrom(orders)
-            .where(orders.memberId.eq(memberId),
-                orders.orderStatusCanceled.eq(OrderStatusCanceled.ACTIVE))
+            .where(orders.memberId.eq(memberId))
             .fetch();
     }
 
@@ -37,8 +35,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     public Orders findByOrderId(Long orderId) {
         return jpaQueryFactory
             .selectFrom(orders)
-            .where(orders.id.eq(orderId),
-                orders.orderStatusCanceled.eq(OrderStatusCanceled.ACTIVE))
+            .where(orders.id.eq(orderId))
             .fetchOne();
     }
 
@@ -47,8 +44,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
         return jpaQueryFactory
             .selectFrom(orders)
             .where(orders.id.eq(orderId),
-                orders.memberId.eq(memberId),
-                orders.orderStatusCanceled.eq(OrderStatusCanceled.ACTIVE))
+                orders.memberId.eq(memberId))
             .fetchOne();
     }
 

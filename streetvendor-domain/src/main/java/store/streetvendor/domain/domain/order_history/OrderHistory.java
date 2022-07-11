@@ -1,10 +1,9 @@
 package store.streetvendor.domain.domain.order_history;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import store.streetvendor.domain.domain.BaseTimeEntity;
+import store.streetvendor.domain.domain.order.OrderStatusCanceled;
+import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.store.Store;
 
 import javax.persistence.*;
@@ -29,21 +28,36 @@ public class OrderHistory extends BaseTimeEntity {
     @Column(nullable = false)
     private Long orderId;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private OrderStatusCanceled orderCanceledStatus;
+
     @OneToMany(mappedBy = "orderHistory", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderHistoryMenu> menus = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    public OrderHistory(Long memberId, StoreInfo storeInfo, Long orderId) {
+    public OrderHistory(Long memberId, StoreInfo storeInfo, Long orderId, OrderStatusCanceled orderCanceledStatus) {
          this.memberId = memberId;
          this.storeInfo = storeInfo;
          this.orderId = orderId;
+         this.orderCanceledStatus = orderCanceledStatus;
     }
 
-    public static OrderHistory newHistory(Store store, Long memberId, Long orderId) {
+    public static OrderHistory newHistory(Store store, Long memberId, Long orderId, OrderStatusCanceled orderStatus) {
         return OrderHistory.builder()
             .storeInfo(StoreInfo.of(store))
             .memberId(memberId)
             .orderId(orderId)
+            .orderCanceledStatus(orderStatus)
+            .build();
+    }
+
+    public static OrderHistory cancel(Orders order, Store store) {
+        return OrderHistory.builder()
+            .storeInfo(StoreInfo.of(store))
+            .memberId(order.getMemberId())
+            .orderId(order.getId())
+            .orderCanceledStatus(OrderStatusCanceled.CANCELED)
             .build();
     }
 

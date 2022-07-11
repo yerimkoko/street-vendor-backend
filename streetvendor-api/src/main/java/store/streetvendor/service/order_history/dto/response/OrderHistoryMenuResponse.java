@@ -22,18 +22,15 @@ public class OrderHistoryMenuResponse {
 
     private String pictureUrl;
 
-    private OrderHistoryMenu menu;
-
     @Builder(access = AccessLevel.PRIVATE)
     public OrderHistoryMenuResponse(String menuName, int menuCount, int price, int count,
-                                    int totalPrice, String pictureUrl, OrderHistoryMenu menu) {
+                                    int totalPrice, String pictureUrl) {
         this.menuName = menuName;
         this.menuCount = menuCount;
         this.price = price;
         this.count = count;
         this.totalPrice = totalPrice;
         this.pictureUrl = pictureUrl;
-        this.menu = menu;
     }
 
     public static OrderHistoryMenuResponse of(OrderHistoryMenu menu) {
@@ -44,7 +41,6 @@ public class OrderHistoryMenuResponse {
             .count(menu.getCount())
             .totalPrice(menu.getPrice() * menu.getCount())
             .pictureUrl(menu.getPictureUrl())
-            .menu(menu)
             .build();
     }
 }
