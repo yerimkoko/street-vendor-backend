@@ -15,7 +15,7 @@ public class OrderHistoryRepositoryCustomImpl implements  OrderHistoryRepository
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<OrderHistory> findByOrderHistoryByStoreId(Long storeId) {
+    public List<OrderHistory> findOrderHistoryByStoreId(Long storeId) {
         return jpaQueryFactory.selectFrom(orderHistory)
             .where(
                 orderHistory.storeInfo.storeId.eq(storeId)
@@ -23,10 +23,18 @@ public class OrderHistoryRepositoryCustomImpl implements  OrderHistoryRepository
     }
 
     @Override
-    public List<OrderHistory> findByOrderHistoryByMemberId(Long memberId) {
+    public List<OrderHistory> findOrderHistoryByMemberId(Long memberId) {
         return jpaQueryFactory.selectFrom(orderHistory)
             .where(
                 orderHistory.memberId.eq(memberId)
             ).fetch();
+    }
+
+    @Override
+    public OrderHistory findOrderHistoryByOrderId(Long orderId) {
+        return jpaQueryFactory.selectFrom(orderHistory)
+            .where(
+                orderHistory.orderId.eq(orderId)
+            ).fetchOne();
     }
 }

@@ -70,20 +70,9 @@ public class Orders extends BaseTimeEntity {
         }
     }
 
-    // TODO: remove
-    public void cancelOrderByBoss() {
-        cancelOrder();
-    }
-
-    // TODO: remove
-    public void cancelOrderByUser() {
+    public void validateByUser() {
         validateRequestOrder();
         validateCompleteOrder();
-        cancelOrder();
-    }
-
-    // TODO: remove
-    private void cancelOrder() {
     }
 
     private void validateCompleteOrder() {

@@ -1,13 +1,14 @@
 package store.streetvendor.service.order;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.*;
+import store.streetvendor.domain.domain.order_history.OrderHistory;
+import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.domain.domain.model.exception.NotFoundException;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
@@ -28,6 +29,9 @@ class OrdersServiceTest {
     private MemberRepository memberRepository;
 
     @Autowired
+    private OrderHistoryRepository orderHistoryRepository;
+
+    @Autowired
     private StoreRepository storeRepository;
 
     @Autowired
@@ -42,6 +46,7 @@ class OrdersServiceTest {
     @AfterEach
     void cleanUp() {
         orderRepository.deleteAll();
+        orderHistoryRepository.deleteAll();;
         storeRepository.deleteAll();
         memberRepository.deleteAll();
     }
@@ -137,7 +142,7 @@ class OrdersServiceTest {
 
 
     @Test
-    void 사장님이_들어온_주문을_확인하고_준비중_상태로_변경한다() {
+    void 사장님이_들어온_주문을_확인하고_PREPARING_상태로_변경한다() {
         // given
         Member member = createMember();
         Store store = createStore(member);
@@ -183,6 +188,7 @@ class OrdersServiceTest {
 
     }
 
+    // TODO: 값 비교하기
     @Test
     void 주문이_거래완료가_되면_기존_Order_가_삭제된다() {
         // given
@@ -211,11 +217,11 @@ class OrdersServiceTest {
 
         // then
         List<Orders> orders = orderRepository.findAll();
+        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
         assertThat(orders).isEmpty();
-
+        assertThat(orderHistories).hasSize(1);
     }
 
-    @Disabled
     @Test
     void 사장님이_주문을_취소한다() {
         // given
@@ -231,10 +237,12 @@ class OrdersServiceTest {
 
         // then
         List<Orders> orders = orderRepository.findAll();
+        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
         assertThat(orders).isEmpty();
+        assertThat(orderHistories).hasSize(1);
     }
 
-    @Disabled
+    // TODO: 값 비교하기
     @Test
     void 사용자가_주문을_취소한다() {
         // given
@@ -249,8 +257,43 @@ class OrdersServiceTest {
         orderService.cancelOrderByUser(order.getId(), user.getId());
 
         // then
+
+        // TODO: orderMenu 테스트코드 만들기
         List<Orders> orders = orderRepository.findAll();
+        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
         assertThat(orders).isEmpty();
+        assertThat(orderHistories).hasSize(1);
+        assertOrderHistory(orderHistories.get(0), order.getId(), order.getMemberId(), order.getStoreId());
+
+    }
+
+    void assertOrderHistory(OrderHistory orderHistory, Long orderId, Long memberId, Long storeId) {
+        assertThat(orderHistory.getOrderId()).isEqualTo(orderId);
+        assertThat(orderHistory.getMemberId()).isEqualTo(memberId);
+        assertThat(orderHistory.getStoreInfo().getStoreId()).isEqualTo(storeId);
+    }
+
+    void assertOrderHistoryMenu(OrderHistory orderHistory, List<OrderMenu> menus) {
+        assertThat(orderHistory.getMenus().get(0).getId()).isEqualTo(menus.get(0).getId());
+    }
+
+
+    // TODO: 체크하기
+    @Test
+    void 사용자가_주문을_취소할_때_주문이_존재하지_않을때() {
+        // given
+        Member boss = createMember();
+        Member user = createMember();
+
+        Store store = createStore(boss);
+        storeRepository.save(store);
+
+        Orders order = Orders.newOrder(store.getId(), user.getId());
+        orderRepository.save(order);
+
+        // when & then
+        assertThatThrownBy(() -> orderService.cancelOrderByUser(order.getId() + 1, user.getId()))
+            .isInstanceOf(NotFoundException.class);
 
     }
 
@@ -292,7 +335,6 @@ class OrdersServiceTest {
         String locationDescription = "당정역 1번 출구 앞";
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
         return Store.newSalesStore(member.getId(), member.getName(), member.getProfileUrl(), location, storeDescription, locationDescription, category);
-
     }
 
     private Menu createMenu(Store store) {

@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class OrderHistory extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

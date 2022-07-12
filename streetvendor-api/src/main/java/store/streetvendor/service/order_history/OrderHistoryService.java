@@ -32,12 +32,9 @@ public class OrderHistoryService {
     public List<OrderHistoryResponse> getOrderHistory(Long storeId, Long bossId) {
 
         StoreServiceUtils.validateExistsStore(storeRepository, storeId, bossId);
-
         Store store = storeRepository.findStoreByStoreId(storeId);
-
         OrderHistoryStoreResponse storeResponse = OrderHistoryStoreResponse.of(store);
-
-        List<OrderHistory> orderHistoryList = orderHistoryRepository.findByOrderHistoryByStoreId(storeId);
+        List<OrderHistory> orderHistoryList = orderHistoryRepository.findOrderHistoryByStoreId(storeId);
 
         return orderHistoryList.stream()
             .map(orderHistory -> OrderHistoryResponse.

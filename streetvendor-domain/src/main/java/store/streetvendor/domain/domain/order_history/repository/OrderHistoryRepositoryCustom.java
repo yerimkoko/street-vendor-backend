@@ -6,8 +6,10 @@ import java.util.List;
 
 public interface OrderHistoryRepositoryCustom  {
 
-    List<OrderHistory> findByOrderHistoryByStoreId(Long storeId);
+    List<OrderHistory> findOrderHistoryByStoreId(Long storeId);
 
-    List<OrderHistory> findByOrderHistoryByMemberId(Long memberId);
+    List<OrderHistory> findOrderHistoryByMemberId(Long memberId);
+
+    OrderHistory findOrderHistoryByOrderId(Long orderId);
 
 }

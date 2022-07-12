@@ -74,34 +74,40 @@ public class OrderService {
         StoreServiceUtils.validateExistsStore(storeRepository, request.getStoreId(), memberId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, request.getOrderId());
         order.changeStatusToReadyToPickUp();
-
         addToCompletedOrder(request, memberId);
     }
 
     @Transactional
     public void cancelOrderByBoss(Long storeId, Long orderId, Long bossId) {
-        StoreServiceUtils.validateExistsStore(storeRepository, storeId, bossId);
+        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, bossId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, orderId);
-        order.cancelOrderByBoss();
+        historyRepository.save(OrderHistory.cancel(order, store));
+        orderRepository.delete(order);
+
     }
 
     @Transactional
     public void cancelOrderByUser(Long orderId, Long memberId) {
         Orders order = OrderServiceUtils.findMyOrderByOrderIdAndMemberId(orderRepository, orderId, memberId);
-        order.cancelOrderByUser();
-        orderRepository.delete(order);
+
+        order.validateByUser();
+
         Store store = StoreServiceUtils.findByStoreId(storeRepository, order.getStoreId());
+
         OrderHistory orderHistory = OrderHistory.cancel(order, store);
+
         historyRepository.save(orderHistory);
+
+        orderRepository.delete(order);
+
     }
 
     @Transactional
     public void addToCompletedOrder(AddNewOrderHistoryRequest request, Long memberId) {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, request.getStoreId(), memberId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, request.getOrderId());
-        orderRepository.delete(order);
-
         historyRepository.save(request.toEntity(store, store.getMemberId(), order.getId(), OrderStatusCanceled.ACTIVE));
+        orderRepository.delete(order);
     }
 
     @Transactional
@@ -109,7 +115,7 @@ public class OrderService {
 
         List<Orders> orders = orderRepository.findOrdersByMemberId(memberId);
 
-        List<OrderHistory> orderHistories = historyRepository.findByOrderHistoryByMemberId(memberId);
+        List<OrderHistory> orderHistories = historyRepository.findOrderHistoryByMemberId(memberId);
 
         List<OrderAndHistoryResponse> onOrders = orders.stream()
             .map(OrderAndHistoryResponse::onOrder
