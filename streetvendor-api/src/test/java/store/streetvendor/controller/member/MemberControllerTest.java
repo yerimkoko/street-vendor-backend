@@ -1,5 +1,6 @@
 package store.streetvendor.controller.member;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ class MemberControllerTest {
     private AuthInterceptor authInterceptor;
 
     @Test
+    @Disabled
     void 나의_멤버_정보를_조회한다() throws Exception {
         // given
         String email = "will.seungho@gmail.com";
