@@ -8,8 +8,6 @@ import store.streetvendor.domain.domain.sign_out_member.SignOutMember;
 
 import javax.persistence.*;
 
-import java.util.Objects;
-
 @Getter
 @NoArgsConstructor
 @Entity
@@ -66,6 +64,9 @@ public class Member extends BaseTimeEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    public void changeProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
 
     public SignOutMember signOut() {
         return SignOutMember.builder()

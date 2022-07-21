@@ -57,6 +57,12 @@ public class MemberService {
     }
 
     @Transactional
+    public void changeProfileImage(Long memberId, String profileUrl) {
+        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
+        member.changeProfileUrl(profileUrl);
+    }
+
+    @Transactional
     public void saveMemberBossInfo(Long memberId, MemberSaveBossInfoRequest request) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
         member.setBossNameAndNumber(request.getBossName(), request.getBossPhoneNumber());

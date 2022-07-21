@@ -63,4 +63,12 @@ public class MemberController {
         return ApiResponse.OK;
     }
 
+    @Auth
+    @ApiOperation(value = "프로필 사진 수정")
+    @PutMapping("/api/v1/my-page/profileUrl")
+    public ApiResponse<String> changeMyProfile(@MemberId Long memberId, @RequestBody String profileUrl) {
+        memberService.changeProfileImage(memberId, profileUrl);
+        return ApiResponse.OK;
+    }
+
 }
