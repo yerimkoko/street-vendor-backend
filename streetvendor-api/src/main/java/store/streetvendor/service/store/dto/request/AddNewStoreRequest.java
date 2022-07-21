@@ -34,9 +34,12 @@ public class AddNewStoreRequest {
 
     private List<PaymentMethod> paymentMethods;
 
+    private List<StoreImageRequest> storeImages;
+
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
     public AddNewStoreRequest(@NotBlank String name, String pictureUrl, Location location, String storeDescription, String locationDescription,
-                              StoreCategory category, List<MenuRequest> menus, List<PaymentMethod> paymentMethods, List<BusinessHourRequest> businessHours) {
+                              StoreCategory category, List<MenuRequest> menus, List<PaymentMethod> paymentMethods, List<BusinessHourRequest> businessHours,
+                              List<StoreImageRequest> storeImages) {
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.location = location;
@@ -46,16 +49,20 @@ public class AddNewStoreRequest {
         this.category = category;
         this.paymentMethods = paymentMethods;
         this.businessHours = businessHours;
+        this.storeImages = storeImages;
     }
 
     public Store toEntity(Long memberId) {
-        Store store = Store.newInstance(memberId, name, pictureUrl, location, storeDescription, locationDescription, category);
+        Store store = Store.newInstance(memberId, name, location, storeDescription, locationDescription, category);
         store.addMenus(this.menus.stream()
             .map(menu -> menu.toEntity(store))
             .collect(Collectors.toList()));
         store.addPayments(paymentMethods);
         store.addBusinessDays(businessHours.stream()
             .map(businessHour -> businessHour.toEntity(store))
+            .collect(Collectors.toList()));
+        store.addStoreImages(storeImages.stream()
+            .map(image -> image.toEntity(store))
             .collect(Collectors.toList()));
 
         return store;

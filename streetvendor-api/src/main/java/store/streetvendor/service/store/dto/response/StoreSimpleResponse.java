@@ -19,19 +19,16 @@ public class StoreSimpleResponse {
 
     private String locationDescription;
 
-    private String imageUrl;
-
     private Location location;
 
     private StoreCategory category;
 
     @Builder
-    public StoreSimpleResponse(Long storeId, String storeName, String storeDescription, String locationDescription, String imageUrl, Location location, StoreCategory category) {
+    public StoreSimpleResponse(Long storeId, String storeName, String storeDescription, String locationDescription, Location location, StoreCategory category) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.storeDescription = storeDescription;
         this.locationDescription = locationDescription;
-        this.imageUrl = imageUrl;
         this.location = location;
         this.category = category;
     }
@@ -40,7 +37,6 @@ public class StoreSimpleResponse {
         return StoreSimpleResponse.builder()
             .storeId(store.getId())
             .storeName(store.getName())
-            .imageUrl(store.getPictureUrl())
             .category(store.getCategory())
             .storeDescription(store.getStoreDescription())
             .locationDescription(store.getLocationDescription())

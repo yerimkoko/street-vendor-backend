@@ -7,7 +7,7 @@ import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.MenuSalesStatus;
 import store.streetvendor.domain.domain.store.Store;
-import store.streetvendor.domain.domain.store.StoreRepository;
+import store.streetvendor.domain.domain.store.repository.StoreRepository;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
 import store.streetvendor.domain.domain.model.exception.DuplicatedException;
 import store.streetvendor.domain.service.utils.MemberServiceUtils;
@@ -47,7 +47,7 @@ public class StoreService {
     @Transactional
     public void updateMyStore(Long memberId, Long storeId, StoreUpdateRequest request) {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
-        store.updateStoreInfo(request.getName(), request.getDescription(), request.getPictureUrl(), request.getLocation(), request.getCategory());
+        store.updateStoreInfo(request.getName(), request.getDescription(), request.getLocation(), request.getCategory());
         store.updateMenus(request.toMenus(store));
         store.updatePayments(request.getPaymentMethods());
         store.updateBusinessDaysInfo(request.toBusinessHours(store));

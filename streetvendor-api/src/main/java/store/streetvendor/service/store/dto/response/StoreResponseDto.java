@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.store.*;
+import store.streetvendor.service.store.dto.request.StoreImageRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,8 +18,6 @@ public class StoreResponseDto {
     private Long bossId;
 
     private String name;
-
-    private String pictureUrl;
 
     private Location location;
 
@@ -34,15 +33,16 @@ public class StoreResponseDto {
 
     private List<MenuResponse> menus;
 
+    private List<StoreImage> storeImages;
+
 
     @Builder
-    public StoreResponseDto(Long storeId, Long bossId, String name, String pictureUrl, Location location, String description,
+    public StoreResponseDto(Long storeId, Long bossId, String name, Location location, String description,
                             List<StoreBusinessDayResponse> businessHours, StoreCategory category, StoreSalesStatus salesStatus,
-                            List<PaymentMethod> paymentMethods, List<MenuResponse> menus) {
+                            List<PaymentMethod> paymentMethods, List<MenuResponse> menus, List<StoreImage> storeImages) {
         this.storeId = storeId;
         this.bossId = bossId;
         this.name = name;
-        this.pictureUrl = pictureUrl;
         this.location = location;
         this.description = description;
         this.businessHours = businessHours;
@@ -50,6 +50,8 @@ public class StoreResponseDto {
         this.paymentMethods = paymentMethods;
         this.menus = menus;
         this.salesStatus = salesStatus;
+        this.storeImages = storeImages;
+
     }
 
     public static StoreResponseDto of(Store store) {
@@ -62,7 +64,7 @@ public class StoreResponseDto {
             .storeId(store.getId())
             .bossId(store.getMemberId())
             .name(store.getName())
-            .pictureUrl(store.getPictureUrl())
+            .storeImages(store.getStoreImages())
             .location(store.getLocation())
             .description(store.getStoreDescription())
             .category(store.getCategory())

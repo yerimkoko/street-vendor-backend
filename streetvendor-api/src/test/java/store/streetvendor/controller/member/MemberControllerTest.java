@@ -41,7 +41,6 @@ class MemberControllerTest {
     }
 
 
-
     @Test
     void 나의_멤버_정보를_조회한다() throws Exception {
         // given
@@ -73,7 +72,7 @@ class MemberControllerTest {
         BDDMockito.when(memberService.signUp(any())).thenReturn(1L);
 
         // when & then
-        mockMvc.perform(put("/api/v1/sign-out")
+        mockMvc.perform(post("/api/v1/sign-out")
                 .header(HttpHeaders.AUTHORIZATION, "TOKEN"))
             .andExpect(status().isOk());
 
@@ -114,9 +113,5 @@ class MemberControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }
-
-
-
-
 
 }

@@ -1,10 +1,10 @@
-package store.streetvendor.domain.domain.store;
+package store.streetvendor.domain.domain.store.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
-import store.streetvendor.domain.domain.store.repository.StoreRepositoryCustom;
+import store.streetvendor.domain.domain.store.Store;
 
 import java.util.List;
 

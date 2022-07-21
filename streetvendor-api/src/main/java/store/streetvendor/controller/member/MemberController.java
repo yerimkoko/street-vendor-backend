@@ -33,14 +33,6 @@ public class MemberController {
     }
 
     @Auth
-    @ApiOperation(value = "회원 탈퇴")
-    @PutMapping("/api/v1/sign-out")
-    public ApiResponse<Long> signOut(@MemberId Long memberId) {
-        memberService.signOut(memberId);
-        return ApiResponse.success(memberId);
-    }
-
-    @Auth
     @ApiOperation(value = "마이 페이지")
     @GetMapping("/api/v1/my-page")
     public ApiResponse<MemberInfoResponse> memberInfo(@MemberId Long memberId) {
@@ -53,6 +45,13 @@ public class MemberController {
     public ApiResponse<String> saveBossInfo(@MemberId Long memberId, @Valid @RequestBody MemberSaveBossInfoRequest request) {
         memberService.saveMemberBossInfo(memberId, request);
         return ApiResponse.OK;
+    }
+
+    @Auth
+    @ApiOperation(value = "회원 탈퇴")
+    @PostMapping("/api/v1/sign-out")
+    public ApiResponse<Long> signOut(@MemberId Long memberId) {
+        return ApiResponse.success(memberService.signOut(memberId));
     }
 
     @Auth

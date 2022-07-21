@@ -19,8 +19,6 @@ public class StoreDetailResponse {
 
     private String bossNumber;
 
-    private String pictureUrl;
-
     private String locationDescription;
 
     private String storeDescription;
@@ -42,7 +40,6 @@ public class StoreDetailResponse {
         this.storeId = storeId;
         this.storeName = storeName;
         this.bossNumber = bossNumber;
-        this.pictureUrl = pictureUrl;
         this.locationDescription = locationDescription;
         this.storeDescription = storeDescription;
         this.location = location;
@@ -67,7 +64,6 @@ public class StoreDetailResponse {
             .storeName(store.getName())
             .bossNumber(member.getPhoneNumber())
             .category(store.getCategory())
-            .pictureUrl(store.getPictureUrl())
             .menuList(menuDetailResponse)
             .location(store.getLocation())
             .salesStatus(store.getSalesStatus())

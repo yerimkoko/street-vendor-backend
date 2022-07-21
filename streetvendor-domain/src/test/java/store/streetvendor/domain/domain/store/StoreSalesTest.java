@@ -11,7 +11,7 @@ class StoreSalesTest {
         // given
         Long memberId = 999L;
         Location location = new Location(33.2222, -128.333522);
-        Store store = Store.newInstance(memberId, "참붕어빵", "s3:333", location, "모나카 맛집", "당정역 1번 출구 앞", StoreCategory.OTHER_MEAL);
+        Store store = Store.newInstance(memberId, "참붕어빵", location, "모나카 맛집", "당정역 1번 출구 앞", StoreCategory.OTHER_MEAL);
 
         // when
         store.changeSalesStatus(StoreSalesStatus.OPEN);

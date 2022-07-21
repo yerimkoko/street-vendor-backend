@@ -26,8 +26,6 @@ public class Store extends BaseTimeEntity {
     @Column(nullable = false)
     private String name;
 
-    private String pictureUrl;
-
     @Embedded
     private Location location;
 
@@ -53,11 +51,14 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<BusinessHours> businessDays = new ArrayList<>();
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<StoreImage> storeImages = new ArrayList<>();
+
+
     @Builder
-    private Store(Long memberId, String name, String pictureUrl, Location location, StoreSalesStatus salesStatus, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
+    private Store(Long memberId, String name, Location location, StoreSalesStatus salesStatus, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
         this.memberId = memberId;
         this.name = name;
-        this.pictureUrl = pictureUrl;
         this.location = location;
         this.salesStatus = salesStatus;
         this.storeDescription = storeDescription;
@@ -66,11 +67,10 @@ public class Store extends BaseTimeEntity {
         this.category = category;
     }
 
-    public static Store newInstance(Long memberId, String name, String pictureUrl, Location location, String storeDescription, String locationDescription, StoreCategory category) {
+    public static Store newInstance(Long memberId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category) {
         return Store.builder()
             .memberId(memberId)
             .name(name)
-            .pictureUrl(pictureUrl)
             .location(location)
             .salesStatus(StoreSalesStatus.CLOSED)
             .storeDescription(storeDescription)
@@ -80,11 +80,10 @@ public class Store extends BaseTimeEntity {
             .build();
     }
 
-    public static Store newSalesStore(Long memberId, String name, String pictureUrl, Location location, String storeDescription, String locationDescription, StoreCategory category) {
+    public static Store newSalesStore(Long memberId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category) {
         return Store.builder()
             .memberId(memberId)
             .name(name)
-            .pictureUrl(pictureUrl)
             .location(location)
             .salesStatus(StoreSalesStatus.OPEN)
             .storeDescription(storeDescription)
@@ -122,10 +121,13 @@ public class Store extends BaseTimeEntity {
         this.businessDays.addAll(businessHours);
     }
 
-    public void updateStoreInfo(String name, String description, String pictureUrl, Location location, StoreCategory category) {
+    public void addStoreImages(List<StoreImage> storeImages) {
+        this.storeImages.addAll(storeImages);
+    }
+
+    public void updateStoreInfo(String name, String description, Location location, StoreCategory category) {
         this.name = name;
         this.storeDescription = description;
-        this.pictureUrl = pictureUrl;
         this.location = location;
         this.category = category;
     }
