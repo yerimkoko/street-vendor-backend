@@ -16,6 +16,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+
+
 @WebMvcTest(MemberController.class)
 class MemberControllerTest {
 
@@ -43,8 +46,6 @@ class MemberControllerTest {
             .profileUrl(profileUrl)
             .build());
 
-        BDDMockito.when(authInterceptor.preHandle(any(), any(), any())).thenReturn(true);
-
         // when & then
         mockMvc.perform(get("/api/v1/my-page")
                 .header(HttpHeaders.AUTHORIZATION, "TOKEN"))
@@ -54,5 +55,19 @@ class MemberControllerTest {
             .andExpect(jsonPath("$.data.nickName").value(nickName))
             .andExpect(jsonPath("$.data.profileUrl").value(profileUrl));
     }
+
+    @Test
+    void 회원을_탈퇴한다() throws Exception {
+        // given
+        BDDMockito.when(memberService.signUp(any())).thenReturn(1L);
+
+        BDDMockito.when(authInterceptor.preHandle(any(), any(), any())).thenReturn(true);
+
+        mockMvc.perform(put("/api/v1/sign-out")
+                .header(HttpHeaders.AUTHORIZATION, "TOKEN"))
+            .andExpect(status().isOk());
+
+    }
+
 
 }
