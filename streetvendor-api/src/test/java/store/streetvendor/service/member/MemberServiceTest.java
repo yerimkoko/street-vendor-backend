@@ -61,7 +61,7 @@ class MemberServiceTest {
     @Test
     void 회원을_탈퇴하면_member_에서_사라지고_회원탈퇴_테이블에_저장된다() {
         // given
-        Member member = memberRepository.save(Member.newGoogleInstance("name", "nickName", "email", "profile"));
+        Member member = createMemberInstance();
 
         // when
         memberService.signOut(member.getId());
@@ -77,16 +77,23 @@ class MemberServiceTest {
     @Test
     void 닉네임이_중복인경우_에러가_발생한다() {
         // given
-        String email = "tokki@gmail.com";
-        String nickName = "토끼";
-        String name = "고토끼";
-        String profileUrl = "234234tokki.jpg";
-        MemberSignUpRequestDto requestDto = new MemberSignUpRequestDto(name, nickName, email, profileUrl);
-        memberRepository.save(Member.newGoogleInstance(name, nickName, email, profileUrl));
+        Member member = createMemberInstance();
+        MemberSignUpRequestDto requestDto = new MemberSignUpRequestDto(member.getName(), member.getNickName(), member.getEmail(), member.getProfileUrl());
+
 
         // when & then
         assertThatThrownBy(() -> memberService.signUp(requestDto))
             .isInstanceOf(DuplicatedException.class);
+    }
+
+    private Member createMemberInstance() {
+        String email = "tokki@gmail.com";
+        String nickName = "토끼";
+        String name = "고토끼";
+        String profileUrl = "234234tokki.jpg";
+
+        return memberRepository.save(Member.newGoogleInstance(name, nickName, email, profileUrl));
+
     }
 
     private void assertMember(Member member, String name, String nickName, String email, String profileUrl) {
