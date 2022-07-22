@@ -54,7 +54,6 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<StoreImage> storeImages = new ArrayList<>();
 
-
     @Builder
     private Store(Long memberId, String name, Location location, StoreSalesStatus salesStatus, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
         this.memberId = memberId;
@@ -122,7 +121,13 @@ public class Store extends BaseTimeEntity {
     }
 
     public void addStoreImages(List<StoreImage> storeImages) {
-        this.storeImages.addAll(storeImages);
+        for(StoreImage storeImage: storeImages) {
+            this.addStoreImage(storeImage);
+        }
+    }
+
+    public void addStoreImage(StoreImage storeImage) {
+        this.storeImages.add(storeImage);
     }
 
     public void updateStoreInfo(String name, String description, Location location, StoreCategory category) {

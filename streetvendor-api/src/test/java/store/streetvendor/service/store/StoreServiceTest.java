@@ -10,7 +10,6 @@ import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.domain.domain.model.exception.AlreadyExistedException;
 import store.streetvendor.domain.domain.model.exception.NotFoundException;
 import store.streetvendor.domain.domain.store.StoreImage;
-import store.streetvendor.domain.domain.store.repository.*;
 import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 
@@ -176,7 +175,6 @@ class StoreServiceTest {
 
         // newStore
         String newName = "토끼 붕어";
-        String newPictureUrl = "https://rabbit.com";
         String newDescription = "오픈 기념 슈크림 3개 1000원 이벤트!";
         Location location = new Location(35.3333, 127.43444);
 
@@ -197,7 +195,6 @@ class StoreServiceTest {
 
         StoreUpdateRequest request = StoreUpdateRequest.testBuilder()
             .name(newName)
-            .pictureUrl(newPictureUrl)
             .location(location)
             .description(newDescription)
             .paymentMethods(paymentMethods)

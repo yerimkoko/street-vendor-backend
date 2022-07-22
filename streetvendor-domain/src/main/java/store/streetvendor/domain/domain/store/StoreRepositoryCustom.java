@@ -1,4 +1,4 @@
-package store.streetvendor.domain.domain.store.repository;
+package store.streetvendor.domain.domain.store;
 
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;

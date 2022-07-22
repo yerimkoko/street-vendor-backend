@@ -1,9 +1,6 @@
 package store.streetvendor.domain.domain.store;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import store.streetvendor.domain.domain.BaseTimeEntity;
 
 import javax.persistence.*;
@@ -11,6 +8,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@ToString
 public class StoreImage extends BaseTimeEntity {
 
     @Id

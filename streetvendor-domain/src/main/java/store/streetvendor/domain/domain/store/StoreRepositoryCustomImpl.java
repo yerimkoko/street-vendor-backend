@@ -1,10 +1,7 @@
-package store.streetvendor.domain.domain.store.repository;
+package store.streetvendor.domain.domain.store;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import store.streetvendor.domain.domain.store.Store;
-import store.streetvendor.domain.domain.store.StoreSalesStatus;
-import store.streetvendor.domain.domain.store.StoreStatus;
 
 import static store.streetvendor.domain.domain.store.QStore.store;
 

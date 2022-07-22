@@ -9,6 +9,8 @@ import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.domain.domain.order.OrderStatusCanceled;
 import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order_history.OrderHistory;
+import store.streetvendor.domain.domain.order_history.OrderHistoryMenu;
+import store.streetvendor.domain.domain.order_history.OrderHistoryMenuRepository;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
@@ -36,6 +38,8 @@ public class OrderService {
     private final MemberRepository memberRepository;
 
     private final OrderHistoryRepository historyRepository;
+
+    private final OrderHistoryMenuRepository orderHistoryMenuRepository;
 
     @Transactional
     public void addNewOrder(AddNewOrderRequest request, Long memberId) {
@@ -81,7 +85,12 @@ public class OrderService {
     public void cancelOrderByBoss(Long storeId, Long orderId, Long bossId) {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, bossId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, orderId);
+        List<OrderHistoryMenu> orderHistoryMenus = store.getMenus().stream()
+            .map(OrderHistoryMenu::of)
+            .collect(Collectors.toList());
+
         historyRepository.save(OrderHistory.cancel(order, store));
+        orderHistoryMenuRepository.saveAll(orderHistoryMenus);
         orderRepository.delete(order);
 
     }
@@ -89,15 +98,15 @@ public class OrderService {
     @Transactional
     public void cancelOrderByUser(Long orderId, Long memberId) {
         Orders order = OrderServiceUtils.findMyOrderByOrderIdAndMemberId(orderRepository, orderId, memberId);
-
         order.validateByUser();
-
         Store store = StoreServiceUtils.findByStoreId(storeRepository, order.getStoreId());
-
         OrderHistory orderHistory = OrderHistory.cancel(order, store);
+        List<OrderHistoryMenu> orderHistoryMenus = store.getMenus().stream()
+            .map(OrderHistoryMenu::of)
+            .collect(Collectors.toList());
 
+        orderHistoryMenuRepository.saveAll(orderHistoryMenus);
         historyRepository.save(orderHistory);
-
         orderRepository.delete(order);
 
     }

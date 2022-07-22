@@ -1,6 +1,7 @@
 package store.streetvendor.service.order;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,9 +9,13 @@ import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.*;
 import store.streetvendor.domain.domain.order_history.OrderHistory;
+import store.streetvendor.domain.domain.order_history.OrderHistoryMenu;
+import store.streetvendor.domain.domain.order_history.OrderHistoryMenuRepository;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.domain.domain.model.exception.NotFoundException;
+import store.streetvendor.domain.domain.store.MenuRepository;
+import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.request.OrderMenusRequest;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
@@ -43,10 +48,16 @@ class OrdersServiceTest {
     @Autowired
     private OrderMenuRepository orderMenuRepository;
 
+    @Autowired
+    private OrderHistoryMenuRepository orderHistoryMenuRepository;
+
+    @Autowired
+    private MenuRepository menuRepository;
+
     @AfterEach
     void cleanUp() {
         orderRepository.deleteAll();
-        orderHistoryRepository.deleteAll();;
+        orderHistoryRepository.deleteAll();
         storeRepository.deleteAll();
         memberRepository.deleteAll();
     }
@@ -242,8 +253,9 @@ class OrdersServiceTest {
         assertThat(orderHistories).hasSize(1);
     }
 
-    // TODO: 값 비교하기
+    @Disabled
     @Test
+    // TODO: orderHistoryMenu 테스트코드 확인하다
     void 사용자가_주문을_취소한다() {
         // given
         Member boss = createMember();
@@ -251,19 +263,29 @@ class OrdersServiceTest {
         Store store = createStore(boss);
         storeRepository.save(store);
 
+        String menuName = "슈크림 붕어빵";
+        int menuPrice = 1000;
+        int menuCount = 3;
+        String menuPictureUrl = "https://menu.com";
+
+        store.addMenus(List.of(Menu.of(store, menuName, menuCount, menuPrice, menuPictureUrl)));
+
         Orders order = orderRepository.save(Orders.newOrder(store.getId(), user.getId()));
 
         // when
         orderService.cancelOrderByUser(order.getId(), user.getId());
 
         // then
-
-        // TODO: orderMenu 테스트코드 만들기
         List<Orders> orders = orderRepository.findAll();
-        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
         assertThat(orders).isEmpty();
+
+        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
         assertThat(orderHistories).hasSize(1);
+
         assertOrderHistory(orderHistories.get(0), order.getId(), order.getMemberId(), order.getStoreId());
+
+        List<OrderHistoryMenu> orderHistoryMenus = orderHistoryMenuRepository.findAll();
+        assertThat(orderHistoryMenus).hasSize(1);
 
     }
 
@@ -273,9 +295,9 @@ class OrdersServiceTest {
         assertThat(orderHistory.getStoreInfo().getStoreId()).isEqualTo(storeId);
     }
 
-    void assertOrderHistoryMenu(OrderHistory orderHistory, List<OrderMenu> menus) {
-        assertThat(orderHistory.getMenus().get(0).getId()).isEqualTo(menus.get(0).getId());
-    }
+//    void assertOrderHistoryMenu(OrderHistoryMenu menu, Long orderMenuId) {
+//        assertThat(menu.getId()).isEqualTo(orderMenuId);
+//    }
 
 
     // TODO: 체크하기
@@ -326,7 +348,17 @@ class OrdersServiceTest {
         String locationDescription = "당정역 1번 출구 앞";
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
-        return Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), location, storeDescription, locationDescription, category);
+        Store store = Store.newInstance(member.getId(), member.getName(), location, storeDescription, locationDescription, category);
+        return store;
+    }
+
+    private Store saveStore(Member member) {
+        Location location = new Location(37.78639644286605, 126.40572677813635);
+        String storeDescription = "슈크림 붕어빵이 맛있어요";
+        String locationDescription = "당정역 1번 출구 앞";
+        StoreCategory category = StoreCategory.BUNG_EO_PPANG;
+
+        return storeRepository.save(Store.newInstance(member.getId(), member.getName(), location, storeDescription, locationDescription, category));
     }
 
     private Store openedStore(Member member) {
@@ -334,7 +366,7 @@ class OrdersServiceTest {
         String storeDescription = "슈크림 붕어빵이 맛있어요";
         String locationDescription = "당정역 1번 출구 앞";
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
-        return Store.newSalesStore(member.getId(), member.getName(), member.getProfileUrl(), location, storeDescription, locationDescription, category);
+        return Store.newSalesStore(member.getId(), member.getName(), location, storeDescription, locationDescription, category);
     }
 
     private Menu createMenu(Store store) {
@@ -343,6 +375,15 @@ class OrdersServiceTest {
         String menuName = "슈크림 2개";
         String pictureUrl = "https://rabbit.shop";
         return Menu.of(store, menuName, count, price, pictureUrl);
+    }
+
+    private Menu saveMenu(Store store) {
+        int count = 2;
+        int price = 2000;
+        String menuName = "슈크림 2개";
+        String pictureUrl = "https://rabbit.shop";
+        return menuRepository.save(Menu.of(store, menuName, count, price, pictureUrl));
+
     }
 
     private BusinessHours createBusinessHours(Store store, Days days, LocalTime startTime, LocalTime endTime) {

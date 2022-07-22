@@ -54,14 +54,18 @@ public class AddNewStoreRequest {
 
     public Store toEntity(Long memberId) {
         Store store = Store.newInstance(memberId, name, location, storeDescription, locationDescription, category);
+
         store.addMenus(this.menus.stream()
             .map(menu -> menu.toEntity(store))
             .collect(Collectors.toList()));
+
         store.addPayments(paymentMethods);
+
         store.addBusinessDays(businessHours.stream()
             .map(businessHour -> businessHour.toEntity(store))
             .collect(Collectors.toList()));
-        store.addStoreImages(storeImages.stream()
+
+        store.addStoreImages(this.storeImages.stream()
             .map(image -> image.toEntity(store))
             .collect(Collectors.toList()));
 

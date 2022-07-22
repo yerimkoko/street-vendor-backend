@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
+import store.streetvendor.domain.domain.store.Menu;
 
 import javax.persistence.*;
 
@@ -42,11 +43,11 @@ public class OrderHistoryMenu extends BaseTimeEntity {
         this.pictureUrl = pictureUrl;
     }
 
-    public static OrderHistoryMenu of(String menuName, int count, int price) {
+    public static OrderHistoryMenu of(Menu menu) {
         return OrderHistoryMenu.builder()
-            .menuName(menuName)
-            .count(count)
-            .price(price)
+            .menuName(menu.getName())
+            .count(menu.getMenuCount())
+            .price(menu.getPrice())
             .build();
     }
 

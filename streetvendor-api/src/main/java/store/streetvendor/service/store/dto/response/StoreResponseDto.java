@@ -33,13 +33,11 @@ public class StoreResponseDto {
 
     private List<MenuResponse> menus;
 
-    private List<StoreImage> storeImages;
-
 
     @Builder
     public StoreResponseDto(Long storeId, Long bossId, String name, Location location, String description,
                             List<StoreBusinessDayResponse> businessHours, StoreCategory category, StoreSalesStatus salesStatus,
-                            List<PaymentMethod> paymentMethods, List<MenuResponse> menus, List<StoreImage> storeImages) {
+                            List<PaymentMethod> paymentMethods, List<MenuResponse> menus) {
         this.storeId = storeId;
         this.bossId = bossId;
         this.name = name;
@@ -50,7 +48,6 @@ public class StoreResponseDto {
         this.paymentMethods = paymentMethods;
         this.menus = menus;
         this.salesStatus = salesStatus;
-        this.storeImages = storeImages;
 
     }
 
@@ -64,7 +61,6 @@ public class StoreResponseDto {
             .storeId(store.getId())
             .bossId(store.getMemberId())
             .name(store.getName())
-            .storeImages(store.getStoreImages())
             .location(store.getLocation())
             .description(store.getStoreDescription())
             .category(store.getCategory())
