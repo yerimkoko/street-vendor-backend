@@ -18,8 +18,6 @@ public class AddNewStoreRequest {
     @NotBlank
     private String name;
 
-    private String pictureUrl;
-
     private Location location;
 
     private String storeDescription;
@@ -37,11 +35,10 @@ public class AddNewStoreRequest {
     private List<StoreImageRequest> storeImages;
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
-    public AddNewStoreRequest(@NotBlank String name, String pictureUrl, Location location, String storeDescription, String locationDescription,
+    public AddNewStoreRequest(@NotBlank String name, Location location, String storeDescription, String locationDescription,
                               StoreCategory category, List<MenuRequest> menus, List<PaymentMethod> paymentMethods, List<BusinessHourRequest> businessHours,
                               List<StoreImageRequest> storeImages) {
         this.name = name;
-        this.pictureUrl = pictureUrl;
         this.location = location;
         this.storeDescription = storeDescription;
         this.locationDescription = locationDescription;

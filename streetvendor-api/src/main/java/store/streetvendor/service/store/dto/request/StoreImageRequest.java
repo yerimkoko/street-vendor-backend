@@ -10,15 +10,12 @@ import store.streetvendor.domain.domain.store.StoreImage;
 @Getter
 public class StoreImageRequest {
 
-    private Store store;
-
-    private boolean isThumbNail;
+    private Boolean isThumbNail;
 
     private String imageUrl;
 
     @Builder
-    public StoreImageRequest(Store store, boolean isThumbNail, String imageUrl) {
-        this.store = store;
+    public StoreImageRequest(Boolean isThumbNail, String imageUrl) {
         this.isThumbNail = isThumbNail;
         this.imageUrl = imageUrl;
     }
@@ -27,8 +24,8 @@ public class StoreImageRequest {
         return StoreImage.of(store, isThumbNail, imageUrl);
     }
 
-    public static StoreImageRequest testInstance(Store store, boolean isThumbNail, String imageUrl ) {
-        return new StoreImageRequest(store, isThumbNail, imageUrl);
+    public static StoreImageRequest testInstance(boolean isThumbNail, String imageUrl ) {
+        return new StoreImageRequest(isThumbNail, imageUrl);
     }
 
 

@@ -40,7 +40,6 @@ public class OrderHistoryStoreResponse {
         return OrderHistoryStoreResponse.builder()
             .storeId(store.getId())
             .name(store.getName())
-            .pictureUrl(store.getPictureUrl())
             .location(store.getLocation())
             .storeDescription(store.getStoreDescription())
             .locationDescription(store.getLocationDescription())

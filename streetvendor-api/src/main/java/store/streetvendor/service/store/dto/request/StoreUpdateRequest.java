@@ -13,8 +13,6 @@ import java.util.stream.Collectors;
 public class StoreUpdateRequest {
     private String name;
 
-    private String pictureUrl;
-
     private Location location;
 
     private String description;
@@ -28,10 +26,9 @@ public class StoreUpdateRequest {
     private StoreCategory category;
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
-    public StoreUpdateRequest(String name, String pictureUrl, Location location, String description,
+    public StoreUpdateRequest(String name, Location location, String description,
                               List<MenuRequest> menus, List<PaymentMethod> paymentMethods, List<BusinessHourRequest> businessHours, StoreCategory category) {
         this.name = name;
-        this.pictureUrl = pictureUrl;
         this.location = location;
         this.description = description;
         this.menus = menus;

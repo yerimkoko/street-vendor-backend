@@ -122,7 +122,14 @@ public class Store extends BaseTimeEntity {
     }
 
     public void addStoreImages(List<StoreImage> storeImages) {
-        this.storeImages.addAll(storeImages);
+        for(StoreImage image : storeImages) {
+            this.addStoreImage(image);
+        }
+    }
+
+    public void addStoreImage(StoreImage storeImage) {
+        this.storeImages.add(storeImage);
+
     }
 
     public void updateStoreInfo(String name, String description, Location location, StoreCategory category) {

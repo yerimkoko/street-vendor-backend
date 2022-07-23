@@ -7,7 +7,7 @@ import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.MenuSalesStatus;
 import store.streetvendor.domain.domain.store.Store;
-import store.streetvendor.domain.domain.store.repository.StoreRepository;
+import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
 import store.streetvendor.domain.domain.model.exception.DuplicatedException;
 import store.streetvendor.domain.service.utils.MemberServiceUtils;

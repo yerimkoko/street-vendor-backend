@@ -8,7 +8,7 @@ import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.service.utils.MemberServiceUtils;
 import store.streetvendor.domain.domain.sign_out_member.SignOutMemberRepository;
 import store.streetvendor.domain.domain.store.Store;
-import store.streetvendor.domain.domain.store.repository.StoreRepository;
+import store.streetvendor.domain.domain.store.StoreRepository;
 import store.streetvendor.domain.domain.store.StoreSalesStatus;
 import store.streetvendor.domain.domain.model.exception.DuplicatedException;
 import store.streetvendor.service.member.dto.request.MemberSaveBossInfoRequest;

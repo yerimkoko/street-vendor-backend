@@ -326,7 +326,7 @@ class OrdersServiceTest {
         String locationDescription = "당정역 1번 출구 앞";
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
-        return Store.newInstance(member.getId(), member.getName(), member.getProfileUrl(), location, storeDescription, locationDescription, category);
+        return Store.newInstance(member.getId(), member.getName(), location, storeDescription, locationDescription, category);
     }
 
     private Store openedStore(Member member) {
@@ -334,7 +334,7 @@ class OrdersServiceTest {
         String storeDescription = "슈크림 붕어빵이 맛있어요";
         String locationDescription = "당정역 1번 출구 앞";
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
-        return Store.newSalesStore(member.getId(), member.getName(), member.getProfileUrl(), location, storeDescription, locationDescription, category);
+        return Store.newSalesStore(member.getId(), member.getName(), location, storeDescription, locationDescription, category);
     }
 
     private Menu createMenu(Store store) {
