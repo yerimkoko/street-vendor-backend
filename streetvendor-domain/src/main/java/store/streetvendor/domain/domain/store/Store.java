@@ -155,6 +155,11 @@ public class Store extends BaseTimeEntity {
         this.addPayments(paymentMethods);
     }
 
+    public void updateStoreImages(List<StoreImage> storeImages) {
+        this.storeImages.clear();
+        this.addStoreImages(storeImages);
+    }
+
     public void delete() {
         this.status = StoreStatus.DELETED;
     }

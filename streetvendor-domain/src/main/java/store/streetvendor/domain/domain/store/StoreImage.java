@@ -22,12 +22,12 @@ public class StoreImage extends BaseTimeEntity {
     private Store store;
 
     @Column(nullable = false)
-    private boolean isThumbNail;
+    private Boolean isThumbNail;
 
     private String pictureUrl;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private StoreImage(Store store, String pictureUrl, boolean isThumbNail) {
+    private StoreImage(Store store, String pictureUrl, Boolean isThumbNail) {
         this.store = store;
         this.pictureUrl = pictureUrl;
         this.isThumbNail = isThumbNail;

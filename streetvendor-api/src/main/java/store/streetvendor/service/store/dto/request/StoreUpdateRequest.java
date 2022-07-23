@@ -17,17 +17,21 @@ public class StoreUpdateRequest {
 
     private String description;
 
+    private StoreCategory category;
+
     private List<MenuRequest> menus;
 
     private List<PaymentMethod> paymentMethods;
 
     private List<BusinessHourRequest> businessHours;
 
-    private StoreCategory category;
+    private List<StoreImageRequest> storeImages;
+
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
     public StoreUpdateRequest(String name, Location location, String description,
-                              List<MenuRequest> menus, List<PaymentMethod> paymentMethods, List<BusinessHourRequest> businessHours, StoreCategory category) {
+                              List<MenuRequest> menus, List<PaymentMethod> paymentMethods, List<BusinessHourRequest> businessHours,
+                              StoreCategory category, List<StoreImageRequest> storeImages) {
         this.name = name;
         this.location = location;
         this.description = description;
@@ -35,6 +39,7 @@ public class StoreUpdateRequest {
         this.paymentMethods = paymentMethods;
         this.businessHours = businessHours;
         this.category = category;
+        this.storeImages = storeImages;
     }
 
     public List<Menu> toMenus(Store store) {
@@ -47,6 +52,13 @@ public class StoreUpdateRequest {
         return this.businessHours.stream()
             .map(businessHours -> businessHours.toEntity(store))
             .collect(Collectors.toList());
+    }
+
+    public List<StoreImage> toStoreImages(Store store) {
+        return this.storeImages.stream()
+            .map(storeImage -> storeImage.toEntity(store))
+            .collect(Collectors.toList());
+
     }
 
 }

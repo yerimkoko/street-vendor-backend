@@ -97,7 +97,7 @@ class StoreServiceTest {
 
     private void assertStoreImages(StoreImage storeImage, Long storeId, String imageUrl, boolean isThumbNail) {
         assertThat(storeImage.getStore().getId()).isEqualTo(storeId);
-        assertThat(storeImage.isThumbNail()).isEqualTo(isThumbNail);
+        assertThat(storeImage.getIsThumbNail()).isEqualTo(isThumbNail);
         assertThat(storeImage.getPictureUrl()).isEqualTo(imageUrl);
 
     }
@@ -128,6 +128,7 @@ class StoreServiceTest {
         store.addMenus(List.of(createMenu(store)));
         store.addPayments(List.of(PaymentMethod.CASH));
         store.addBusinessDays(List.of(createBusinessHours(store, Days.FRI, LocalTime.of(9, 0), LocalTime.of(18, 0))));
+        store.addStoreImages(List.of(createStoreImage(store)));
         storeRepository.save(store);
 
         PaymentMethod accountTransfer = PaymentMethod.ACCOUNT_TRANSFER;
@@ -138,9 +139,10 @@ class StoreServiceTest {
         Days saturday = Days.SAT;
 
         Store newStore = createNewStore(member.getId());
-
         List<MenuRequest> newMenuRequest = createNewMenuRequest();
-        StoreUpdateRequest updateRequest = updateRequest(newStore, newMenuRequest);
+        List<StoreImageRequest> newStoreRequest = List.of(createNewStoreImage());
+
+        StoreUpdateRequest updateRequest = updateRequest(newStore, newMenuRequest, newStoreRequest);
 
         // when
         storeService.updateMyStore(store.getMemberId(), store.getId(), updateRequest);
@@ -150,20 +152,30 @@ class StoreServiceTest {
         List<Menu> menuList = menuRepository.findAll();
         List<Payment> payments = paymentRepository.findAll();
         List<BusinessHours> findBusinessHours = businessHoursRepository.findAll();
+        List<StoreImage> storeImages = storeImageRepository.findAll();
 
         assertThat(stores).hasSize(1);
         assertThat(menuList).hasSize(1);
         assertThat(payments).hasSize(2);
         assertThat(findBusinessHours).hasSize(1);
+        assertThat(storeImages).hasSize(1);
 
 
         assertStore(stores.get(0), updateRequest.getName(), updateRequest.getLocation(), updateRequest.getDescription(), member.getId(), updateRequest.getCategory());
         assertMenu(menuList.get(0), store.getId(), newMenuRequest.get(0).getName(), newMenuRequest.get(0).getMenuCount(), newMenuRequest.get(0).getPrice(), newMenuRequest.get(0).getPictureUrl());
         assertPayment(payments.get(0), store.getId(), accountTransfer);
         assertPayment(payments.get(1), store.getId(), cash);
+        assertStoreImage(storeImages.get(0), createNewStoreImage().getIsThumbNail(), createNewStoreImage().getImageUrl());
 
         assertThat(findBusinessHours.get(0).getOpeningTime()).isEqualTo(OpeningTime.of(newStartTime, newEndTime));
         assertThat(findBusinessHours.get(0).getDays()).isEqualTo(saturday);
+
+
+    }
+
+    private void assertStoreImage(StoreImage storeImage, Boolean isThumbNail, String imageUrl) {
+        assertThat(storeImage.getIsThumbNail()).isEqualTo(isThumbNail);
+        assertThat(storeImage.getPictureUrl()).isEqualTo(imageUrl);
     }
 
     @Test
@@ -444,6 +456,15 @@ class StoreServiceTest {
         return Menu.of(store, "붕어빵", 2, 2000, "pictureUrl");
     }
 
+    private StoreImage createStoreImage(Store store) {
+        return StoreImage.of(store, true, "pictureUrl");
+    }
+
+    private StoreImageRequest createNewStoreImage() {
+        return StoreImageRequest.testInstance(false, "newPictureUrl");
+    }
+
+
     private BusinessHours createBusinessHours(Store store, Days days, LocalTime startTime, LocalTime endTime) {
         return BusinessHours.of(store, days, startTime, endTime);
     }
@@ -471,7 +492,8 @@ class StoreServiceTest {
         return List.of(MenuRequest.testInstance(newName, menuCount, price, pictureUrl));
     }
 
-    private StoreUpdateRequest updateRequest(Store newStore, List<MenuRequest> newMenuRequests) {
+    private StoreUpdateRequest updateRequest(Store newStore, List<MenuRequest> newMenuRequests,
+                                             List<StoreImageRequest> storeImageRequests) {
         PaymentMethod accountTransfer = PaymentMethod.ACCOUNT_TRANSFER;
         PaymentMethod cash = PaymentMethod.CASH;
 
@@ -487,6 +509,7 @@ class StoreServiceTest {
             .paymentMethods(List.of(accountTransfer, cash))
             .businessHours(List.of(new BusinessHourRequest(newStartTime, newEndTime, saturday)))
             .category(newStore.getCategory())
+            .storeImages(storeImageRequests)
             .build();
     }
 
