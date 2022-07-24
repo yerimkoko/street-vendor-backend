@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.domain.domain.member.Member;
-import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.domain.domain.model.exception.AlreadyExistedException;
 import store.streetvendor.domain.domain.model.exception.NotFoundException;
@@ -21,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static store.streetvendor.domain.domain.store.StoreCategory.OTHER_DESSERT;
 
 @SpringBootTest
-class StoreServiceTest {
+class StoreServiceTest extends SetupMember {
 
     @Autowired
     private StoreService storeService;
@@ -39,13 +38,11 @@ class StoreServiceTest {
     private BusinessHoursRepository businessHoursRepository;
 
     @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
     private StoreImageRepository storeImageRepository;
 
     @AfterEach
     void cleanUp() {
+        super.cleanup();
         businessHoursRepository.deleteAllInBatch();
         paymentRepository.deleteAllInBatch();
         menuRepository.deleteAllInBatch();
@@ -57,7 +54,6 @@ class StoreServiceTest {
     @Test
     void 새로운_가게를_등록히면_가게와_가게분류와_메뉴와_결제_방법과_운영_시간과_사진이_저장된다() {
         // given
-        Member member = createBossMember();
         Store store = createNewStore(member.getId());
         Menu menu = createMenu(store);
         List<MenuRequest> menuRequests = createMenuRequests(menu);
@@ -105,7 +101,6 @@ class StoreServiceTest {
     @Test
     void 멤버의_사장님_정보가_없으면_에러가_나타난다() {
         // given
-        Member member = createMember();
         Store store = createNewStore(member.getId());
         Menu menu = createMenu(store);
         List<MenuRequest> menuRequests = createMenuRequests(menu);
@@ -123,7 +118,6 @@ class StoreServiceTest {
     @Test
     void 가게를_수정한다() {
         // given
-        Member member = createMember();
         Store store = createStore(member);
         store.addMenus(List.of(createMenu(store)));
         store.addPayments(List.of(PaymentMethod.CASH));
@@ -169,8 +163,6 @@ class StoreServiceTest {
 
         assertThat(findBusinessHours.get(0).getOpeningTime()).isEqualTo(OpeningTime.of(newStartTime, newEndTime));
         assertThat(findBusinessHours.get(0).getDays()).isEqualTo(saturday);
-
-
     }
 
     private void assertStoreImage(StoreImage storeImage, Boolean isThumbNail, String imageUrl) {
@@ -181,8 +173,6 @@ class StoreServiceTest {
     @Test
     void 가게를_수정하려고_했을_때_가게_id가_없는경우() {
         // given
-        Member member = createMember();
-
         Store store = createStore(member);
 
         // newStore
@@ -221,7 +211,6 @@ class StoreServiceTest {
     @Test
     void 가게를_삭제한다() {
         // given
-        Member member = createMember();
         Store store = createStore(member);
 
         // when
@@ -237,7 +226,6 @@ class StoreServiceTest {
     @Test
     void 가게_상세정보를_조회한다() {
         // given
-        Member member = createBossMember();
         Store store = createStore(member);
         store.addMenus(List.of(createMenu(store)));
         store.addPayments(List.of(PaymentMethod.CASH, PaymentMethod.ACCOUNT_TRANSFER));
@@ -258,7 +246,6 @@ class StoreServiceTest {
     @Test
     void 가게_운영을_시킨다() {
         // given
-        Member member = createMember();
         Store store = createStore(member);
         StoreSalesStatus open = StoreSalesStatus.OPEN;
 
@@ -275,7 +262,6 @@ class StoreServiceTest {
     @Test
     void 가게를_종료시킨다() {
         // given
-        Member member = createMember();
         Store store = createSalesStore(member);
         StoreSalesStatus close = StoreSalesStatus.CLOSED;
 
@@ -292,7 +278,6 @@ class StoreServiceTest {
     @Test
     void 이미_운영중인_가게가_있는경우() {
         // given
-        Member member = createMember();
         createSalesStore(member);
         Store store = createStore(member);
 
@@ -305,7 +290,6 @@ class StoreServiceTest {
     @Test
     void 운영중인_가게에_운영하기를_호출할_경우() {
         // given
-        Member member = createMember();
         Store store = createSalesStore(member);
 
         // when & then
@@ -316,7 +300,6 @@ class StoreServiceTest {
     @Test
     void 종료된_가게에_종료를_호출할경우() {
         // given
-        Member member = createMember();
         Store store = createStore(member);
 
         // when & then
@@ -334,7 +317,6 @@ class StoreServiceTest {
         Double longitude = 126.40572677813635;
         Double distance = 999.00;
 
-        Member member = createMember();
         createSalesStore(member);
         StoreCategoryRequest request = new StoreCategoryRequest(category, open, status, latitude, longitude, distance);
 
@@ -351,7 +333,6 @@ class StoreServiceTest {
     @Test
     void 가게의_메뉴상태를_변경한다() {
         // given
-        Member member = createMember();
         Store store = createStore(member);
         MenuSalesStatus soldOut = MenuSalesStatus.SOLD_OUT;
         Menu menu = createMenu(store);
@@ -370,33 +351,9 @@ class StoreServiceTest {
         assertThat(menuSalesStatus).isEqualTo(soldOut);
     }
 
-
-    private Member createMember() {
-        String name = "yerimkoko";
-        String nickName = "yerimko";
-        String email = "street-vendor@naver.com";
-        String pictureUrl = "https://rabbit.com";
-
-        Member member = Member.newGoogleInstance(name, nickName, email, pictureUrl);
-        return memberRepository.save(member);
-    }
-
-    private Member createBossMember() {
-        String name = "yerimkoko";
-        String nickName = "yerimko";
-        String email = "gochi97@naver.com";
-        String pictureUrl = "https://rabbit.com";
-        String bossName = "고토끼";
-        String bossPhoneNumber = "010-2345-6789";
-
-        Member member = Member.bossInstance(name, nickName, email, pictureUrl, bossName, bossPhoneNumber);
-
-        return memberRepository.save(member);
-    }
-
     private Store createStore(Member member) {
         // store
-        Long memberId = member.getId();
+        Long memberId = this.member.getId();
         String name = "토끼의 붕어빵 가게";
         Location location = new Location(37.78639644286605, 126.40572677813635);
 
@@ -408,7 +365,7 @@ class StoreServiceTest {
     }
 
     private Store createSalesStore(Member member) {
-        Long memberId = member.getId();
+        Long memberId = this.member.getId();
         String name = "토끼의 붕어빵 가게";
         Location location = new Location(34.232323, 128.242424);
         String storeDescription = "슈크림 맛집 입니다!";
