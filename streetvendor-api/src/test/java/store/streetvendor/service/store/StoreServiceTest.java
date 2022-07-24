@@ -13,6 +13,7 @@ import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static store.streetvendor.domain.domain.store.StoreCategory.OTHER_DESSERT;
 
 @SpringBootTest
-class StoreServiceTest extends SetupMember {
+class StoreServiceTest extends SetupBoss {
 
     @Autowired
     private StoreService storeService;
@@ -52,63 +53,130 @@ class StoreServiceTest extends SetupMember {
     }
 
     @Test
-    void 새로운_가게를_등록히면_가게와_가게분류와_메뉴와_결제_방법과_운영_시간과_사진이_저장된다() {
+    void 새로운_가게를_등록히면_가게의_정보가_등록된다() {
         // given
-        Store store = createNewStore(member.getId());
-        Menu menu = createMenu(store);
-        List<MenuRequest> menuRequests = createMenuRequests(menu);
-        List<PaymentMethod> paymentMethods = createPaymentMethod();
-        List<BusinessHourRequest> businessHour = createBusinessHourRequest();
-        List<StoreImageRequest> storeImageRequests = createStoreImageRequest();
-        AddNewStoreRequest storeRequest = addNewStoreRequest(store, menuRequests, paymentMethods, businessHour, storeImageRequests);
+        AddNewStoreRequest request = AddNewStoreRequest.testBuilder()
+            .name("가게 이름")
+            .location(new Location(34.0, 128.0))
+            .storeDescription("가게 설명")
+            .locationDescription("위치 설명")
+            .category(StoreCategory.BUNG_EO_PPANG)
+            .storeImages(Collections.emptyList())
+            .businessHours(Collections.emptyList())
+            .menus(Collections.emptyList())
+            .paymentMethods(Collections.emptyList())
+            .build();
 
         // when
-        storeService.addNewStore(storeRequest, member.getId());
+        storeService.addNewStore(request, boss.getId());
 
         // then
         List<Store> stores = storeRepository.findAll();
         assertThat(stores).hasSize(1);
-        assertStore(stores.get(0), store.getName(), store.getLocation(), store.getStoreDescription(), member.getId(), store.getCategory());
+        assertStore(stores.get(0), request.getName(), request.getLocation(), request.getStoreDescription(), boss.getId(), request.getCategory());
+    }
+
+    @Test
+    void 새로운_가게를_등록히면_메뉴_정보가_등록된다() {
+        // given
+        MenuRequest menuRequest = MenuRequest.testInstance("붕어빵", 2, 2000, "pictureUrl");
+
+        AddNewStoreRequest request = AddNewStoreRequest.testBuilder()
+            .name("가게 이름")
+            .location(new Location(34.0, 128.0))
+            .storeDescription("가게 설명")
+            .locationDescription("위치 설명")
+            .category(StoreCategory.BUNG_EO_PPANG)
+            .menus(List.of(menuRequest))
+            .storeImages(Collections.emptyList())
+            .businessHours(Collections.emptyList())
+            .paymentMethods(Collections.emptyList())
+            .build();
+
+        // when
+        storeService.addNewStore(request, boss.getId());
+
+        // then
+        List<Store> stores = storeRepository.findAll();
 
         List<Menu> menus = menuRepository.findAll();
         assertThat(menus).hasSize(1);
-        assertMenu(menus.get(0), stores.get(0).getId(), menu.getName(), menu.getMenuCount(), menu.getPrice(), menu.getPictureUrl());
+        assertMenu(menus.get(0), stores.get(0).getId(), menuRequest.getName(), menuRequest.getMenuCount(), menuRequest.getPrice(), menuRequest.getPictureUrl());
+    }
+
+    @Test
+    void 새로운_가게를_등록히면_결제_정보가_입력된다() {
+        // given
+        AddNewStoreRequest request = AddNewStoreRequest.testBuilder()
+            .name("가게 이름")
+            .location(new Location(34.0, 128.0))
+            .storeDescription("가게 설명")
+            .locationDescription("위치 설명")
+            .category(StoreCategory.BUNG_EO_PPANG)
+            .paymentMethods(List.of(PaymentMethod.CASH, PaymentMethod.ACCOUNT_TRANSFER))
+            .menus(Collections.emptyList())
+            .storeImages(Collections.emptyList())
+            .businessHours(Collections.emptyList())
+            .build();
+
+        // when
+        storeService.addNewStore(request, boss.getId());
+
+        // then
+        List<Store> stores = storeRepository.findAll();
 
         List<Payment> payments = paymentRepository.findAll();
         assertThat(payments).hasSize(2);
         assertPayment(payments.get(0), stores.get(0).getId(), PaymentMethod.CASH);
         assertPayment(payments.get(1), stores.get(0).getId(), PaymentMethod.ACCOUNT_TRANSFER);
-
-        List<BusinessHours> businessHours = businessHoursRepository.findAll();
-        assertThat(businessHours).hasSize(1);
-        assertThat(businessHours.get(0).getDays()).isEqualTo(createBusinessHourRequest().get(0).getDays());
-        assertThat(businessHours.get(0).getOpeningTime()).isEqualTo(OpeningTime
-            .of(createBusinessHourRequest().get(0).getStartTime(), createBusinessHourRequest().get(0).getEndTime()));
-
-        List<StoreImage> storeImages = storeImageRepository.findAll();
-        assertThat(storeImages).hasSize(1);
-        assertStoreImages(storeImages.get(0), stores.get(0).getId(), storeImages.get(0).getPictureUrl(), true);
-
-    }
-
-    private void assertStoreImages(StoreImage storeImage, Long storeId, String imageUrl, boolean isThumbNail) {
-        assertThat(storeImage.getStore().getId()).isEqualTo(storeId);
-        assertThat(storeImage.getIsThumbNail()).isEqualTo(isThumbNail);
-        assertThat(storeImage.getPictureUrl()).isEqualTo(imageUrl);
-
     }
 
     @Test
-    void 멤버의_사장님_정보가_없으면_에러가_나타난다() {
+    void 새로운_가게를_등록히면_영업시간_정보가_입력된다() {
         // given
-        Store store = createNewStore(member.getId());
-        Menu menu = createMenu(store);
-        List<MenuRequest> menuRequests = createMenuRequests(menu);
-        List<PaymentMethod> paymentMethods = createPaymentMethod();
-        List<BusinessHourRequest> businessHour = createBusinessHourRequest();
-        List<StoreImageRequest> storeImageRequests = createStoreImageRequest();
+        BusinessHourRequest businessHourRequest = BusinessHourRequest
+            .builder()
+            .startTime(LocalTime.of(8, 0))
+            .endTime(LocalTime.of(8, 5))
+            .days(Days.SUN)
+            .build();
 
-        AddNewStoreRequest request = addNewStoreRequest(store, menuRequests, paymentMethods, businessHour, storeImageRequests);
+        AddNewStoreRequest request = AddNewStoreRequest.testBuilder()
+            .name("가게 이름")
+            .businessHours(List.of(businessHourRequest))
+            .location(new Location(34.0, 128.0))
+            .storeDescription("가게 설명")
+            .locationDescription("위치 설명")
+            .category(StoreCategory.BUNG_EO_PPANG)
+            .paymentMethods(Collections.emptyList())
+            .menus(Collections.emptyList())
+            .storeImages(Collections.emptyList())
+            .build();
+
+        // when
+        storeService.addNewStore(request, boss.getId());
+
+        // then
+        List<BusinessHours> businessHours = businessHoursRepository.findAll();
+        assertThat(businessHours).hasSize(1);
+        assertThat(businessHours.get(0).getDays()).isEqualTo(businessHourRequest.getDays());
+        assertThat(businessHours.get(0).getOpeningTime()).isEqualTo(OpeningTime.of(businessHourRequest.getStartTime(), businessHourRequest.getEndTime()));
+    }
+
+    @Test
+    void 멤버의_사장님_정보가_없으면_가게_등록시_에러가_나타난다() {
+        // given
+        AddNewStoreRequest request = AddNewStoreRequest.testBuilder()
+            .name("가게 이름")
+            .location(new Location(34.0, 128.0))
+            .storeDescription("가게 설명")
+            .locationDescription("위치 설명")
+            .category(StoreCategory.BUNG_EO_PPANG)
+            .storeImages(Collections.emptyList())
+            .businessHours(Collections.emptyList())
+            .menus(Collections.emptyList())
+            .paymentMethods(Collections.emptyList())
+            .build();
 
         // when & then
         assertThatThrownBy(() -> storeService.addNewStore(request, member.getId()))
@@ -118,7 +186,7 @@ class StoreServiceTest extends SetupMember {
     @Test
     void 가게를_수정한다() {
         // given
-        Store store = createStore(member);
+        Store store = storeFixture(boss.getId());
         store.addMenus(List.of(createMenu(store)));
         store.addPayments(List.of(PaymentMethod.CASH));
         store.addBusinessDays(List.of(createBusinessHours(store, Days.FRI, LocalTime.of(9, 0), LocalTime.of(18, 0))));
@@ -132,7 +200,7 @@ class StoreServiceTest extends SetupMember {
         LocalTime newEndTime = LocalTime.of(18, 0);
         Days saturday = Days.SAT;
 
-        Store newStore = createNewStore(member.getId());
+        Store newStore = storeFixture(boss.getId());
         List<MenuRequest> newMenuRequest = createNewMenuRequest();
         List<StoreImageRequest> newStoreRequest = List.of(createNewStoreImage());
 
@@ -155,7 +223,7 @@ class StoreServiceTest extends SetupMember {
         assertThat(storeImages).hasSize(1);
 
 
-        assertStore(stores.get(0), updateRequest.getName(), updateRequest.getLocation(), updateRequest.getDescription(), member.getId(), updateRequest.getCategory());
+        assertStore(stores.get(0), updateRequest.getName(), updateRequest.getLocation(), updateRequest.getDescription(), boss.getId(), updateRequest.getCategory());
         assertMenu(menuList.get(0), store.getId(), newMenuRequest.get(0).getName(), newMenuRequest.get(0).getMenuCount(), newMenuRequest.get(0).getPrice(), newMenuRequest.get(0).getPictureUrl());
         assertPayment(payments.get(0), store.getId(), accountTransfer);
         assertPayment(payments.get(1), store.getId(), cash);
@@ -173,7 +241,7 @@ class StoreServiceTest extends SetupMember {
     @Test
     void 가게를_수정하려고_했을_때_가게_id가_없는경우() {
         // given
-        Store store = createStore(member);
+        Store store = createStore(boss);
 
         // newStore
         String newName = "토끼 붕어";
@@ -204,17 +272,17 @@ class StoreServiceTest extends SetupMember {
             .build();
 
         // when & then
-        assertThatThrownBy(() -> storeService.updateMyStore(member.getId(), store.getId() + 1, request))
+        assertThatThrownBy(() -> storeService.updateMyStore(boss.getId(), store.getId() + 1, request))
             .isInstanceOf(NotFoundException.class);
     }
 
     @Test
     void 가게를_삭제한다() {
         // given
-        Store store = createStore(member);
+        Store store = createStore(boss);
 
         // when
-        storeService.deleteMyStore(member.getId(), store.getId());
+        storeService.deleteMyStore(boss.getId(), store.getId());
 
         // then
         List<Store> stores = storeRepository.findAll();
@@ -222,11 +290,10 @@ class StoreServiceTest extends SetupMember {
         assertThat(stores.get(0).getStatus()).isEqualTo(StoreStatus.DELETED);
     }
 
-
     @Test
     void 가게_상세정보를_조회한다() {
         // given
-        Store store = createStore(member);
+        Store store = createStore(boss);
         store.addMenus(List.of(createMenu(store)));
         store.addPayments(List.of(PaymentMethod.CASH, PaymentMethod.ACCOUNT_TRANSFER));
         LocalTime startTime = LocalTime.of(9, 0);
@@ -240,33 +307,31 @@ class StoreServiceTest extends SetupMember {
 
         // then
         assertThat(detailResponse.getBusinessHours().get(0).getDays()).isEqualTo(friDay);
-
     }
 
     @Test
     void 가게_운영을_시킨다() {
         // given
-        Store store = createStore(member);
+        Store store = createStore(boss);
         StoreSalesStatus open = StoreSalesStatus.OPEN;
 
         // when
-        storeService.storeOpen(member.getId(), store.getId());
+        storeService.storeOpen(boss.getId(), store.getId());
 
         // then
         List<Store> stores = storeRepository.findAll();
         assertThat(stores).hasSize(1);
         assertThat(stores.get(0).getSalesStatus()).isEqualTo(open);
-
     }
 
     @Test
     void 가게를_종료시킨다() {
         // given
-        Store store = createSalesStore(member);
+        Store store = createSalesStore(boss);
         StoreSalesStatus close = StoreSalesStatus.CLOSED;
 
         // when
-        storeService.storeClose(member.getId(), store.getId());
+        storeService.storeClose(boss.getId(), store.getId());
 
         // when
         List<Store> stores = storeRepository.findAll();
@@ -278,11 +343,11 @@ class StoreServiceTest extends SetupMember {
     @Test
     void 이미_운영중인_가게가_있는경우() {
         // given
-        createSalesStore(member);
-        Store store = createStore(member);
+        createSalesStore(boss);
+        Store store = createStore(boss);
 
         // when & then
-        assertThatThrownBy(() -> storeService.storeOpen(member.getId(), store.getId()))
+        assertThatThrownBy(() -> storeService.storeOpen(boss.getId(), store.getId()))
             .isInstanceOf(AlreadyExistedException.class);
 
     }
@@ -290,20 +355,20 @@ class StoreServiceTest extends SetupMember {
     @Test
     void 운영중인_가게에_운영하기를_호출할_경우() {
         // given
-        Store store = createSalesStore(member);
+        Store store = createSalesStore(boss);
 
         // when & then
-        assertThatThrownBy(() -> storeService.storeOpen(member.getId(), store.getId()))
+        assertThatThrownBy(() -> storeService.storeOpen(boss.getId(), store.getId()))
             .isInstanceOf(AlreadyExistedException.class);
     }
 
     @Test
     void 종료된_가게에_종료를_호출할경우() {
         // given
-        Store store = createStore(member);
+        Store store = createStore(boss);
 
         // when & then
-        assertThatThrownBy(() -> storeService.storeClose(member.getId(), store.getId()))
+        assertThatThrownBy(() -> storeService.storeClose(boss.getId(), store.getId()))
             .isInstanceOf(AlreadyExistedException.class);
     }
 
@@ -317,7 +382,7 @@ class StoreServiceTest extends SetupMember {
         Double longitude = 126.40572677813635;
         Double distance = 999.00;
 
-        createSalesStore(member);
+        createSalesStore(boss);
         StoreCategoryRequest request = new StoreCategoryRequest(category, open, status, latitude, longitude, distance);
 
         // when
@@ -333,13 +398,13 @@ class StoreServiceTest extends SetupMember {
     @Test
     void 가게의_메뉴상태를_변경한다() {
         // given
-        Store store = createStore(member);
+        Store store = createStore(boss);
         MenuSalesStatus soldOut = MenuSalesStatus.SOLD_OUT;
         Menu menu = createMenu(store);
         menuRepository.save(menu);
 
         // when
-        storeService.changeMenuStatus(store.getId(), member.getId(), menu.getId(), soldOut);
+        storeService.changeMenuStatus(store.getId(), boss.getId(), menu.getId(), soldOut);
 
         // then
         List<Store> stores = storeRepository.findAll();
@@ -353,7 +418,7 @@ class StoreServiceTest extends SetupMember {
 
     private Store createStore(Member member) {
         // store
-        Long memberId = this.member.getId();
+        Long memberId = this.boss.getId();
         String name = "토끼의 붕어빵 가게";
         Location location = new Location(37.78639644286605, 126.40572677813635);
 
@@ -365,7 +430,7 @@ class StoreServiceTest extends SetupMember {
     }
 
     private Store createSalesStore(Member member) {
-        Long memberId = this.member.getId();
+        Long memberId = this.boss.getId();
         String name = "토끼의 붕어빵 가게";
         Location location = new Location(34.232323, 128.242424);
         String storeDescription = "슈크림 맛집 입니다!";
@@ -373,32 +438,9 @@ class StoreServiceTest extends SetupMember {
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
         return storeRepository.save(Store.newSalesStore(memberId, name, location, storeDescription, locationDescription, category));
-
     }
 
-
-    private List<MenuRequest> createMenuRequests(Menu menu) {
-        return List.of(MenuRequest.testInstance(menu.getName(), menu.getMenuCount(), menu.getPrice(), menu.getPictureUrl()));
-    }
-
-    private List<PaymentMethod> createPaymentMethod() {
-        return List.of(PaymentMethod.CASH, PaymentMethod.ACCOUNT_TRANSFER);
-    }
-
-    private List<BusinessHourRequest> createBusinessHourRequest() {
-        LocalTime startTime = LocalTime.of(9, 0);
-        LocalTime endTime = LocalTime.of(18, 0);
-        Days friDay = Days.FRI;
-        return List.of(new BusinessHourRequest(startTime, endTime, friDay));
-    }
-
-    private List<StoreImageRequest> createStoreImageRequest() {
-        String imageUrl = "profileUrl";
-        return List.of(StoreImageRequest.testInstance(true, imageUrl));
-    }
-
-
-    private Store createNewStore(Long memberId) {
+    private Store storeFixture(Long memberId) {
         // newStore
         String name = "토끼의 새로운 붕어빵";
         String storeDescription = "팥 붕어빵 맛집";
@@ -424,20 +466,6 @@ class StoreServiceTest extends SetupMember {
 
     private BusinessHours createBusinessHours(Store store, Days days, LocalTime startTime, LocalTime endTime) {
         return BusinessHours.of(store, days, startTime, endTime);
-    }
-
-    private AddNewStoreRequest addNewStoreRequest(Store store, List<MenuRequest> menuRequests, List<PaymentMethod> paymentMethods, List<BusinessHourRequest> businessHour, List<StoreImageRequest> storeImageRequests) {
-        return AddNewStoreRequest.testBuilder()
-            .name(store.getName())
-            .location(store.getLocation())
-            .storeDescription(store.getStoreDescription())
-            .locationDescription(store.getLocationDescription())
-            .menus(menuRequests)
-            .paymentMethods(paymentMethods)
-            .businessHours(businessHour)
-            .category(store.getCategory())
-            .storeImages(storeImageRequests)
-            .build();
     }
 
     private List<MenuRequest> createNewMenuRequest() {

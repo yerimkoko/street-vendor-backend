@@ -126,7 +126,7 @@ public class Store extends BaseTimeEntity {
     }
 
     public void addStoreImages(List<StoreImage> storeImages) {
-        validateStoreImage(storeImages);
+        // validateStoreImage(storeImages);
         for(StoreImage image : storeImages) {
             this.addStoreImage(image);
         }

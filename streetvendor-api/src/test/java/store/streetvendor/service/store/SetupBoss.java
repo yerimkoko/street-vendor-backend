@@ -11,7 +11,7 @@ import store.streetvendor.domain.domain.member.MemberRepository;
 import java.util.List;
 
 @SpringBootTest
-public abstract class SetupMember {
+public abstract class SetupBoss {
 
     @Autowired
     protected MemberRepository memberRepository;
@@ -34,10 +34,9 @@ public abstract class SetupMember {
         .provider(MemberProvider.GOOGLE)
         .build();
 
-
     @BeforeEach
     void setupMember() {
-        memberRepository.saveAll(List.of(member, member));
+        memberRepository.saveAll(List.of(member, boss));
     }
 
     @AfterEach
