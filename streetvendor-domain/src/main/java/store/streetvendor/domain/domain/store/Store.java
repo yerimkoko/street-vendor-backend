@@ -16,6 +16,10 @@ import java.util.stream.Collectors;
 @Entity
 public class Store extends BaseTimeEntity {
 
+    private static final int MAX_STORE_IMAGE_COUNT = 3;
+
+    private static final int THUMB_NAIL_COUNT = 1;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -122,10 +126,28 @@ public class Store extends BaseTimeEntity {
     }
 
     public void addStoreImages(List<StoreImage> storeImages) {
+        validateStoreImage(storeImages);
         for(StoreImage image : storeImages) {
             this.addStoreImage(image);
         }
     }
+
+    private void validateStoreImage(List<StoreImage> storeImages) {
+
+        if (storeImages.size() > MAX_STORE_IMAGE_COUNT) {
+            throw new IllegalArgumentException(String.format("사진은 <%s>개 까지 등록 가능합니다.", MAX_STORE_IMAGE_COUNT));
+        }
+
+        long thumbNail = storeImages.stream()
+            .filter(image -> image.getIsThumbNail().equals(true))
+            .count();
+
+        if (thumbNail != THUMB_NAIL_COUNT) {
+            throw new IllegalArgumentException(String.format("대표사진을 <%s>개로 지정해주세요.", THUMB_NAIL_COUNT));
+        }
+
+    }
+
 
     public void addStoreImage(StoreImage storeImage) {
         this.storeImages.add(storeImage);

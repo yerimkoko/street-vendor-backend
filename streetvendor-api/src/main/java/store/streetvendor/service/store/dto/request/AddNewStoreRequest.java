@@ -1,12 +1,10 @@
 package store.streetvendor.service.store.dto.request;
 
 import lombok.*;
-import store.streetvendor.domain.domain.store.Location;
-import store.streetvendor.domain.domain.store.PaymentMethod;
-import store.streetvendor.domain.domain.store.Store;
-import store.streetvendor.domain.domain.store.StoreCategory;
+import store.streetvendor.domain.domain.store.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +30,7 @@ public class AddNewStoreRequest {
 
     private List<PaymentMethod> paymentMethods;
 
+    @Size(max = 3)
     private List<StoreImageRequest> storeImages;
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
@@ -58,11 +57,14 @@ public class AddNewStoreRequest {
         store.addBusinessDays(businessHours.stream()
             .map(businessHour -> businessHour.toEntity(store))
             .collect(Collectors.toList()));
+
         store.addStoreImages(storeImages.stream()
             .map(image -> image.toEntity(store))
             .collect(Collectors.toList()));
 
         return store;
     }
+
+
 
 }
