@@ -1,5 +1,6 @@
 package store.streetvendor.domain.domain.store;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,7 @@ public class BusinessHours {
     @Enumerated(EnumType.STRING)
     private Days days;
 
+    @Builder
     private BusinessHours(Store store, Days days, LocalTime startTime, LocalTime endTime) {
         this.store = store;
         this.days = days;
