@@ -26,7 +26,7 @@ public class StoreImage extends BaseTimeEntity {
 
     private String pictureUrl;
 
-    @Builder(access = AccessLevel.PRIVATE)
+    @Builder
     private StoreImage(Store store, String pictureUrl, Boolean isThumbNail) {
         this.store = store;
         this.pictureUrl = pictureUrl;

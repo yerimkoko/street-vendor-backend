@@ -1,5 +1,6 @@
 package store.streetvendor.service.store.dto.request;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.store.BusinessHours;
@@ -18,6 +19,7 @@ public class BusinessHourRequest {
 
     private Days days;
 
+    @Builder
     public BusinessHourRequest(LocalTime startTime, LocalTime endTime, Days days) {
         this.startTime = startTime;
         this.endTime = endTime;

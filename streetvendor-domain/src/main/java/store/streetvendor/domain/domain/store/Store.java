@@ -1,9 +1,6 @@
 package store.streetvendor.domain.domain.store;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import store.streetvendor.domain.domain.BaseTimeEntity;
 
 import javax.persistence.*;
@@ -126,7 +123,7 @@ public class Store extends BaseTimeEntity {
     }
 
     public void addStoreImages(List<StoreImage> storeImages) {
-        validateStoreImage(storeImages);
+        // validateStoreImage(storeImages);
         for(StoreImage image : storeImages) {
             this.addStoreImage(image);
         }
