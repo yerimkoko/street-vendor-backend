@@ -411,7 +411,7 @@ class StoreServiceTest extends SetupBoss {
         Store store = createSalesStore(boss);
 
         // when
-        storeService.storeClose(boss.getId(), store.getId());
+        storeService.storeClose(member.getId(), store.getId());
 
         // when
         List<Store> stores = storeRepository.findAll();

@@ -30,4 +30,5 @@ public class Admin extends BaseTimeEntity {
     public static Admin newAdmin(String email, String password) {
         return new Admin(email, password);
     }
+
 }

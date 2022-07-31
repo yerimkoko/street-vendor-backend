@@ -38,7 +38,6 @@ public class AdminService {
     private final PasswordEncoder passwordEncoder;
 
 
-    // TODO: adminId는 @AdminId로 받아서 확인할 수 있도록.
     @Transactional
     public Long signOutMember(SignOutMemberRequest request) {
         Member member = memberRepository.findMemberById(request.getMemberId());
@@ -48,6 +47,7 @@ public class AdminService {
             throw new DuplicatedException(String.format("<%s>는 관리자가 아닙니다. 관리자로 다시 로그인 해 주세요.", request.getAdminId()));
         }
         signOutMemberRepository.save(member.signOut());
+        memberRepository.delete(member);
         return member.getId();
     }
 
@@ -72,6 +72,7 @@ public class AdminService {
         return null;
 
     }
+
 
     @Transactional
     public void updateStoreStatus(Long storeId, Long adminId, StoreSalesStatus salesStatus) {
