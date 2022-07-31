@@ -408,10 +408,10 @@ class StoreServiceTest extends SetupBoss {
     @Test
     void 가게를_종료시킨다() {
         // given
-        Store store = createSalesStore(boss);
+        Store store = storeRepository.save(Store.newSalesStore(boss.getId(), "토끼네", new Location(33.33, 33.33), "sdfsdf", "sdfsdf", StoreCategory.BUNG_EO_PPANG));
 
         // when
-        storeService.storeClose(member.getId(), store.getId());
+        storeService.storeClose(boss.getId(), store.getId());
 
         // when
         List<Store> stores = storeRepository.findAll();

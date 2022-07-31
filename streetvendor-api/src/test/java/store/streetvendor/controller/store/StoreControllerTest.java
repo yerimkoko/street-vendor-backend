@@ -91,9 +91,10 @@ class StoreControllerTest {
                 .build()));
 
         // when & then
-        mockMvc.perform(get("/a pi/v1/my-stores")
+        mockMvc.perform(get("/api/v1/my-stores")
             .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data[0].storeId").value(storeId))
             .andExpect(jsonPath("$.data[0].storeName").value(storeName))
