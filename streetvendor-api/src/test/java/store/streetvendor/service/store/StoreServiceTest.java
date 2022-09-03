@@ -41,9 +41,13 @@ class StoreServiceTest extends SetupBoss {
     @Autowired
     private StoreImageRepository storeImageRepository;
 
+    @Autowired
+    private EvaluationRepository evaluationRepository;
+
     @AfterEach
     void cleanUp() {
         super.cleanup();
+        evaluationRepository.deleteAllInBatch();
         businessHoursRepository.deleteAllInBatch();
         paymentRepository.deleteAllInBatch();
         menuRepository.deleteAllInBatch();
@@ -491,6 +495,33 @@ class StoreServiceTest extends SetupBoss {
         List<Menu> menus = menuRepository.findAll();
         assertThat(menus).hasSize(1);
         assertThat(menus.get(0).getSalesStatus()).isEqualTo(soldOut);
+    }
+
+    @Test
+    void 별점이_등록된다() {
+        // given
+        Store store = createStore(boss);
+        Long memberId = 999L;
+        String comment = "진짜 맛집이에요.";
+        Grade grade = Grade.five;
+        AddStoreEvaluationRequest request = AddStoreEvaluationRequest.builder()
+            .comment(comment)
+            .grade(grade)
+            .build();
+
+        // when
+        storeService.addEvaluation(memberId, store.getId(), request);
+
+        // then
+        List<Store> stores = storeRepository.findAll();
+        assertThat(stores).hasSize(1);
+
+        List<Evaluation> evaluations = evaluationRepository.findAll();
+        assertThat(evaluations).hasSize(1);
+        assertThat(evaluations.get(0).getComment()).isEqualTo(comment);
+        assertThat(evaluations.get(0).getGrade()).isEqualTo(grade);
+        assertThat(evaluations.get(0).getStore().getId()).isEqualTo(store.getId());
+
     }
 
     private Store createStore(Member member) {

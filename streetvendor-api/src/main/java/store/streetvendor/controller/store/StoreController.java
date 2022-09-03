@@ -8,10 +8,7 @@ import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
 import store.streetvendor.domain.domain.store.MenuSalesStatus;
 import store.streetvendor.service.store.StoreService;
-import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
-import store.streetvendor.service.store.dto.request.StoreCategoryRequest;
-import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
-import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
+import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.MyStoreInfo;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 import store.streetvendor.service.store.dto.response.StoreResponse;
@@ -109,6 +106,13 @@ public class StoreController {
     @PutMapping("/api/v1/store/{storeId}/menu/{menuId}/{menuSalesStatus}")
     public ApiResponse<String> changeMenuStatus(@MemberId Long bossId, @PathVariable Long storeId, @PathVariable Long menuId, @PathVariable MenuSalesStatus menuSalesStatus) {
         storeService.changeMenuStatus(storeId, bossId, menuId, menuSalesStatus);
+        return ApiResponse.OK;
+    }
+
+    @ApiOperation(value = "별점 등록하기")
+    @PostMapping("/api/v1/store/evaluation/{storeId}")
+    public ApiResponse<String> addNewEvaluation(@MemberId Long memberId, @PathVariable Long storeId, @RequestBody AddStoreEvaluationRequest request) {
+        storeService.addEvaluation(memberId, storeId, request);
         return ApiResponse.OK;
     }
 

@@ -37,10 +37,10 @@ public class Evaluation extends BaseTimeEntity {
         this.grade = grade;
     }
 
-    public static Evaluation of(Store store, Grade grade, String comment) {
+    public static Evaluation of(Store store, Long memberId, Grade grade, String comment) {
         return Evaluation.builder()
             .comment(comment)
-            .memberId(store.getMemberId())
+            .memberId(memberId)
             .store(store)
             .grade(grade)
             .build();

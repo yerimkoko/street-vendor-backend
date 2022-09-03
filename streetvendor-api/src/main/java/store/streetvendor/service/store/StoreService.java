@@ -5,17 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.domain.domain.store.MenuSalesStatus;
-import store.streetvendor.domain.domain.store.Store;
-import store.streetvendor.domain.domain.store.StoreRepository;
-import store.streetvendor.domain.domain.store.StoreSalesStatus;
+import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.domain.domain.model.exception.DuplicatedException;
 import store.streetvendor.domain.service.utils.MemberServiceUtils;
 import store.streetvendor.domain.service.utils.StoreServiceUtils;
-import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
-import store.streetvendor.service.store.dto.request.StoreCategoryRequest;
-import store.streetvendor.service.store.dto.request.StoreDistanceRequest;
-import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
+import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.MyStoreInfo;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 import store.streetvendor.service.store.dto.response.StoreResponse;
@@ -31,6 +25,7 @@ public class StoreService {
     private final StoreRepository storeRepository;
 
     private final MemberRepository memberRepository;
+
 
     @Transactional
     public void addNewStore(AddNewStoreRequest request, Long memberId) {
@@ -132,6 +127,12 @@ public class StoreService {
         return stores.stream()
             .map(MyStoreInfo::of)
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void addEvaluation(Long memberId, Long storeId, AddStoreEvaluationRequest request) {
+        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
+        store.addEvaluation(Evaluation.of(store, memberId, request.getGrade(), request.getComment()));
     }
 
 }
