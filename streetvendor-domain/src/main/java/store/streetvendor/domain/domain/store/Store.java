@@ -55,6 +55,9 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<StoreImage> storeImages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<Evaluation> evaluations = new ArrayList<>();
+
 
     @Builder
     private Store(Long memberId, String name, Location location, StoreSalesStatus salesStatus, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
@@ -149,6 +152,10 @@ public class Store extends BaseTimeEntity {
     public void addStoreImage(StoreImage storeImage) {
         this.storeImages.add(storeImage);
 
+    }
+
+    public void addEvaluation(Evaluation evaluation) {
+        this.evaluations.add(evaluation);
     }
 
     public void updateStoreInfo(String name, String description, Location location, StoreCategory category) {
