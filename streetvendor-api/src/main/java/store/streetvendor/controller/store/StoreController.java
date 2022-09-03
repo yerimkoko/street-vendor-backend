@@ -109,10 +109,24 @@ public class StoreController {
         return ApiResponse.OK;
     }
 
-    @ApiOperation(value = "별점 등록하기")
-    @PostMapping("/api/v1/store/evaluation/{storeId}")
-    public ApiResponse<String> addNewEvaluation(@MemberId Long memberId, @PathVariable Long storeId, @RequestBody AddStoreEvaluationRequest request) {
+    @ApiOperation(value = "리뷰 등록하기")
+    @PostMapping("/api/v1/store/review/{storeId}")
+    public ApiResponse<String> addNewEvaluation(@MemberId Long memberId, @PathVariable Long storeId, @RequestBody AddStoreReviewRequest request) {
         storeService.addEvaluation(memberId, storeId, request);
+        return ApiResponse.OK;
+    }
+
+    @ApiOperation(value = "리뷰 수정하기")
+    @PutMapping("/api/v1/store/review/{storeId}")
+    public ApiResponse<String> updateReview(@MemberId Long memberId, @PathVariable Long storeId, @RequestBody UpdateStoreReviewRequest request) {
+        storeService.updateReview(memberId, storeId, request);
+        return ApiResponse.OK;
+    }
+
+    @ApiOperation(value = "리뷰 삭제하기")
+    @DeleteMapping("/api/v1/store/review")
+    public ApiResponse<String> deleteReview(@MemberId Long memberId, @RequestParam Long storeId, @RequestParam Long reviewId) {
+        storeService.deleteReview(memberId, storeId, reviewId);
         return ApiResponse.OK;
     }
 

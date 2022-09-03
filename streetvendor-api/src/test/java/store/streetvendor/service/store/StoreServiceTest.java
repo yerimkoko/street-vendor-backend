@@ -42,12 +42,12 @@ class StoreServiceTest extends SetupBoss {
     private StoreImageRepository storeImageRepository;
 
     @Autowired
-    private EvaluationRepository evaluationRepository;
+    private ReviewRepository reviewRepository;
 
     @AfterEach
     void cleanUp() {
         super.cleanup();
-        evaluationRepository.deleteAllInBatch();
+        reviewRepository.deleteAllInBatch();
         businessHoursRepository.deleteAllInBatch();
         paymentRepository.deleteAllInBatch();
         menuRepository.deleteAllInBatch();
@@ -504,7 +504,7 @@ class StoreServiceTest extends SetupBoss {
         Long memberId = 999L;
         String comment = "진짜 맛집이에요.";
         Grade grade = Grade.five;
-        AddStoreEvaluationRequest request = AddStoreEvaluationRequest.builder()
+        AddStoreReviewRequest request = AddStoreReviewRequest.builder()
             .comment(comment)
             .grade(grade)
             .build();
@@ -516,11 +516,70 @@ class StoreServiceTest extends SetupBoss {
         List<Store> stores = storeRepository.findAll();
         assertThat(stores).hasSize(1);
 
-        List<Evaluation> evaluations = evaluationRepository.findAll();
-        assertThat(evaluations).hasSize(1);
-        assertThat(evaluations.get(0).getComment()).isEqualTo(comment);
-        assertThat(evaluations.get(0).getGrade()).isEqualTo(grade);
-        assertThat(evaluations.get(0).getStore().getId()).isEqualTo(store.getId());
+        List<Review> reviews = reviewRepository.findAll();
+        assertThat(reviews).hasSize(1);
+
+        assertReview(reviews.get(0), comment, grade, store.getId());
+
+    }
+
+    private void assertReview(Review review, String comment, Grade grade, Long storeId) {
+        assertThat(review.getComment()).isEqualTo(comment);
+        assertThat(review.getGrade()).isEqualTo(grade);
+        assertThat(review.getStore().getId()).isEqualTo(storeId);
+
+    }
+
+    @Test
+    void 리뷰를_수정한다() {
+        // given
+        Store store = createStore(boss);
+        Long memberId = 999L;
+        String comment = "진짜 맛집이에요.";
+        String updateComment = "인정하는 맛집";
+
+        Grade grade = Grade.five;
+        Grade upgradeGrade = Grade.three;
+
+        Review review = reviewRepository.save(Review.of(store, memberId, grade, comment));
+
+        UpdateStoreReviewRequest request = UpdateStoreReviewRequest.builder()
+            .reviewId(review.getId())
+            .comment(updateComment)
+            .grade(upgradeGrade)
+            .build();
+
+        // when
+        storeService.updateReview(member.getId(), store.getId(), request);
+
+        // then
+        List<Store> stores = storeRepository.findAll();
+        assertThat(stores).hasSize(1);
+
+        List<Review> reviews = reviewRepository.findAll();
+        assertThat(reviews).hasSize(1);
+
+        assertReview(reviews.get(0), updateComment, upgradeGrade, store.getId());
+
+    }
+
+    @Test
+    void 리뷰를_삭제한다() {
+        Store store = createStore(boss);
+        Long memberId = 999L;
+        String comment = "진짜 맛집이에요.";
+        Grade grade = Grade.five;
+        Review review = reviewRepository.save(Review.of(store, memberId, grade, comment));
+
+        // when
+        storeService.deleteReview(memberId, store.getId(), review.getId());
+
+        // then
+        List<Store> stores = storeRepository.findAll();
+        assertThat(stores).hasSize(1);
+
+        List<Review> reviews = reviewRepository.findAll();
+        assertThat(reviews).isEmpty();
 
     }
 

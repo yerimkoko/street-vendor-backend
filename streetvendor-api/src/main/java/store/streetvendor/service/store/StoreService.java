@@ -26,7 +26,6 @@ public class StoreService {
 
     private final MemberRepository memberRepository;
 
-
     @Transactional
     public void addNewStore(AddNewStoreRequest request, Long memberId) {
         MemberServiceUtils.findByBossId(memberRepository, memberId);
@@ -130,9 +129,22 @@ public class StoreService {
     }
 
     @Transactional
-    public void addEvaluation(Long memberId, Long storeId, AddStoreEvaluationRequest request) {
+    public void addEvaluation(Long memberId, Long storeId, AddStoreReviewRequest request) {
         Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        store.addEvaluation(Evaluation.of(store, memberId, request.getGrade(), request.getComment()));
+        store.addReview(Review.of(store, memberId, request.getGrade(), request.getComment()));
+        storeRepository.save(store);
+    }
+
+    @Transactional
+    public void updateReview(Long memberId, Long storeId, UpdateStoreReviewRequest request) {
+        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
+        store.updateReview(request.getReviewId(), Review.of(store, memberId, request.getGrade(), request.getComment()), memberId);
+    }
+
+    @Transactional
+    public void deleteReview(Long memberId, Long storeId, Long reviewId) {
+        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
+        store.deleteReview(reviewId, memberId);
     }
 
 }

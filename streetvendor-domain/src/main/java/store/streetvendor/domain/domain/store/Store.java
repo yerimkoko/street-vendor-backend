@@ -2,6 +2,7 @@ package store.streetvendor.domain.domain.store;
 
 import lombok.*;
 import store.streetvendor.domain.domain.BaseTimeEntity;
+import store.streetvendor.domain.domain.model.exception.NotFoundException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class Store extends BaseTimeEntity {
     private final List<StoreImage> storeImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Evaluation> evaluations = new ArrayList<>();
+    private final List<Review> reviews = new ArrayList<>();
 
 
     @Builder
@@ -94,6 +95,13 @@ public class Store extends BaseTimeEntity {
             .locationDescription(locationDescription)
             .status(StoreStatus.ACTIVE)
             .category(category)
+            .build();
+    }
+
+    public static Store testStore(Long memberId, String name) {
+        return Store.builder()
+            .memberId(memberId)
+            .name(name)
             .build();
     }
 
@@ -154,8 +162,8 @@ public class Store extends BaseTimeEntity {
 
     }
 
-    public void addEvaluation(Evaluation evaluation) {
-        this.evaluations.add(evaluation);
+    public void addReview(Review review) {
+        this.reviews.add(review);
     }
 
     public void updateStoreInfo(String name, String description, Location location, StoreCategory category) {
@@ -168,6 +176,19 @@ public class Store extends BaseTimeEntity {
     public void updateMenus(List<Menu> newMenus) {
         this.menus.clear();
         this.addMenus(newMenus);
+    }
+
+    public void updateReview(Long reviewId, Review review, Long memberId) {
+        this.reviews.remove(findReview(reviewId, memberId));
+        this.reviews.add(review);
+    }
+
+    public Review findReview(Long reviewId, Long memberId) {
+        return this.reviews.stream()
+            .filter(review -> review.getId().equals(reviewId)
+                & review.getMemberId().equals(memberId))
+            .findFirst()
+            .orElseThrow(() -> new NotFoundException(String.format("<%s>에 해당하는 리뷰는 존재하지 않습니다.", reviewId)));
     }
 
     public void updateBusinessDaysInfo(List<BusinessHours> businessHours) {
@@ -186,8 +207,13 @@ public class Store extends BaseTimeEntity {
         this.addStoreImages(storeImages);
     }
 
+
     public void delete() {
         this.status = StoreStatus.DELETED;
+    }
+
+    public void deleteReview(Long reviewId, Long memberId) {
+        this.reviews.remove(findReview(reviewId, memberId));
     }
 
 
@@ -200,6 +226,5 @@ public class Store extends BaseTimeEntity {
     public void changeSalesStatus(StoreSalesStatus salesStatus) {
         this.salesStatus = salesStatus;
     }
-
 
 }

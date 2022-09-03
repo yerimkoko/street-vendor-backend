@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Evaluation extends BaseTimeEntity {
+public class Review extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Evaluation extends BaseTimeEntity {
     private Grade grade;
 
     @Builder
-    public Evaluation(Long id, Store store, Long memberId, String comment, Grade grade) {
+    public Review(Long id, Store store, Long memberId, String comment, Grade grade) {
         this.id = id;
         this.store = store;
         this.memberId = memberId;
@@ -37,8 +37,8 @@ public class Evaluation extends BaseTimeEntity {
         this.grade = grade;
     }
 
-    public static Evaluation of(Store store, Long memberId, Grade grade, String comment) {
-        return Evaluation.builder()
+    public static Review of(Store store, Long memberId, Grade grade, String comment) {
+        return Review.builder()
             .comment(comment)
             .memberId(memberId)
             .store(store)
