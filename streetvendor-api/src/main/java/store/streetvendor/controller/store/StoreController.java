@@ -9,10 +9,7 @@ import store.streetvendor.controller.ApiResponse;
 import store.streetvendor.domain.domain.store.MenuSalesStatus;
 import store.streetvendor.service.store.StoreService;
 import store.streetvendor.service.store.dto.request.*;
-import store.streetvendor.service.store.dto.response.MyStoreInfo;
-import store.streetvendor.service.store.dto.response.StoreDetailResponse;
-import store.streetvendor.service.store.dto.response.StoreResponse;
-import store.streetvendor.service.store.dto.response.StoreSimpleResponse;
+import store.streetvendor.service.store.dto.response.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -128,6 +125,12 @@ public class StoreController {
     public ApiResponse<String> deleteReview(@MemberId Long memberId, @RequestParam Long storeId, @RequestParam Long reviewId) {
         storeService.deleteReview(memberId, storeId, reviewId);
         return ApiResponse.OK;
+    }
+
+    @ApiOperation(value = "가게 리뷰 조회하기")
+    @GetMapping("/api/v1/store/review/{storeId}")
+    public ApiResponse<StoreReviewResponse> getStoreReviews(@PathVariable Long storeId) {
+        return ApiResponse.success(storeService.getStoreReviews(storeId));
     }
 
 }

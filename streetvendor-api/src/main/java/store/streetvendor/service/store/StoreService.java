@@ -10,10 +10,7 @@ import store.streetvendor.domain.domain.model.exception.DuplicatedException;
 import store.streetvendor.domain.service.utils.MemberServiceUtils;
 import store.streetvendor.domain.service.utils.StoreServiceUtils;
 import store.streetvendor.service.store.dto.request.*;
-import store.streetvendor.service.store.dto.response.MyStoreInfo;
-import store.streetvendor.service.store.dto.response.StoreDetailResponse;
-import store.streetvendor.service.store.dto.response.StoreResponse;
-import store.streetvendor.service.store.dto.response.StoreSimpleResponse;
+import store.streetvendor.service.store.dto.response.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -145,6 +142,12 @@ public class StoreService {
     public void deleteReview(Long memberId, Long storeId, Long reviewId) {
         Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
         store.deleteReview(reviewId, memberId);
+    }
+
+    @Transactional(readOnly = true)
+    public StoreReviewResponse getStoreReviews(Long storeId) {
+        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
+        return StoreReviewResponse.of(store.getId(), store.getReviews());
     }
 
 }
