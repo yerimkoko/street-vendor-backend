@@ -1,6 +1,7 @@
 package store.streetvendor.service.store;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -534,14 +535,13 @@ class StoreServiceTest extends SetupBoss {
     void 리뷰를_수정한다() {
         // given
         Store store = createStore(boss);
-        Long memberId = 999L;
         String comment = "진짜 맛집이에요.";
         String updateComment = "인정하는 맛집";
 
         Grade grade = Grade.five;
         Grade upgradeGrade = Grade.three;
 
-        Review review = reviewRepository.save(Review.of(store, memberId, grade, comment));
+        Review review = reviewRepository.save(Review.of(store, store.getMemberId(), grade, comment));
 
         UpdateStoreReviewRequest request = UpdateStoreReviewRequest.builder()
             .reviewId(review.getId())
@@ -550,7 +550,7 @@ class StoreServiceTest extends SetupBoss {
             .build();
 
         // when
-        storeService.updateReview(member.getId(), store.getId(), request);
+        storeService.updateReview(store.getMemberId(), store.getId(), request);
 
         // then
         List<Store> stores = storeRepository.findAll();
