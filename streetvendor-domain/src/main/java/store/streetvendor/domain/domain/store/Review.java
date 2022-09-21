@@ -46,4 +46,8 @@ public class Review extends BaseTimeEntity {
             .build();
     }
 
+    public static long getGradeValue(Grade grade) {
+        return grade.getValue();
+    }
+
 }

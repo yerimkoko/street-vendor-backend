@@ -133,4 +133,10 @@ public class StoreController {
         return ApiResponse.success(storeService.getStoreReviews(storeId));
     }
 
+    @ApiOperation(value = "표시된 가게 조회하기")
+    @GetMapping("/api/v1/store/{storeId}")
+    public ApiResponse<StoreInfoResponse> getStoreInfo(@PathVariable Long storeId) {
+        return ApiResponse.success(storeService.getStoreInfo(storeId));
+    }
+
 }

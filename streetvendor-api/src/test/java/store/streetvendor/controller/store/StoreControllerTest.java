@@ -19,6 +19,7 @@ import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
 import store.streetvendor.service.store.dto.request.StoreImageRequest;
 import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
 import store.streetvendor.service.store.dto.response.MyStoreInfo;
+import store.streetvendor.service.store.dto.response.StoreInfoResponse;
 
 import java.util.Collections;
 import java.util.List;
@@ -135,6 +136,29 @@ class StoreControllerTest {
         // when & then
         mockMvc.perform(delete("/api/v1/store/1")
             .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void 표시된_가게_정보를_조회한다() throws Exception {
+        // when & then
+        String storeName = "토끼네";
+        Long storeId = 999L;
+        String locationDescription = "신정네거리 3번출구 앞";
+        StoreSalesStatus open = StoreSalesStatus.OPEN;
+
+        BDDMockito.when(storeService.getStoreInfo(1L))
+            .thenReturn(StoreInfoResponse.builder()
+                .storeName(storeName)
+                .storeCategory(StoreCategory.HO_DDEOK)
+                .storeId(storeId)
+                .locationDescription(locationDescription)
+                .salesStatus(open)
+                .build());
+
+        mockMvc.perform(get("/api/v1/store/1")
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());

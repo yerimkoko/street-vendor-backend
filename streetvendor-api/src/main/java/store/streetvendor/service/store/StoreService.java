@@ -150,4 +150,11 @@ public class StoreService {
         return StoreReviewResponse.of(store.getId(), store.getReviews());
     }
 
+    @Transactional(readOnly = true)
+    public StoreInfoResponse getStoreInfo(Long storeId) {
+        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
+        return StoreInfoResponse.of(store);
+    }
+
+
 }

@@ -17,19 +17,19 @@ public abstract class SetupBoss {
     protected MemberRepository memberRepository;
 
     protected Member member = Member.builder()
-        .name("yerimkoko")
-        .nickName("yerimko")
+        .name("뽀미")
+        .nickName("뽀뽀")
         .email("gochi97@naver.com")
         .profileUrl("https://rabbit.com")
         .provider(MemberProvider.GOOGLE)
         .build();
 
     protected Member boss = Member.builder()
-        .name("yerimkoko")
-        .nickName("yerimko")
+        .name("뽀미누나")
+        .nickName("토끼")
         .email("gochi97@naver.com")
         .profileUrl("https://rabbit.com")
-        .bossName("고토끼")
+        .bossName("토끼쨩")
         .phoneNumber("010-2345-6789")
         .provider(MemberProvider.GOOGLE)
         .build();

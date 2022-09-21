@@ -45,6 +45,7 @@ class StoreServiceTest extends SetupBoss {
     @Autowired
     private ReviewRepository reviewRepository;
 
+
     @AfterEach
     void cleanUp() {
         super.cleanup();
@@ -582,6 +583,7 @@ class StoreServiceTest extends SetupBoss {
         assertThat(reviews).isEmpty();
 
     }
+
 
     private Store createStore(Member member) {
         // store
