@@ -1,17 +1,18 @@
-package store.streetvendor.domain.domain.store;
+package store.streetvendor.domain.domain.store.star;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
+import store.streetvendor.domain.domain.store.Store;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Review extends BaseTimeEntity {
+public class Star extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,33 +22,27 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
+    @Column(nullable = false)
     private Long memberId;
 
-    private String comment;
-
     @Enumerated(EnumType.STRING)
-    private Grade grade;
+    private StarStatus status;
 
     @Builder
-    public Review(Long id, Store store, Long memberId, String comment, Grade grade) {
-        this.id = id;
+    public Star(Store store, Long memberId) {
         this.store = store;
         this.memberId = memberId;
-        this.comment = comment;
-        this.grade = grade;
     }
 
-    public static Review of(Store store, Long memberId, Grade grade, String comment) {
-        return Review.builder()
-            .comment(comment)
-            .memberId(memberId)
+
+    public static Star of(Store store, Long memberId) {
+        return Star.builder()
             .store(store)
-            .grade(grade)
+            .memberId(memberId)
             .build();
     }
 
-    public static long getGradeValue(Grade grade) {
-        return grade.getValue();
+    public void delete() {
+        this.status = StarStatus.DELETE;
     }
-
 }

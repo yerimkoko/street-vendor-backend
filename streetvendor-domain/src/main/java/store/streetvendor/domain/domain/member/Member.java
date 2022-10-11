@@ -32,8 +32,10 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private MemberProvider provider;
 
+    @Column
     private String bossName;
 
+    @Column
     private String phoneNumber;
 
     @Builder

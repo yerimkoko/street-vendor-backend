@@ -1,6 +1,8 @@
 package store.streetvendor.domain.domain.store;
 
 import org.junit.jupiter.api.Test;
+import store.streetvendor.domain.domain.store.menu.Menu;
+import store.streetvendor.domain.domain.store.menu.MenuSalesStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

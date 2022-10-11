@@ -4,10 +4,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import store.streetvendor.domain.domain.store.projection.StoreProjectionCustom;
+import store.streetvendor.domain.domain.store.repository.StoreRepositoryCustom;
 
 import java.util.List;
 
-public interface StoreRepository extends JpaRepository<Store, Long>, StoreRepositoryCustom, PagingAndSortingRepository<Store, Long> {
+public interface StoreRepository extends JpaRepository<Store, Long>, StoreRepositoryCustom, StoreProjectionCustom, PagingAndSortingRepository<Store, Long> {
 
     @Query(value = "SELECT *, (" +
         "    6371 * acos (" +

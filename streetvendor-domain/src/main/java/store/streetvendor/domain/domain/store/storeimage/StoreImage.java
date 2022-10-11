@@ -1,10 +1,11 @@
-package store.streetvendor.domain.domain.store;
+package store.streetvendor.domain.domain.store.storeimage;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
+import store.streetvendor.domain.domain.store.Store;
 
 import javax.persistence.*;
 
@@ -24,6 +25,7 @@ public class StoreImage extends BaseTimeEntity {
     @Column(nullable = false)
     private Boolean isThumbNail;
 
+    @Column(nullable = false)
     private String pictureUrl;
 
     @Builder

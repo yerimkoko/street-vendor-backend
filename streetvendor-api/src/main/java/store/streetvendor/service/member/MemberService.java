@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.domain.domain.store.star.StarRepository;
 import store.streetvendor.domain.service.utils.MemberServiceUtils;
 import store.streetvendor.domain.domain.sign_out_member.SignOutMemberRepository;
 import store.streetvendor.domain.domain.store.Store;
@@ -22,6 +23,8 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
+    private final StarRepository starRepository;
 
     private final SignOutMemberRepository signOutMemberRepository;
 
@@ -72,6 +75,8 @@ public class MemberService {
         MemberServiceUtils.findByBossId(memberRepository, memberId);
     }
 
+
+
     private void validateDuplicatedNickName(String nickName) {
         Member member = memberRepository.findMemberIdByNickName(nickName);
         if (member != null) {
@@ -93,5 +98,6 @@ public class MemberService {
             .findFirst()
             .orElse(null);
     }
+
 
 }

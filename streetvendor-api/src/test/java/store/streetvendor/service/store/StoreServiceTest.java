@@ -1,7 +1,6 @@
 package store.streetvendor.service.store;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +8,16 @@ import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.domain.domain.model.exception.AlreadyExistedException;
 import store.streetvendor.domain.domain.model.exception.NotFoundException;
-import store.streetvendor.domain.domain.store.StoreImage;
+import store.streetvendor.domain.domain.store.star.StarStatus;
+import store.streetvendor.domain.domain.store.storeimage.StoreImage;
+import store.streetvendor.domain.domain.store.menu.Menu;
+import store.streetvendor.domain.domain.store.menu.MenuRepository;
+import store.streetvendor.domain.domain.store.menu.MenuSalesStatus;
+import store.streetvendor.domain.domain.store.review.Review;
+import store.streetvendor.domain.domain.store.review.ReviewRepository;
+import store.streetvendor.domain.domain.store.star.Star;
+import store.streetvendor.domain.domain.store.star.StarRepository;
+import store.streetvendor.domain.domain.store.storeimage.StoreImageRepository;
 import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 
@@ -45,10 +53,14 @@ class StoreServiceTest extends SetupBoss {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private StarRepository starRepository;
+
 
     @AfterEach
     void cleanUp() {
         super.cleanup();
+        starRepository.deleteAllInBatch();
         reviewRepository.deleteAllInBatch();
         businessHoursRepository.deleteAllInBatch();
         paymentRepository.deleteAllInBatch();
@@ -584,6 +596,63 @@ class StoreServiceTest extends SetupBoss {
 
     }
 
+    @Test
+    void 가게를_즐겨찾기에_추가한다() {
+        // given
+        Store store = createStore(boss);
+        Long memberId = 999L;
+
+        // when
+        storeService.addStar(memberId, store.getId());
+
+        // then
+        List<Store> stores = storeRepository.findAll();
+        assertThat(stores).hasSize(1);
+
+        List<Star> stars = starRepository.findAll();
+        assertThat(stars).hasSize(1);
+
+        assertThat(stars.get(0).getStore().getId()).isEqualTo(store.getId());
+    }
+
+    @Test
+    void 가게_즐겨찾기를_제거한다() {
+        // given
+        Store store = createStore(boss);
+        Long memberId = 999L;
+        Star star = createStar(store, memberId);
+
+        // when
+        storeService.deleteStar(star.getId());
+
+        // then
+        List<Star> stars = starRepository.findAll();
+        assertThat(stars).hasSize(1);
+        assertThat(stars.get(0).getStatus()).isEqualTo(StarStatus.DELETE);
+    }
+
+    @Test
+    void 내가_즐겨찾기_한_가게들을_가져온다() {
+        // given
+        Store store = createStore(boss);
+        Long memberId = 199L;
+        Star star = createStar(store, memberId);
+
+        // when
+        storeService.getMyStars(memberId);
+
+        // then
+        List<Store> stores = storeRepository.findAll();
+        assertThat(stores).hasSize(1);
+
+        List<Star> stars = starRepository.findAll();
+        assertThat(stars).hasSize(1);
+        assertThat(stars.get(0).getMemberId()).isEqualTo(memberId);
+        assertThat(stars.get(0).getId()).isEqualTo(star.getId());
+        assertThat(stars.get(0).getStore().getId()).isEqualTo(store.getId());
+
+    }
+
 
     private Store createStore(Member member) {
         // store
@@ -595,6 +664,11 @@ class StoreServiceTest extends SetupBoss {
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
         return storeRepository.save(Store.newInstance(memberId, name, location, storeDescription, locationDescription, category));
+    }
+
+    private Star createStar(Store store, Long memberId) {
+        return starRepository.save(Star.of(store, memberId));
+
     }
 
     private Store createSalesStore(Member boss) {

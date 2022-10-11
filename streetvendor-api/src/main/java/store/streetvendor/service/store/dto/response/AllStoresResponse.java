@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.store.Location;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreCategory;
-import store.streetvendor.domain.domain.store.StoreImage;
+import store.streetvendor.domain.domain.store.storeimage.StoreImage;
 
 import java.util.List;
 

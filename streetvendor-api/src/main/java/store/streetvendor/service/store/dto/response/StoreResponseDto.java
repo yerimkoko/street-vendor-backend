@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.store.*;
-import store.streetvendor.service.store.dto.request.StoreImageRequest;
+import store.streetvendor.domain.domain.store.storeimage.StoreImage;
 
 import java.util.List;
 import java.util.stream.Collectors;

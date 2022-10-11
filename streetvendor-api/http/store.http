@@ -7,8 +7,8 @@ Authorization: Bearer {{SESSION}}
     "name": "토끼의 붕어빵 창업",
     "pictureUrl": "https://store.com",
     "location": {
-      "latitude": 14.23232,
-      "longitude": 30.2323
+        "latitude": 14.23232,
+        "longitude": 30.2323
     },
     "description": "가게 설명",
     "category": "BUNG_EO_PPANG",
@@ -38,13 +38,19 @@ Authorization: Bearer {{SESSION}}
         },
         {
             "startTime": "21:00",
-            "endTime": "24:00",
+            "endTime": "23:00",
             "days": "TUE"
         },
         {
             "startTime": "00:00",
             "endTime": "04:00",
             "days": "WED"
+        }
+    ],
+    "storeImages": [
+        {
+            "isThumbNail": true,
+            "imageUrl": "http:/wefwef"
         }
     ]
 }
@@ -62,4 +68,13 @@ Authorization: Bearer {{SESSION}}
 
 {
     "salesStatus": "CLOSED"
+}
+
+### 가게를 즐겨찾기에 추가합니다.
+POST {{host_api}}/api/v1/star
+Content-Type: application/json
+Authorization: Bearer {{SESSION}}
+
+{
+    "storeId": 1
 }

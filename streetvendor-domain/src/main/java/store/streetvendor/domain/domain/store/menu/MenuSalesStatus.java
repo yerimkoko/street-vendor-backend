@@ -1,4 +1,4 @@
-package store.streetvendor.domain.domain.store;
+package store.streetvendor.domain.domain.store.menu;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

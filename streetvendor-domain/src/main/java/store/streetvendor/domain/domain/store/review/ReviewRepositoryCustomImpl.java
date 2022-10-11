@@ -1,9 +1,10 @@
-package store.streetvendor.domain.domain.store;
+package store.streetvendor.domain.domain.store.review;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import static store.streetvendor.domain.domain.store.QReview.review;
+import static store.streetvendor.domain.domain.store.review.QReview.review;
+
 
 @RequiredArgsConstructor
 public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{

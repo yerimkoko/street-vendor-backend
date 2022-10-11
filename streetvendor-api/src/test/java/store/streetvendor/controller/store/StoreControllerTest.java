@@ -140,6 +140,6 @@ class StoreControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }
-    
+
 
 }

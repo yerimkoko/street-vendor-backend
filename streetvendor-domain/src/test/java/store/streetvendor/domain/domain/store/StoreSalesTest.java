@@ -1,6 +1,9 @@
 package store.streetvendor.domain.domain.store;
 
 import org.junit.jupiter.api.Test;
+import store.streetvendor.domain.domain.store.star.Star;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,5 +42,7 @@ class StoreSalesTest {
         // then
         assertThat(store.getSalesStatus()).isEqualTo(StoreSalesStatus.CLOSED);
     }
+
+
 
 }

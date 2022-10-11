@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.order.OrderMenu;
 import store.streetvendor.domain.domain.order.Orders;
-import store.streetvendor.domain.domain.store.Menu;
+import store.streetvendor.domain.domain.store.menu.Menu;
 import store.streetvendor.domain.domain.store.Store;
 
 @Getter

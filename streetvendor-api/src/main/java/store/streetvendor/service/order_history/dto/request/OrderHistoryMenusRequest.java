@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.order.OrderMenu;
 import store.streetvendor.domain.domain.order_history.OrderHistory;
 import store.streetvendor.domain.domain.order_history.OrderHistoryMenu;
-import store.streetvendor.domain.domain.store.Menu;
+import store.streetvendor.domain.domain.store.menu.Menu;
 
 @Getter
 @NoArgsConstructor

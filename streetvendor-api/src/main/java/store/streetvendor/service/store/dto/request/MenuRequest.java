@@ -1,7 +1,7 @@
 package store.streetvendor.service.store.dto.request;
 
 import lombok.*;
-import store.streetvendor.domain.domain.store.Menu;
+import store.streetvendor.domain.domain.store.menu.Menu;
 import store.streetvendor.domain.domain.store.Store;
 
 @ToString

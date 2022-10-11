@@ -5,12 +5,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.domain.domain.member.Member;
 import store.streetvendor.domain.domain.member.MemberRepository;
+import store.streetvendor.domain.domain.store.star.Star;
+import store.streetvendor.domain.domain.model.exception.NotFoundException;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.domain.domain.model.exception.DuplicatedException;
+import store.streetvendor.domain.domain.store.menu.MenuSalesStatus;
+import store.streetvendor.domain.domain.store.review.Review;
+import store.streetvendor.domain.domain.store.star.StarRepository;
 import store.streetvendor.domain.service.utils.MemberServiceUtils;
 import store.streetvendor.domain.service.utils.StoreServiceUtils;
 import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.*;
+import store.streetvendor.service.store.dto.response.projection.StoreAndMemberAndStarResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +26,8 @@ import java.util.stream.Collectors;
 public class StoreService {
 
     private final StoreRepository storeRepository;
+
+    private final StarRepository starRepository;
 
     private final MemberRepository memberRepository;
 
@@ -154,6 +162,30 @@ public class StoreService {
     public StoreInfoResponse getStoreInfo(Long storeId) {
         Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
         return StoreInfoResponse.of(store);
+    }
+
+    @Transactional
+    public void addStar(Long memberId, Long storeId) {
+        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
+        store.addStar(Star.of(store, memberId));
+        storeRepository.save(store);
+    }
+
+    @Transactional(readOnly = true)
+    public List<StoreAndMemberAndStarResponse> getMyStars(Long memberId) {
+        List<Star> stars = starRepository.findMyStars(memberId);
+        return stars.stream()
+            .map(StoreAndMemberAndStarResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deleteStar(Long starId) {
+        Star star = starRepository.findByStarId(starId);
+        if (star == null) {
+            throw new NotFoundException(String.format("[%s]에 해당하는 가게는 존재하지 않습니다.", starId));
+        }
+        star.delete();
     }
 
 

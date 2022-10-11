@@ -1,10 +1,11 @@
-package store.streetvendor.domain.domain.store;
+package store.streetvendor.domain.domain.store.menu;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
+import store.streetvendor.domain.domain.store.Store;
 
 import javax.persistence.*;
 

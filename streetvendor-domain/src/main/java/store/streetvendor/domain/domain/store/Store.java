@@ -3,6 +3,11 @@ package store.streetvendor.domain.domain.store;
 import lombok.*;
 import store.streetvendor.domain.domain.BaseTimeEntity;
 import store.streetvendor.domain.domain.model.exception.NotFoundException;
+import store.streetvendor.domain.domain.store.menu.Menu;
+import store.streetvendor.domain.domain.store.menu.MenuSalesStatus;
+import store.streetvendor.domain.domain.store.review.Review;
+import store.streetvendor.domain.domain.store.star.Star;
+import store.streetvendor.domain.domain.store.storeimage.StoreImage;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -59,6 +64,9 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Review> reviews = new ArrayList<>();
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<Star> stars = new ArrayList<>();
+
 
     @Builder
     private Store(Long memberId, String name, Location location, StoreSalesStatus salesStatus, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
@@ -112,6 +120,13 @@ public class Store extends BaseTimeEntity {
             .orElseThrow(() -> new IllegalArgumentException(String.format("(%s)의 메뉴는 존재하지 않습니다.", menuId)));
     }
 
+    public StoreImage findMainImage() {
+        return this.storeImages.stream()
+            .filter(StoreImage::getIsThumbNail)
+            .findFirst()
+            .orElse(null);
+    }
+
     public void addMenus(List<Menu> menus) {
         for (Menu menu : menus) {
             this.addMenu(menu);
@@ -159,11 +174,14 @@ public class Store extends BaseTimeEntity {
 
     public void addStoreImage(StoreImage storeImage) {
         this.storeImages.add(storeImage);
-
     }
 
     public void addReview(Review review) {
         this.reviews.add(review);
+    }
+
+    public void addStar(Star star) {
+        this.stars.add(star);
     }
 
     public void updateStoreInfo(String name, String description, Location location, StoreCategory category) {
@@ -214,6 +232,13 @@ public class Store extends BaseTimeEntity {
 
     public void deleteReview(Long reviewId, Long memberId) {
         this.reviews.remove(findReview(reviewId, memberId));
+    }
+
+    public Star findStar(Long memberId) {
+        return this.stars.stream()
+            .filter(s -> s.getMemberId().equals(memberId))
+            .findFirst()
+            .orElseThrow(null);
     }
 
 
