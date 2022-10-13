@@ -162,7 +162,8 @@ public class StoreController {
     @GetMapping("/api/v1/stars")
     public ApiResponse<List<StoreAndMemberAndStarResponse>> getMyStarStores(@MemberId Long memberId) {
         return ApiResponse.success(storeService.getMyStars(memberId));
-
     }
+
+
 
 }

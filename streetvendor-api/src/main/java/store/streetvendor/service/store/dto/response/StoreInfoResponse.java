@@ -21,6 +21,8 @@ public class StoreInfoResponse {
 
     private String locationDescription;
 
+    private String pictureUrl;
+
     private String spoon;
 
     private StoreSalesStatus salesStatus;
@@ -28,11 +30,12 @@ public class StoreInfoResponse {
     private long reviews;
 
     @Builder
-    public StoreInfoResponse(Long storeId, String storeName, StoreCategory storeCategory, String locationDescription, String spoon, StoreSalesStatus salesStatus, long reviews) {
+    public StoreInfoResponse(Long storeId, String storeName, StoreCategory storeCategory, String locationDescription, String pictureUrl, String spoon, StoreSalesStatus salesStatus, long reviews) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.storeCategory = storeCategory;
         this.locationDescription = locationDescription;
+        this.pictureUrl = pictureUrl;
         this.spoon = spoon;
         this.salesStatus = salesStatus;
         this.reviews = reviews;
@@ -43,6 +46,7 @@ public class StoreInfoResponse {
             .storeId(store.getId())
             .storeName(store.getName())
             .storeCategory(store.getCategory())
+            .pictureUrl(findMainUrl(store))
             .locationDescription(store.getStoreDescription())
             .spoon(getAverageSpoon(store))
             .salesStatus(store.getSalesStatus())
@@ -57,5 +61,13 @@ public class StoreInfoResponse {
             .sum();
 
         return String.format("%.1f", total / (double)store.getReviews().size());
+    }
+
+    private static String findMainUrl(Store store) {
+        if (store.getStoreImages().isEmpty()) {
+            return null;
+        }
+        return store.findMainImage().getPictureUrl();
+
     }
 }
