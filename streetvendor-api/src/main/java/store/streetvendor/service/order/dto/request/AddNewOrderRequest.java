@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.order.OrderMenu;
 import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.store.Location;
+import store.streetvendor.domain.domain.store.PaymentMethod;
 import store.streetvendor.domain.domain.store.Store;
 
 import javax.validation.constraints.NotBlank;
@@ -22,18 +23,21 @@ public class AddNewOrderRequest {
 
     private Location location;
 
+    private PaymentMethod paymentMethod;
+
     private long storeId;
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
-    public AddNewOrderRequest(@NotBlank long storeId, List<OrderMenusRequest> menus, Location location) {
+    public AddNewOrderRequest(@NotBlank long storeId, PaymentMethod paymentMethod, List<OrderMenusRequest> menus, Location location) {
         this.storeId = storeId;
         this.location = location;
+        this.paymentMethod = paymentMethod;
         this.menus = menus;
         this.distance = 2;
     }
 
-    public Orders toEntity(Store store, Long memberId) {
-        Orders order = Orders.newOrder(store.getId(), memberId);
+    public Orders toEntity(Store store, Long memberId, PaymentMethod paymentMethod) {
+        Orders order = Orders.newOrder(store, memberId, paymentMethod);
         List<OrderMenu> orderMenus = this.menus.stream()
             .map(orderMenu -> orderMenu.toEntity(order, store))
             .collect(Collectors.toList());

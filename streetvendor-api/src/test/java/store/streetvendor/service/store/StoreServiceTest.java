@@ -18,6 +18,7 @@ import store.streetvendor.domain.domain.store.review.ReviewRepository;
 import store.streetvendor.domain.domain.store.star.Star;
 import store.streetvendor.domain.domain.store.star.StarRepository;
 import store.streetvendor.domain.domain.store.storeimage.StoreImageRepository;
+import store.streetvendor.service.SetupBoss;
 import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
 
@@ -59,7 +60,6 @@ class StoreServiceTest extends SetupBoss {
 
     @AfterEach
     void cleanUp() {
-        super.cleanup();
         starRepository.deleteAllInBatch();
         reviewRepository.deleteAllInBatch();
         businessHoursRepository.deleteAllInBatch();

@@ -4,9 +4,11 @@ import lombok.*;
 import store.streetvendor.domain.domain.BaseTimeEntity;
 import store.streetvendor.domain.domain.order.OrderStatusCanceled;
 import store.streetvendor.domain.domain.order.Orders;
+import store.streetvendor.domain.domain.store.PaymentMethod;
 import store.streetvendor.domain.domain.store.Store;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,25 +32,39 @@ public class OrderHistory extends BaseTimeEntity {
     private Long orderId;
 
     @Column(nullable = false)
+    private PaymentMethod paymentMethod;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatusCanceled orderCanceledStatus;
+
+    @Column(nullable = false)
+    private LocalDateTime orderCreateTime;
 
     @OneToMany(mappedBy = "orderHistory", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderHistoryMenu> menus = new ArrayList<>();
 
-    @Builder(access = AccessLevel.PRIVATE)
-    public OrderHistory(Long memberId, StoreInfo storeInfo, Long orderId, OrderStatusCanceled orderCanceledStatus) {
-         this.memberId = memberId;
-         this.storeInfo = storeInfo;
-         this.orderId = orderId;
-         this.orderCanceledStatus = orderCanceledStatus;
+    @Builder
+    public OrderHistory(Long id, Long memberId, StoreInfo storeInfo, Long orderId, PaymentMethod paymentMethod, OrderStatusCanceled orderCanceledStatus, LocalDateTime orderCreateTime) {
+        this.id = id;
+        this.memberId = memberId;
+        this.storeInfo = storeInfo;
+        this.orderId = orderId;
+        this.paymentMethod = paymentMethod;
+        this.orderCanceledStatus = orderCanceledStatus;
+        this.orderCreateTime = orderCreateTime;
     }
 
-    public static OrderHistory newHistory(Store store, Long memberId, Long orderId, OrderStatusCanceled orderStatus) {
+
+
+    @Builder(access = AccessLevel.PRIVATE)
+    public static OrderHistory newHistory(Store store, Orders order, Long memberId, OrderStatusCanceled orderStatus) {
         return OrderHistory.builder()
             .storeInfo(StoreInfo.of(store))
             .memberId(memberId)
-            .orderId(orderId)
+            .paymentMethod(order.getPaymentMethod())
+            .orderId(order.getId())
+            .orderCreateTime(order.getCreatedAt())
             .orderCanceledStatus(orderStatus)
             .build();
     }
@@ -58,6 +74,8 @@ public class OrderHistory extends BaseTimeEntity {
             .storeInfo(StoreInfo.of(store))
             .memberId(order.getMemberId())
             .orderId(order.getId())
+            .paymentMethod(order.getPaymentMethod())
+            .orderCreateTime(order.getCreatedAt())
             .orderCanceledStatus(OrderStatusCanceled.CANCELED)
             .build();
     }

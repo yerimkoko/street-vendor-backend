@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.order.OrderStatusCanceled;
+import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order_history.OrderHistory;
 import store.streetvendor.domain.domain.order_history.OrderHistoryMenu;
 import store.streetvendor.domain.domain.store.Store;
@@ -30,8 +31,8 @@ public class AddNewOrderHistoryRequest {
         this.orderId = orderId;
     }
 
-    public OrderHistory toEntity(Store store, Long memberId, Long orderId, OrderStatusCanceled orderStatusCanceled) {
-        OrderHistory orderHistory = OrderHistory.newHistory(store, memberId, orderId, orderStatusCanceled);
+    public OrderHistory toEntity(Store store, Orders orders, Long memberId, OrderStatusCanceled orderStatusCanceled) {
+        OrderHistory orderHistory = OrderHistory.newHistory(store, orders, memberId, orderStatusCanceled);
         List<OrderHistoryMenu> historyMenus = this.menus.stream()
             .map(menu -> menu.toEntity(orderHistory))
             .collect(Collectors.toList());

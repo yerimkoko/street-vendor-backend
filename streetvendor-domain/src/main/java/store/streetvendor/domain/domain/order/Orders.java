@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.domain.domain.BaseTimeEntity;
+import store.streetvendor.domain.domain.store.PaymentMethod;
+import store.streetvendor.domain.domain.store.Store;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,8 +22,9 @@ public class Orders extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long storeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 
     @Column(nullable = false)
     private Long memberId;
@@ -29,20 +32,25 @@ public class Orders extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @Column(nullable = false)
+    private PaymentMethod paymentMethod;
+
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OrderMenu> orderMenus = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    public Orders(Long storeId, Long memberId, OrderStatus orderStatus, OrderStatusCanceled orderStatusCanceled) {
-        this.storeId = storeId;
+    public Orders(Store store, Long memberId, PaymentMethod paymentMethod, OrderStatus orderStatus, OrderStatusCanceled orderStatusCanceled) {
+        this.store = store;
         this.memberId = memberId;
+        this.paymentMethod = paymentMethod;
         this.orderStatus = orderStatus;
     }
 
-    public static Orders newOrder(Long storeId, Long memberId) {
+    public static Orders newOrder(Store store, Long memberId, PaymentMethod paymentMethod) {
         return Orders.builder()
-            .storeId(storeId)
+            .store(store)
             .memberId(memberId)
+            .paymentMethod(paymentMethod)
             .orderStatus(OrderStatus.REQUEST)
             .orderStatusCanceled(OrderStatusCanceled.ACTIVE)
             .build();
@@ -70,7 +78,7 @@ public class Orders extends BaseTimeEntity {
         }
     }
 
-    public void validateByUser() {
+    public void validateUserCan() {
         validateRequestOrder();
         validateCompleteOrder();
     }

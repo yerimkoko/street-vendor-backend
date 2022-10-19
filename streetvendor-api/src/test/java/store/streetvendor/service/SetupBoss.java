@@ -1,4 +1,4 @@
-package store.streetvendor.service.store;
+package store.streetvendor.service;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class SetupBoss {
 
     @Autowired
-    protected MemberRepository memberRepository;
+    public MemberRepository memberRepository;
 
     protected Member member = Member.builder()
         .name("뽀미")
@@ -39,9 +39,8 @@ public abstract class SetupBoss {
         memberRepository.saveAll(List.of(member, boss));
     }
 
-    @AfterEach
-    void cleanup() {
-        memberRepository.deleteAllInBatch();
+    protected void cleanup() {
+        memberRepository.deleteAll();
     }
 
 }

@@ -19,7 +19,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     public List<Orders> findOrdersByStoreId(Long storeId) {
         return jpaQueryFactory
             .selectFrom(orders)
-            .where(orders.storeId.eq(storeId))
+            .where(orders.store.id.eq(storeId))
             .fetch();
     }
 

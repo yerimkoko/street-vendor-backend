@@ -63,7 +63,7 @@ public class OrderAndHistoryResponse {
         return OrderAndHistoryResponse.builder()
             .memberId(orders.getMemberId())
             .orderId(orders.getId())
-            .storeId(orders.getStoreId())
+            .storeId(orders.getStore().getId())
             .orderStatus(orders.getOrderStatus())
             .orderMenuResponses(orderMenusResponse)
             .totalPrice(total)

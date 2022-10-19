@@ -9,6 +9,8 @@ import store.streetvendor.domain.domain.order.OrderRepository;
 import store.streetvendor.domain.domain.order.OrderStatusCanceled;
 import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order_history.OrderHistory;
+import store.streetvendor.domain.domain.order_history.OrderHistoryMenu;
+import store.streetvendor.domain.domain.order_history.OrderHistoryMenuRepository;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.model.exception.NotFoundException;
@@ -31,6 +33,8 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
+    private final OrderHistoryMenuRepository orderHistoryMenuRepository;
+
     private final StoreRepository storeRepository;
 
     private final MemberRepository memberRepository;
@@ -39,16 +43,15 @@ public class OrderService {
 
     @Transactional
     public void addNewOrder(AddNewOrderRequest request, Long memberId) {
-        StoreServiceUtils.findByStoreId(storeRepository, request.getStoreId());
         Store store = storeRepository.findOpenedStoreByStoreIdAndLocationAndDistanceLessThan(request.getStoreId(), request.getLocation().getLatitude(),
             request.getLocation().getLongitude(),
             request.getDistance());
 
         if (store == null) {
-            throw new NotFoundException(String.format("찾으시는 가게 (%s)가 없습니다.", request.getStoreId()));
+            throw new NotFoundException(String.format("거리 내에 찾으시는 가게 (%s)가 없습니다.", request.getStoreId()));
         }
 
-        orderRepository.save(request.toEntity(store, memberId));
+        orderRepository.save(request.toEntity(store, memberId, request.getPaymentMethod()));
     }
 
     // 사장님 기준 (주문을 받았을 때) -> 주문을 확인하는 로직
@@ -90,11 +93,17 @@ public class OrderService {
     public void cancelOrderByUser(Long orderId, Long memberId) {
         Orders order = OrderServiceUtils.findMyOrderByOrderIdAndMemberId(orderRepository, orderId, memberId);
 
-        order.validateByUser();
+        order.validateUserCan();
 
-        Store store = StoreServiceUtils.findByStoreId(storeRepository, order.getStoreId());
+        Store store = StoreServiceUtils.findByStoreId(storeRepository, order.getStore().getId());
 
         OrderHistory orderHistory = OrderHistory.cancel(order, store);
+
+        orderHistoryMenuRepository.saveAll(order.getOrderMenus()
+            .stream()
+            .map(menu -> OrderHistoryMenu.of(menu.getMenu().getName(), menu.getCount(), menu.getTotalPrice()))
+            .collect(Collectors.toList()));
+
 
         historyRepository.save(orderHistory);
 
@@ -106,7 +115,7 @@ public class OrderService {
     public void addToCompletedOrder(AddNewOrderHistoryRequest request, Long memberId) {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, request.getStoreId(), memberId);
         Orders order = OrderServiceUtils.findByOrderId(orderRepository, request.getOrderId());
-        historyRepository.save(request.toEntity(store, store.getMemberId(), order.getId(), OrderStatusCanceled.ACTIVE));
+        historyRepository.save(request.toEntity(store, order, order.getId(), OrderStatusCanceled.ACTIVE));
         orderRepository.delete(order);
     }
 

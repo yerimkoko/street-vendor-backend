@@ -1,13 +1,14 @@
 package store.streetvendor.service.order;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import store.streetvendor.domain.domain.member.Member;
-import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.*;
 import store.streetvendor.domain.domain.order_history.OrderHistory;
+import store.streetvendor.domain.domain.order_history.OrderHistoryMenu;
+import store.streetvendor.domain.domain.order_history.OrderHistoryMenuRepository;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.domain.domain.store.*;
 import store.streetvendor.domain.domain.model.exception.NotFoundException;
@@ -16,24 +17,21 @@ import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.request.OrderMenusRequest;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
 import store.streetvendor.service.order_history.dto.request.OrderHistoryMenusRequest;
+import store.streetvendor.service.store.SetUpStore;
 
-import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
-class OrdersServiceTest {
-
-    @Autowired
-    private MemberRepository memberRepository;
+class OrdersServiceTest extends SetUpStore {
 
     @Autowired
     private OrderHistoryRepository orderHistoryRepository;
 
     @Autowired
-    private StoreRepository storeRepository;
+    private OrderHistoryMenuRepository orderHistoryMenuRepository;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -47,48 +45,20 @@ class OrdersServiceTest {
     @AfterEach
     void cleanUp() {
         orderRepository.deleteAll();
-        orderHistoryRepository.deleteAll();;
-        storeRepository.deleteAll();
-        memberRepository.deleteAll();
+        orderHistoryRepository.deleteAll();
+        cleanup();
     }
 
     @Test
     void 주문을_한다() {
         // given
-        Member member = createMember();
-        Store store = openedStore(member);
-        Menu menu = createMenu(store);
-
-        Days friDay = Days.FRI;
-        LocalTime startTime = LocalTime.of(8, 0);
-        LocalTime endTime = LocalTime.of(10, 0);
-        BusinessHours businessHours = createBusinessHours(store, friDay, startTime, endTime);
-
-        List<Menu> menus = List.of(menu);
-
-        store.addMenus(List.of(menu));
-
-        store.addBusinessDays(List.of(businessHours));
-
-        storeRepository.save(store);
-
-        Menu findMenu = store.findMenu(store.getMenus().get(0).getId());
-
-        int totalCount = 2;
-
-        OrderMenusRequest orderMenusRequest = OrderMenusRequest.testBuilder()
-            .menu(findMenu)
-            .count(totalCount)
-            .build();
-
-        List<OrderMenusRequest> orderMenusRequests = List.of(orderMenusRequest);
-
-        Location location = new Location(37.78639644286605, 126.40572677813635);
+        Location location = new Location(30.78639644286605, 126.40572677813635);
 
         AddNewOrderRequest addNewOrderRequest = AddNewOrderRequest.testBuilder()
             .storeId(store.getId())
             .location(location)
-            .menus(orderMenusRequests)
+            .paymentMethod(paymentMethod)
+            .menus(List.of(createMenuRequest()))
             .build();
 
         // when
@@ -101,59 +71,36 @@ class OrdersServiceTest {
 
         List<OrderMenu> orderMenus = orderMenuRepository.findAll();
         assertThat(orderMenus).hasSize(1);
-        assertThat(orderMenus.get(0).getMenu().getId()).isEqualTo(menus.get(0).getId());
+        assertThat(orderMenus.get(0).getMenu().getId()).isEqualTo(menu.getId());
+        assertThat(orderMenus.get(0).getTotalPrice()).isEqualTo(menu.getPrice() * createMenuRequest().getCount());
+
     }
 
     @Test
     void 주문이_안될_때() {
         // given
-        Member member = createMember();
-        Store store = openedStore(member);
-        Menu menu = createMenu(store);
-        Days friDay = Days.FRI;
-        LocalTime startTime = LocalTime.of(8, 0);
-        LocalTime endTime = LocalTime.of(10, 0);
-        BusinessHours businessHours = createBusinessHours(store, friDay, startTime, endTime);
-        store.addMenus(List.of(menu));
-        store.addBusinessDays(List.of(businessHours));
-        storeRepository.save(store);
-        Menu findMenu = store.findMenu(store.getMenus().get(0).getId());
-        int totalCount = 2;
-
-        OrderMenusRequest orderMenusRequest = OrderMenusRequest.testBuilder()
-            .menu(findMenu)
-            .count(totalCount)
-            .build();
-
-        List<OrderMenusRequest> orderMenusRequests = List.of(orderMenusRequest);
-
         Location location = new Location(30.78639644286605, 126.40572677813635);
 
         AddNewOrderRequest addNewOrderRequest = AddNewOrderRequest.testBuilder()
-            .storeId(store.getId())
+            .storeId(store.getId() + 1)
             .location(location)
-            .menus(orderMenusRequests)
+            .paymentMethod(paymentMethod)
+            .menus(List.of(createMenuRequest()))
             .build();
 
         // when & then
-        assertThatThrownBy(() -> orderService.addNewOrder(addNewOrderRequest, member.getId()))
+        assertThatThrownBy(() -> orderService.addNewOrder(addNewOrderRequest, member.getId() + 998L))
             .isInstanceOf(NotFoundException.class);
 
     }
 
-
     @Test
     void 사장님이_들어온_주문을_확인하고_PREPARING_상태로_변경한다() {
         // given
-        Member member = createMember();
-        Store store = createStore(member);
-        storeRepository.save(store);
-
-        Orders myOrder = Orders.newOrder(store.getId(), member.getId());
-        orderRepository.save(myOrder);
+        Orders order = orderRepository.save(order());
 
         // when
-        orderService.changeStatusToPreparing(store.getId(), member.getId(), myOrder.getId());
+        orderService.changeStatusToPreparing(store.getId(), boss.getId(), order.getId());
 
         // then
         List<Orders> orders = orderRepository.findAll();
@@ -163,29 +110,33 @@ class OrdersServiceTest {
     }
 
     @Test
-    void 사장님에게_주문상태가_READY_TO_PICK_UP_일때_PREPARING_으로_변경한다() {
+    void 사장님에게_주문상태가_PREPARING_일때_READY_TO_PICK_UP_으로_변경한다() {
         // given
-        Member member = createMember();
-        Store store = createStore(member);
-        storeRepository.save(store);
-
-        Orders order = orderRepository.save(Orders.newOrder(store.getId(), member.getId()));
-
-        Menu menu = Menu.of(store, "슈붕", 3, 1000, "http:/3");
-
-        OrderMenu orderMenu = OrderMenu.of(order, menu, 3);
-        List<OrderHistoryMenusRequest> menusRequest = List.of(new OrderHistoryMenusRequest(menu, orderMenu));
-        AddNewOrderHistoryRequest request = new AddNewOrderHistoryRequest(store.getId(), menusRequest, order.getId());
+        Orders order = orderRepository.save(order());
 
         order.changeStatusToPreparing();
         orderRepository.save(order);
 
+        OrderHistoryMenusRequest request = OrderHistoryMenusRequest.builder()
+            .menu(menu)
+            .orderMenu(createOrderMenu(order, menu))
+            .build();
+
+        AddNewOrderHistoryRequest historyRequest = AddNewOrderHistoryRequest.builder()
+            .menus(List.of(request))
+            .orderId(order.getId())
+            .storeId(store.getId())
+            .build();
+
         // when
-        orderService.changeStatusToReadyToPickUp(member.getId(), request);
+        orderService.changeStatusToReadyToPickUp(boss.getId(), historyRequest);
 
         // then
         List<Orders> orders = orderRepository.findAll();
         assertThat(orders).isEmpty();
+
+        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
+        assertThat(orderHistories).hasSize(1);
 
     }
 
@@ -193,13 +144,7 @@ class OrdersServiceTest {
     @Test
     void 주문이_거래완료가_되면_기존_Order_가_삭제된다() {
         // given
-        Member member = createMember();
-        Store store = createStore(member);
-        Menu menu = createMenu(store);
-        store.addMenus(List.of(menu));
-        storeRepository.save(store);
-
-        Orders order = orderRepository.save(Orders.newOrder(store.getId(), member.getId()));
+        Orders order = orderRepository.save(order());
         OrderMenu orderMenu = createOrderMenu(order, menu);
 
         OrderHistoryMenusRequest menusRequest = OrderHistoryMenusRequest.builder()
@@ -214,24 +159,20 @@ class OrdersServiceTest {
             .build();
 
         // when
-        orderService.addToCompletedOrder(request, member.getId());
+        orderService.addToCompletedOrder(request, boss.getId());
 
         // then
         List<Orders> orders = orderRepository.findAll();
-        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
         assertThat(orders).isEmpty();
+
+        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
         assertThat(orderHistories).hasSize(1);
     }
 
     @Test
     void 사장님이_주문을_취소한다() {
         // given
-        Member boss = createMember();
-        Member user = createMember();
-        Store store = createStore(boss);
-        storeRepository.save(store);
-
-        Orders order = orderRepository.save(Orders.newOrder(store.getId(), user.getId()));
+        Orders order = orderRepository.save(order());
 
         // when
         orderService.cancelOrderByBoss(store.getId(), order.getId(), boss.getId());
@@ -243,29 +184,38 @@ class OrdersServiceTest {
         assertThat(orderHistories).hasSize(1);
     }
 
-    // TODO: 값 비교하기
     @Test
+    @Disabled
+    /**
+     * TODO: 다시 짜기
+     */
     void 사용자가_주문을_취소한다() {
         // given
-        Member boss = createMember();
-        Member user = createMember();
-        Store store = createStore(boss);
-        storeRepository.save(store);
-
-        Orders order = orderRepository.save(Orders.newOrder(store.getId(), user.getId()));
+        Orders order = orderRepository.save(order());
 
         // when
-        orderService.cancelOrderByUser(order.getId(), user.getId());
+        orderService.cancelOrderByUser(order.getId(), member.getId());
 
         // then
-
-        // TODO: orderMenu 테스트코드 만들기
         List<Orders> orders = orderRepository.findAll();
-        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
         assertThat(orders).isEmpty();
-        assertThat(orderHistories).hasSize(1);
-        assertOrderHistory(orderHistories.get(0), order.getId(), order.getMemberId(), order.getStoreId());
 
+        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
+        assertThat(orderHistories).hasSize(1);
+        assertOrderHistory(orderHistories.get(0), order.getId(), member.getId(), order.getStore().getId());
+
+        List<OrderHistoryMenu> orderHistoryMenus = orderHistoryMenuRepository.findAll();
+        assertThat(orderHistoryMenus).hasSize(1);
+
+        assertOrderHistoryMenu(orderHistoryMenus.get(0));
+
+    }
+
+    private void assertOrderHistoryMenu(OrderHistoryMenu orderHistoryMenu) {
+        assertThat(orderHistoryMenu.getMenuName()).isEqualTo(menuName);
+        assertThat(orderHistoryMenu.getPrice()).isEqualTo(price);
+        assertThat(orderHistoryMenu.getCount()).isEqualTo(count);
+        assertThat(orderHistoryMenu.getPictureUrl()).isEqualTo(pictureUrl);
     }
 
     void assertOrderHistory(OrderHistory orderHistory, Long orderId, Long memberId, Long storeId) {
@@ -274,33 +224,22 @@ class OrdersServiceTest {
         assertThat(orderHistory.getStoreInfo().getStoreId()).isEqualTo(storeId);
     }
 
-    void assertOrderHistoryMenu(OrderHistory orderHistory, List<OrderMenu> menus) {
-        assertThat(orderHistory.getMenus().get(0).getId()).isEqualTo(menus.get(0).getId());
-    }
-
 
     // TODO: 체크하기
     @Test
     void 사용자가_주문을_취소할_때_주문이_존재하지_않을때() {
         // given
-        Member boss = createMember();
-        Member user = createMember();
-
-        Store store = createStore(boss);
-        storeRepository.save(store);
-
-        Orders order = Orders.newOrder(store.getId(), user.getId());
-        orderRepository.save(order);
+        Orders order = orderRepository.save(order());
 
         // when & then
-        assertThatThrownBy(() -> orderService.cancelOrderByUser(order.getId() + 1, user.getId()))
+        assertThatThrownBy(() -> orderService.cancelOrderByUser(order.getId() + 1, member.getId() + 999L))
             .isInstanceOf(NotFoundException.class);
 
     }
 
     void assertOrder(Orders orders, Long memberId, Long storeId) {
         assertThat(orders.getMemberId()).isEqualTo(memberId);
-        assertThat(orders.getStoreId()).isEqualTo(storeId);
+        assertThat(orders.getStore().getId()).isEqualTo(storeId);
     }
 
     private OrderMenu createOrderMenu(Orders orders, Menu menu) {
@@ -309,45 +248,18 @@ class OrdersServiceTest {
         return orderMenuRepository.save(orderMenu);
     }
 
-
-    private Member createMember() {
-        String name = "yerimkoko";
-        String nickName = "yerimko";
-        String email = "gochi97@naver.com";
-        String pictureUrl = "https://rabbit.com";
-
-        Member member = Member.newGoogleInstance(name, nickName, email, pictureUrl);
-        return memberRepository.save(member);
-
+    private Orders order() {
+        return Orders.newOrder(store, member.getId(), paymentMethod);
     }
 
-    private Store createStore(Member member) {
-        Location location = new Location(37.78639644286605, 126.40572677813635);
-        String storeDescription = "슈크림 붕어빵이 맛있어요";
-        String locationDescription = "당정역 1번 출구 앞";
-        StoreCategory category = StoreCategory.BUNG_EO_PPANG;
+    private OrderMenusRequest createMenuRequest() {
+        int totalCount = 2;
 
-        return Store.newInstance(member.getId(), member.getName(), location, storeDescription, locationDescription, category);
-    }
+        return OrderMenusRequest.testBuilder()
+            .menu(menu)
+            .count(totalCount)
+            .build();
 
-    private Store openedStore(Member member) {
-        Location location = new Location(37.78639644286605, 126.40572677813635);
-        String storeDescription = "슈크림 붕어빵이 맛있어요";
-        String locationDescription = "당정역 1번 출구 앞";
-        StoreCategory category = StoreCategory.BUNG_EO_PPANG;
-        return Store.newSalesStore(member.getId(), member.getName(), location, storeDescription, locationDescription, category);
-    }
-
-    private Menu createMenu(Store store) {
-        int count = 2;
-        int price = 2000;
-        String menuName = "슈크림 2개";
-        String pictureUrl = "https://rabbit.shop";
-        return Menu.of(store, menuName, count, price, pictureUrl);
-    }
-
-    private BusinessHours createBusinessHours(Store store, Days days, LocalTime startTime, LocalTime endTime) {
-        return BusinessHours.of(store, days, startTime, endTime);
     }
 
 }

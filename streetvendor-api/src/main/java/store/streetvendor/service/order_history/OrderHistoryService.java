@@ -5,10 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import store.streetvendor.domain.domain.member.MemberRepository;
 import store.streetvendor.domain.domain.order.OrderRepository;
+import store.streetvendor.domain.domain.order.Orders;
 import store.streetvendor.domain.domain.order_history.OrderHistory;
 import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.domain.domain.store.Store;
 import store.streetvendor.domain.domain.store.StoreRepository;
+import store.streetvendor.service.order_history.dto.response.MemberOrderHistoryResponse;
 import store.streetvendor.service.order_history.dto.response.OrderHistoryResponse;
 import store.streetvendor.service.order_history.dto.response.OrderHistoryStoreResponse;
 import store.streetvendor.domain.service.utils.StoreServiceUtils;
@@ -42,4 +44,25 @@ public class OrderHistoryService {
             .collect(Collectors.toList());
     }
 
+
+    /**
+     * TODO: 완료된 주문
+     * @param memberId
+     * @return
+     */
+    public List<MemberOrderHistoryResponse> getMemberOrderHistory(Long memberId) {
+        List<OrderHistory> orderHistoryList = orderHistoryRepository.findOrderHistoryByMemberId(memberId);
+        return orderHistoryList.stream().map(MemberOrderHistoryResponse::of).collect(Collectors.toList());
+    }
+
+    /**
+     * TODO: 진행 중인 주문들
+     * @param memberId
+     * @return
+     */
+    public List<MemberOrderHistoryResponse> getOrderList(Long memberId) {
+        List<Orders> orderList = orderRepository.findOrdersByMemberId(memberId);
+        return orderList.stream().map(MemberOrderHistoryResponse::orderOf).collect(Collectors.toList());
+
+    }
 }
