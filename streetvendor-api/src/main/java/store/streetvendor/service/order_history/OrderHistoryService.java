@@ -15,7 +15,7 @@ import store.streetvendor.service.order_history.dto.response.OrderHistoryRespons
 import store.streetvendor.service.order_history.dto.response.OrderHistoryStoreResponse;
 import store.streetvendor.domain.service.utils.StoreServiceUtils;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -44,25 +44,28 @@ public class OrderHistoryService {
             .collect(Collectors.toList());
     }
 
+    public List<MemberOrderHistoryResponse> allOrders(Long memberId) {
+        Set<MemberOrderHistoryResponse> memberOrderHistories = new HashSet<>();
+        memberOrderHistories.addAll(getMemberOrderHistory(memberId));
+        memberOrderHistories.addAll(getOrderList(memberId));
 
-    /**
-     * TODO: 완료된 주문
-     * @param memberId
-     * @return
-     */
-    public List<MemberOrderHistoryResponse> getMemberOrderHistory(Long memberId) {
-        List<OrderHistory> orderHistoryList = orderHistoryRepository.findOrderHistoryByMemberId(memberId);
-        return orderHistoryList.stream().map(MemberOrderHistoryResponse::of).collect(Collectors.toList());
+        return memberOrderHistories.stream()
+            .sorted(Comparator.comparing(MemberOrderHistoryResponse::getOrderId)
+                .reversed())
+            .collect(Collectors.toList());
     }
 
-    /**
-     * TODO: 진행 중인 주문들
-     * @param memberId
-     * @return
-     */
-    public List<MemberOrderHistoryResponse> getOrderList(Long memberId) {
-        List<Orders> orderList = orderRepository.findOrdersByMemberId(memberId);
-        return orderList.stream().map(MemberOrderHistoryResponse::orderOf).collect(Collectors.toList());
+    private List<MemberOrderHistoryResponse> getMemberOrderHistory(Long memberId) {
+        List<OrderHistory> orderHistoryList = orderHistoryRepository.findOrderHistoryByMemberId(memberId);
+        return orderHistoryList.stream()
+            .map(MemberOrderHistoryResponse::of)
+            .collect(Collectors.toList());
+    }
 
+    private List<MemberOrderHistoryResponse> getOrderList(Long memberId) {
+        List<Orders> orderList = orderRepository.findOrdersByMemberId(memberId);
+        return orderList.stream()
+            .map(MemberOrderHistoryResponse::orderOf)
+            .collect(Collectors.toList());
     }
 }

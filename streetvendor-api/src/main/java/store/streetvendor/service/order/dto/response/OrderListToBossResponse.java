@@ -53,6 +53,8 @@ public class OrderListToBossResponse {
     }
 
     public static int getTotalPrice(List<OrderMenu> orderMenus) {
-        return orderMenus.stream().mapToInt(OrderMenu::getTotalPrice).sum();
+        return orderMenus.stream()
+            .mapToInt(OrderMenu::getTotalPrice)
+            .sum();
     }
 }

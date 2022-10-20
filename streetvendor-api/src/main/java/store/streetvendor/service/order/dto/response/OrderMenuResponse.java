@@ -31,7 +31,6 @@ public class OrderMenuResponse {
             .count(orderMenu.getMenu().getMenuCount() * orderMenu.getCount())
             .price(orderMenu.getMenu().getPrice() * orderMenu.getCount())
             .build();
-
     }
 
 }

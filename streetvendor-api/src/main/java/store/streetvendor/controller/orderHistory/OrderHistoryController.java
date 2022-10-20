@@ -9,6 +9,7 @@ import store.streetvendor.config.auth.Auth;
 import store.streetvendor.config.auth.MemberId;
 import store.streetvendor.controller.ApiResponse;
 import store.streetvendor.service.order_history.OrderHistoryService;
+import store.streetvendor.service.order_history.dto.response.MemberOrderHistoryResponse;
 import store.streetvendor.service.order_history.dto.response.OrderHistoryResponse;
 
 import java.util.List;
@@ -25,5 +26,13 @@ public class OrderHistoryController {
     public ApiResponse<List<OrderHistoryResponse>> getOrderHistoryList(@RequestParam Long storeId, @MemberId Long bossId) {
         return ApiResponse.success(orderHistoryService.getOrderHistory(storeId, bossId));
     }
+
+    @Auth
+    @ApiOperation(value = "사용자가 모든 주문을 확인한다")
+    @GetMapping("/api/v1/order/my-orders")
+    public ApiResponse<List<MemberOrderHistoryResponse>> getOrderList(@MemberId Long memberId) {
+        return ApiResponse.success(orderHistoryService.allOrders(memberId));
+    }
+
 
 }
