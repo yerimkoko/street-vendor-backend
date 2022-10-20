@@ -19,11 +19,14 @@ import store.streetvendor.domain.service.utils.OrderServiceUtils;
 import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
 import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
 import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
+import store.streetvendor.service.order_history.dto.response.MemberOrderHistoryResponse;
 import store.streetvendor.service.order_history.dto.response.OrderAndHistoryResponse;
 import store.streetvendor.domain.service.utils.StoreServiceUtils;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -104,7 +107,6 @@ public class OrderService {
             .map(menu -> OrderHistoryMenu.of(menu.getMenu().getName(), menu.getCount(), menu.getTotalPrice()))
             .collect(Collectors.toList()));
 
-
         historyRepository.save(orderHistory);
 
         orderRepository.delete(order);
@@ -134,11 +136,13 @@ public class OrderService {
             .map(OrderAndHistoryResponse::completedOrder)
             .collect(Collectors.toList());
 
-        List<OrderAndHistoryResponse> allOrders = Stream.concat(onOrders.stream(), complete.stream())
-            .sorted(Comparator.comparing(OrderAndHistoryResponse::getOrderId))
-            .collect(Collectors.toList());
+        Set<OrderAndHistoryResponse> allOrderToBoss = new HashSet<>();
+        allOrderToBoss.addAll(onOrders);
+        allOrderToBoss.addAll(complete);
 
-        return allOrders;
+        return allOrderToBoss.stream()
+            .sorted(Comparator.comparing(OrderAndHistoryResponse::getOrderId).reversed())
+            .collect(Collectors.toList());
 
     }
 
