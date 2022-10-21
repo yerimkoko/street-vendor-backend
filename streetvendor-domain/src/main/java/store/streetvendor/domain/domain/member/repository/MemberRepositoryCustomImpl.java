@@ -19,6 +19,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
             ).fetchOne();
     }
 
+
     @Override
     public Member findMemberIdByNickName(String nickName) {
         return queryFactory.selectFrom(member)
@@ -34,5 +35,6 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                 member.email.eq(email)
             ).fetchOne();
     }
+
 
 }

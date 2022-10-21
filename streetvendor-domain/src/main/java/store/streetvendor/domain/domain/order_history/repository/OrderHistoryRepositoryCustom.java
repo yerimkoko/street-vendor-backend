@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface OrderHistoryRepositoryCustom  {
 
-    List<OrderHistory> findOrderHistoryByStoreId(Long storeId);
+    List<OrderHistory> findOrderHistoryByStoreId(Long storeId, Long bossId);
 
     List<OrderHistory> findOrderHistoryByMemberId(Long memberId);
 

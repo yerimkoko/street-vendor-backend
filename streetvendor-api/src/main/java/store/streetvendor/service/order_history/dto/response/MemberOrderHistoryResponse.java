@@ -54,7 +54,7 @@ public class MemberOrderHistoryResponse {
 
 
 
-    public static MemberOrderHistoryResponse of(OrderHistory orderHistory) {
+    public static MemberOrderHistoryResponse historyOf(OrderHistory orderHistory) {
         return MemberOrderHistoryResponse.builder()
             .firstMenuName(orderHistory.getMenus().get(0).getMenuName())
             .storeId(orderHistory.getStoreInfo().getStoreId())

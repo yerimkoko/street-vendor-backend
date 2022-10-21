@@ -14,6 +14,8 @@ public class StoreInfo {
 
     private Long storeId;
 
+    private Long bossId;
+
     private String name;
 
     private String description;
@@ -21,18 +23,21 @@ public class StoreInfo {
     private String locationDescription;
 
     @Builder
-    public StoreInfo(Long storeId, String name, String description, String locationDescription) {
+    public StoreInfo(Long storeId, Long bossId, String name, String description, String locationDescription) {
         this.storeId = storeId;
+        this.bossId = bossId;
         this.name = name;
         this.description = description;
         this.locationDescription = locationDescription;
     }
+
 
     public static StoreInfo of(Store store) {
         return StoreInfo.builder()
             .storeId(store.getId())
             .description(store.getStoreDescription())
             .locationDescription(store.getLocationDescription())
+            .bossId(store.getMemberId())
             .build();
     }
 }
