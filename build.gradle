@@ -21,6 +21,7 @@ subprojects {
     apply {
         plugin("java-library")
         plugin("eclipse")
+        plugin("java-test-fixtures")
         plugin("org.springframework.boot")
         plugin("io.spring.dependency-management")
         plugin("jacoco")
