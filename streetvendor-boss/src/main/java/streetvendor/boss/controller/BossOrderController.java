@@ -1,6 +1,6 @@
-package com.example.streetvendorboss.controller;
+package streetvendor.boss.controller;
 
-import com.example.streetvendorboss.service.BossOrderService;
+import streetvendor.boss.service.BossOrderService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

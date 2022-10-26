@@ -39,7 +39,7 @@ public class Member extends BaseTimeEntity {
     private String phoneNumber;
 
     @Builder
-    private Member(String name, String nickName, String email, String profileUrl, MemberProvider provider, String bossName, String phoneNumber) {
+    public Member(String name, String nickName, String email, String profileUrl, MemberProvider provider, String bossName, String phoneNumber) {
         this.name = name;
         this.nickName = nickName;
         this.email = email;

@@ -1,4 +1,4 @@
-package com.example.streetvendorboss.service;
+package streetvendor.boss.service;
 
 
 import lombok.RequiredArgsConstructor;
