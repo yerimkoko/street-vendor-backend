@@ -3,16 +3,12 @@ package store.streetvendor.controller.order;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import store.streetvendor.config.auth.Auth;
-import store.streetvendor.config.auth.MemberId;
-import store.streetvendor.controller.ApiResponse;
-import store.streetvendor.domain.domain.order.OrderStatus;
-import store.streetvendor.domain.domain.order.OrderStatusCanceled;
+import store.streetvendor.core.config.auth.Auth;
+import store.streetvendor.core.config.auth.MemberId;
+import store.streetvendor.core.service.utils.dto.ApiResponse;
 import store.streetvendor.service.order.OrderService;
-import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
-import store.streetvendor.service.order.dto.response.OrderListToBossResponse;
-import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
-import store.streetvendor.service.order_history.dto.response.OrderAndHistoryResponse;
+import store.streetvendor.core.service.utils.dto.AddNewOrderRequest;
+import store.streetvendor.core.service.utils.dto.order_history.dto.response.OrderAndHistoryResponse;
 
 import java.util.List;
 

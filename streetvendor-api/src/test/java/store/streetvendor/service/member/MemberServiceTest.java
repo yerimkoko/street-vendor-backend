@@ -4,12 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import store.streetvendor.domain.domain.member.Member;
-import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.domain.domain.sign_out_member.SignOutMember;
-import store.streetvendor.domain.domain.sign_out_member.SignOutMemberRepository;
-import store.streetvendor.domain.domain.model.exception.DuplicatedException;
-import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
+import store.streetvendor.core.domain.member.Member;
+import store.streetvendor.core.domain.member.MemberRepository;
+import store.streetvendor.core.domain.sign_out_member.SignOutMember;
+import store.streetvendor.core.domain.sign_out_member.SignOutMemberRepository;
+import store.streetvendor.core.domain.model.exception.DuplicatedException;
+import store.streetvendor.core.service.utils.dto.member.request.MemberSignUpRequestDto;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 rootProject.name = 'streetvendor'
 include 'streetvendor-api'
-include 'streetvendor-domain'
+include 'streetvendor-core'
 include 'streetvendor-external'
 include 'streetvendor-admin'
 include 'streetvendor-boss'

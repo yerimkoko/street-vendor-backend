@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import store.streetvendor.ApiResponse;
 
-import static store.streetvendor.domain.domain.model.exception.ErrorCode.UNAUTHORIZED_EXCEPTION;
+import static store.streetvendor.core.domain.model.exception.ErrorCode.UNAUTHORIZED_EXCEPTION;
 
 @Slf4j
 @RestControllerAdvice

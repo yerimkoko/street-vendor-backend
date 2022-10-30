@@ -3,9 +3,9 @@ package store.streetvendor.service.store.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.domain.domain.store.Location;
-import store.streetvendor.domain.domain.store.Store;
-import store.streetvendor.domain.domain.store.StoreCategory;
+import store.streetvendor.core.domain.store.Location;
+import store.streetvendor.core.domain.store.Store;
+import store.streetvendor.core.domain.store.StoreCategory;
 
 @Getter
 @NoArgsConstructor

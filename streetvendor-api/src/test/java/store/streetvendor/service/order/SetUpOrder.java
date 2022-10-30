@@ -4,8 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import store.streetvendor.domain.domain.order.OrderRepository;
-import store.streetvendor.domain.domain.order.Orders;
+import store.streetvendor.core.domain.order.OrderRepository;
+import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.service.store.SetUpStore;
 
 @SpringBootTest

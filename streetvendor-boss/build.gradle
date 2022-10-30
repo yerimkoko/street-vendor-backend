@@ -3,11 +3,12 @@ jar { enabled = true }
 
 
 dependencies {
+    // Web MVC
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    implementation project(":streetvendor-domain")
+    // Core Modules
+    implementation project(":streetvendor-core")
     implementation project(":streetvendor-external")
-    implementation project(":streetvendor-api")
 
     // Swagger
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
@@ -16,13 +17,16 @@ dependencies {
     // Session
     implementation('org.springframework.session:spring-session:1.3.5.RELEASE')
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
-    implementation 'com.free-now.sauron.plugins:bcrypt-passwordencoder-checker:0.0.4'
 
     // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
+
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
+
+    // Test
+    testImplementation(testFixtures(project(":streetvendor-core")))
 
 }
 

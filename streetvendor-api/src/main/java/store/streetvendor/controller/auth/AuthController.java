@@ -5,15 +5,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import store.streetvendor.controller.ApiResponse;
-import store.streetvendor.service.member.auth.GoogleAuthService;
-import store.streetvendor.service.member.auth.dto.request.AuthRequest;
-import store.streetvendor.service.member.auth.dto.response.AuthResponse;
+import store.streetvendor.core.service.utils.dto.ApiResponse;
+import store.streetvendor.core.config.auth.GoogleAuthService;
+import store.streetvendor.core.config.auth.dto.request.AuthRequest;
+import store.streetvendor.core.config.auth.dto.response.AuthResponse;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import static store.streetvendor.config.auth.AuthConstants.MEMBER_ID;
+import static store.streetvendor.core.config.auth.AuthConstants.MEMBER_ID;
 
 @RequiredArgsConstructor
 @RestController

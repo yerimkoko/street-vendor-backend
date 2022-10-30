@@ -2,7 +2,7 @@ package store.streetvendor.service.store.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.domain.domain.store.StoreSalesStatus;
+import store.streetvendor.core.domain.store.StoreSalesStatus;
 
 @Getter
 @NoArgsConstructor

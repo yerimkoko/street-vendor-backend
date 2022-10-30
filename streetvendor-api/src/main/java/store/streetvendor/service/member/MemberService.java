@@ -3,18 +3,17 @@ package store.streetvendor.service.member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.streetvendor.domain.domain.member.Member;
-import store.streetvendor.domain.domain.member.MemberRepository;
-import store.streetvendor.domain.domain.store.star.StarRepository;
-import store.streetvendor.domain.service.utils.MemberServiceUtils;
-import store.streetvendor.domain.domain.sign_out_member.SignOutMemberRepository;
-import store.streetvendor.domain.domain.store.Store;
-import store.streetvendor.domain.domain.store.StoreRepository;
-import store.streetvendor.domain.domain.store.StoreSalesStatus;
-import store.streetvendor.domain.domain.model.exception.DuplicatedException;
-import store.streetvendor.service.member.dto.request.MemberSaveBossInfoRequest;
-import store.streetvendor.service.member.dto.request.MemberSignUpRequestDto;
-import store.streetvendor.service.member.dto.response.MemberInfoResponse;
+import store.streetvendor.core.domain.member.Member;
+import store.streetvendor.core.domain.member.MemberRepository;
+import store.streetvendor.core.service.utils.MemberServiceUtils;
+import store.streetvendor.core.domain.sign_out_member.SignOutMemberRepository;
+import store.streetvendor.core.domain.store.Store;
+import store.streetvendor.core.domain.store.StoreRepository;
+import store.streetvendor.core.domain.store.StoreSalesStatus;
+import store.streetvendor.core.domain.model.exception.DuplicatedException;
+import store.streetvendor.core.service.utils.dto.member.request.MemberSaveBossInfoRequest;
+import store.streetvendor.core.service.utils.dto.member.request.MemberSignUpRequestDto;
+import store.streetvendor.core.service.utils.dto.member.response.MemberInfoResponse;
 
 import java.util.List;
 
@@ -23,8 +22,6 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
-    private final StarRepository starRepository;
 
     private final SignOutMemberRepository signOutMemberRepository;
 

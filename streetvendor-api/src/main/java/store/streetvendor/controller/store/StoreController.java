@@ -3,10 +3,10 @@ package store.streetvendor.controller.store;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import store.streetvendor.config.auth.Auth;
-import store.streetvendor.config.auth.MemberId;
-import store.streetvendor.controller.ApiResponse;
-import store.streetvendor.domain.domain.store.menu.MenuSalesStatus;
+import store.streetvendor.core.config.auth.Auth;
+import store.streetvendor.core.config.auth.MemberId;
+import store.streetvendor.core.service.utils.dto.ApiResponse;
+import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
 import store.streetvendor.service.store.StoreService;
 import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.*;
@@ -163,7 +163,6 @@ public class StoreController {
     public ApiResponse<List<StoreAndMemberAndStarResponse>> getMyStarStores(@MemberId Long memberId) {
         return ApiResponse.success(storeService.getMyStars(memberId));
     }
-
 
 
 }

@@ -5,19 +5,16 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import store.streetvendor.domain.domain.order.*;
-import store.streetvendor.domain.domain.order_history.OrderHistory;
-import store.streetvendor.domain.domain.order_history.OrderHistoryMenu;
-import store.streetvendor.domain.domain.order_history.OrderHistoryMenuRepository;
-import store.streetvendor.domain.domain.order_history.OrderHistoryRepository;
-import store.streetvendor.domain.domain.store.*;
-import store.streetvendor.domain.domain.model.exception.NotFoundException;
-import store.streetvendor.domain.domain.store.menu.Menu;
-import store.streetvendor.service.order.dto.request.AddNewOrderRequest;
-import store.streetvendor.service.order.dto.request.OrderMenusRequest;
-import store.streetvendor.service.order_history.OrderHistoryService;
-import store.streetvendor.service.order_history.dto.request.AddNewOrderHistoryRequest;
-import store.streetvendor.service.order_history.dto.request.OrderHistoryMenusRequest;
+import store.streetvendor.core.domain.order.*;
+import store.streetvendor.core.domain.order_history.OrderHistory;
+import store.streetvendor.core.domain.order_history.OrderHistoryMenu;
+import store.streetvendor.core.domain.order_history.OrderHistoryMenuRepository;
+import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
+import store.streetvendor.core.domain.store.*;
+import store.streetvendor.core.domain.model.exception.NotFoundException;
+import store.streetvendor.core.domain.store.menu.Menu;
+import store.streetvendor.core.service.utils.dto.AddNewOrderRequest;
+import store.streetvendor.core.service.utils.dto.OrderMenusRequest;
 import store.streetvendor.service.store.SetUpStore;
 
 import java.util.List;
@@ -43,8 +40,6 @@ class OrdersServiceTest extends SetUpStore {
     @Autowired
     private OrderMenuRepository orderMenuRepository;
 
-    @Autowired
-    private OrderHistoryService orderHistoryService;
 
     @AfterEach
     void cleanUp() {

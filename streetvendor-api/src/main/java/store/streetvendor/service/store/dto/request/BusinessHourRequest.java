@@ -3,9 +3,9 @@ package store.streetvendor.service.store.dto.request;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.domain.domain.store.BusinessHours;
-import store.streetvendor.domain.domain.store.Days;
-import store.streetvendor.domain.domain.store.Store;
+import store.streetvendor.core.domain.store.BusinessHours;
+import store.streetvendor.core.domain.store.Days;
+import store.streetvendor.core.domain.store.Store;
 
 import java.time.LocalTime;
 

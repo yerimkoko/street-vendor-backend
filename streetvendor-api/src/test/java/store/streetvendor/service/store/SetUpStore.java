@@ -1,12 +1,11 @@
 package store.streetvendor.service.store;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import store.streetvendor.domain.domain.store.*;
-import store.streetvendor.domain.domain.store.menu.Menu;
-import store.streetvendor.domain.domain.store.storeimage.StoreImage;
+import store.streetvendor.core.domain.store.*;
+import store.streetvendor.core.domain.store.menu.Menu;
+import store.streetvendor.core.domain.store.storeimage.StoreImage;
 import store.streetvendor.service.SetupBoss;
 
 import java.time.LocalTime;

@@ -3,9 +3,9 @@ package store.streetvendor.service.store.dto.response.projection;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.domain.domain.store.StoreCategory;
-import store.streetvendor.domain.domain.store.StoreStatus;
-import store.streetvendor.domain.domain.store.star.Star;
+import store.streetvendor.core.domain.store.StoreCategory;
+import store.streetvendor.core.domain.store.StoreStatus;
+import store.streetvendor.core.domain.store.star.Star;
 
 
 @Getter

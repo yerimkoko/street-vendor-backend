@@ -4,20 +4,20 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import store.streetvendor.domain.domain.member.Member;
-import store.streetvendor.domain.domain.store.*;
-import store.streetvendor.domain.domain.model.exception.AlreadyExistedException;
-import store.streetvendor.domain.domain.model.exception.NotFoundException;
-import store.streetvendor.domain.domain.store.star.StarStatus;
-import store.streetvendor.domain.domain.store.storeimage.StoreImage;
-import store.streetvendor.domain.domain.store.menu.Menu;
-import store.streetvendor.domain.domain.store.menu.MenuRepository;
-import store.streetvendor.domain.domain.store.menu.MenuSalesStatus;
-import store.streetvendor.domain.domain.store.review.Review;
-import store.streetvendor.domain.domain.store.review.ReviewRepository;
-import store.streetvendor.domain.domain.store.star.Star;
-import store.streetvendor.domain.domain.store.star.StarRepository;
-import store.streetvendor.domain.domain.store.storeimage.StoreImageRepository;
+import store.streetvendor.core.domain.member.Member;
+import store.streetvendor.core.domain.store.*;
+import store.streetvendor.core.domain.model.exception.AlreadyExistedException;
+import store.streetvendor.core.domain.model.exception.NotFoundException;
+import store.streetvendor.core.domain.store.star.StarStatus;
+import store.streetvendor.core.domain.store.storeimage.StoreImage;
+import store.streetvendor.core.domain.store.menu.Menu;
+import store.streetvendor.core.domain.store.menu.MenuRepository;
+import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
+import store.streetvendor.core.domain.store.review.Review;
+import store.streetvendor.core.domain.store.review.ReviewRepository;
+import store.streetvendor.core.domain.store.star.Star;
+import store.streetvendor.core.domain.store.star.StarRepository;
+import store.streetvendor.core.domain.store.storeimage.StoreImageRepository;
 import store.streetvendor.service.SetupBoss;
 import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
@@ -28,7 +28,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static store.streetvendor.domain.domain.store.StoreCategory.OTHER_DESSERT;
+import static store.streetvendor.core.domain.store.StoreCategory.OTHER_DESSERT;
 
 @SpringBootTest
 class StoreServiceTest extends SetupBoss {

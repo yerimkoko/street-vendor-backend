@@ -3,8 +3,8 @@ package store.streetvendor.service.store.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.domain.domain.store.menu.Menu;
-import store.streetvendor.domain.domain.store.menu.MenuSalesStatus;
+import store.streetvendor.core.domain.store.menu.Menu;
+import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
 
 @Getter
 @NoArgsConstructor

@@ -1,7 +1,7 @@
 package store.streetvendor.service.store.dto.request;
 
 import lombok.*;
-import store.streetvendor.domain.domain.store.*;
+import store.streetvendor.core.domain.store.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
