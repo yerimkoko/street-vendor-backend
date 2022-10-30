@@ -8,12 +8,28 @@ dependencies {
     // H2
     runtimeOnly 'com.h2database:h2'
 
+    // External Module
+    implementation project(":streetvendor-external")
+
+    // Session
+    implementation('org.springframework.session:spring-session:1.3.5.RELEASE')
+    implementation('org.springframework.boot:spring-boot-starter-jdbc')
+
+
     // QueryDSL
     implementation("com.querydsl:querydsl-jpa")
     implementation("com.querydsl:querydsl-core")
     annotationProcessor("com.querydsl:querydsl-apt::jpa")
     annotationProcessor("jakarta.persistence:jakarta.persistence-api")
     annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+
+    // Web MVC
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Swagger
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
 
 }
 
