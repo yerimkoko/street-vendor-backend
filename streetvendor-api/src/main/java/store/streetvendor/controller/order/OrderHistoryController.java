@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import store.streetvendor.core.config.auth.Auth;
 import store.streetvendor.core.config.auth.MemberId;
-import store.streetvendor.core.service.utils.dto.ApiResponse;
-import store.streetvendor.core.service.utils.dto.response.MemberOrderHistoryResponse;
+import store.streetvendor.core.utils.dto.ApiResponse;
+import store.streetvendor.core.utils.dto.response.MemberOrderHistoryResponse;
 import store.streetvendor.service.order.OrderHistoryService;
 
 import java.util.List;

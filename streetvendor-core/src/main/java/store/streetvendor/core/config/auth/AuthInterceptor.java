@@ -9,8 +9,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import store.streetvendor.core.domain.member.MemberRepository;
-import store.streetvendor.core.domain.model.exception.ErrorCode;
-import store.streetvendor.core.domain.model.exception.UnAuthorizedException;
+import store.streetvendor.core.exception.ErrorCode;
+import store.streetvendor.core.exception.UnAuthorizedException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

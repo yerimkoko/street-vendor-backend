@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import store.streetvendor.core.config.auth.Auth;
 import store.streetvendor.core.config.auth.MemberId;
 import store.streetvendor.core.domain.order.OrderStatus;
-import store.streetvendor.core.service.utils.dto.ApiResponse;
-import store.streetvendor.core.service.utils.dto.order_history.request.AddNewOrderHistoryRequest;
-import store.streetvendor.core.service.utils.dto.response.MemberOrderHistoryResponse;
-import store.streetvendor.core.service.utils.dto.response.OrderListToBossResponse;
+import store.streetvendor.core.utils.dto.ApiResponse;
+import store.streetvendor.core.utils.dto.order_history.request.AddNewOrderHistoryRequest;
+import store.streetvendor.core.utils.dto.response.MemberOrderHistoryResponse;
+import store.streetvendor.core.utils.dto.response.OrderListToBossResponse;
 
 import java.util.List;
 

@@ -11,9 +11,9 @@ import store.streetvendor.core.domain.order_history.OrderHistoryMenu;
 import store.streetvendor.core.domain.order_history.OrderHistoryMenuRepository;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.store.*;
-import store.streetvendor.core.domain.model.exception.NotFoundException;
-import store.streetvendor.core.service.utils.dto.AddNewOrderRequest;
-import store.streetvendor.core.service.utils.dto.OrderMenusRequest;
+import store.streetvendor.core.exception.NotFoundException;
+import store.streetvendor.core.utils.dto.AddNewOrderRequest;
+import store.streetvendor.core.utils.dto.OrderMenusRequest;
 import store.streetvendor.service.store.SetUpStore;
 
 import java.util.List;
@@ -39,11 +39,12 @@ class OrdersServiceTest extends SetUpStore {
     @Autowired
     private OrderMenuRepository orderMenuRepository;
 
-
     @AfterEach
     void cleanUp() {
-        orderRepository.deleteAll();
+        orderHistoryMenuRepository.deleteAll();
         orderHistoryRepository.deleteAll();
+        orderMenuRepository.deleteAll();
+        orderRepository.deleteAll();
         cleanup();
     }
 
@@ -93,10 +94,11 @@ class OrdersServiceTest extends SetUpStore {
     }
 
     @Test
-    @Disabled
     void 사용자가_주문을_취소한다() {
         // given
         Orders order = orderRepository.save(order());
+        order.addMenu(OrderMenu.of(order, menu, 1));
+        orderRepository.save(order);
 
         // when
         orderService.cancelOrderByUser(order.getId(), member.getId());
@@ -108,7 +110,7 @@ class OrdersServiceTest extends SetUpStore {
         List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
         assertThat(orderHistories).hasSize(1);
 
-        assertOrderHistory(orderHistories.get(0), order.getId(), member.getId(), order.getStore().getId());
+        assertOrderHistory(orderHistories.get(0), member.getId(), order.getStore().getId());
 
         List<OrderHistoryMenu> orderHistoryMenus = orderHistoryMenuRepository.findAll();
         assertThat(orderHistoryMenus).hasSize(1);
@@ -120,12 +122,10 @@ class OrdersServiceTest extends SetUpStore {
     private void assertOrderHistoryMenu(OrderHistoryMenu orderHistoryMenu) {
         assertThat(orderHistoryMenu.getMenuName()).isEqualTo(menuName);
         assertThat(orderHistoryMenu.getPrice()).isEqualTo(price);
-        assertThat(orderHistoryMenu.getCount()).isEqualTo(count);
         assertThat(orderHistoryMenu.getPictureUrl()).isEqualTo(pictureUrl);
     }
 
-    void assertOrderHistory(OrderHistory orderHistory, Long orderId, Long memberId, Long storeId) {
-        assertThat(orderHistory.getOrderId()).isEqualTo(orderId);
+    void assertOrderHistory(OrderHistory orderHistory, Long memberId, Long storeId) {
         assertThat(orderHistory.getMemberId()).isEqualTo(memberId);
         assertThat(orderHistory.getStoreInfo().getStoreId()).isEqualTo(storeId);
     }

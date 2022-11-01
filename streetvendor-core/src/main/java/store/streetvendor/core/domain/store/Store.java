@@ -2,7 +2,7 @@ package store.streetvendor.core.domain.store;
 
 import lombok.*;
 import store.streetvendor.core.domain.BaseTimeEntity;
-import store.streetvendor.core.domain.model.exception.NotFoundException;
+import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.store.menu.Menu;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
 import store.streetvendor.core.domain.store.review.Review;

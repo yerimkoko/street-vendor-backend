@@ -10,12 +10,12 @@ import store.streetvendor.core.domain.order_history.OrderHistoryMenu;
 import store.streetvendor.core.domain.order_history.OrderHistoryMenuRepository;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.store.Store;
-import store.streetvendor.core.domain.model.exception.NotFoundException;
+import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.store.StoreRepository;
-import store.streetvendor.core.service.utils.OrderServiceUtils;
-import store.streetvendor.core.service.utils.dto.AddNewOrderRequest;
-import store.streetvendor.core.service.utils.StoreServiceUtils;
-import store.streetvendor.core.service.utils.dto.order_history.response.OrderAndHistoryResponse;
+import store.streetvendor.core.utils.OrderServiceUtils;
+import store.streetvendor.core.utils.dto.AddNewOrderRequest;
+import store.streetvendor.core.utils.StoreServiceUtils;
+import store.streetvendor.core.utils.dto.order_history.response.OrderAndHistoryResponse;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -33,7 +33,7 @@ public class OrderService {
 
     private final StoreRepository storeRepository;
 
-    private final OrderHistoryRepository historyRepository;
+    private final OrderHistoryRepository orderHistoryRepository;
 
     @Transactional
     public void addNewOrder(AddNewOrderRequest request, Long memberId) {
@@ -60,12 +60,12 @@ public class OrderService {
 
         OrderHistory orderHistory = OrderHistory.cancel(order, store);
 
+        orderHistoryRepository.save(orderHistory);
+
         orderHistoryMenuRepository.saveAll(order.getOrderMenus()
             .stream()
-            .map(menu -> OrderHistoryMenu.of(menu.getMenu().getName(), menu.getCount(), menu.getTotalPrice()))
+            .map(menu -> OrderHistoryMenu.of(orderHistory, menu.getMenu().getName(), menu.getCount(), menu.getTotalPrice(), menu.getPictureUrl()))
             .collect(Collectors.toList()));
-
-        historyRepository.save(orderHistory);
 
         orderRepository.delete(order);
 
@@ -76,7 +76,7 @@ public class OrderService {
 
         List<Orders> orders = orderRepository.findOrdersByMemberId(memberId);
 
-        List<OrderHistory> orderHistories = historyRepository.findOrderHistoryByMemberId(memberId);
+        List<OrderHistory> orderHistories = orderHistoryRepository.findOrderHistoryByMemberId(memberId);
 
         List<OrderAndHistoryResponse> onOrders = orders.stream()
             .map(OrderAndHistoryResponse::onOrder)

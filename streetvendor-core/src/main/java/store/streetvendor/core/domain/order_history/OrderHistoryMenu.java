@@ -42,11 +42,13 @@ public class OrderHistoryMenu extends BaseTimeEntity {
         this.pictureUrl = pictureUrl;
     }
 
-    public static OrderHistoryMenu of(String menuName, int count, int price) {
+    public static OrderHistoryMenu of(OrderHistory orderHistory, String menuName, int count, int price, String pictureUrl) {
         return OrderHistoryMenu.builder()
+            .orderHistory(orderHistory)
             .menuName(menuName)
             .count(count)
             .price(price)
+            .pictureUrl(pictureUrl)
             .build();
     }
 

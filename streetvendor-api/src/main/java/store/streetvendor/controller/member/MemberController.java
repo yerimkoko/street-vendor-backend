@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import store.streetvendor.core.config.auth.Auth;
 import store.streetvendor.core.config.auth.MemberId;
-import store.streetvendor.core.service.utils.dto.ApiResponse;
+import store.streetvendor.core.utils.dto.ApiResponse;
 import store.streetvendor.service.member.MemberService;
-import store.streetvendor.core.service.utils.dto.member.request.MemberSaveBossInfoRequest;
-import store.streetvendor.core.service.utils.dto.member.request.MemberSignUpRequestDto;
-import store.streetvendor.core.service.utils.dto.member.response.MemberInfoResponse;
+import store.streetvendor.core.utils.dto.member.request.MemberSaveBossInfoRequest;
+import store.streetvendor.core.utils.dto.member.request.MemberSignUpRequestDto;
+import store.streetvendor.core.utils.dto.member.response.MemberInfoResponse;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;

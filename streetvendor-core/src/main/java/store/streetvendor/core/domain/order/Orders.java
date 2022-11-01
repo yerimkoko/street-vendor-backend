@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.BaseTimeEntity;
 import store.streetvendor.core.domain.store.PaymentMethod;
 import store.streetvendor.core.domain.store.Store;
+import store.streetvendor.core.exception.ConflictException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -95,12 +96,12 @@ public class Orders extends BaseTimeEntity {
 
     private void validateCompleteOrder() {
         if (this.orderStatus.cantCancelOrder()) {
-            throw new IllegalArgumentException(String.format("주문이 (%s)일 때에는 변경할 수 없습니다.", orderStatus));
+            throw new ConflictException(String.format("주문이 (%s)일 때에는 변경할 수 없습니다.", orderStatus));
         }
     }
     private void validateRequestOrder() {
         if (this.orderStatus.cantUserCancelOrder()) {
-            throw new IllegalArgumentException(String.format("주문이 (%s)일 때에는 변경할 수 없습니다.", orderStatus));
+            throw new ConflictException(String.format("주문이 (%s)일 때에는 변경할 수 없습니다.", orderStatus));
         }
     }
 

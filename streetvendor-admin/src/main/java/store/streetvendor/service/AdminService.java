@@ -10,14 +10,14 @@ import store.streetvendor.core.domain.admin.Admin;
 import store.streetvendor.core.domain.admin.AdminRepository;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
-import store.streetvendor.core.domain.model.exception.DuplicatedException;
-import store.streetvendor.core.domain.model.exception.NotFoundException;
+import store.streetvendor.core.exception.DuplicatedException;
+import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.sign_out_member.SignOutMemberRepository;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.StoreRepository;
 import store.streetvendor.core.domain.store.StoreSalesStatus;
-import store.streetvendor.core.service.utils.MemberServiceUtils;
-import store.streetvendor.core.service.utils.StoreServiceUtils;
+import store.streetvendor.core.utils.MemberServiceUtils;
+import store.streetvendor.core.utils.StoreServiceUtils;
 
 import javax.servlet.http.HttpSession;
 
@@ -73,19 +73,5 @@ public class AdminService {
 
     }
 
-
-    @Transactional
-    public void updateStoreStatus(Long storeId, Long adminId, StoreSalesStatus salesStatus) {
-        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        if (store == null) {
-            throw new NotFoundException(String.format("<%s>는 존재하는 아이디가 아닙니다.", storeId));
-        }
-        Admin admin = adminRepository.findByAdminId(adminId);
-        if (admin == null) {
-            throw new NotFoundException(String.format("<%s>는 존재하는 아이디가 아닙니다.", storeId));
-        }
-
-        store.changeSalesStatus(salesStatus);
-    }
 
 }

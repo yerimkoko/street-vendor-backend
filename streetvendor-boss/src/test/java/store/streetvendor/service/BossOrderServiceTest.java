@@ -9,8 +9,8 @@ import store.streetvendor.core.domain.order.*;
 import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.store.menu.Menu;
-import store.streetvendor.core.service.utils.dto.order_history.request.AddNewOrderHistoryRequest;
-import store.streetvendor.core.service.utils.dto.order_history.request.OrderHistoryMenusRequest;
+import store.streetvendor.core.utils.dto.order_history.request.AddNewOrderHistoryRequest;
+import store.streetvendor.core.utils.dto.order_history.request.OrderHistoryMenusRequest;
 
 import java.util.List;
 

@@ -12,8 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import store.streetvendor.core.config.auth.AuthInterceptor;
 import store.streetvendor.service.member.MemberService;
-import store.streetvendor.core.service.utils.dto.member.request.MemberSaveBossInfoRequest;
-import store.streetvendor.core.service.utils.dto.member.response.MemberInfoResponse;
+import store.streetvendor.core.utils.dto.member.request.MemberSaveBossInfoRequest;
+import store.streetvendor.core.utils.dto.member.response.MemberInfoResponse;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
