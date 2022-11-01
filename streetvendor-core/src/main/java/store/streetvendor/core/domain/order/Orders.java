@@ -56,6 +56,16 @@ public class Orders extends BaseTimeEntity {
             .build();
     }
 
+    public static Orders preparingOrder(Store store, Long memberId, PaymentMethod paymentMethod) {
+        return Orders.builder()
+            .store(store)
+            .memberId(memberId)
+            .paymentMethod(paymentMethod)
+            .orderStatus(OrderStatus.PREPARING)
+            .orderStatusCanceled(OrderStatusCanceled.ACTIVE)
+            .build();
+    }
+
     public void addMenus(List<OrderMenu> menus) {
         for (OrderMenu menu : menus) {
             this.addMenu(menu);

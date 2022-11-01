@@ -1,8 +1,8 @@
-package store.streetvendor.core.service.utils.dto.order_history.dto.response;
+package store.streetvendor.core.service.utils.dto.order_history.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.core.service.utils.dto.order_history.dto.request.OrdersAndOrderHistoryRequest;
+import store.streetvendor.core.service.utils.dto.order_history.request.OrdersAndOrderHistoryRequest;
 
 
 @NoArgsConstructor

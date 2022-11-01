@@ -1,4 +1,4 @@
-package store.streetvendor.controller;
+package store.streetvendor.controller.order;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

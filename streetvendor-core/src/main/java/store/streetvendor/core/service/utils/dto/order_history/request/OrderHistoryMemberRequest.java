@@ -1,10 +1,10 @@
-package store.streetvendor.core.service.utils.dto.order_history.dto.request;
+package store.streetvendor.core.service.utils.dto.order_history.request;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.member.Member;
-import store.streetvendor.core.service.utils.dto.order_history.dto.response.OrderHistoryMemberResponse;
+import store.streetvendor.core.service.utils.dto.order_history.response.OrderHistoryMemberResponse;
 
 @Getter
 @NoArgsConstructor

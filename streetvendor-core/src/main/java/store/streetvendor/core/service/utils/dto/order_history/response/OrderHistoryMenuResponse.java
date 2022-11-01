@@ -1,4 +1,4 @@
-package store.streetvendor.core.service.utils.dto.order_history.dto.response;
+package store.streetvendor.core.service.utils.dto.order_history.response;
 
 import lombok.AccessLevel;
 import lombok.Builder;

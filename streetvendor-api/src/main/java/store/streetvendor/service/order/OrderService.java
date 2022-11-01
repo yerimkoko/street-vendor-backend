@@ -15,7 +15,7 @@ import store.streetvendor.core.domain.store.StoreRepository;
 import store.streetvendor.core.service.utils.OrderServiceUtils;
 import store.streetvendor.core.service.utils.dto.AddNewOrderRequest;
 import store.streetvendor.core.service.utils.StoreServiceUtils;
-import store.streetvendor.core.service.utils.dto.order_history.dto.response.OrderAndHistoryResponse;
+import store.streetvendor.core.service.utils.dto.order_history.response.OrderAndHistoryResponse;
 
 import java.util.Comparator;
 import java.util.HashSet;

@@ -12,7 +12,6 @@ import store.streetvendor.core.domain.order_history.OrderHistoryMenuRepository;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.domain.model.exception.NotFoundException;
-import store.streetvendor.core.domain.store.menu.Menu;
 import store.streetvendor.core.service.utils.dto.AddNewOrderRequest;
 import store.streetvendor.core.service.utils.dto.OrderMenusRequest;
 import store.streetvendor.service.store.SetUpStore;
@@ -93,101 +92,8 @@ class OrdersServiceTest extends SetUpStore {
 
     }
 
-//    @Test
-//    void 사장님이_들어온_주문을_확인하고_PREPARING_상태로_변경한다() {
-//        // given
-//        Orders order = orderRepository.save(order());
-//
-//        // when
-//        bossService.changeStatusToPreparing(store.getId(), boss.getId(), order.getId());
-//
-//        // then
-//        List<Orders> orders = orderRepository.findAll();
-//        assertThat(orders).hasSize(1);
-//        assertThat(orders.get(0).getOrderStatus()).isEqualTo(OrderStatus.PREPARING);
-//
-//    }
-//
-//    @Test
-//    void 사장님에게_주문상태가_PREPARING_일때_READY_TO_PICK_UP_으로_변경한다() {
-//        // given
-//        Orders order = orderRepository.save(order());
-//
-//        order.changeStatusToPreparing();
-//        orderRepository.save(order);
-//
-//        OrderHistoryMenusRequest request = OrderHistoryMenusRequest.builder()
-//            .menu(menu)
-//            .orderMenu(createOrderMenu(order, menu))
-//            .build();
-//
-//        AddNewOrderHistoryRequest historyRequest = AddNewOrderHistoryRequest.builder()
-//            .menus(List.of(request))
-//            .orderId(order.getId())
-//            .storeId(store.getId())
-//            .build();
-//
-//        // when
-//        orderService.changeStatusToReadyToPickUp(boss.getId(), historyRequest);
-//
-//        // then
-//        List<Orders> orders = orderRepository.findAll();
-//        assertThat(orders).isEmpty();
-//
-//        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
-//        assertThat(orderHistories).hasSize(1);
-//
-//    }
-//
-//    // TODO: 값 비교하기
-//    @Test
-//    void 주문이_거래완료가_되면_기존_Order_가_삭제된다() {
-//        // given
-//        Orders order = orderRepository.save(order());
-//        OrderMenu orderMenu = createOrderMenu(order, menu);
-//
-//        OrderHistoryMenusRequest menusRequest = OrderHistoryMenusRequest.builder()
-//            .orderMenu(orderMenu)
-//            .menu(menu)
-//            .build();
-//
-//        AddNewOrderHistoryRequest request = AddNewOrderHistoryRequest.builder()
-//            .orderId(order.getId())
-//            .menus(List.of(menusRequest))
-//            .storeId(store.getId())
-//            .build();
-//
-//        // when
-//        orderService.addToCompletedOrder(request, boss.getId());
-//
-//        // then
-//        List<Orders> orders = orderRepository.findAll();
-//        assertThat(orders).isEmpty();
-//
-//        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
-//        assertThat(orderHistories).hasSize(1);
-//    }
-//
-//    @Test
-//    void 사장님이_주문을_취소한다() {
-//        // given
-//        Orders order = orderRepository.save(order());
-//
-//        // when
-//        orderService.cancelOrderByBoss(store.getId(), order.getId(), boss.getId());
-//
-//        // then
-//        List<Orders> orders = orderRepository.findAll();
-//        List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
-//        assertThat(orders).isEmpty();
-//        assertThat(orderHistories).hasSize(1);
-//    }
-
     @Test
     @Disabled
-    /**
-     * TODO: 다시 짜기
-     */
     void 사용자가_주문을_취소한다() {
         // given
         Orders order = orderRepository.save(order());
@@ -201,6 +107,7 @@ class OrdersServiceTest extends SetUpStore {
 
         List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
         assertThat(orderHistories).hasSize(1);
+
         assertOrderHistory(orderHistories.get(0), order.getId(), member.getId(), order.getStore().getId());
 
         List<OrderHistoryMenu> orderHistoryMenus = orderHistoryMenuRepository.findAll();
@@ -224,7 +131,6 @@ class OrdersServiceTest extends SetUpStore {
     }
 
 
-    // TODO: 체크하기
     @Test
     void 사용자가_주문을_취소할_때_주문이_존재하지_않을때() {
         // given
@@ -241,11 +147,6 @@ class OrdersServiceTest extends SetUpStore {
         assertThat(orders.getStore().getId()).isEqualTo(storeId);
     }
 
-    private OrderMenu createOrderMenu(Orders orders, Menu menu) {
-        int count = 3;
-        OrderMenu orderMenu = OrderMenu.of(orders, menu, count);
-        return orderMenuRepository.save(orderMenu);
-    }
 
     private Orders order() {
         return Orders.newOrder(store, member.getId(), paymentMethod);

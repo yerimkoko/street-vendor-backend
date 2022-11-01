@@ -8,7 +8,7 @@ import store.streetvendor.core.config.auth.MemberId;
 import store.streetvendor.core.service.utils.dto.ApiResponse;
 import store.streetvendor.service.order.OrderService;
 import store.streetvendor.core.service.utils.dto.AddNewOrderRequest;
-import store.streetvendor.core.service.utils.dto.order_history.dto.response.OrderAndHistoryResponse;
+import store.streetvendor.core.service.utils.dto.order_history.response.OrderAndHistoryResponse;
 
 import java.util.List;
 

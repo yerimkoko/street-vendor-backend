@@ -1,4 +1,4 @@
-package store.streetvendor.service.store;
+package store.streetvendor;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.domain.store.menu.Menu;
 import store.streetvendor.core.domain.store.storeimage.StoreImage;
-import store.streetvendor.service.SetupBoss;
 
 import java.time.LocalTime;
 import java.util.List;

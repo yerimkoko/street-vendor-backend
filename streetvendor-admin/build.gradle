@@ -7,7 +7,6 @@ dependencies {
 
     implementation project(":streetvendor-core")
     implementation project(":streetvendor-external")
-    implementation project(":streetvendor-api")
 
     // Swagger
     implementation 'io.springfox:springfox-boot-starter:3.0.0'

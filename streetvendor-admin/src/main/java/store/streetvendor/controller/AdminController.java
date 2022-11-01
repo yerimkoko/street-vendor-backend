@@ -1,10 +1,10 @@
 package store.streetvendor.controller;
 
 import org.springframework.web.bind.annotation.PutMapping;
-import store.streetvendor.ApiResponse;
 import store.streetvendor.controller.dto.UpdateStoreRequest;
 import store.streetvendor.controller.dto.request.SignOutMemberRequest;
 import store.streetvendor.controller.dto.request.LoginRequest;
+import store.streetvendor.core.service.utils.dto.ApiResponse;
 import store.streetvendor.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +28,7 @@ public class AdminController {
         return ApiResponse.success(adminService.signOutMember(request));
     }
 
-    @PutMapping("/admin/sign-out-member")
+    @PutMapping("/admin/update-store")
     public ApiResponse<String> updateStore(@RequestBody UpdateStoreRequest request) {
         adminService.updateStoreStatus(request.getStoreId(), request.getAdminId(), request.getSalesStatus());
         return ApiResponse.OK;

@@ -17,7 +17,7 @@ import store.streetvendor.core.domain.store.StoreRepository;
 import store.streetvendor.core.service.utils.MemberServiceUtils;
 import store.streetvendor.core.service.utils.OrderServiceUtils;
 import store.streetvendor.core.service.utils.StoreServiceUtils;
-import store.streetvendor.core.service.utils.dto.order_history.dto.request.AddNewOrderHistoryRequest;
+import store.streetvendor.core.service.utils.dto.order_history.request.AddNewOrderHistoryRequest;
 import store.streetvendor.core.service.utils.dto.response.MemberOrderHistoryResponse;
 import store.streetvendor.core.service.utils.dto.response.OrderListToBossResponse;
 
