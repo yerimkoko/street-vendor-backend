@@ -21,7 +21,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 
 
     @Override
-    public Member findMemberIdByNickName(String nickName) {
+    public Member findMemberByNickName(String nickName) {
         return queryFactory.selectFrom(member)
             .where(
                 member.nickName.eq(nickName)

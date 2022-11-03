@@ -72,10 +72,17 @@ public class MemberService {
         MemberServiceUtils.findByBossId(memberRepository, memberId);
     }
 
+    @Transactional
+    public void changeNickName(Long memberId, String nickName) {
+        validateDuplicatedNickName(nickName);
+        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
+        member.changeNickName(nickName);
+
+    }
 
 
     private void validateDuplicatedNickName(String nickName) {
-        Member member = memberRepository.findMemberIdByNickName(nickName);
+        Member member = memberRepository.findMemberByNickName(nickName);
         if (member != null) {
             throw new DuplicatedException(String.format("(%s)는 이미 사용중인 닉네임 입니다. 다른 닉네임을 입력해주세요.", nickName));
         }

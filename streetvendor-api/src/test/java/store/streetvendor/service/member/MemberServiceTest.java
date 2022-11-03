@@ -4,10 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import store.streetvendor.MemberFixture;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.sign_out_member.SignOutMember;
 import store.streetvendor.core.domain.sign_out_member.SignOutMemberRepository;
+import store.streetvendor.core.exception.ConflictException;
 import store.streetvendor.core.exception.DuplicatedException;
 import store.streetvendor.core.utils.dto.member.request.MemberSignUpRequestDto;
 
@@ -85,6 +87,35 @@ class MemberServiceTest {
         assertThatThrownBy(() -> memberService.signUp(requestDto))
             .isInstanceOf(DuplicatedException.class);
     }
+
+    @Test
+    void 닉네임을_변경한다() {
+        // given
+        Member member = MemberFixture.member();
+        memberRepository.save(member);
+        String newNickName = "뽀미이이";
+
+        // when
+        memberService.changeNickName(member.getId(), newNickName);
+
+        // then
+        List<Member> members = memberRepository.findAll();
+        assertThat(members).hasSize(1);
+        assertThat(members.get(0).getNickName()).isEqualTo(newNickName);
+    }
+
+    @Test
+    void 닉네임이_변경되지_않을때() {
+        // given
+        Member existedMember = createMemberInstance();
+        Member member = MemberFixture.member();
+        memberRepository.save(member);
+
+        // when & then
+        assertThatThrownBy(() -> memberService.changeNickName(member.getId(), existedMember.getNickName()))
+            .isInstanceOf(DuplicatedException.class);
+    }
+
 
     private Member createMemberInstance() {
         String email = "tokki@gmail.com";

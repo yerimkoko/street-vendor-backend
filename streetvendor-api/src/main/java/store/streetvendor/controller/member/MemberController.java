@@ -63,10 +63,18 @@ public class MemberController {
     }
 
     @Auth
-    @ApiOperation(value = "프로필 사진 수정")
+    @ApiOperation(value = "프로필 사진 수정하기")
     @PutMapping("/api/v1/my-page/profileUrl")
     public ApiResponse<String> changeMyProfile(@MemberId Long memberId, @RequestBody String profileUrl) {
         memberService.changeProfileImage(memberId, profileUrl);
+        return ApiResponse.OK;
+    }
+
+    @Auth
+    @ApiOperation(value = "닉네임 수정하기")
+    @PutMapping("/api/v1/my-page/nickname")
+    public ApiResponse<String> changeMyNickName(@MemberId Long memberId, @RequestParam String nickName) {
+        memberService.changeNickName(memberId, nickName);
         return ApiResponse.OK;
     }
 

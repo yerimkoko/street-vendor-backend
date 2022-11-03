@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
+import store.streetvendor.core.exception.DuplicatedException;
 import store.streetvendor.core.exception.NotFoundException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -31,6 +32,14 @@ public class MemberServiceUtils {
         if (member.getBossName() == null || member.getPhoneNumber() == null) {
             throw new NotFoundException("사장님 등록을 먼저 해 주세요.");
         }
+    }
+
+    public static void validateNickName(MemberRepository memberRepository, String nickName) {
+        Member member = memberRepository.findMemberByNickName(nickName);
+        if (member != null) {
+            throw new DuplicatedException(String.format("[%s]는 이미 사용중인 닉네임 입니다. 다른 닉네임을 입력해주세요.", nickName));
+        }
+
     }
 
 }

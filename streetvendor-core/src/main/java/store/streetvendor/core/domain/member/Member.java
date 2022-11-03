@@ -70,6 +70,10 @@ public class Member extends BaseTimeEntity {
         this.profileUrl = profileUrl;
     }
 
+    public void changeNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
     public SignOutMember signOut() {
         return SignOutMember.builder()
             .memberId(this.id)
