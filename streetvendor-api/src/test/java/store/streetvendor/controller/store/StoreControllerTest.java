@@ -11,7 +11,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import store.streetvendor.MemberFixture;
 import store.streetvendor.StoreFixture;
 import store.streetvendor.core.config.auth.AuthInterceptor;
 import store.streetvendor.core.domain.store.*;
@@ -30,7 +29,6 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static store.streetvendor.core.domain.store.menu.MenuSalesStatus.ON_SALE;
 
 
 @WebMvcTest(StoreController.class)
@@ -247,10 +245,10 @@ class StoreControllerTest {
 
         // when & then
         mockMvc.perform(put("/api/v1/store/review/1")
-            .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request))
-            .accept(MediaType.APPLICATION_JSON))
+                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }
 
@@ -269,9 +267,9 @@ class StoreControllerTest {
 
         // when & then
         mockMvc.perform(get("/api/v1/store/review/1")
-            .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON))
+                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data.storeId").value(storeId));
     }
@@ -280,9 +278,9 @@ class StoreControllerTest {
     void 가게_즐겨찾기_추가하기() throws Exception {
         // when & then
         mockMvc.perform(post("/api/v1/star")
-            .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON))
+                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }
 
@@ -290,13 +288,11 @@ class StoreControllerTest {
     void 가게_즐겨찾기_삭제하기() throws Exception {
         // when & then
         mockMvc.perform(delete("/api/v1/star/1")
-            .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON))
+                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }
-
-
 
 
 }

@@ -21,8 +21,9 @@ public class BossOrderController {
 
     private final BossOrderService bossOrderService;
 
+
     @ApiOperation(value = "[사장님] 사장님이 진행중인 주문을 불러온다.")
-    @GetMapping("api/v1/boss/order")
+    @GetMapping("/api/v1/boss/order")
     public ApiResponse<List<MemberOrderHistoryResponse>> getOrders(@RequestParam(required = false) OrderStatus orderStatus,
                                                                    @RequestParam Long storeId,
                                                                    @MemberId Long bossId) {
@@ -39,14 +40,14 @@ public class BossOrderController {
     }
 
     @Auth
-    @ApiOperation(value = "[사장님] 주문 확인하기 API")
+    @ApiOperation(value = "[사장님] 주문 확인하기")
     @GetMapping("/api/v1/orders/{storeId}")
     public ApiResponse<List<OrderListToBossResponse>> checkOrders(@MemberId Long memberId, @PathVariable Long storeId, @RequestParam(required = false) OrderStatus status) {
         return ApiResponse.success(bossOrderService.getAllOrders(storeId, memberId, status));
     }
 
     @Auth
-    @ApiOperation(value = "[사장님] 주문 취소하기 API")
+    @ApiOperation(value = "[사장님] 주문 취소하기")
     @DeleteMapping("/api/v1/{storeId}/orders/{orderId}/cancel")
     public ApiResponse<String> cancelOrder(@MemberId Long memberId, @PathVariable Long storeId, @PathVariable Long orderId) {
         bossOrderService.cancelOrderByBoss(storeId, orderId, memberId);
