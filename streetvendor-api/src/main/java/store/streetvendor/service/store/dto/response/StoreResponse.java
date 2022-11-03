@@ -13,7 +13,7 @@ import store.streetvendor.core.domain.store.StoreSalesStatus;
 @Getter
 public class StoreResponse {
 
-    private long storeId;
+    private Long storeId;
 
     private String storeName;
 
@@ -24,7 +24,7 @@ public class StoreResponse {
     private Location location;
 
     @Builder
-    public StoreResponse(long storeId, String storeName, StoreSalesStatus salesStatus, StoreCategory category, Location location) {
+    public StoreResponse(Long storeId, String storeName, StoreSalesStatus salesStatus, StoreCategory category, Location location) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.salesStatus = salesStatus;

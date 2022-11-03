@@ -2,6 +2,7 @@ package store.streetvendor.controller.store;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,23 +11,26 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import store.streetvendor.MemberFixture;
+import store.streetvendor.StoreFixture;
 import store.streetvendor.core.config.auth.AuthInterceptor;
-import store.streetvendor.core.domain.store.Location;
-import store.streetvendor.core.domain.store.StoreCategory;
-import store.streetvendor.core.domain.store.StoreSalesStatus;
+import store.streetvendor.core.domain.store.*;
+import store.streetvendor.core.domain.store.review.Review;
 import store.streetvendor.service.store.StoreService;
-import store.streetvendor.service.store.dto.request.AddNewStoreRequest;
-import store.streetvendor.service.store.dto.request.StoreImageRequest;
-import store.streetvendor.service.store.dto.request.StoreUpdateRequest;
+import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.MyStoreInfo;
+import store.streetvendor.service.store.dto.response.StoreDetailResponse;
+import store.streetvendor.service.store.dto.response.StoreResponse;
+import store.streetvendor.service.store.dto.response.StoreReviewResponse;
 
 import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static store.streetvendor.core.domain.store.menu.MenuSalesStatus.ON_SALE;
 
 
 @WebMvcTest(StoreController.class)
@@ -76,19 +80,10 @@ class StoreControllerTest {
 
     @Test
     void 내_가게_정보를_불러온다() throws Exception {
-        // given
-        String storeName = "토끼네";
-        Long storeId = 999L;
-        String locationDescription = "신정네거리 3번출구 앞";
-        StoreSalesStatus open = StoreSalesStatus.OPEN;
-
+        // given\
+        Store store = StoreFixture.store();
         BDDMockito.when(storeService.getMyStores(any()))
-            .thenReturn(List.of(MyStoreInfo.builder()
-                .storeName(storeName)
-                .storeId(storeId)
-                .locationDescription(locationDescription)
-                .salesStatus(open)
-                .build()));
+            .thenReturn(List.of(MyStoreInfo.of(store)));
 
         // when & then
         mockMvc.perform(get("/api/v1/my-stores")
@@ -96,10 +91,61 @@ class StoreControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.data[0].storeId").value(storeId))
-            .andExpect(jsonPath("$.data[0].storeName").value(storeName))
-            .andExpect(jsonPath("$.data[0].locationDescription").value(locationDescription))
-            .andExpect(jsonPath("$.data[0].salesStatus").value(open.name()));
+            .andExpect(jsonPath("$.data[0].storeId").value(store.getId()))
+            .andExpect(jsonPath("$.data[0].storeName").value(store.getName()))
+            .andExpect(jsonPath("$.data[0].locationDescription").value(store.getLocationDescription()))
+            .andExpect(jsonPath("$.data[0].salesStatus").value(store.getSalesStatus().name()));
+    }
+
+    @Test
+    @Disabled
+    void 카테고리로_가게_조회하기() throws Exception {
+        // given
+        Store store = StoreFixture.store();
+        StoreCategoryRequest request = StoreCategoryRequest.testBuilder()
+            .latitude(store.getLocation().getLatitude())
+            .distance(2.0)
+            .longitude(store.getLocation().getLongitude())
+            .salesStatus(store.getSalesStatus())
+            .status(store.getStatus())
+            .build();
+
+        StoreCategory category = StoreCategory.BUNG_EO_PPANG;
+
+        BDDMockito.when(storeService.getStoresByCategoryAndLocationAndStoreStatus(request, category))
+            .thenReturn(List.of(StoreResponse.of(store)));
+
+        // when & then
+        mockMvc.perform(get("/api/v1/store/category/" + category)
+                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            // .andExpect(jsonPath("$.data.storeId").value(store.getId()))
+            .andExpect(jsonPath("$.data.locationDescription").value(store.getLocationDescription()))
+            .andExpect(jsonPath("$.data.salesStatus").value(store.getSalesStatus().name()))
+            .andExpect(jsonPath("$.data.storeName").value(store.getName()));
+
+    }
+
+    @Test
+    void 가게의_상세정보를_조회한다() throws Exception {
+        // given
+        Store store = StoreFixture.store();
+        BDDMockito.when(storeService.getStoreDetail(any()))
+            .thenReturn(StoreDetailResponse.of(StoreFixture.store(), StoreFixture.boss()));
+
+        // when & then
+        mockMvc.perform(get("/api/v1/store/detail/999")
+                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data.storeName").value(store.getName()))
+            .andExpect(jsonPath("$.data.storeId").value(store.getId()))
+            .andExpect(jsonPath("$.data.salesStatus").value(store.getSalesStatus().name()))
+            .andExpect(jsonPath("$.data.locationDescription").value(store.getLocationDescription()));
     }
 
     @Test
@@ -139,6 +185,118 @@ class StoreControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }
+
+    @Test
+    void 가게_영업_시작하기() throws Exception {
+        // when & then
+        mockMvc.perform(put("/api/v1/store/sales-status/open/999")
+                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void 가게_영업_종료_하기() throws Exception {
+        // when & then
+        mockMvc.perform(put("/api/v1/store/sales-status/closed/1")
+                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void 메뉴_상태_수정하기() throws Exception {
+        // when & then
+        mockMvc.perform(put("/api/v1/store/1/menu/1/ON_SALE")
+                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void 리뷰_등록하기() throws Exception {
+        // given
+        String comment = "뽀미는 직각직각";
+        Grade grade = Grade.five;
+        AddStoreReviewRequest request = AddStoreReviewRequest.builder()
+            .comment(comment)
+            .grade(grade)
+            .build();
+
+        // when & then
+        mockMvc.perform(post("/api/v1/store/review/1")
+                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void 리뷰_수정하기() throws Exception {
+        String comment = "뽀미는 사실은 세모였어요";
+        Grade grade = Grade.five;
+        UpdateStoreReviewRequest request = UpdateStoreReviewRequest.builder()
+            .comment(comment)
+            .grade(grade)
+            .build();
+
+        // when & then
+        mockMvc.perform(put("/api/v1/store/review/1")
+            .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request))
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void 가게_리뷰_조회하기() throws Exception {
+        // given
+        Store store = StoreFixture.store();
+        Long storeId = 1L;
+        Long memberId = 1L;
+        StoreReviewResponse response = StoreReviewResponse.of(
+            storeId,
+            List.of(Review.of(store, memberId, Grade.five, "최고의 가게")));
+
+        BDDMockito.when(storeService.getStoreReviews(storeId))
+            .thenReturn(response);
+
+        // when & then
+        mockMvc.perform(get("/api/v1/store/review/1")
+            .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data.storeId").value(storeId));
+    }
+
+    @Test
+    void 가게_즐겨찾기_추가하기() throws Exception {
+        // when & then
+        mockMvc.perform(post("/api/v1/star")
+            .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void 가게_즐겨찾기_삭제하기() throws Exception {
+        // when & then
+        mockMvc.perform(delete("/api/v1/star/1")
+            .header(HttpHeaders.AUTHORIZATION, "TOKEN")
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    }
+
+
 
 
 }

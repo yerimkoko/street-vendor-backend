@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import store.streetvendor.core.config.auth.Auth;
 import store.streetvendor.core.config.auth.MemberId;
+import store.streetvendor.core.domain.store.StoreCategory;
 import store.streetvendor.core.utils.dto.ApiResponse;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
 import store.streetvendor.service.store.StoreService;
@@ -95,11 +96,12 @@ public class StoreController {
     }
 
     @ApiOperation(value = "카테고리로 가게 조회하기")
-    @GetMapping("/api/v1/store/{category}")
-    public ApiResponse<List<StoreResponse>> storesByCategory(StoreCategoryRequest request) {
-        return ApiResponse.success(storeService.getStoresByCategoryAndLocationAndStoreStatus(request));
+    @GetMapping("/api/v1/store/category/{category}")
+    public ApiResponse<List<StoreResponse>> storesByCategory(@RequestBody StoreCategoryRequest request, @PathVariable StoreCategory category) {
+        return ApiResponse.success(storeService.getStoresByCategoryAndLocationAndStoreStatus(request, category));
     }
 
+    @Auth
     @ApiOperation(value = "메뉴 상태 수정하기(soldOut, onSales)")
     @PutMapping("/api/v1/store/{storeId}/menu/{menuId}/{menuSalesStatus}")
     public ApiResponse<String> changeMenuStatus(@MemberId Long bossId, @PathVariable Long storeId, @PathVariable Long menuId, @PathVariable MenuSalesStatus menuSalesStatus) {
@@ -107,6 +109,7 @@ public class StoreController {
         return ApiResponse.OK;
     }
 
+    @Auth
     @ApiOperation(value = "리뷰 등록하기")
     @PostMapping("/api/v1/store/review/{storeId}")
     public ApiResponse<String> addNewEvaluation(@MemberId Long memberId, @PathVariable Long storeId, @RequestBody AddStoreReviewRequest request) {
@@ -114,6 +117,7 @@ public class StoreController {
         return ApiResponse.OK;
     }
 
+    @Auth
     @ApiOperation(value = "리뷰 수정하기")
     @PutMapping("/api/v1/store/review/{storeId}")
     public ApiResponse<String> updateReview(@MemberId Long memberId, @PathVariable Long storeId, @RequestBody UpdateStoreReviewRequest request) {
@@ -121,6 +125,7 @@ public class StoreController {
         return ApiResponse.OK;
     }
 
+    @Auth
     @ApiOperation(value = "리뷰 삭제하기")
     @DeleteMapping("/api/v1/store/review")
     public ApiResponse<String> deleteReview(@MemberId Long memberId, @RequestParam Long storeId, @RequestParam Long reviewId) {

@@ -481,10 +481,10 @@ class StoreServiceTest extends SetupBoss {
         Double distance = 999.00;
 
         createSalesStore(boss);
-        StoreCategoryRequest request = new StoreCategoryRequest(category, open, status, latitude, longitude, distance);
+        StoreCategoryRequest request = new StoreCategoryRequest(open, status, latitude, longitude, distance);
 
         // when
-        storeService.getStoresByCategoryAndLocationAndStoreStatus(request);
+        storeService.getStoresByCategoryAndLocationAndStoreStatus(request, category);
 
         // then
         List<Store> stores = storeRepository.findAll();

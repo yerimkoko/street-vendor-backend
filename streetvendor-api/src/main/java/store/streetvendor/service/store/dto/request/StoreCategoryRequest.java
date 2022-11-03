@@ -1,5 +1,6 @@
 package store.streetvendor.service.store.dto.request;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.store.StoreCategory;
@@ -12,8 +13,6 @@ public class StoreCategoryRequest {
 
     private static final double DISTANCE_LIMIT = 2;
 
-    private StoreCategory category;
-
     private StoreSalesStatus salesStatus;
 
     private StoreStatus status;
@@ -24,12 +23,13 @@ public class StoreCategoryRequest {
 
     private Double distance;
 
-    public StoreCategoryRequest(StoreCategory category, StoreSalesStatus salesStatus, StoreStatus status, Double latitude, Double longitude, Double distance) {
-        this.category = category;
+    @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
+    public StoreCategoryRequest(StoreSalesStatus salesStatus, StoreStatus status, Double latitude, Double longitude, Double distance) {
         this.salesStatus = salesStatus;
         this.status = status;
         this.latitude = latitude;
         this.longitude = longitude;
         this.distance = distance;
     }
+
 }
