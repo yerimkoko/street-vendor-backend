@@ -25,7 +25,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .httpBasic();
     }
 
-
     // Security 무시하기
     public void configure(WebSecurity web) throws Exception{
         web.ignoring().antMatchers("/h2-console/**");
