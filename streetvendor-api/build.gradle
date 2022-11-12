@@ -2,7 +2,7 @@ dependencies {
     // Web MVC
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    // Domain Module
+    // Core Module
     implementation project(":streetvendor-core")
     implementation project(":streetvendor-external")
 

@@ -29,8 +29,6 @@ public class AdminService {
 
     private final MemberRepository memberRepository;
 
-    private final StoreRepository storeRepository;
-
     private final SignOutMemberRepository signOutMemberRepository;
 
     private final HttpSession httpSession;
