@@ -13,7 +13,7 @@ import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.store.StoreRepository;
 import store.streetvendor.core.utils.OrderServiceUtils;
-import store.streetvendor.core.utils.dto.AddNewOrderRequest;
+import store.streetvendor.core.utils.dto.request.AddNewOrderRequest;
 import store.streetvendor.core.utils.StoreServiceUtils;
 import store.streetvendor.core.utils.dto.order_history.response.OrderAndHistoryResponse;
 
