@@ -38,5 +38,5 @@ out/
 
 generated/
 
-# secret 정보
+# secret정
 application-secret.yml

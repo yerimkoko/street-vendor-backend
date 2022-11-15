@@ -127,18 +127,10 @@ public class StoreService {
         store.changeMenuSalesStatus(menuId, salesStatus);
 
     }
-
     private List<MyStoreInfo> getMyStores(List<Store> stores) {
         return stores.stream()
             .map(MyStoreInfo::of)
             .collect(Collectors.toList());
-    }
-
-    @Transactional
-    public StoreInfoWhenOrderResponse getOrderMenusInStore(Long storeId) {
-        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        return StoreInfoWhenOrderResponse.of(store);
-
     }
 
     @Transactional

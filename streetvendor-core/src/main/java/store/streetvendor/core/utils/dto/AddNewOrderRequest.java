@@ -1,4 +1,4 @@
-package store.streetvendor.core.utils.dto.request;
+package store.streetvendor.core.utils.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -41,9 +41,6 @@ public class AddNewOrderRequest {
         List<OrderMenu> orderMenus = this.menus.stream()
             .map(orderMenu -> orderMenu.toEntity(order, store))
             .collect(Collectors.toList());
-
-        orderMenus.forEach(OrderMenu::addOrderCount);
-
         order.addMenus(orderMenus);
         return order;
     }

@@ -21,8 +21,7 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
             .where(
                 store.id.eq(id),
                 store.status.eq(StoreStatus.ACTIVE)
-            )
-            .fetchOne();
+            ).fetchOne();
     }
 
     @Override

@@ -7,7 +7,7 @@ import store.streetvendor.core.domain.order.OrderStatus;
 import store.streetvendor.core.domain.order.OrderStatusCanceled;
 import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.core.domain.store.Store;
-import store.streetvendor.core.utils.dto.request.OrderMenusRequest;
+import store.streetvendor.core.utils.dto.OrderMenusRequest;
 
 import java.util.List;
 
