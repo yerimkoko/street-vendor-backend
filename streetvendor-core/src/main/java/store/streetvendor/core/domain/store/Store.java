@@ -2,6 +2,7 @@ package store.streetvendor.core.domain.store;
 
 import lombok.*;
 import store.streetvendor.core.domain.BaseTimeEntity;
+import store.streetvendor.core.domain.store.storemenu.StoreMenu;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.store.menu.Menu;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
@@ -67,6 +68,9 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Star> stars = new ArrayList<>();
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<StoreMenu> storeMenus = new ArrayList<>();
+
 
     @Builder
     private Store(Long memberId, String name, Location location, StoreSalesStatus salesStatus, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
@@ -106,12 +110,6 @@ public class Store extends BaseTimeEntity {
             .build();
     }
 
-    public static Store testStore(Long memberId, String name) {
-        return Store.builder()
-            .memberId(memberId)
-            .name(name)
-            .build();
-    }
 
     public Menu findMenu(Long menuId) {
         return this.menus.stream()
@@ -233,14 +231,6 @@ public class Store extends BaseTimeEntity {
     public void deleteReview(Long reviewId, Long memberId) {
         this.reviews.remove(findReview(reviewId, memberId));
     }
-
-    public Star findStar(Long memberId) {
-        return this.stars.stream()
-            .filter(s -> s.getMemberId().equals(memberId))
-            .findFirst()
-            .orElseThrow(null);
-    }
-
 
     public void changeMenuSalesStatus(Long menuId, MenuSalesStatus salesStatus) {
         this.menus.stream()

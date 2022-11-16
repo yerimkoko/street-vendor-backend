@@ -42,8 +42,6 @@ public class AddNewOrderRequest {
             .map(orderMenu -> orderMenu.toEntity(order, store))
             .collect(Collectors.toList());
 
-        orderMenus.forEach(OrderMenu::addOrderCount);
-
         order.addMenus(orderMenus);
         return order;
     }

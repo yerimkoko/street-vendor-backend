@@ -71,7 +71,6 @@ class OrdersServiceTest extends SetUpStore {
         assertThat(orderMenus).hasSize(1);
         assertThat(orderMenus.get(0).getMenu().getId()).isEqualTo(menu.getId());
         assertThat(orderMenus.get(0).getTotalPrice()).isEqualTo(menu.getPrice() * createMenuRequest().getCount());
-        assertThat(orderMenus.get(0).getNumberOfOrders()).isEqualTo(1);
 
     }
 

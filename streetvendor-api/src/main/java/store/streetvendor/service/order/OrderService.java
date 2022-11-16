@@ -35,6 +35,7 @@ public class OrderService {
 
     private final OrderHistoryRepository orderHistoryRepository;
 
+
     @Transactional
     public void addNewOrder(AddNewOrderRequest request, Long memberId) {
         Store store = storeRepository.findOpenedStoreByStoreIdAndLocationAndDistanceLessThan(request.getStoreId(), request.getLocation().getLatitude(),
@@ -46,6 +47,7 @@ public class OrderService {
         }
 
         orderRepository.save(request.toEntity(store, memberId, request.getPaymentMethod()));
+
     }
 
 
