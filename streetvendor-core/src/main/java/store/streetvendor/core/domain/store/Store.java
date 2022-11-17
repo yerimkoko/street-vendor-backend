@@ -37,10 +37,8 @@ public class Store extends BaseTimeEntity {
     @Embedded
     private Location location;
 
-    @Column
     private String storeDescription;
 
-    @Column
     private String locationDescription;
 
     @Enumerated(EnumType.STRING)
@@ -111,6 +109,7 @@ public class Store extends BaseTimeEntity {
             .category(category)
             .build();
     }
+
 
     public Menu findMenu(Long menuId) {
         return this.menus.stream()
@@ -232,14 +231,6 @@ public class Store extends BaseTimeEntity {
     public void deleteReview(Long reviewId, Long memberId) {
         this.reviews.remove(findReview(reviewId, memberId));
     }
-
-    public Star findStar(Long memberId) {
-        return this.stars.stream()
-            .filter(s -> s.getMemberId().equals(memberId))
-            .findFirst()
-            .orElseThrow(null);
-    }
-
 
     public void changeMenuSalesStatus(Long menuId, MenuSalesStatus salesStatus) {
         this.menus.stream()

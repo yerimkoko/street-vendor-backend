@@ -41,6 +41,7 @@ public class AddNewOrderRequest {
         List<OrderMenu> orderMenus = this.menus.stream()
             .map(orderMenu -> orderMenu.toEntity(order, store))
             .collect(Collectors.toList());
+
         order.addMenus(orderMenus);
         return order;
     }

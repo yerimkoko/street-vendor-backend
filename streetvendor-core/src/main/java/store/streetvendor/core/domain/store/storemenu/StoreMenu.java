@@ -1,6 +1,5 @@
 package store.streetvendor.core.domain.store.storemenu;
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,19 +7,13 @@ import store.streetvendor.core.domain.BaseTimeEntity;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.menu.Menu;
-import store.streetvendor.core.domain.store.storemenu.storebadge.BadgeType;
-import store.streetvendor.core.domain.store.storemenu.storebadge.StoreMenuBadge;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@Getter
 public class StoreMenu extends BaseTimeEntity {
-
-    private static final int ORDER_COUNT = 20;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,18 +27,15 @@ public class StoreMenu extends BaseTimeEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column
+    @Column(nullable = false)
     private long orderMenuCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
-    @OneToMany(mappedBy = "store_menu_badge_id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<StoreMenuBadge> storeMenuBadges = new ArrayList<>();
-
     @Builder
-    public StoreMenu(Store store, Member member, Menu menu, long orderMenuCount) {
+    public StoreMenu(Store store, Member member, long orderMenuCount, Menu menu) {
         this.store = store;
         this.member = member;
         this.orderMenuCount = orderMenuCount;
@@ -56,17 +46,9 @@ public class StoreMenu extends BaseTimeEntity {
         return StoreMenu.builder()
             .store(store)
             .member(member)
-            .orderMenuCount(1)
             .menu(menu)
+            .orderMenuCount(1)
             .build();
-    }
-
-    public void addOrderMenuCount() {
-        this.orderMenuCount += 1;
-    }
-
-    private void addBestBadge() {
-        this.storeMenuBadges.add(StoreMenuBadge.of(this, BadgeType.BEST));
     }
 
 }

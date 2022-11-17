@@ -10,13 +10,11 @@ import store.streetvendor.core.domain.order_history.OrderHistoryMenu;
 import store.streetvendor.core.domain.order_history.OrderHistoryMenuRepository;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.store.Store;
-import store.streetvendor.core.domain.store.storemenu.StoreMenu;
-import store.streetvendor.core.domain.store.storemenu.StoreMenuRepository;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.store.StoreRepository;
 import store.streetvendor.core.utils.OrderServiceUtils;
-import store.streetvendor.core.utils.dto.AddNewOrderRequest;
 import store.streetvendor.core.utils.StoreServiceUtils;
+import store.streetvendor.core.utils.dto.AddNewOrderRequest;
 import store.streetvendor.core.utils.dto.order_history.response.OrderAndHistoryResponse;
 
 import java.util.Comparator;
@@ -37,6 +35,7 @@ public class OrderService {
 
     private final OrderHistoryRepository orderHistoryRepository;
 
+
     @Transactional
     public void addNewOrder(AddNewOrderRequest request, Long memberId) {
         Store store = storeRepository.findOpenedStoreByStoreIdAndLocationAndDistanceLessThan(request.getStoreId(), request.getLocation().getLatitude(),
@@ -48,7 +47,6 @@ public class OrderService {
         }
 
         orderRepository.save(request.toEntity(store, memberId, request.getPaymentMethod()));
-
 
     }
 
