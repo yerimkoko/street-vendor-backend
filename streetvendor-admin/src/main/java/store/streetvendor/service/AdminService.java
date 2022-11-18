@@ -13,11 +13,7 @@ import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.exception.DuplicatedException;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.sign_out_member.SignOutMemberRepository;
-import store.streetvendor.core.domain.store.Store;
-import store.streetvendor.core.domain.store.StoreRepository;
-import store.streetvendor.core.domain.store.StoreSalesStatus;
-import store.streetvendor.core.utils.MemberServiceUtils;
-import store.streetvendor.core.utils.StoreServiceUtils;
+import store.streetvendor.core.utils.service.MemberServiceUtils;
 
 import javax.servlet.http.HttpSession;
 

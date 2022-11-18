@@ -11,7 +11,12 @@ spring:
         dialect: org.hibernate.dialect.MySQL57Dialect
         connection.provider_disables_autocommit: true
     open-in-view: false
+  redis:
+    host: localhost
+    port: 6379
+
 ---
+# local
 spring:
   config:
     activate:
@@ -37,6 +42,7 @@ spring:
 
 
 ---
+# dev
 spring:
   config:
     activate:
@@ -50,4 +56,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
 ---

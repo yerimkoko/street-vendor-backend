@@ -9,7 +9,7 @@ import store.streetvendor.core.domain.order.OrderRepository;
 import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
-import store.streetvendor.core.utils.MemberServiceUtils;
+import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.dto.response.MemberOrderHistoryResponse;
 
 import java.util.*;

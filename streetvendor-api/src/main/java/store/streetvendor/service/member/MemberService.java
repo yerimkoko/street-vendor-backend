@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
-import store.streetvendor.core.utils.MemberServiceUtils;
+import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.domain.sign_out_member.SignOutMemberRepository;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.StoreRepository;

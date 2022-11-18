@@ -1,4 +1,4 @@
-package store.streetvendor.core.utils;
+package store.streetvendor.core.utils.service;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
