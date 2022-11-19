@@ -188,4 +188,8 @@ public class StoreService {
         star.delete();
     }
 
+    public void updateBadge() {
+
+    }
+
 }

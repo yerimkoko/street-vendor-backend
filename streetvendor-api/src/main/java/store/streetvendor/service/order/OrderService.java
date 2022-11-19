@@ -9,6 +9,7 @@ import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryMenu;
 import store.streetvendor.core.domain.order_history.OrderHistoryMenuRepository;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
+import store.streetvendor.core.domain.redis.StoreMenuOrderCountRepository;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.store.StoreRepository;
@@ -35,6 +36,8 @@ public class OrderService {
 
     private final OrderHistoryRepository orderHistoryRepository;
 
+    private final StoreMenuOrderCountRepository storeMenuOrderCountRepository;
+
 
     @Transactional
     public void addNewOrder(AddNewOrderRequest request, Long memberId) {
@@ -47,6 +50,10 @@ public class OrderService {
         }
 
         orderRepository.save(request.toEntity(store, memberId, request.getPaymentMethod()));
+
+        request.getMenus()
+            .forEach(r -> storeMenuOrderCountRepository
+                .increaseByCount(store.getId(), r.getMenuId(), r.getCount()));
 
     }
 

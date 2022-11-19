@@ -1,7 +1,6 @@
 package store.streetvendor.service.order;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +9,7 @@ import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryMenu;
 import store.streetvendor.core.domain.order_history.OrderHistoryMenuRepository;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
+import store.streetvendor.core.domain.redis.StoreMenuOrderCountRepository;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.utils.dto.AddNewOrderRequest;
@@ -38,6 +38,9 @@ class OrdersServiceTest extends SetUpStore {
 
     @Autowired
     private OrderMenuRepository orderMenuRepository;
+
+    @Autowired
+    private StoreMenuOrderCountRepository storeMenuOrderCountRepository;
 
     @AfterEach
     void cleanUp() {
@@ -72,6 +75,9 @@ class OrdersServiceTest extends SetUpStore {
         assertThat(orderMenus).hasSize(1);
         assertThat(orderMenus.get(0).getMenu().getId()).isEqualTo(menu.getId());
         assertThat(orderMenus.get(0).getTotalPrice()).isEqualTo(menu.getPrice() * createMenuRequest().getCount());
+
+        Long count = storeMenuOrderCountRepository.getCount(store.getId(), menu.getId());
+        assertThat(count).isEqualTo(createMenuRequest().getCount());
 
     }
 
