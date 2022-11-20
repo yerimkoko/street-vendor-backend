@@ -623,7 +623,7 @@ class StoreServiceTest extends SetupBoss {
         Star star = createStar(store, memberId);
 
         // when
-        storeService.deleteStar(star.getId());
+        storeService.deleteStar(star.getId(), memberId);
 
         // then
         List<Star> stars = starRepository.findAll();

@@ -9,14 +9,15 @@ import static store.streetvendor.core.domain.store.star.QStar.star;
 
 
 @RequiredArgsConstructor
-public class StarRepositoryCustomImpl implements StarRepositoryCustom{
+public class StarRepositoryCustomImpl implements StarRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Star findByStarId(Long starId) {
+    public Star findByStarIdAndMemberId(Long starId, Long memberId) {
         return jpaQueryFactory.selectFrom(star)
-            .where(star.id.eq(starId))
+            .where(star.id.eq(starId),
+                star.memberId.eq(memberId))
             .fetchOne();
     }
 

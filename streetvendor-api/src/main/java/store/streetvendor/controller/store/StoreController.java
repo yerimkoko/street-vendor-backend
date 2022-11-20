@@ -157,8 +157,8 @@ public class StoreController {
     @Auth
     @ApiOperation(value = "가게 즐겨찾기 삭제하기")
     @DeleteMapping("/api/v1/star/{starId}")
-    public ApiResponse<String> deleteStar(@PathVariable Long starId) {
-        storeService.deleteStar(starId);
+    public ApiResponse<String> deleteStar(@PathVariable Long starId, @MemberId Long memberId) {
+        storeService.deleteStar(starId, memberId);
         return ApiResponse.OK;
     }
 

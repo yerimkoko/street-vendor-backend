@@ -180,8 +180,8 @@ public class StoreService {
     }
 
     @Transactional
-    public void deleteStar(Long starId) {
-        Star star = starRepository.findByStarId(starId);
+    public void deleteStar(Long memberId, Long starId) {
+        Star star = starRepository.findByStarIdAndMemberId(starId, memberId);
         if (star == null) {
             throw new NotFoundException(String.format("[%s]에 해당하는 가게는 존재하지 않습니다.", starId));
         }
@@ -190,6 +190,8 @@ public class StoreService {
 
     public void updateBadge() {
 
+
     }
+
 
 }

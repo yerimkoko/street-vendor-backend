@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface StarRepositoryCustom {
 
-    Star findByStarId(Long starId);
+    Star findByStarIdAndMemberId(Long starId, Long memberId);
 
     List<Star> findMyStars(Long memberId);
 
