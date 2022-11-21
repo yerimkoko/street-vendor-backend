@@ -619,11 +619,10 @@ class StoreServiceTest extends SetupBoss {
     void 가게_즐겨찾기를_제거한다() {
         // given
         Store store = createStore(boss);
-        Long memberId = 999L;
-        Star star = createStar(store, memberId);
+        Star star = createStar(store, member.getId());
 
         // when
-        storeService.deleteStar(star.getId(), memberId);
+        storeService.deleteStar(star.getMemberId(), star.getId());
 
         // then
         List<Star> stars = starRepository.findAll();
