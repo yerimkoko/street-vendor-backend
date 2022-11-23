@@ -78,6 +78,4 @@ public class MemberController {
         return ApiResponse.OK;
     }
 
-
-
 }

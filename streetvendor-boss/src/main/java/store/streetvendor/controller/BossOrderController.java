@@ -67,7 +67,7 @@ public class BossOrderController {
     @PutMapping("/api/v1/orders/readyToPickUp")
     public ApiResponse<String> changeStatusToReadyToPickUp(@MemberId Long memberId, @RequestBody AddNewOrderHistoryRequest request) {
         bossOrderService.changeStatusToReadyToPickUp(memberId, request);
-        return ApiResponse.success("주문의 상태가 (pick_up 준비가 완료 되었습니다)");
+        return ApiResponse.success("pick_up 준비가 완료 되었습니다)");
     }
 
 

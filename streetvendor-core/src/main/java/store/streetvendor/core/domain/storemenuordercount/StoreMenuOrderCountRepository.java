@@ -1,4 +1,4 @@
-package store.streetvendor.core.domain.redis;
+package store.streetvendor.core.domain.storemenuordercount;
 
 public interface StoreMenuOrderCountRepository {
 

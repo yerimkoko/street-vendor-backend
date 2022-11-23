@@ -1,6 +1,5 @@
 package store.streetvendor.controller;
 
-import io.swagger.v3.oas.models.links.Link;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

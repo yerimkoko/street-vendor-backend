@@ -12,6 +12,7 @@ import store.streetvendor.core.exception.DuplicatedException;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
 import store.streetvendor.core.domain.store.review.Review;
 import store.streetvendor.core.domain.store.star.StarRepository;
+import store.streetvendor.core.redis.storecount.StoreCountRepository;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
 import store.streetvendor.service.store.dto.request.*;
@@ -30,6 +31,8 @@ public class StoreService {
     private final StarRepository starRepository;
 
     private final MemberRepository memberRepository;
+
+    private final StoreCountRepository storeCountRepository;
 
     @Transactional
     public void addNewStore(AddNewStoreRequest request, Long memberId) {
@@ -62,10 +65,13 @@ public class StoreService {
         store.delete();
     }
 
+
+    // TODO: Redis로 조회 기능.
     @Transactional(readOnly = true)
     public StoreDetailResponse getStoreDetail(Long storeId) {
         Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
         Member member = MemberServiceUtils.findByMemberId(memberRepository, store.getMemberId());
+        storeCountRepository.incrByCount(store.getId());
         return StoreDetailResponse.of(store, member);
     }
 

@@ -1,9 +1,7 @@
-package store.streetvendor.core.domain.order_history;
+package store.streetvendor.core.domain.storemenuordercount;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import store.streetvendor.core.domain.redis.StoreMenuOrderCountKey;
-import store.streetvendor.core.domain.redis.StoreMenuOrderCountRepository;
 import store.streetvendor.core.redis.StringRedisRepository;
 
 @RequiredArgsConstructor

@@ -18,6 +18,8 @@ import store.streetvendor.core.domain.store.review.ReviewRepository;
 import store.streetvendor.core.domain.store.star.Star;
 import store.streetvendor.core.domain.store.star.StarRepository;
 import store.streetvendor.core.domain.store.storeimage.StoreImageRepository;
+import store.streetvendor.core.redis.storecount.StoreCountKey;
+import store.streetvendor.core.redis.storecount.StoreCountRepository;
 import store.streetvendor.service.SetupBoss;
 import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.StoreDetailResponse;
@@ -56,6 +58,9 @@ class StoreServiceTest extends SetupBoss {
 
     @Autowired
     private StarRepository starRepository;
+
+    @Autowired
+    private StoreCountRepository storeCountRepository;
 
 
     @AfterEach
@@ -363,6 +368,25 @@ class StoreServiceTest extends SetupBoss {
         // when & then
         assertThatThrownBy(() -> storeService.updateMyStore(boss.getId(), store.getId() + 1, request))
             .isInstanceOf(NotFoundException.class);
+    }
+
+    @Test
+    void 가게를_상세조회한다() {
+        // given
+        Store store = storeFixture(boss.getId());
+        storeRepository.save(store);
+
+        // when
+        storeService.getStoreDetail(store.getId());
+
+        // then
+        List<Store> stores = storeRepository.findAll();
+        assertThat(stores).hasSize(1);
+        assertStore(stores.get(0), store.getName(), store.getLocation(), store.getStoreDescription(), store.getMemberId(), store.getCategory());
+
+        Long value = storeCountRepository.getValueByKey(new StoreCountKey(store.getId()));
+        assertThat(value).isEqualTo(1);
+
     }
 
     @Test
