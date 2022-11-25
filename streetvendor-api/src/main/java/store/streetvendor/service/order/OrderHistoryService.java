@@ -3,12 +3,14 @@ package store.streetvendor.service.order;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.order.OrderRepository;
 import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
+import store.streetvendor.core.utils.dto.order_history.response.OrderDetailResponse;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.dto.response.MemberOrderHistoryResponse;
 
@@ -52,4 +54,11 @@ public class OrderHistoryService {
             .map(MemberOrderHistoryResponse::orderOf)
             .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public OrderDetailResponse getOrderDetail(Long memberId, Long orderId) {
+        Orders order = orderRepository.findByOrderAndMemberId(orderId, memberId);
+        return OrderDetailResponse.of(order, order.getStore());
+    }
+
 }
