@@ -6,6 +6,8 @@ public interface StoreMenuOrderCountRepository {
 
     Long getCount(Long storeId, Long menuId);
 
+    void decreaseByCount(Long storeId, Long menuId, int count);
+
 
 
 }

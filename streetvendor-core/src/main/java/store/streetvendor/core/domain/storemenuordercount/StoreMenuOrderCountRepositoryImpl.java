@@ -27,4 +27,14 @@ public class StoreMenuOrderCountRepositoryImpl implements StoreMenuOrderCountRep
             .build();
         return stringRedisRepository.get(key);
     }
+
+    @Override
+    public void decreaseByCount(Long storeId, Long menuId, int count) {
+        StoreMenuOrderCountKey key = StoreMenuOrderCountKey.builder()
+            .storeId(storeId)
+            .menuId(menuId)
+            .build();
+        stringRedisRepository.decr(key);
+
+    }
 }

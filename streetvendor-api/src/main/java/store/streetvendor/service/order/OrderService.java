@@ -78,6 +78,10 @@ public class OrderService {
 
         orderRepository.delete(order);
 
+        order.getOrderMenus()
+            .forEach(r -> storeMenuOrderCountRepository
+                .decreaseByCount(store.getId(), r.getMenu().getId(), r.getCount()));
+
     }
 
     @Transactional

@@ -105,6 +105,7 @@ class OrdersServiceTest extends SetUpStore {
         Orders order = orderRepository.save(order());
         order.addMenu(OrderMenu.of(order, menu, 1));
         orderRepository.save(order);
+        storeMenuOrderCountRepository.increaseByCount(store.getId(), menu.getId(), 1);
 
         // when
         orderService.cancelOrderByUser(order.getId(), member.getId());
@@ -115,13 +116,16 @@ class OrdersServiceTest extends SetUpStore {
 
         List<OrderHistory> orderHistories = orderHistoryRepository.findAll();
         assertThat(orderHistories).hasSize(1);
-
         assertOrderHistory(orderHistories.get(0), member.getId(), order.getStore().getId());
 
         List<OrderHistoryMenu> orderHistoryMenus = orderHistoryMenuRepository.findAll();
         assertThat(orderHistoryMenus).hasSize(1);
 
         assertOrderHistoryMenu(orderHistoryMenus.get(0));
+
+        Long count = storeMenuOrderCountRepository.getCount(store.getId(), menu.getId());
+        assertThat(count).isEqualTo(0);
+
 
     }
 
