@@ -9,18 +9,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
-import store.streetvendor.StoreFixture;
 import store.streetvendor.core.config.auth.AuthInterceptor;
-import store.streetvendor.core.domain.member.QMember;
-import store.streetvendor.core.domain.order.OrderMenu;
 import store.streetvendor.core.utils.dto.order_history.response.OrderDetailResponse;
 import store.streetvendor.service.order.OrderHistoryService;
-import store.streetvendor.service.order.SetUpOrder;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,9 +26,6 @@ class OrderHistoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @MockBean
     private OrderHistoryService orderHistoryService;
@@ -72,8 +63,6 @@ class OrderHistoryControllerTest {
             .andExpect(jsonPath("$.data.orderId").value(orderId))
             .andExpect(jsonPath("$.data.totalPrice").value(totalPrice))
             .andExpect(jsonPath("$.data.storeId").value(storeId));
-
-
 
     }
 

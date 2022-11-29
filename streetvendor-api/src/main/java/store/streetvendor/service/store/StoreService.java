@@ -66,7 +66,6 @@ public class StoreService {
     }
 
 
-    // TODO: Redis로 조회 기능.
     @Transactional(readOnly = true)
     public StoreDetailResponse getStoreDetail(Long storeId) {
         Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
@@ -142,14 +141,14 @@ public class StoreService {
     @Transactional
     public void addEvaluation(Long memberId, Long storeId, AddStoreReviewRequest request) {
         Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        store.addReview(Review.of(store, memberId, request.getGrade(), request.getComment()));
+        store.addReview(Review.of(store, memberId, request.getRate(), request.getComment()));
         storeRepository.save(store);
     }
 
     @Transactional
     public void updateReview(Long memberId, Long storeId, UpdateStoreReviewRequest request) {
         Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        store.updateReview(request.getReviewId(), Review.of(store, memberId, request.getGrade(), request.getComment()), memberId);
+        store.updateReview(request.getReviewId(), Review.of(store, memberId, request.getRate(), request.getComment()), memberId);
     }
 
     @Transactional

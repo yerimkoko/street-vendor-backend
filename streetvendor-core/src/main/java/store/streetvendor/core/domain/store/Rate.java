@@ -1,7 +1,7 @@
 package store.streetvendor.core.domain.store;
 
 
-public enum Grade {
+public enum Rate {
     one(1),
     two(2),
     three(3),
@@ -10,7 +10,7 @@ public enum Grade {
 
     private final int value;
 
-    Grade(int value) {
+    Rate(int value) {
         this.value = value;
     }
     public int getValue() {

@@ -218,10 +218,10 @@ class StoreControllerTest {
     void 리뷰_등록하기() throws Exception {
         // given
         String comment = "뽀미는 직각직각";
-        Grade grade = Grade.five;
+        Rate rate = Rate.five;
         AddStoreReviewRequest request = AddStoreReviewRequest.builder()
             .comment(comment)
-            .grade(grade)
+            .rate(rate)
             .build();
 
         // when & then
@@ -237,10 +237,10 @@ class StoreControllerTest {
     @Test
     void 리뷰_수정하기() throws Exception {
         String comment = "뽀미는 사실은 세모였어요";
-        Grade grade = Grade.five;
+        Rate rate = Rate.five;
         UpdateStoreReviewRequest request = UpdateStoreReviewRequest.builder()
             .comment(comment)
-            .grade(grade)
+            .rate(rate)
             .build();
 
         // when & then
@@ -260,7 +260,7 @@ class StoreControllerTest {
         Long memberId = 1L;
         StoreReviewResponse response = StoreReviewResponse.of(
             storeId,
-            List.of(Review.of(store, memberId, Grade.five, "최고의 가게")));
+            List.of(Review.of(store, memberId, Rate.five, "최고의 가게")));
 
         BDDMockito.when(storeService.getStoreReviews(storeId))
             .thenReturn(response);

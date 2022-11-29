@@ -50,7 +50,7 @@ public class StoreAndMemberAndStarResponse {
             .status(star.getStore().getStatus())
             .reviewCount(star.getStore().getReviews().size())
             .averageGrade((double) star.getStore().getReviews().stream()
-                .map(review -> review.getGrade().getValue()).count() / star.getStore().getReviews().size()
+                .map(review -> review.getRate().getValue()).count() / star.getStore().getReviews().size()
             )
             .build();
     }

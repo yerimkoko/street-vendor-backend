@@ -3,7 +3,7 @@ package store.streetvendor.service.store.dto.request;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.core.domain.store.Grade;
+import store.streetvendor.core.domain.store.Rate;
 
 @NoArgsConstructor
 @Getter
@@ -13,12 +13,12 @@ public class UpdateStoreReviewRequest {
 
     private String comment;
 
-    private Grade grade;
+    private Rate rate;
 
     @Builder
-    public UpdateStoreReviewRequest(Long reviewId, String comment, Grade grade) {
+    public UpdateStoreReviewRequest(Long reviewId, String comment, Rate rate) {
         this.reviewId = reviewId;
         this.comment = comment;
-        this.grade = grade;
+        this.rate = rate;
     }
 }

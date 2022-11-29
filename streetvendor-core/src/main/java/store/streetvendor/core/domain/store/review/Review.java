@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.BaseTimeEntity;
-import store.streetvendor.core.domain.store.Grade;
+import store.streetvendor.core.domain.store.Rate;
 import store.streetvendor.core.domain.store.Store;
 
 import javax.persistence.*;
@@ -28,28 +28,28 @@ public class Review extends BaseTimeEntity {
     private String comment;
 
     @Enumerated(EnumType.STRING)
-    private Grade grade;
+    private Rate rate;
 
     @Builder
-    public Review(Long id, Store store, Long memberId, String comment, Grade grade) {
+    public Review(Long id, Store store, Long memberId, String comment, Rate rate) {
         this.id = id;
         this.store = store;
         this.memberId = memberId;
         this.comment = comment;
-        this.grade = grade;
+        this.rate = rate;
     }
 
-    public static Review of(Store store, Long memberId, Grade grade, String comment) {
+    public static Review of(Store store, Long memberId, Rate rate, String comment) {
         return Review.builder()
             .comment(comment)
             .memberId(memberId)
             .store(store)
-            .grade(grade)
+            .rate(rate)
             .build();
     }
 
-    public static long getGradeValue(Grade grade) {
-        return grade.getValue();
+    public static long getGradeValue(Rate rate) {
+        return rate.getValue();
     }
 
 }

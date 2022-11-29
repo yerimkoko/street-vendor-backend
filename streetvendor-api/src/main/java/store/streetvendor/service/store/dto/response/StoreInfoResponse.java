@@ -57,7 +57,7 @@ public class StoreInfoResponse {
 
     private static String getAverageSpoon(Store store) {
         long total = store.getReviews().stream()
-            .mapToLong(review -> Review.getGradeValue(review.getGrade()))
+            .mapToLong(review -> Review.getGradeValue(review.getRate()))
             .sum();
 
         return String.format("%.1f", total / (double)store.getReviews().size());

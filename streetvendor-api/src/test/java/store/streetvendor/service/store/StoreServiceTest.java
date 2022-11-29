@@ -541,10 +541,10 @@ class StoreServiceTest extends SetupBoss {
         Store store = createStore(boss);
         Long memberId = 999L;
         String comment = "진짜 맛집이에요.";
-        Grade grade = Grade.five;
+        Rate rate = Rate.five;
         AddStoreReviewRequest request = AddStoreReviewRequest.builder()
             .comment(comment)
-            .grade(grade)
+            .rate(rate)
             .build();
 
         // when
@@ -557,13 +557,13 @@ class StoreServiceTest extends SetupBoss {
         List<Review> reviews = reviewRepository.findAll();
         assertThat(reviews).hasSize(1);
 
-        assertReview(reviews.get(0), comment, grade, store.getId());
+        assertReview(reviews.get(0), comment, rate, store.getId());
 
     }
 
-    private void assertReview(Review review, String comment, Grade grade, Long storeId) {
+    private void assertReview(Review review, String comment, Rate rate, Long storeId) {
         assertThat(review.getComment()).isEqualTo(comment);
-        assertThat(review.getGrade()).isEqualTo(grade);
+        assertThat(review.getRate()).isEqualTo(rate);
         assertThat(review.getStore().getId()).isEqualTo(storeId);
 
     }
@@ -575,15 +575,15 @@ class StoreServiceTest extends SetupBoss {
         String comment = "진짜 맛집이에요.";
         String updateComment = "인정하는 맛집";
 
-        Grade grade = Grade.five;
-        Grade upgradeGrade = Grade.three;
+        Rate rate = Rate.five;
+        Rate upgradeRate = Rate.three;
 
-        Review review = reviewRepository.save(Review.of(store, store.getMemberId(), grade, comment));
+        Review review = reviewRepository.save(Review.of(store, store.getMemberId(), rate, comment));
 
         UpdateStoreReviewRequest request = UpdateStoreReviewRequest.builder()
             .reviewId(review.getId())
             .comment(updateComment)
-            .grade(upgradeGrade)
+            .rate(upgradeRate)
             .build();
 
         // when
@@ -596,7 +596,7 @@ class StoreServiceTest extends SetupBoss {
         List<Review> reviews = reviewRepository.findAll();
         assertThat(reviews).hasSize(1);
 
-        assertReview(reviews.get(0), updateComment, upgradeGrade, store.getId());
+        assertReview(reviews.get(0), updateComment, upgradeRate, store.getId());
 
     }
 
@@ -605,8 +605,8 @@ class StoreServiceTest extends SetupBoss {
         Store store = createStore(boss);
         Long memberId = 999L;
         String comment = "진짜 맛집이에요.";
-        Grade grade = Grade.five;
-        Review review = reviewRepository.save(Review.of(store, memberId, grade, comment));
+        Rate rate = Rate.five;
+        Review review = reviewRepository.save(Review.of(store, memberId, rate, comment));
 
         // when
         storeService.deleteReview(memberId, store.getId(), review.getId());
