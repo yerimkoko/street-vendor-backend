@@ -64,7 +64,6 @@ public class AdminService {
         passwordEncoder.matches(loginRequest.getPassword(), passwordEncoder.encode(loginRequest.getPassword()));
         httpSession.getAttribute(admin.getEmail());
         return null;
-
     }
 
 

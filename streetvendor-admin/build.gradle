@@ -5,6 +5,7 @@ jar { enabled = true }
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // Core Module
     implementation project(":streetvendor-core")
     implementation project(":streetvendor-external")
 
@@ -19,6 +20,9 @@ dependencies {
 
     // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // Test
+    testImplementation(testFixtures(project(":streetvendor-core")))
 
     runtimeOnly 'com.h2database:h2'
 
