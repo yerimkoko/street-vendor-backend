@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import store.streetvendor.core.domain.order.OrderMenu;
+import store.streetvendor.core.domain.order.OrderStatus;
 import store.streetvendor.core.domain.order.Orders;
+import store.streetvendor.core.domain.order_history.OrderHistory;
+import store.streetvendor.core.domain.order_history.OrderHistoryMenu;
 import store.streetvendor.core.domain.store.PaymentMethod;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.utils.ConvertUtil;
@@ -33,6 +36,8 @@ public class OrderDetailResponse {
 
     private int totalPrice;
 
+    private OrderStatus orderStatus;
+
     @Builder
     public OrderDetailResponse(Long orderId, Long storeId, List<Long> menuIds, String menuName, LocalDateTime orderTime, PaymentMethod paymentMethod, int totalPrice) {
         this.orderId = orderId;
@@ -56,6 +61,22 @@ public class OrderDetailResponse {
             .paymentMethod(order.getPaymentMethod())
             .totalPrice(order.getOrderMenus().stream()
                 .mapToInt(OrderMenu::getTotalPrice)
+                .sum())
+            .build();
+    }
+
+    public static OrderDetailResponse historyOf(OrderHistory order, Long storeId) {
+        return OrderDetailResponse.builder()
+            .menuName(ConvertUtil.countMenu(order.getMenus().get(0).getMenuName(), order.getMenus().size()))
+            .storeId(storeId)
+            .menuIds(order.getMenus()
+                .stream()
+                .map(OrderHistoryMenu::getId).collect(Collectors.toList()))
+            .orderId(order.getId())
+            .orderTime(order.getCreatedAt())
+            .paymentMethod(order.getPaymentMethod())
+            .totalPrice(order.getMenus().stream()
+                .mapToInt(OrderHistoryMenu::getPrice)
                 .sum())
             .build();
     }

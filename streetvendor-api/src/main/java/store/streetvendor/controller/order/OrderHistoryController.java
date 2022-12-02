@@ -34,6 +34,13 @@ public class OrderHistoryController {
         return ApiResponse.success(orderHistoryService.getOrderDetail(memberId, orderId));
     }
 
+    @Auth
+    @ApiOperation(value = "[사용자] 주문히스토리의 내역을 상세 조회한다")
+    @GetMapping("/api/v1/order-history/{orderHistoryId}")
+    public ApiResponse<OrderDetailResponse> getOrderHistoryDetail(@MemberId Long memberId, @PathVariable Long orderHistoryId) {
+        return ApiResponse.success(orderHistoryService.getOrderHistoryDetail(memberId, orderHistoryId));
+    }
+
 
 
 
