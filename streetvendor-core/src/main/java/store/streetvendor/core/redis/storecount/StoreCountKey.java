@@ -18,6 +18,12 @@ public class StoreCountKey implements StringRedisKey<StoreCountKey, Long> {
         this.storeId = storeId;
     }
 
+    public static StoreCountKey of(Long storeId) {
+        return StoreCountKey.builder()
+            .storeId(storeId)
+            .build();
+    }
+
     @Override
     public String getKey() {
         return "storeId:v1:" + storeId;

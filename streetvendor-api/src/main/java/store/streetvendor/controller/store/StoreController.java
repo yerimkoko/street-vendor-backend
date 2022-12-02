@@ -170,5 +170,13 @@ public class StoreController {
 
     }
 
+    @Auth
+    @ApiOperation(value = "인기 가게와 인기 메뉴들")
+    @GetMapping("/api/v1/stores/menus")
+    public ApiResponse<PopularStoresAndMenusResponse> getStoresAndMenus(@RequestParam Double latitude,
+                                                                        @RequestParam Double longitude) {
+        return ApiResponse.success(storeService.popularStoresAndMenus(latitude, longitude));
+    }
+
 
 }

@@ -19,6 +19,8 @@ public class StoreMenuOrderCountKey implements StringRedisKey<StoreMenuOrderCoun
         this.menuId = menuId;
     }
 
+
+
     // store:v1:{{STORE_ID}}:menu:{{MENU_ID}}
     @Override
     public String getKey() {

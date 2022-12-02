@@ -6,12 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.store.star.Star;
+import store.streetvendor.core.domain.storemenuordercount.StoreMenuOrderCountRepository;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.exception.DuplicatedException;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
 import store.streetvendor.core.domain.store.review.Review;
 import store.streetvendor.core.domain.store.star.StarRepository;
+import store.streetvendor.core.redis.storecount.StoreCountKey;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
@@ -26,6 +28,10 @@ import java.util.stream.Collectors;
 @Service
 public class StoreService {
 
+    private final static double distance = 2.0;
+
+    private static final int minStoreHits = 10;
+
     private final StoreRepository storeRepository;
 
     private final StarRepository starRepository;
@@ -33,6 +39,11 @@ public class StoreService {
     private final MemberRepository memberRepository;
 
     private final StoreCountRepository storeCountRepository;
+
+    private final StoreMenuOrderCountRepository storeMenuOrderCountRepository;
+
+
+
 
     @Transactional
     public void addNewStore(AddNewStoreRequest request, Long memberId) {
@@ -132,6 +143,7 @@ public class StoreService {
         store.changeMenuSalesStatus(menuId, salesStatus);
 
     }
+
     private List<MyStoreInfo> getMyStores(List<Store> stores) {
         return stores.stream()
             .map(MyStoreInfo::of)
@@ -192,6 +204,22 @@ public class StoreService {
         }
         star.delete();
     }
+
+    // TODO: 인기 음식들 가져오기
+    @Transactional(readOnly = true)
+    public PopularStoresAndMenusResponse popularStoresAndMenus(double latitude, double longitude) {
+
+        List<Store> stores = storeRepository.findAllStoresByLocationAndDistanceLessThan(latitude, longitude, distance);
+
+        List<PopularStoresResponse> popularStoresResponses = stores.stream()
+            .filter(store -> storeCountRepository.getValueByKey(StoreCountKey.of(store.getId())) >= minStoreHits)
+            .map(PopularStoresResponse::of)
+            .collect(Collectors.toList());
+
+        return new PopularStoresAndMenusResponse(popularStoresResponses, null);
+
+    }
+
 
 
 
