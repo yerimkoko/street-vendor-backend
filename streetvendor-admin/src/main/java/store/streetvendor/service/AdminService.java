@@ -1,11 +1,11 @@
 package store.streetvendor.service;
 
-import store.streetvendor.controller.dto.request.LoginRequest;
+import store.streetvendor.dto.request.LoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.streetvendor.controller.dto.request.SignOutMemberRequest;
+import store.streetvendor.dto.request.SignOutMemberRequest;
 import store.streetvendor.core.domain.admin.Admin;
 import store.streetvendor.core.domain.admin.AdminRepository;
 import store.streetvendor.core.domain.member.Member;
