@@ -11,6 +11,7 @@ import store.streetvendor.core.domain.notification.NotificationRepository;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.dto.request.AddNewNotificationRequest;
 import store.streetvendor.dto.request.NotificationListRequest;
+import store.streetvendor.dto.request.UpdateNotificationRequest;
 import store.streetvendor.dto.response.NotificationResponse;
 
 import java.util.List;
@@ -36,11 +37,26 @@ public class NotificationService {
 
     @Transactional(readOnly = true)
     public List<NotificationResponse> getNotificationResponse(NotificationListRequest request) {
-        List<NotificationResponse> notificationResponses = notificationRepository.findNotificationByStartTimeAndEndTime(request.getStartDate(), request.getEndDate())
+        return notificationRepository.findNotificationByStartTimeAndEndTime(request.getStartDate(), request.getEndDate())
             .stream()
             .map(NotificationResponse::of)
             .collect(Collectors.toList());
-        return notificationResponses;
+    }
+
+    @Transactional
+    public void deleteNotification(Long adminId, Long notificationId) {
+        Admin admin = adminRepository.findByAdminId(adminId);
+        if (admin == null) {
+            throw new NotFoundException(String.format("[%s]에 해당하는 관리자는 존재하지 않습니다.", adminId));
+        }
+
+        Notification notification = notificationRepository.findByNotificationId(notificationId);
+        if (notification == null) {
+            throw new NotFoundException(String.format("[%s]에 해당하는 공지사항은 존재하지 않습니다.", notificationId));
+        }
+
+        notificationRepository.delete(notification);
+
     }
 
 }
