@@ -8,6 +8,7 @@ import store.streetvendor.core.config.auth.MemberId;
 import store.streetvendor.core.utils.dto.ApiResponse;
 import store.streetvendor.dto.request.AddNewNotificationRequest;
 import store.streetvendor.dto.request.NotificationListRequest;
+import store.streetvendor.dto.request.UpdateNotificationRequest;
 import store.streetvendor.dto.response.NotificationResponse;
 import store.streetvendor.service.NotificationService;
 
@@ -39,6 +40,14 @@ public class NotificationController {
     @DeleteMapping("/api/v1/notification/{notificationId}")
     public ApiResponse<String> deleteNotification(@MemberId Long adminId, @PathVariable Long notificationId) {
         notificationService.deleteNotification(adminId, notificationId);
+        return ApiResponse.OK;
+    }
+
+    @Auth
+    @ApiOperation("관리자가 공지사항을 수정한다.")
+    @PutMapping("/api/v1/notification/{notificationId}")
+    public ApiResponse<String> updateNotification(@MemberId Long adminId, @PathVariable Long notificationId, @RequestBody UpdateNotificationRequest request) {
+        notificationService.updateNotification(adminId, notificationId, request);
         return ApiResponse.OK;
     }
 

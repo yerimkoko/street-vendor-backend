@@ -10,9 +10,9 @@ import store.streetvendor.core.domain.notification.Notification;
 import store.streetvendor.core.domain.notification.NotificationRepository;
 import store.streetvendor.core.domain.notification.NotificationType;
 import store.streetvendor.dto.request.AddNewNotificationRequest;
+import store.streetvendor.dto.request.UpdateNotificationRequest;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,11 +38,11 @@ public class NotificationServiceTest {
     @Test
     void 관리자가_공지사항을_등록한다() {
         // given
-        String title = "제목입니다.";
-        String content = "내용입니다.";
-        String imageUrl = "123234";
+        Admin admin = saveAdmin();
+        String title = "제목입니다1.";
+        String content = "내용입니다2.";
+        String imageUrl = "1232343";
         NotificationType type = NotificationType.EVENT;
-        Admin admin = adminRepository.save(Admin.newAdmin("g", "g"));
 
         AddNewNotificationRequest request = AddNewNotificationRequest
             .builder()
@@ -58,23 +58,23 @@ public class NotificationServiceTest {
         // then
         List<Notification> notifications = notificationRepository.findAll();
         assertThat(notifications).hasSize(1);
-        assertThat(notifications.get(0).getNotificationImage()).isEqualTo(imageUrl);
-        assertThat(notifications.get(0).getTitle()).isEqualTo(title);
-        assertThat(notifications.get(0).getContent()).isEqualTo(content);
-        assertThat(notifications.get(0).getNotificationType()).isEqualTo(type);
+        assertNotification(notifications.get(0), title, content, imageUrl, type);
 
+    }
+
+    private void assertNotification(Notification notification, String title, String content, String imageUrl, NotificationType type) {
+        assertThat(notification.getNotificationType()).isEqualTo(type);
+        assertThat(notification.getTitle()).isEqualTo(title);
+        assertThat(notification.getContent()).isEqualTo(content);
+        assertThat(notification.getNotificationImage()).isEqualTo(imageUrl);
     }
 
 
     @Test
     void 관리자가_공지사항을_삭제한다() {
         // given
-        String title = "제목입니다.";
-        String content = "내용입니다.";
-        String imageUrl = "123234";
-        NotificationType type = NotificationType.EVENT;
-        Admin admin = adminRepository.save(Admin.newAdmin("g", "g"));
-        Notification notification = notificationRepository.save(Notification.newNotification(title, content, type, imageUrl, LocalDate.now(), LocalDate.now().plusDays(1)));
+        Admin admin = saveAdmin();
+        Notification notification = notificationRepository.save(newNotification());
 
         // when
         notificationService.deleteNotification(admin.getId(), notification.getId());
@@ -82,8 +82,51 @@ public class NotificationServiceTest {
         // then
         List<Notification> notifications = notificationRepository.findAll();
         assertThat(notifications).isEmpty();
+    }
 
+    @Test
+    void 관리자가_공지사항을_수정한다() {
+        // given
+        Admin admin = saveAdmin();
+        String title = "제목입니다1.";
+        String content = "내용입니다2.";
+        String imageUrl = "1232343";
+        NotificationType type = NotificationType.EVENT;
+        Notification notification = notificationRepository.save(newNotification());
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = LocalDate.now().plusDays(5);
 
+        UpdateNotificationRequest request = UpdateNotificationRequest.builder()
+            .content(content)
+            .title(title)
+            .notificationImage(imageUrl)
+            .type(type)
+            .startDate(startDate)
+            .endDate(endDate)
+            .build();
+
+        // when
+        notificationService.updateNotification(admin.getId(), notification.getId(), request);
+
+        // then
+        List<Notification> notifications = notificationRepository.findAll();
+        assertThat(notifications).hasSize(1);
+        assertNotification(notifications.get(0), title, content, imageUrl, type);
+
+    }
+
+    private Admin saveAdmin() {
+        Admin newAdmin = Admin.newAdmin("g", "g");
+        Admin admin = adminRepository.save(newAdmin);
+        return admin;
+    }
+
+    private Notification newNotification() {
+        String title = "제목입니다.";
+        String content = "내용입니다.";
+        String imageUrl = "123234";
+        NotificationType type = NotificationType.EVENT;
+        return Notification.newNotification(title, content, type, imageUrl, LocalDate.now(), LocalDate.now().plusDays(1));
     }
 
 

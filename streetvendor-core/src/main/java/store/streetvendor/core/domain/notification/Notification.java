@@ -47,6 +47,15 @@ public class Notification extends BaseTimeEntity {
         this.endDate = endDate;
     }
 
+    public void update(String title, String content, String notificationImage, NotificationType notificationType, LocalDate startDate, LocalDate endDate) {
+        this.title = title;
+        this.content = content;
+        this.notificationImage = notificationImage;
+        this.notificationType = notificationType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public static Notification newNotification(String title, String content, NotificationType notificationType, String notificationImage, LocalDate startDate, LocalDate endDate) {
         return Notification.builder()
             .content(content)
