@@ -38,5 +38,6 @@ out/
 
 generated/
 
-# secret정
+# secret 정보
 application-secret.yml
+application-aws.yml

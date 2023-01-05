@@ -72,12 +72,12 @@ public class MemberService {
         MemberServiceUtils.findByBossId(memberRepository, memberId);
     }
 
+
     @Transactional
     public void changeNickName(Long memberId, String nickName) {
         validateDuplicatedNickName(nickName);
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
         member.changeNickName(nickName);
-
     }
 
 
