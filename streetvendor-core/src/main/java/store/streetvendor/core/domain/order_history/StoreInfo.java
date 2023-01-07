@@ -37,7 +37,7 @@ public class StoreInfo {
             .storeId(store.getId())
             .description(store.getStoreDescription())
             .locationDescription(store.getLocationDescription())
-            .bossId(store.getMemberId())
+            .bossId(store.getBossId())
             .build();
     }
 }

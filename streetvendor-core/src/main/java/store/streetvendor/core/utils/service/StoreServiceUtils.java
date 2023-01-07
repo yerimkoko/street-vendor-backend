@@ -12,13 +12,13 @@ import store.streetvendor.core.exception.NotFoundException;
 public class StoreServiceUtils {
 
     public static Store findStoreByStoreIdAndMemberId(StoreRepository storeRepository, Long storeId, Long memberId) {
-        Store store = storeRepository.findStoreByStoreIdAndMemberId(storeId, memberId);
+        Store store = storeRepository.findStoreByStoreIdAndBossId(storeId, memberId);
         validateStore(store, storeId);
         return store;
     }
 
     public static Store findStoreByStoreIdAndMemberIdAndSalesStatus(StoreRepository storeRepository, Long storeId, Long memberId, StoreSalesStatus salesStatus) {
-        Store store = storeRepository.findStoreByStoreIdAndMemberId(storeId, memberId);
+        Store store = storeRepository.findStoreByStoreIdAndBossId(storeId, memberId);
         validateStore(store, storeId);
         validateSalesStatus(store, salesStatus);
         return store;
@@ -38,7 +38,7 @@ public class StoreServiceUtils {
     }
 
     public static void validateExistsStore(StoreRepository storeRepository, Long storeId, Long memberId) {
-        Store store = storeRepository.findStoreByStoreIdAndMemberId(storeId, memberId);
+        Store store = storeRepository.findStoreByStoreIdAndBossId(storeId, memberId);
         validateStore(store, storeId);
     }
 

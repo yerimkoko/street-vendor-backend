@@ -12,7 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import store.streetvendor.StoreFixture;
-import store.streetvendor.core.config.auth.AuthInterceptor;
+import store.streetvendor.AuthInterceptor;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.domain.store.review.Review;
 import store.streetvendor.service.store.StoreService;

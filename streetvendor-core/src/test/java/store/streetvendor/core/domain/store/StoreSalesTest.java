@@ -23,11 +23,11 @@ class StoreSalesTest {
     @Test
     void 가게를_종료시킨다() {
         // given
-        Long memberId = 999L;
+        Long bossId = 999L;
         Location location = new Location(33.2222, -128.333522);
 
         Store store = Store.builder()
-            .memberId(memberId)
+            .bossId(bossId)
             .salesStatus(StoreSalesStatus.OPEN)
             .location(location)
             .name("참 붕어빵")

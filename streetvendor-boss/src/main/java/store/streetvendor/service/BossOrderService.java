@@ -2,8 +2,11 @@ package store.streetvendor.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.NotFound;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.streetvendor.core.domain.boss.Boss;
+import store.streetvendor.core.domain.boss.BossRepository;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.order.OrderRepository;
@@ -14,6 +17,8 @@ import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.StoreRepository;
+import store.streetvendor.core.exception.NotFoundException;
+import store.streetvendor.core.utils.service.BossServiceUtil;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.service.OrderServiceUtils;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
@@ -34,9 +39,11 @@ public class BossOrderService {
 
     private final OrderHistoryRepository historyRepository;
 
+    private final MemberRepository memberRepository;
+
     private final StoreRepository storeRepository;
 
-    private final MemberRepository memberRepository;
+    private final BossRepository bossRepository;
 
 
     @Transactional
@@ -49,7 +56,7 @@ public class BossOrderService {
             .collect(Collectors.toList());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<MemberOrderHistoryResponse> getOrders(OrderStatus status,
                                                       Long storeId,
                                                       Long bossId) {
@@ -62,10 +69,10 @@ public class BossOrderService {
 
     @Transactional(readOnly = true)
     public List<OrderListToBossResponse> getAllOrders(Long storeId, Long memberId, OrderStatus orderStatus) {
-        Member boss = MemberServiceUtils.findByBossId(memberRepository, memberId);
+        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
         List<Orders> orders = orderRepository.findOrdersByStoreIdAndBossIdAndStatus(storeId, memberId, orderStatus);
         return orders.stream()
-            .map(order -> OrderListToBossResponse.of(order, boss))
+            .map(order -> OrderListToBossResponse.of(order, member))
             .collect(Collectors.toList());
     }
 

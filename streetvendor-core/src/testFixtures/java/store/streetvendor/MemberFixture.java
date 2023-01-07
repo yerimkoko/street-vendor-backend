@@ -15,16 +15,5 @@ public class MemberFixture {
             .build();
     }
 
-    public static Member boss() {
-        return Member.builder()
-            .name("뽀미누나")
-            .nickName("토끼")
-            .email("gochi97@naver.com")
-            .profileUrl("https://rabbit.com")
-            .bossName("토끼쨩")
-            .phoneNumber("010-2345-6789")
-            .provider(MemberProvider.GOOGLE)
-            .build();
-    }
 
 }

@@ -133,7 +133,7 @@ class BossOrderServiceTest extends SetUpStore {
 
 
     private Orders order() {
-        return Orders.newOrder(store, member.getId(), paymentMethod);
+        return Orders.newOrder(store, boss.getId(), paymentMethod);
     }
 
 }

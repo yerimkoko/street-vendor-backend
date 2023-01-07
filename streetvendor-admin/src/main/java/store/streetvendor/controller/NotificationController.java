@@ -3,8 +3,6 @@ package store.streetvendor.controller;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import store.streetvendor.core.config.auth.Auth;
-import store.streetvendor.core.config.auth.MemberId;
 import store.streetvendor.core.utils.dto.ApiResponse;
 import store.streetvendor.dto.request.AddNewNotificationRequest;
 import store.streetvendor.dto.request.NotificationListRequest;
@@ -18,13 +16,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationController {
 
+    /**
+     * @Admin 꼭 추가하기
+     */
+
     private final NotificationService notificationService;
 
-    @Auth
     @ApiOperation("관리자가 공지사항을 등록한다.")
     @PostMapping("/api/v1/notification")
     public ApiResponse<String> addNotification(@RequestBody AddNewNotificationRequest request,
-                                               @MemberId Long adminId) {
+                                               Long adminId) {
         notificationService.addNotificationService(adminId, request);
         return ApiResponse.OK;
     }
@@ -35,18 +36,16 @@ public class NotificationController {
         return ApiResponse.success(notificationService.getNotificationResponse(request));
     }
 
-    @Auth
     @ApiOperation("관리자가 공지사항을 삭제한다")
     @DeleteMapping("/api/v1/notification/{notificationId}")
-    public ApiResponse<String> deleteNotification(@MemberId Long adminId, @PathVariable Long notificationId) {
+    public ApiResponse<String> deleteNotification(Long adminId, @PathVariable Long notificationId) {
         notificationService.deleteNotification(adminId, notificationId);
         return ApiResponse.OK;
     }
 
-    @Auth
     @ApiOperation("관리자가 공지사항을 수정한다.")
     @PutMapping("/api/v1/notification/{notificationId}")
-    public ApiResponse<String> updateNotification(@MemberId Long adminId, @PathVariable Long notificationId, @RequestBody UpdateNotificationRequest request) {
+    public ApiResponse<String> updateNotification(Long adminId, @PathVariable Long notificationId, @RequestBody UpdateNotificationRequest request) {
         notificationService.updateNotification(adminId, notificationId, request);
         return ApiResponse.OK;
     }

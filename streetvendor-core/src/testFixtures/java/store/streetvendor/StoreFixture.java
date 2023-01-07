@@ -4,7 +4,7 @@ import store.streetvendor.core.domain.store.Location;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.StoreCategory;
 
-public class StoreFixture extends MemberFixture {
+public class StoreFixture extends BossFixture {
 
     public static Store store() {
         String name = "뽀미네 가게";

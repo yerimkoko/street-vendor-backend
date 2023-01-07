@@ -9,7 +9,7 @@ public interface StoreRepositoryCustom {
 
     Store findStoreByStoreId(Long id);
 
-    Store findStoreByStoreIdAndMemberId(Long id, Long memberId);
+    Store findStoreByStoreIdAndBossId(Long id, Long bossId);
 
     Store findStoreByMemberIdAndSalesStatusStore(Long memberId, StoreSalesStatus salesStatus);
 

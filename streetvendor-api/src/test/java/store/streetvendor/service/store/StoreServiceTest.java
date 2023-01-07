@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import store.streetvendor.core.domain.member.Member;
+import store.streetvendor.core.domain.boss.Boss;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.exception.AlreadyExistedException;
 import store.streetvendor.core.exception.NotFoundException;
@@ -202,7 +202,7 @@ class StoreServiceTest extends SetupBoss {
             .build();
 
         // when & then
-        assertThatThrownBy(() -> storeService.addNewStore(request, member.getId()))
+        assertThatThrownBy(() -> storeService.addNewStore(request, boss.getId() + 1))
             .isInstanceOf(NotFoundException.class);
     }
 
@@ -224,7 +224,7 @@ class StoreServiceTest extends SetupBoss {
             .build();
 
         // when
-        storeService.updateMyStore(store.getMemberId(), store.getId(), updateRequest);
+        storeService.updateMyStore(store.getBossId(), store.getId(), updateRequest);
 
         // then
         List<Menu> menuList = menuRepository.findAll();
@@ -259,7 +259,7 @@ class StoreServiceTest extends SetupBoss {
             .menus(Collections.emptyList()).build();
 
         // when
-        storeService.updateMyStore(store.getMemberId(), store.getId(), updateRequest);
+        storeService.updateMyStore(store.getBossId(), store.getId(), updateRequest);
 
         // then
         List<Payment> paymentMethods = paymentRepository.findAll();
@@ -296,7 +296,7 @@ class StoreServiceTest extends SetupBoss {
             .menus(Collections.emptyList()).build();
 
         // when
-        storeService.updateMyStore(store.getMemberId(), store.getId(), updateRequest);
+        storeService.updateMyStore(store.getBossId(), store.getId(), updateRequest);
 
         // then
         List<BusinessHours> businessHours = businessHoursRepository.findAll();
@@ -336,7 +336,7 @@ class StoreServiceTest extends SetupBoss {
             .build();
 
         // when
-        storeService.updateMyStore(store.getMemberId(), store.getId(), storeUpdateRequest);
+        storeService.updateMyStore(store.getBossId(), store.getId(), storeUpdateRequest);
 
         // then
         List<StoreImage> storeImages = storeImageRepository.findAll();
@@ -382,7 +382,7 @@ class StoreServiceTest extends SetupBoss {
         // then
         List<Store> stores = storeRepository.findAll();
         assertThat(stores).hasSize(1);
-        assertStore(stores.get(0), store.getName(), store.getLocation(), store.getStoreDescription(), store.getMemberId(), store.getCategory());
+        assertStore(stores.get(0), store.getName(), store.getLocation(), store.getStoreDescription(), store.getBossId(), store.getCategory());
 
         Long value = storeCountRepository.getValueByKey(new StoreCountKey(store.getId()));
         assertThat(value).isEqualTo(1);
@@ -578,7 +578,7 @@ class StoreServiceTest extends SetupBoss {
         Rate rate = Rate.five;
         Rate upgradeRate = Rate.three;
 
-        Review review = reviewRepository.save(Review.of(store, store.getMemberId(), rate, comment));
+        Review review = reviewRepository.save(Review.of(store, store.getBossId(), rate, comment));
 
         UpdateStoreReviewRequest request = UpdateStoreReviewRequest.builder()
             .reviewId(review.getId())
@@ -587,7 +587,7 @@ class StoreServiceTest extends SetupBoss {
             .build();
 
         // when
-        storeService.updateReview(store.getMemberId(), store.getId(), request);
+        storeService.updateReview(store.getBossId(), store.getId(), request);
 
         // then
         List<Store> stores = storeRepository.findAll();
@@ -677,7 +677,7 @@ class StoreServiceTest extends SetupBoss {
     }
 
 
-    private Store createStore(Member member) {
+    private Store createStore(Boss boss) {
         // store
         Long memberId = this.boss.getId();
         String name = "토끼의 붕어빵 가게";
@@ -694,7 +694,7 @@ class StoreServiceTest extends SetupBoss {
 
     }
 
-    private Store createSalesStore(Member boss) {
+    private Store createSalesStore(Boss boss) {
         Long memberId = this.boss.getId();
         String name = "토끼의 붕어빵 가게";
         Location location = new Location(34.232323, 128.242424);
@@ -732,7 +732,7 @@ class StoreServiceTest extends SetupBoss {
         assertThat(store.getName()).isEqualTo(name);
         assertThat(store.getLocation()).isEqualTo(location);
         assertThat(store.getStoreDescription()).isEqualTo(description);
-        assertThat(store.getMemberId()).isEqualTo(memberId);
+        assertThat(store.getBossId()).isEqualTo(memberId);
         assertThat(store.getCategory()).isEqualTo(category);
     }
 

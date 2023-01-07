@@ -3,7 +3,7 @@ package store.streetvendor.service.store.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.core.domain.member.Member;
+import store.streetvendor.core.domain.boss.Boss;
 import store.streetvendor.core.domain.store.*;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class StoreDetailResponse {
         this.storeImageResponses = imageResponses;
     }
 
-    public static StoreDetailResponse of(Store store, Member member) {
+    public static StoreDetailResponse of(Store store, Boss boss) {
         List<MenuDetailResponse> menuDetailResponse = store.getMenus().stream()
             .map(MenuDetailResponse::of)
             .collect(Collectors.toList());
@@ -72,7 +72,7 @@ public class StoreDetailResponse {
         return StoreDetailResponse.builder()
             .storeId(store.getId())
             .storeName(store.getName())
-            .bossNumber(member.getPhoneNumber())
+            .bossNumber(boss.getPhoneNumber())
             .category(store.getCategory())
             .menuList(menuDetailResponse)
             .location(store.getLocation())

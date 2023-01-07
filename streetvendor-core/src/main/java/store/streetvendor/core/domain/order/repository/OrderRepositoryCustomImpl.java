@@ -21,7 +21,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
         return jpaQueryFactory
             .selectFrom(orders)
             .where(orders.store.id.eq(storeId),
-                orders.store.memberId.eq(bossId),
+                orders.store.bossId.eq(bossId),
                 getUserStatusEq(orderStatus))
             .fetch();
     }

@@ -12,9 +12,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import store.streetvendor.BossFixture;
+import store.streetvendor.auth.BossInterceptor;
 import store.streetvendor.MemberFixture;
 import store.streetvendor.StoreFixture;
-import store.streetvendor.core.config.auth.AuthInterceptor;
+import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.order.OrderStatus;
 import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.core.domain.store.PaymentMethod;
@@ -35,31 +37,35 @@ class BossOrderControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private AuthInterceptor authInterceptor;
+    private BossInterceptor bossInterceptor;
 
     @MockBean
     private BossOrderService bossOrderService;
 
     @BeforeEach
-    void createAuthInterceptor() {
-        BDDMockito.when(authInterceptor.preHandle(any(), any(), any()))
+    void createBossInterceptor() {
+        BDDMockito.when(bossInterceptor.preHandle(any(), any(), any()))
             .thenReturn(true);
+
     }
+
 
     @Test
     @Disabled
     void 사장님이_진행중인_주문을_불러온다() throws Exception {
         // given
-        Orders order = Orders.preparingOrder(StoreFixture.store(), MemberFixture.member().getId(), PaymentMethod.CASH);
+        Member member = MemberFixture.member();
+        Orders order = Orders.preparingOrder(StoreFixture.store(), member.getId(), PaymentMethod.CASH);
 
         MultiValueMap<String, String> status = new LinkedMultiValueMap<>();
         status.add("orderStatus", OrderStatus.REQUEST.name());
         status.add("storeId", "1");
-        BDDMockito.when(bossOrderService.getAllOrders(1L, MemberFixture.boss().getId(), OrderStatus.PREPARING))
-            .thenReturn(List.of(OrderListToBossResponse.of(order, MemberFixture.member())));
+
+        BDDMockito.when(bossOrderService.getAllOrders(1L, BossFixture.boss().getId(), OrderStatus.PREPARING))
+            .thenReturn(List.of(OrderListToBossResponse.of(order, member)));
 
         // when
-        mockMvc.perform(get("/api/v1/boss/order")
+        mockMvc.perform(get("/api/v1/orders/1")
                 .params(status)
                 .header(HttpHeaders.AUTHORIZATION, "TOKEN")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -3,10 +3,10 @@ package store.streetvendor.service.store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.streetvendor.core.domain.member.Member;
+import store.streetvendor.core.domain.boss.Boss;
+import store.streetvendor.core.domain.boss.BossRepository;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.store.star.Star;
-import store.streetvendor.core.domain.storemenuordercount.StoreMenuOrderCountRepository;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.exception.DuplicatedException;
@@ -15,7 +15,7 @@ import store.streetvendor.core.domain.store.review.Review;
 import store.streetvendor.core.domain.store.star.StarRepository;
 import store.streetvendor.core.redis.storecount.StoreCountKey;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
-import store.streetvendor.core.utils.service.MemberServiceUtils;
+import store.streetvendor.core.utils.service.BossServiceUtil;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
 import store.streetvendor.service.store.dto.request.*;
 import store.streetvendor.service.store.dto.response.*;
@@ -34,21 +34,22 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
 
+    private final BossRepository bossRepository;
+
     private final StarRepository starRepository;
 
     private final MemberRepository memberRepository;
 
     private final StoreCountRepository storeCountRepository;
 
-    private final StoreMenuOrderCountRepository storeMenuOrderCountRepository;
 
 
 
 
     @Transactional
-    public void addNewStore(AddNewStoreRequest request, Long memberId) {
-        MemberServiceUtils.findByBossId(memberRepository, memberId);
-        storeRepository.save(request.toEntity(memberId));
+    public void addNewStore(AddNewStoreRequest request, Long bossId) {
+        BossServiceUtil.findBossById(bossRepository, bossId);
+        storeRepository.save(request.toEntity(bossId));
     }
 
     @Transactional(readOnly = true)
@@ -80,9 +81,9 @@ public class StoreService {
     @Transactional(readOnly = true)
     public StoreDetailResponse getStoreDetail(Long storeId) {
         Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        Member member = MemberServiceUtils.findByMemberId(memberRepository, store.getMemberId());
+        Boss boss = BossServiceUtil.findBossById(bossRepository, store.getBossId());
         storeCountRepository.incrByCount(store.getId());
-        return StoreDetailResponse.of(store, member);
+        return StoreDetailResponse.of(store, boss);
     }
 
     @Transactional(readOnly = true)

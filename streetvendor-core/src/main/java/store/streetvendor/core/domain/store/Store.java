@@ -29,7 +29,7 @@ public class Store extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private Long memberId;
+    private Long bossId;
 
     @Column(nullable = false)
     private String name;
@@ -73,8 +73,8 @@ public class Store extends BaseTimeEntity {
 
 
     @Builder
-    private Store(Long memberId, String name, Location location, StoreSalesStatus salesStatus, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
-        this.memberId = memberId;
+    private Store(Long bossId, String name, Location location, StoreSalesStatus salesStatus, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
+        this.bossId = bossId;
         this.name = name;
         this.location = location;
         this.salesStatus = salesStatus;
@@ -84,9 +84,9 @@ public class Store extends BaseTimeEntity {
         this.category = category;
     }
 
-    public static Store newInstance(Long memberId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category) {
+    public static Store newInstance(Long bossId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category) {
         return Store.builder()
-            .memberId(memberId)
+            .bossId(bossId)
             .name(name)
             .location(location)
             .salesStatus(StoreSalesStatus.CLOSED)
@@ -97,9 +97,9 @@ public class Store extends BaseTimeEntity {
             .build();
     }
 
-    public static Store newSalesStore(Long memberId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category) {
+    public static Store newSalesStore(Long bossId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category) {
         return Store.builder()
-            .memberId(memberId)
+            .bossId(bossId)
             .name(name)
             .location(location)
             .salesStatus(StoreSalesStatus.OPEN)

@@ -62,7 +62,7 @@ public class StoreResponseDto {
 
         return StoreResponseDto.builder()
             .storeId(store.getId())
-            .bossId(store.getMemberId())
+            .bossId(store.getBossId())
             .name(store.getName())
             .storeImages(store.getStoreImages())
             .location(store.getLocation())

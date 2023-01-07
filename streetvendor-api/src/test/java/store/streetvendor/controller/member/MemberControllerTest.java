@@ -10,7 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import store.streetvendor.core.config.auth.AuthInterceptor;
+import store.streetvendor.AuthInterceptor;
 import store.streetvendor.service.member.MemberService;
 import store.streetvendor.core.utils.dto.member.request.MemberSaveBossInfoRequest;
 import store.streetvendor.core.utils.dto.member.response.MemberInfoResponse;

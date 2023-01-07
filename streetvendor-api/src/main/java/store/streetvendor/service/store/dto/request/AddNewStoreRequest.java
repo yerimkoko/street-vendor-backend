@@ -48,8 +48,8 @@ public class AddNewStoreRequest {
         this.storeImages = storeImages;
     }
 
-    public Store toEntity(Long memberId) {
-        Store store = Store.newInstance(memberId, name, location, storeDescription, locationDescription, category);
+    public Store toEntity(Long bossId) {
+        Store store = Store.newInstance(bossId, name, location, storeDescription, locationDescription, category);
         store.addMenus(this.menus.stream()
             .map(menu -> menu.toEntity(store))
             .collect(Collectors.toList()));
