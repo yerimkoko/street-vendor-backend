@@ -7,7 +7,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import store.streetvendor.core.exception.UnAuthorizedException;
-import store.streetvendor.service.BossId;
 
 import javax.validation.constraints.NotNull;
 

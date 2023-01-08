@@ -1,7 +1,7 @@
 package store.streetvendor.controller;
 
 import store.streetvendor.auth.Boss;
-import store.streetvendor.service.BossId;
+import store.streetvendor.auth.BossId;
 import store.streetvendor.service.BossOrderService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
