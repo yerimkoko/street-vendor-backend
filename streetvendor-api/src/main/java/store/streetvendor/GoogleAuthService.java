@@ -3,6 +3,7 @@ package store.streetvendor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.streetvendor.core.domain.boss.Boss;
 import store.streetvendor.core.domain.boss.BossRepository;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
@@ -25,14 +26,11 @@ public class GoogleAuthService {
 
     private final MemberRepository memberRepository;
 
-    private final BossRepository bossRepository;
-
     @Transactional(readOnly = true)
     public AuthResponse handleGoogleAuthentication(AuthRequest request) {
         GoogleUserInfoResponse userInfoResponse = googleApiCaller.getGoogleUserProfileInfo(request.getRequestToken());
 
         Member findMember = memberRepository.findMemberIdByEmail(userInfoResponse.getEmail());
-
 
         if (findMember == null) {
             return AuthResponse.signUp(userInfoResponse.getEmail(), userInfoResponse.getName(), userInfoResponse.getPicture());
@@ -42,5 +40,6 @@ public class GoogleAuthService {
 
         return AuthResponse.logIn(httpSession.getId());
     }
+
 
 }

@@ -11,7 +11,6 @@ import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.StoreRepository;
 import store.streetvendor.core.domain.store.StoreSalesStatus;
 import store.streetvendor.core.exception.DuplicatedException;
-import store.streetvendor.core.utils.dto.member.request.MemberSaveBossInfoRequest;
 import store.streetvendor.core.utils.dto.member.request.MemberSignUpRequestDto;
 import store.streetvendor.core.utils.dto.member.response.MemberInfoResponse;
 
@@ -61,16 +60,6 @@ public class MemberService {
         member.changeProfileUrl(profileUrl);
     }
 
-    @Transactional
-    public void saveMemberBossInfo(Long memberId, MemberSaveBossInfoRequest request) {
-        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
-        member.setBossNameAndNumber(request.getBossName(), request.getBossPhoneNumber());
-    }
-
-    @Transactional(readOnly = true)
-    public void checkBoss(Long memberId) {
-        MemberServiceUtils.findByBossId(memberRepository, memberId);
-    }
 
 
     @Transactional

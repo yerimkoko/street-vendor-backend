@@ -29,6 +29,7 @@ public class OrderHistoryService {
     private final OrderHistoryRepository orderHistoryRepository;
 
 
+    @Transactional(readOnly = true)
     public List<MemberOrderHistoryResponse> allOrders(Long memberId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
         Set<MemberOrderHistoryResponse> memberOrderHistories = new HashSet<>();
@@ -47,6 +48,7 @@ public class OrderHistoryService {
             .map(MemberOrderHistoryResponse::historyOf)
             .collect(Collectors.toList());
     }
+
 
     private List<MemberOrderHistoryResponse> getOrderList(Long memberId) {
         List<Orders> orderList = orderRepository.findOrdersByMemberId(memberId);
