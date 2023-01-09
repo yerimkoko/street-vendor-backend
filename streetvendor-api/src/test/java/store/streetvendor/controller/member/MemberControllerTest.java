@@ -80,31 +80,6 @@ class MemberControllerTest {
 
 
     @Test
-    void 사장님_정보를_등록한다() throws Exception {
-        // given
-        String bossName = "토끼사장";
-        String bossPhoneNumber = "01012345678";
-        String content = objectMapper.writeValueAsString(new MemberSaveBossInfoRequest(bossName, bossPhoneNumber));
-
-        // when & then
-        mockMvc.perform(post("/api/v1/bossInfo")
-            .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .content(content)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-    }
-
-    @Test
-    void 사장님_정보를_확인한다() throws Exception {
-        // when & then
-        mockMvc.perform(get("/api/v1/boss/check")
-            .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-    }
-
-    @Test
     void 프로필_사진을_수정한다() throws Exception {
         // when & then
         mockMvc.perform(put("/api/v1/my-page/profileUrl")
