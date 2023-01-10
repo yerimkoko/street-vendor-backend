@@ -55,6 +55,10 @@ tasks.withType(JavaCompile) {
     options.annotationProcessorGeneratedSourcesDirectory = file(queryDslDir)
 }
 
-clean.doLast {
-    file(queryDslDir).deleteDir()
+//clean.doLast {
+//    file(queryDslDir).deleteDir()
+//}
+
+clean {
+    delete file(queryDslDir)
 }
