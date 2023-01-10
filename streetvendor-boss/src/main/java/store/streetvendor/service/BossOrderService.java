@@ -17,8 +17,6 @@ import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.StoreRepository;
-import store.streetvendor.core.exception.NotFoundException;
-import store.streetvendor.core.utils.service.BossServiceUtil;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.service.OrderServiceUtils;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
