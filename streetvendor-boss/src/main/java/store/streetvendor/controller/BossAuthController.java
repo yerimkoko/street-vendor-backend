@@ -2,6 +2,7 @@ package store.streetvendor.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +20,16 @@ public class BossAuthController {
     private final BossAuthenticationService authenticationService;
 
     @ApiOperation(value = "[사장님] 로그인을 한다.")
-    @PostMapping("/api/v1/boss/auth/google")
+    @PostMapping("/v1/boss/auth/google")
     public ApiResponse<AuthResponse> handleBossGoogleAuthentication(@Valid @RequestBody AuthRequest request) {
         return ApiResponse.success(authenticationService.handleBossGoogleAuthentication(request));
     }
+
+    @ApiOperation(value = "헬스체크")
+    @GetMapping("/ping")
+    public String pong() {
+        return "사장님 서버입니다 pong!";
+    }
+
 
 }

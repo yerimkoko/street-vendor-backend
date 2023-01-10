@@ -14,7 +14,7 @@ public class BossController {
 
     private final BossService bossService;
 
-    @PostMapping("/api/v1/boss/sign-up")
+    @PostMapping("/v1/sign-up")
     public ApiResponse<String> signUp(@RequestBody BossSignUpRequest request) {
         bossService.bossSignUp(request);
         return ApiResponse.OK;
