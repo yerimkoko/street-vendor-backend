@@ -20,15 +20,15 @@ public class Admin extends BaseTimeEntity {
 
     private String email;
 
-    private String password;
+    private String nickName;
 
-    public Admin(String email, String password) {
+    public Admin(String email, String nickName) {
         this.email = email;
-        this.password = password;
+        this.nickName = nickName;
     }
 
-    public static Admin newAdmin(String email, String password) {
-        return new Admin(email, password);
+    public static Admin newAdmin(String email, String nickName) {
+        return new Admin(email, nickName);
     }
 
 }

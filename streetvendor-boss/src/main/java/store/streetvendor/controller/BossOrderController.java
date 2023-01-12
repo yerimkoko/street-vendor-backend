@@ -24,7 +24,7 @@ public class BossOrderController {
 
     @Boss
     @ApiOperation(value = "[사장님] 사장님이 진행중인 주문을 불러온다.")
-    @GetMapping("/v1/boss/order")
+    @GetMapping("/v1/order")
     public ApiResponse<List<MemberOrderHistoryResponse>> getOrders(@RequestParam(required = false) OrderStatus orderStatus,
                                                                    @RequestParam Long storeId,
                                                                    @BossId Long bossId) {

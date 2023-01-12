@@ -1,5 +1,5 @@
 ### [사장님] 회원 가입을 합니다.
-POST {{host_api}}/api/v1/boss/sign-up
+POST {{host_api}}/boss/v1/sign-up
 Content-Type: application/json
 
 {
@@ -11,3 +11,5 @@ Content-Type: application/json
     "profileUrl": "s3.www.www"
 
 }
+
+

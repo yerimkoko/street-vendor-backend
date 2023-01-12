@@ -28,7 +28,6 @@ public class NotificationController {
         return ApiResponse.OK;
     }
 
-    @Admin
     @ApiOperation("공지사항을 조회한다")
     @GetMapping("/api/v1/notification")
     public ApiResponse<List<NotificationResponse>> getNotifications(@RequestBody NotificationListRequest request) {

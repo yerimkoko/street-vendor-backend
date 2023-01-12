@@ -1,16 +1,15 @@
 package store.streetvendor.controller;
 
-import org.springframework.web.bind.annotation.PutMapping;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 import store.streetvendor.config.Admin;
 import store.streetvendor.config.AdminId;
-import store.streetvendor.dto.request.SignOutMemberRequest;
+import store.streetvendor.core.config.auth.dto.request.AuthRequest;
+import store.streetvendor.core.config.auth.dto.response.AuthResponse;
 import store.streetvendor.dto.request.LoginRequest;
 import store.streetvendor.core.utils.dto.ApiResponse;
 import store.streetvendor.service.AdminService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,16 +17,25 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    @GetMapping("/admin/login")
-    public ApiResponse<String> login(@RequestBody LoginRequest request) {
-        adminService.login(request);
-        return ApiResponse.OK;
+    @ApiOperation(value = "[관리자] 헬스체크")
+    @GetMapping("/ping")
+    public String pong() {
+        return "관리자 서버입니다 pong!";
+    }
+
+
+    @Admin
+    @ApiOperation(value = "[관리자-개발용] 회원 탈퇴")
+    @PutMapping("/v1/sign-out-member")
+    public ApiResponse<Long> signOut(@AdminId Long adminId) {
+        return ApiResponse.success(adminService.signOutMember(adminId));
     }
 
     @Admin
-    @PutMapping("/admin/sign-out-member")
-    public ApiResponse<Long> signOut(@RequestBody SignOutMemberRequest request) {
-        return ApiResponse.success(adminService.signOutMember(request));
+    @ApiOperation(value = "[관리자] 로그인")
+    @PostMapping("/v1/login")
+    public ApiResponse<AuthResponse> handleAdminGoogleAuthentication(AuthRequest request) {
+        return ApiResponse.success(adminService.handleAdminGoogleAuthentication(request));
     }
 
 
