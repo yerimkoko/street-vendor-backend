@@ -31,5 +31,4 @@ public class BossAuthController {
         return "사장님 서버입니다 pong!";
     }
 
-
 }
