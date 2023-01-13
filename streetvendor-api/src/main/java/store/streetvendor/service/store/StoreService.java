@@ -15,6 +15,7 @@ import store.streetvendor.core.domain.store.review.Review;
 import store.streetvendor.core.domain.store.star.StarRepository;
 import store.streetvendor.core.redis.storecount.StoreCountKey;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
+import store.streetvendor.core.utils.dto.ApiResponse;
 import store.streetvendor.core.utils.service.BossServiceUtil;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
 import store.streetvendor.service.store.dto.request.*;
@@ -38,12 +39,7 @@ public class StoreService {
 
     private final StarRepository starRepository;
 
-    private final MemberRepository memberRepository;
-
     private final StoreCountRepository storeCountRepository;
-
-
-
 
 
     @Transactional
@@ -221,7 +217,13 @@ public class StoreService {
 
     }
 
-
+    @Transactional(readOnly = true)
+    public List<StoreResponse> getDevStores() {
+        List<Store> stores = storeRepository.findAll();
+        return stores.stream()
+            .map(StoreResponse::of)
+            .collect(Collectors.toList());
+    }
 
 
 }

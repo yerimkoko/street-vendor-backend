@@ -178,5 +178,12 @@ public class StoreController {
         return ApiResponse.success(storeService.popularStoresAndMenus(latitude, longitude));
     }
 
+    @Auth
+    @ApiOperation(value = "[개발용] 전체 가게 불러오기")
+    @GetMapping("/api/v1/stores/dev")
+    public ApiResponse<List<StoreResponse>> getAllStores() {
+        return ApiResponse.success(storeService.getDevStores());
+    }
+
 
 }
