@@ -1,4 +1,4 @@
-package store.streetvendor.service.store.dto.response.projection;
+package store.streetvendor.core.utils.dto.store.response.projection;
 
 import lombok.Builder;
 import lombok.Getter;

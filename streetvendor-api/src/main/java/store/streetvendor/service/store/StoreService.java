@@ -14,11 +14,11 @@ import store.streetvendor.core.domain.store.review.Review;
 import store.streetvendor.core.domain.store.star.StarRepository;
 import store.streetvendor.core.redis.storecount.StoreCountKey;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
+import store.streetvendor.core.utils.dto.store.request.*;
+import store.streetvendor.core.utils.dto.store.response.*;
 import store.streetvendor.core.utils.service.BossServiceUtil;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
-import store.streetvendor.service.store.dto.request.*;
-import store.streetvendor.service.store.dto.response.*;
-import store.streetvendor.service.store.dto.response.projection.StoreAndMemberAndStarResponse;
+import store.streetvendor.core.utils.dto.store.response.projection.StoreAndMemberAndStarResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,11 +40,11 @@ public class StoreService {
     private final StoreCountRepository storeCountRepository;
 
 
-    @Transactional
-    public void addNewStore(AddNewStoreRequest request, Long bossId) {
-        BossServiceUtil.findBossById(bossRepository, bossId);
-        storeRepository.save(request.toEntity(bossId));
-    }
+//    @Transactional
+//    public void addNewStore(AddNewStoreRequest request, Long bossId) {
+//        BossServiceUtil.findBossById(bossRepository, bossId);
+//        storeRepository.save(request.toEntity(bossId));
+//    }
 
     @Transactional(readOnly = true)
     public List<MyStoreInfo> getMyStores(Long memberId) {

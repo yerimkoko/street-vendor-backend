@@ -6,8 +6,8 @@ Content-Type: application/json
     "name": "고토끼",
     "accountNumber": "1002222222222",
     "phoneNumber": "01023456789",
-    "nickName": "토끼천재",
-    "email": "tokki2@naver.com",
+    "nickName": "토끼천재4",
+    "email": "tokki245@naver.com",
     "profileUrl": "s3.www.www"
 
 }
@@ -18,4 +18,59 @@ client.global.set("SESSION", response.body["data"])
 
 
 
+### 새로운 가게를 등록합니다.
+POST {{host_api}}/boss/v1/create-store
+Content-Type: application/json
+Authorization: Bearer {{SESSION}}
 
+{
+    "name": "토끼의 붕어빵 창업",
+    "pictureUrl": "https://store.com",
+    "location": {
+        "latitude": 14.23232,
+        "longitude": 30.2323
+    },
+    "description": "가게 설명",
+    "category": "BUNG_EO_PPANG",
+    "menus": [
+        {
+            "pictureUrl": "https://menu.com",
+            "name": "팥 붕어빵",
+            "price": 2000,
+            "menuCount": 2
+        },
+        {
+            "pictureUrl": "https://menu.com",
+            "name": "슈크림",
+            "price": 2000,
+            "menuCount": 5
+        }
+    ],
+    "paymentMethods": [
+        "CASH",
+        "ACCOUNT_TRANSFER"
+    ],
+    "businessHours": [
+        {
+            "startTime": "08:00",
+            "endTime": "08:01",
+            "days": "MON"
+        },
+        {
+            "startTime": "21:00",
+            "endTime": "23:00",
+            "days": "TUE"
+        },
+        {
+            "startTime": "00:00",
+            "endTime": "04:00",
+            "days": "WED"
+        }
+    ],
+    "storeImages": [
+        {
+            "isThumbNail": true,
+            "imageUrl": "http:/wefwef"
+        }
+    ]
+}

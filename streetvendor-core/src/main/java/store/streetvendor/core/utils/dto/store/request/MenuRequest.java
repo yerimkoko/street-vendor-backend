@@ -1,4 +1,4 @@
-package store.streetvendor.service.store.dto.request;
+package store.streetvendor.core.utils.dto.store.request;
 
 import lombok.*;
 import store.streetvendor.core.domain.store.menu.Menu;

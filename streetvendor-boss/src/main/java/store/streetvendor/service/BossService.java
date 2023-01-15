@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.core.domain.boss.Boss;
 import store.streetvendor.core.domain.boss.BossRepository;
+import store.streetvendor.core.domain.store.StoreRepository;
 import store.streetvendor.core.exception.DuplicatedException;
+import store.streetvendor.core.utils.service.BossServiceUtil;
+import store.streetvendor.core.utils.dto.store.request.AddNewStoreRequest;
 import store.streetvendor.service.dto.request.BossSignUpRequest;
 
 @RequiredArgsConstructor
@@ -13,6 +16,14 @@ import store.streetvendor.service.dto.request.BossSignUpRequest;
 public class BossService {
 
     private final BossRepository bossRepository;
+
+    private final StoreRepository storeRepository;
+
+    @Transactional
+    public void addNewStore(AddNewStoreRequest request, Long bossId) {
+        BossServiceUtil.findBossById(bossRepository, bossId);
+        storeRepository.save(request.toEntity(bossId));
+    }
 
     @Transactional
     public Long bossSignUp(BossSignUpRequest request) {

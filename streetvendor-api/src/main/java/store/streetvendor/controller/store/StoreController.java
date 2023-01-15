@@ -8,10 +8,10 @@ import store.streetvendor.MemberId;
 import store.streetvendor.core.domain.store.StoreCategory;
 import store.streetvendor.core.utils.dto.ApiResponse;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
+import store.streetvendor.core.utils.dto.store.request.*;
+import store.streetvendor.core.utils.dto.store.response.*;
 import store.streetvendor.service.store.StoreService;
-import store.streetvendor.service.store.dto.request.*;
-import store.streetvendor.service.store.dto.response.*;
-import store.streetvendor.service.store.dto.response.projection.StoreAndMemberAndStarResponse;
+import store.streetvendor.core.utils.dto.store.response.projection.StoreAndMemberAndStarResponse;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,13 +22,12 @@ public class StoreController {
 
     private final StoreService storeService;
 
-    @Auth
-    @ApiOperation(value = "(사장님 정보가 있을 때) 창업하기")
-    @PostMapping("/api/v1/store")
-    public ApiResponse<String> addNewStore(@Valid @RequestBody AddNewStoreRequest request, @MemberId Long memberId) {
-        storeService.addNewStore(request, memberId);
-        return ApiResponse.OK;
-    }
+//    @ApiOperation(value = "(사장님 정보가 있을 때) 창업하기")
+//    @PostMapping("/api/v1/store")
+//    public ApiResponse<String> addNewStore(@Valid @RequestBody AddNewStoreRequest request, @MemberId Long memberId) {
+//        storeService.addNewStore(request, memberId);
+//        return ApiResponse.OK;
+//    }
 
     @Auth
     @ApiOperation(value = "내 가게 정보 불러오기")
