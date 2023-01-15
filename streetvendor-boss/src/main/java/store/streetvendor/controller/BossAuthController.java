@@ -20,7 +20,7 @@ public class BossAuthController {
     private final BossAuthenticationService authenticationService;
 
     @ApiOperation(value = "[사장님] 로그인을 한다.")
-    @PostMapping("/v1/boss/auth/google")
+    @PostMapping("/v1/auth/google")
     public ApiResponse<AuthResponse> handleBossGoogleAuthentication(@Valid @RequestBody AuthRequest request) {
         return ApiResponse.success(authenticationService.handleBossGoogleAuthentication(request));
     }

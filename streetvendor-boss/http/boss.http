@@ -3,13 +3,19 @@ POST {{host_api}}/boss/v1/sign-up
 Content-Type: application/json
 
 {
-    "name": "토키토",
+    "name": "고토끼",
     "accountNumber": "1002222222222",
     "phoneNumber": "01023456789",
-    "nickName": "토토토",
-    "email": "gochi97@naver.com",
+    "nickName": "토끼천재",
+    "email": "tokki2@naver.com",
     "profileUrl": "s3.www.www"
 
 }
+
+> {%
+client.global.set("SESSION", response.body["data"])
+ %}
+
+
 
 
