@@ -40,12 +40,6 @@ public class StoreService {
     private final StoreCountRepository storeCountRepository;
 
 
-//    @Transactional
-//    public void addNewStore(AddNewStoreRequest request, Long bossId) {
-//        BossServiceUtil.findBossById(bossRepository, bossId);
-//        storeRepository.save(request.toEntity(bossId));
-//    }
-
     @Transactional(readOnly = true)
     public List<MyStoreInfo> getMyStores(Long memberId) {
         List<Store> stores = storeRepository.findStoreByBossId(memberId);

@@ -13,6 +13,7 @@ import store.streetvendor.core.utils.dto.store.request.AddNewStoreRequest;
 import store.streetvendor.service.dto.request.BossSignUpRequest;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import static store.streetvendor.auth.BossConstants.BOSS_ID;
 
@@ -35,7 +36,7 @@ public class BossController {
     @Boss
     @ApiOperation(value = "[사장님] 창업을 합니다.")
     @PostMapping("/v1/create-store")
-    public ApiResponse<String> addNewStore(AddNewStoreRequest request, @BossId Long bossId) {
+    public ApiResponse<String> addNewStore(@Valid @RequestBody AddNewStoreRequest request, @BossId Long bossId) {
         bossService.addNewStore(request, bossId);
         return ApiResponse.OK;
     }

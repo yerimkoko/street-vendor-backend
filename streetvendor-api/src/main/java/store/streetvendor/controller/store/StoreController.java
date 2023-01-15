@@ -22,13 +22,6 @@ public class StoreController {
 
     private final StoreService storeService;
 
-//    @ApiOperation(value = "(사장님 정보가 있을 때) 창업하기")
-//    @PostMapping("/api/v1/store")
-//    public ApiResponse<String> addNewStore(@Valid @RequestBody AddNewStoreRequest request, @MemberId Long memberId) {
-//        storeService.addNewStore(request, memberId);
-//        return ApiResponse.OK;
-//    }
-
     @Auth
     @ApiOperation(value = "내 가게 정보 불러오기")
     @GetMapping("/api/v1/my-stores")
