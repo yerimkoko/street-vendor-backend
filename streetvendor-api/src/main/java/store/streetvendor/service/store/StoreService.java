@@ -210,12 +210,13 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public List<StoreResponse> getDevStores() {
+    public List<StoreDevResponse> getDevStores() {
         List<Store> stores = storeRepository.findAll();
         return stores.stream()
-            .map(StoreResponse::of)
+            .map(StoreDevResponse::of)
             .collect(Collectors.toList());
     }
+
 
 
 }

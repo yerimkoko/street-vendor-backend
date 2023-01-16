@@ -59,6 +59,7 @@ public class StoreController {
         return ApiResponse.success(storeService.getAllStoreList(size, lastId));
     }
 
+
     @ApiOperation(value = "거리로 부터 영업중인 가게 조회하기")
     @GetMapping("/api/v1/stores/location/open")
     public ApiResponse<List<StoreResponse>> openedStoresByLocation(StoreDistanceRequest request) {
@@ -170,12 +171,10 @@ public class StoreController {
         return ApiResponse.success(storeService.popularStoresAndMenus(latitude, longitude));
     }
 
-    @Auth
     @ApiOperation(value = "[개발용] 전체 가게 불러오기")
     @GetMapping("/api/v1/stores/dev")
-    public ApiResponse<List<StoreResponse>> getAllStores() {
+    public ApiResponse<List<StoreDevResponse>> getAllStores() {
         return ApiResponse.success(storeService.getDevStores());
     }
-
 
 }

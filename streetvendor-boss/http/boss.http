@@ -6,8 +6,8 @@ Content-Type: application/json
     "name": "고토끼",
     "accountNumber": "1002222222222",
     "phoneNumber": "01023456789",
-    "nickName": "토끼천재5",
-    "email": "tokki2445@naver.com",
+    "nickName": "토끼천재3",
+    "email": "tokki@naver.com",
     "profileUrl": "s3.www.www"
 
 }
@@ -24,6 +24,7 @@ Content-Type: application/json
 Authorization: Bearer {{SESSION}}
 
 {
+
     "name": "토끼의 붕어빵 창업",
     "pictureUrl": "https://store.com",
     "location": {
@@ -74,3 +75,6 @@ Authorization: Bearer {{SESSION}}
         }
     ]
 }
+
+### 가게 상세정보 가져오기
+GET {{host_api}}/boss/v1/
