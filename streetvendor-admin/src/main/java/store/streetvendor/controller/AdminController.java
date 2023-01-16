@@ -11,11 +11,18 @@ import store.streetvendor.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import store.streetvendor.service.dto.request.AdminSignUpRequest;
 
+import javax.servlet.http.HttpSession;
+
+import static store.streetvendor.config.AdminConstants.ADMIN_ID;
+
 @RestController
 @RequiredArgsConstructor
 public class AdminController {
 
     private final AdminService adminService;
+
+    private final HttpSession httpSession;
+
 
     @ApiOperation(value = "[관리자] 헬스체크")
     @GetMapping("/ping")
@@ -39,8 +46,10 @@ public class AdminController {
 
     @ApiOperation(value = "[관리자] 회원가입")
     @PostMapping("/v1/sign-up")
-    public ApiResponse<Long> adminSignUp(@RequestBody AdminSignUpRequest request) {
-        return ApiResponse.success(adminService.adminSignUp(request));
+    public ApiResponse<String> adminSignUp(@RequestBody AdminSignUpRequest request) {
+        Long adminId = adminService.adminSignUp(request);
+        httpSession.setAttribute(ADMIN_ID, adminId);
+        return ApiResponse.success(httpSession.getId());
     }
 
 }

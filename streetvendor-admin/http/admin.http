@@ -1,3 +1,14 @@
 ### [관리자용] 회원가입
-POST {{host_api}}/admin/v1/login
+POST {{host_api}}/admin/v1/sign-up
+Content-Type: application/json
 
+{
+    "name": "관리자",
+    "nickName": "관리자1",
+    "email": "gochi97@naver.com"
+
+}
+
+> {%
+client.global.set("SESSION", response.body["data"])
+ %}
