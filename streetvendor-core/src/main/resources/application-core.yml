@@ -55,6 +55,6 @@ spring:
       password: ${secret.spring.datasource.password}
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
 
 ---
