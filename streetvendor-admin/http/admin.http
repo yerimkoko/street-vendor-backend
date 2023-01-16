@@ -1,0 +1,3 @@
+### [관리자용] 회원가입
+POST {{host_api}}/admin/v1/login
+

@@ -9,8 +9,8 @@ import store.streetvendor.core.domain.admin.AdminRepository;
 import store.streetvendor.core.domain.notification.Notification;
 import store.streetvendor.core.domain.notification.NotificationRepository;
 import store.streetvendor.core.domain.notification.NotificationType;
-import store.streetvendor.dto.request.AddNewNotificationRequest;
-import store.streetvendor.dto.request.UpdateNotificationRequest;
+import store.streetvendor.service.dto.request.AddNewNotificationRequest;
+import store.streetvendor.service.dto.request.UpdateNotificationRequest;
 
 import java.time.LocalDate;
 import java.util.List;

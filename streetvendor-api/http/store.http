@@ -27,6 +27,6 @@ GET {{host_api}}/api/v1/store/detail/1
 Content-Type: application/json
 Authorization: Bearer {{SESSION}}
 
-### 개발용 가게를 불러옵니다
+### [개발용] 가게를 불러옵니다
 GET {{host_api}}/api/v1/stores/dev
 Content-Type: application/json

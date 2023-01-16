@@ -8,10 +8,10 @@ import store.streetvendor.core.domain.admin.AdminRepository;
 import store.streetvendor.core.domain.notification.Notification;
 import store.streetvendor.core.domain.notification.NotificationRepository;
 import store.streetvendor.core.exception.NotFoundException;
-import store.streetvendor.dto.request.AddNewNotificationRequest;
-import store.streetvendor.dto.request.NotificationListRequest;
-import store.streetvendor.dto.request.UpdateNotificationRequest;
-import store.streetvendor.dto.response.NotificationResponse;
+import store.streetvendor.service.dto.request.AddNewNotificationRequest;
+import store.streetvendor.service.dto.request.NotificationListRequest;
+import store.streetvendor.service.dto.request.UpdateNotificationRequest;
+import store.streetvendor.service.dto.response.NotificationResponse;
 import store.streetvendor.service.utils.AdminServiceUtils;
 
 import java.util.List;

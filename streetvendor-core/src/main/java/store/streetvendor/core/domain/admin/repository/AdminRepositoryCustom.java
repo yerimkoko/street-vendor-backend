@@ -8,4 +8,6 @@ public interface AdminRepositoryCustom {
 
     Admin findByAdminId(Long id);
 
+    Admin findByNickName(String nickName);
+
 }

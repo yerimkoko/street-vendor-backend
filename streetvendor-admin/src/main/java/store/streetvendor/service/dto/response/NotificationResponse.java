@@ -1,4 +1,4 @@
-package store.streetvendor.dto.response;
+package store.streetvendor.service.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +7,6 @@ import store.streetvendor.core.domain.notification.Notification;
 import store.streetvendor.core.domain.notification.NotificationType;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor

@@ -9,6 +9,7 @@ import store.streetvendor.core.config.auth.dto.response.AuthResponse;
 import store.streetvendor.core.utils.dto.ApiResponse;
 import store.streetvendor.service.AdminService;
 import lombok.RequiredArgsConstructor;
+import store.streetvendor.service.dto.request.AdminSignUpRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,12 +31,16 @@ public class AdminController {
         return ApiResponse.success(adminService.signOutMember(adminId));
     }
 
-    @Admin
     @ApiOperation(value = "[관리자] 로그인")
     @PostMapping("/v1/login")
     public ApiResponse<AuthResponse> handleAdminGoogleAuthentication(AuthRequest request) {
         return ApiResponse.success(adminService.handleAdminGoogleAuthentication(request));
     }
 
+    @ApiOperation(value = "[관리자] 회원가입")
+    @PostMapping("/v1/sign-up")
+    public ApiResponse<Long> adminSignUp(@RequestBody AdminSignUpRequest request) {
+        return ApiResponse.success(adminService.adminSignUp(request));
+    }
 
 }

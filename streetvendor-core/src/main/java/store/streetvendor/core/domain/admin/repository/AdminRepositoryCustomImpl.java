@@ -28,4 +28,13 @@ public class AdminRepositoryCustomImpl implements AdminRepositoryCustom{
             )
             .fetchOne();
     }
+
+    @Override
+    public Admin findByNickName(String nickName) {
+        return queryFactory.selectFrom(admin)
+            .where(
+                admin.nickName.eq(nickName)
+            )
+            .fetchOne();
+    }
 }

@@ -1,4 +1,4 @@
-package store.streetvendor.dto.request;
+package store.streetvendor.service.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

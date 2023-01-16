@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import store.streetvendor.config.Admin;
 import store.streetvendor.config.AdminId;
 import store.streetvendor.core.utils.dto.ApiResponse;
-import store.streetvendor.dto.request.AddNewNotificationRequest;
-import store.streetvendor.dto.request.NotificationListRequest;
-import store.streetvendor.dto.request.UpdateNotificationRequest;
-import store.streetvendor.dto.response.NotificationResponse;
+import store.streetvendor.service.dto.request.AddNewNotificationRequest;
+import store.streetvendor.service.dto.request.NotificationListRequest;
+import store.streetvendor.service.dto.request.UpdateNotificationRequest;
+import store.streetvendor.service.dto.response.NotificationResponse;
 import store.streetvendor.service.NotificationService;
 
 import java.util.List;
