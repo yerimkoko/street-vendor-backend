@@ -3,11 +3,11 @@ POST {{host_api}}/boss/v1/sign-up
 Content-Type: application/json
 
 {
-    "name": "고토끼",
+    "name": "고잼민",
     "accountNumber": "1002222222222",
     "phoneNumber": "01023456789",
-    "nickName": "잼민이",
-    "email": "woalswhwh@naver.com",
+    "nickName": "잼민이2",
+    "email": "woalswhwh2@naver.com",
     "profileUrl": "s3.www.www"
 
 }
@@ -26,11 +26,11 @@ Authorization: Bearer {{SESSION}}
 
 {
 
-    "name": "재민이 테스트3",
+    "name": "잼민이네 근처 가게",
     "pictureUrl": "https://store.com",
     "location": {
-        "latitude": 37.45064589999986,
-        "longitude": 126.71990259999967
+        "latitude": 37.45064589999995,
+        "longitude": 126.71990259999977
     },
     "description": "가게 설명",
     "category": "BUNG_EO_PPANG",
