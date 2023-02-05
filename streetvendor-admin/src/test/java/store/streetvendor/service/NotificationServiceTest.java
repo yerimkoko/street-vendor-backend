@@ -39,6 +39,7 @@ public class NotificationServiceTest {
     void 관리자가_공지사항을_등록한다() {
         // given
         Admin admin = Admin.newAdmin("gochi97@naver.com", "yerimkoko");
+        adminRepository.save(admin);
         String title = "제목입니다1.";
         String content = "내용입니다2.";
         String imageUrl = "1232343";

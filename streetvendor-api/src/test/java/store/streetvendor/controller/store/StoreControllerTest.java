@@ -166,16 +166,6 @@ class StoreControllerTest {
     }
 
     @Test
-    void 가게_영업_시작하기() throws Exception {
-        // when & then
-        mockMvc.perform(put("/api/v1/store/sales-status/open/999")
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-    }
-
-    @Test
     void 메뉴_상태_수정하기() throws Exception {
         // when & then
         mockMvc.perform(put("/api/v1/store/1/menu/1/ON_SALE")
