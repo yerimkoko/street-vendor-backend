@@ -20,6 +20,16 @@ Content-Type: application/json
 Authorization: Bearer {{SESSION}}
 
 
+### 프로필 사진을 수정합니다.
+PUT {{host_api}}/api/v1/my-page/profileUrl
+Content-Type: application/json
+Authorization: Bearer {{SESSION}}
+
+{
+    "profileUrl": "ssssss"
+}
+
+
 ### 회원 정보 조회
 GET {{host_api}}/api/v1/my-page
 Content-Type: application/json

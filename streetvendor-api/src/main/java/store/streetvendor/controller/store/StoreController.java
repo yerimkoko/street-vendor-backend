@@ -22,12 +22,6 @@ public class StoreController {
 
     private final StoreService storeService;
 
-    @Auth
-    @ApiOperation(value = "내 가게 정보 불러오기")
-    @GetMapping("/api/v1/my-stores")
-    public ApiResponse<List<MyStoreInfo>> getMyStores(@MemberId Long memberId) {
-        return ApiResponse.success(storeService.getMyStores(memberId));
-    }
 
     @Auth
     @ApiOperation(value = "내 가게 정보 업데이트 하기")
@@ -66,26 +60,10 @@ public class StoreController {
         return ApiResponse.success(storeService.getOpenedStoresByLocation(request));
     }
 
-    @ApiOperation(value = "거리로 부터 전체 가게 조회하기")
+    @ApiOperation(value = "거리로부터 전체 가게 조회하기")
     @GetMapping("/api/v1/stores/location")
     public ApiResponse<List<StoreResponse>> closedStoresByLocation(StoreDistanceRequest request) {
         return ApiResponse.success(storeService.getAllStoresByLocation(request));
-    }
-
-    @Auth
-    @ApiOperation(value = "가게 영업 시작하기")
-    @PutMapping("/api/v1/store/sales-status/open/{storeId}")
-    public ApiResponse<String> storeOpen(@MemberId Long memberId, @PathVariable Long storeId) {
-        storeService.storeOpen(memberId, storeId);
-        return ApiResponse.OK;
-    }
-
-    @Auth
-    @ApiOperation(value = "가게 영업 종료하기")
-    @PutMapping("/api/v1/store/sales-status/closed/{storeId}")
-    public ApiResponse<String> storeClosed(@MemberId Long memberId, @PathVariable Long storeId) {
-        storeService.storeClose(memberId, storeId);
-        return ApiResponse.OK;
     }
 
     @ApiOperation(value = "카테고리로 가게 조회하기")
@@ -110,6 +88,7 @@ public class StoreController {
         return ApiResponse.OK;
     }
 
+    @Deprecated
     @Auth
     @ApiOperation(value = "리뷰 수정하기")
     @PutMapping("/api/v1/store/review/{storeId}")

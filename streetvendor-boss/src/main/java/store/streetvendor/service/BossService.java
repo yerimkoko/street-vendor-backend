@@ -46,4 +46,5 @@ public class BossService {
             throw new DuplicatedException(String.format("[%s]는 이미 존재하는 닉네임 입니다. 다른 닉네임을 입력해주세요.", nickName));
         }
     }
+
 }

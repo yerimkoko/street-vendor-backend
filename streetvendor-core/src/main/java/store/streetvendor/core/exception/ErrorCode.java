@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ErrorCode {
+
+    BAD_REQUEST(ErrorStatusCode.BAD_REQUEST_EXCEPTION, "잘못된 형식입니다."),
     VALIDATION_EXCEPTION(ErrorStatusCode.VALIDATION_EXCEPTION, "입력이 잘못되었습니다."),
     UNAUTHORIZED_EXCEPTION(ErrorStatusCode.UNAUTHORIZED_EXCEPTION, "인가되지 않은 사용자 입니다. 다시 로그인 해 주세요."),
     NOT_FOUND_EXCEPTION(ErrorStatusCode.NOTFOUND_EXCEPTION, "해당하는 페이지를 찾을 수 없습니다."),
@@ -20,6 +22,7 @@ public enum ErrorCode {
     @Getter
     @RequiredArgsConstructor
     private enum ErrorStatusCode {
+        BAD_REQUEST_EXCEPTION(400, "BAD_REQUEST_EXCEPTION"),
         VALIDATION_EXCEPTION(400, "VALIDATION_EXCEPTION"),
         UNAUTHORIZED_EXCEPTION(401, "UNAUTHORIZED_EXCEPTION"),
         NOTFOUND_EXCEPTION(404, "NOTFOUND_EXCEPTION"),

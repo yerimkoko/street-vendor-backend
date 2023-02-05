@@ -3,8 +3,10 @@ package store.streetvendor.controller.member;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import store.streetvendor.Auth;
 import store.streetvendor.MemberId;
+import store.streetvendor.core.aws.AwsS3Service;
 import store.streetvendor.core.utils.dto.ApiResponse;
 import store.streetvendor.service.member.MemberService;
 import store.streetvendor.core.utils.dto.member.request.MemberSignUpRequestDto;
@@ -12,6 +14,8 @@ import store.streetvendor.core.utils.dto.member.response.MemberInfoResponse;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import java.io.IOException;
 
 import static store.streetvendor.AuthConstants.MEMBER_ID;
 
@@ -22,6 +26,9 @@ public class MemberController {
     private final MemberService memberService;
 
     private final HttpSession httpSession;
+
+    private final AwsS3Service awsS3Service;
+
 
     @ApiOperation("회원 가입")
     @PostMapping("/api/v1/sign-up")
@@ -50,8 +57,9 @@ public class MemberController {
     @Auth
     @ApiOperation(value = "프로필 사진 수정하기")
     @PutMapping("/api/v1/my-page/profileUrl")
-    public ApiResponse<String> changeMyProfile(@MemberId Long memberId, @RequestBody String profileUrl) {
-        memberService.changeProfileImage(memberId, profileUrl);
+    public ApiResponse<String> changeMyProfile(@MemberId Long memberId, @RequestPart MultipartFile profileUrl) {
+        String file = awsS3Service.upload(profileUrl);
+        memberService.changeProfileImage(memberId, file);
         return ApiResponse.OK;
     }
 

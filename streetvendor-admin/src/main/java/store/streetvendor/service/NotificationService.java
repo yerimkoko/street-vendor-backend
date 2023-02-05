@@ -1,6 +1,5 @@
 package store.streetvendor.service;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Getter
 public class NotificationService {
 
     private final AdminRepository adminRepository;

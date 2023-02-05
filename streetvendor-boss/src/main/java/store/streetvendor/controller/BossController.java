@@ -33,6 +33,12 @@ public class BossController {
         return ApiResponse.success(httpSession.getId());
     }
 
+    @ApiOperation(value = "[테스트용] 세션을 가져옵니다.")
+    @PostMapping("/v1/get-session")
+    public ApiResponse<String> getTestSession() {
+        return ApiResponse.success(httpSession.getAttribute(BOSS_ID).toString());
+    }
+
     @Boss
     @ApiOperation(value = "[사장님] 창업을 합니다.")
     @PostMapping("/v1/create-store")

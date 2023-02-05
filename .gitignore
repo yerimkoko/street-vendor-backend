@@ -40,4 +40,3 @@ generated/
 
 # secret 정보
 application-secret.yml
-application-aws.yml

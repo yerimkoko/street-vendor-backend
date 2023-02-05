@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import store.streetvendor.AuthInterceptor;
 import store.streetvendor.service.member.MemberService;
-import store.streetvendor.core.utils.dto.member.request.MemberSaveBossInfoRequest;
 import store.streetvendor.core.utils.dto.member.response.MemberInfoResponse;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -26,8 +25,8 @@ class MemberControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    // @Autowired
+    // private ObjectMapper objectMapper;
 
     @MockBean
     private MemberService memberService;

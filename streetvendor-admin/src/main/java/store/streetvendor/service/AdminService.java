@@ -2,7 +2,6 @@ package store.streetvendor.service;
 
 import store.streetvendor.core.config.auth.dto.request.AuthRequest;
 import store.streetvendor.core.config.auth.dto.response.AuthResponse;
-import store.streetvendor.core.exception.ConflictException;
 import store.streetvendor.core.exception.DuplicatedException;
 import store.streetvendor.core.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -71,7 +70,7 @@ public class AdminService {
     private void validateNickName(String nickName) {
         Admin admin = adminRepository.findByNickName(nickName);
         if (admin != null) {
-            throw new DuplicatedException(String.format("[%s]는 이미 존재하는 닉네임입니다. 다른 닉네임을 입력해주세요"));
+            throw new DuplicatedException(String.format("[%s]는 이미 존재하는 닉네임입니다. 다른 닉네임을 입력해주세요", nickName));
         }
     }
 

@@ -3,11 +3,11 @@ POST {{host_api}}/boss/v1/sign-up
 Content-Type: application/json
 
 {
-    "name": "고잼민",
+    "name": "고재민",
     "accountNumber": "1002222222222",
     "phoneNumber": "01023456789",
-    "nickName": "잼민이2",
-    "email": "woalswhwh2@naver.com",
+    "nickName": "잼민이3",
+    "email": "woalswhwh@naver.com",
     "profileUrl": "s3.www.www"
 
 }
@@ -26,11 +26,11 @@ Authorization: Bearer {{SESSION}}
 
 {
 
-    "name": "잼민이네 근처 가게",
+    "name": "재민이네 근처 가게3",
     "pictureUrl": "https://store.com",
     "location": {
-        "latitude": 37.45064589999995,
-        "longitude": 126.71990259999977
+        "latitude": 37.45064589999992,
+        "longitude": 126.71990259999980
     },
     "description": "가게 설명",
     "category": "BUNG_EO_PPANG",
@@ -45,7 +45,7 @@ Authorization: Bearer {{SESSION}}
             "pictureUrl": "https://menu.com",
             "name": "슈크림",
             "price": 2000,
-            "menuCount": 5
+            "menuCount": 3
         }
     ],
     "paymentMethods": [
@@ -54,11 +54,11 @@ Authorization: Bearer {{SESSION}}
     "businessHours": [
         {
             "startTime": "08:00",
-            "endTime": "08:01",
+            "endTime": "12:00",
             "days": "MON"
         },
         {
-            "startTime": "21:00",
+            "startTime": "18:00",
             "endTime": "23:00",
             "days": "TUE"
         },

@@ -77,25 +77,6 @@ class StoreControllerTest {
 //    }
 
     @Test
-    void 내_가게_정보를_불러온다() throws Exception {
-        // given\
-        Store store = StoreFixture.store();
-        BDDMockito.when(storeService.getMyStores(any()))
-            .thenReturn(List.of(MyStoreInfo.of(store)));
-
-        // when & then
-        mockMvc.perform(get("/api/v1/my-stores")
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.data[0].storeId").value(store.getId()))
-            .andExpect(jsonPath("$.data[0].storeName").value(store.getName()))
-            .andExpect(jsonPath("$.data[0].locationDescription").value(store.getLocationDescription()))
-            .andExpect(jsonPath("$.data[0].salesStatus").value(store.getSalesStatus().name()));
-    }
-
-    @Test
     @Disabled
     void 카테고리로_가게_조회하기() throws Exception {
         // given
@@ -188,16 +169,6 @@ class StoreControllerTest {
     void 가게_영업_시작하기() throws Exception {
         // when & then
         mockMvc.perform(put("/api/v1/store/sales-status/open/999")
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-    }
-
-    @Test
-    void 가게_영업_종료_하기() throws Exception {
-        // when & then
-        mockMvc.perform(put("/api/v1/store/sales-status/closed/1")
                 .header(HttpHeaders.AUTHORIZATION, "TOKEN")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))

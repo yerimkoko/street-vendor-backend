@@ -1,0 +1,50 @@
+# dev
+spring:
+  config:
+    activate:
+      on-profile:
+        - dev
+cloud:
+  aws:
+    credentials:
+      accessKey: ${secret.spring.datasource.accessKey}
+      secretKey: ${secret.spring.datasource.secretKey}
+    s3:
+      bucket: street-vendor-image
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+logging:
+  level:
+    com:
+      amazons:
+        util:
+          EC2metadataUtils: ERROR
+---
+# local
+spring:
+  config:
+    activate:
+      on-profile:
+        - local
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      accessKey: ${secret.spring.datasource.accessKey}
+      secretKey: ${secret.spring.datasource.secretKey}
+    s3:
+      bucket: street-vendor-image
+
+
+logging:
+  level:
+    com:
+      amazons:
+        util:
+          EC2metadataUtils: ERROR

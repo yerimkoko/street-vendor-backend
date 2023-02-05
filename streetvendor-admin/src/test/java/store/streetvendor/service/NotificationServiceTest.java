@@ -38,7 +38,7 @@ public class NotificationServiceTest {
     @Test
     void 관리자가_공지사항을_등록한다() {
         // given
-        Admin admin = saveAdmin();
+        Admin admin = Admin.newAdmin("gochi97@naver.com", "yerimkoko");
         String title = "제목입니다1.";
         String content = "내용입니다2.";
         String imageUrl = "1232343";
@@ -116,9 +116,8 @@ public class NotificationServiceTest {
     }
 
     private Admin saveAdmin() {
-        Admin newAdmin = Admin.newAdmin("g", "g");
-        Admin admin = adminRepository.save(newAdmin);
-        return admin;
+        Admin newAdmin = Admin.newAdmin("gochi97@naver.com", "yerimkoko");
+        return adminRepository.save(newAdmin);
     }
 
     private Notification newNotification() {
