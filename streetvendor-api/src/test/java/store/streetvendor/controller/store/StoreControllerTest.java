@@ -17,7 +17,6 @@ import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.domain.store.review.Review;
 import store.streetvendor.core.utils.dto.store.request.*;
 import store.streetvendor.service.store.StoreService;
-import store.streetvendor.core.utils.dto.store.response.MyStoreInfo;
 import store.streetvendor.core.utils.dto.store.response.StoreDetailResponse;
 import store.streetvendor.core.utils.dto.store.response.StoreResponse;
 import store.streetvendor.core.utils.dto.store.response.StoreReviewResponse;
@@ -27,7 +26,6 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -113,7 +111,7 @@ class StoreControllerTest {
         // given
         Store store = StoreFixture.store();
         BDDMockito.when(storeService.getStoreDetail(any()))
-            .thenReturn(StoreDetailResponse.of(StoreFixture.store(), StoreFixture.boss()));
+            .thenReturn(StoreDetailResponse.of(StoreFixture.store()));
 
         // when & then
         mockMvc.perform(get("/api/v1/store/detail/999")

@@ -3,7 +3,6 @@ package store.streetvendor.core.utils.dto.store.response;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.core.domain.boss.Boss;
 import store.streetvendor.core.domain.store.*;
 
 import java.util.List;
@@ -26,8 +25,6 @@ public class StoreDetailResponse {
     private StoreSalesStatus salesStatus;
 
     private StoreCategory category;
-
-    private List<PaymentMethod> payments;
 
     private List<MenuDetailResponse> menuList;
 
