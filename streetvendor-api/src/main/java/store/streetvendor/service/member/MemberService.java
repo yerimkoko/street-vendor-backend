@@ -48,6 +48,7 @@ public class MemberService {
     public void changeProfileImage(Long memberId, String profileUrl) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
         member.changeProfileUrl(profileUrl);
+
     }
 
 

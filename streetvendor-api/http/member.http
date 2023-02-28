@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "name": "고토끼",
-    "nickName": "토키",
+    "nickName": "토키2",
     "email": "kittoo@gmail.com",
     "pictureUrl": "tokki.jpg"
 }
@@ -35,16 +35,7 @@ GET {{host_api}}/api/v1/my-page
 Content-Type: application/json
 Authorization: Bearer {{SESSION}}
 
-### 사장님 등록하기
-POST  {{host_api}}/api/v1/bossInfo
-Content-Type: application/json
-Authorization: Bearer {{SESSION}}
 
-
-{
-    "bossName": "토끼",
-    "bossPhoneNumber": "01023452344"
-}
 
 
 

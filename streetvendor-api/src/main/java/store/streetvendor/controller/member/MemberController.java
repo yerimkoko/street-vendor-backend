@@ -15,7 +15,6 @@ import store.streetvendor.core.utils.dto.member.response.MemberInfoResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import java.io.IOException;
 
 import static store.streetvendor.AuthConstants.MEMBER_ID;
 
@@ -56,7 +55,7 @@ public class MemberController {
 
     @Auth
     @ApiOperation(value = "프로필 사진 수정하기")
-    @PutMapping("/api/v1/my-page/profileUrl")
+    @PostMapping("/api/v1/my-page/profileUrl")
     public ApiResponse<String> changeMyProfile(@MemberId Long memberId, @RequestPart MultipartFile profileUrl) {
         String file = awsS3Service.upload(profileUrl);
         memberService.changeProfileImage(memberId, file);

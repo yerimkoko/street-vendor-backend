@@ -7,7 +7,7 @@ Content-Type: application/json
     "accountNumber": "1002222222222",
     "phoneNumber": "01023456789",
     "nickName": "잼민이3",
-    "email": "woalswhwh@naver.com",
+    "email": "woalswhwh3@naver.com",
     "profileUrl": "s3.www.www"
 
 }
@@ -75,4 +75,6 @@ Authorization: Bearer {{SESSION}}
         }
     ]
 }
+
+
 
