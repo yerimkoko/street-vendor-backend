@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: local
+    include:
+      - core
+      - aws
+
+secret:
+  spring:
+    datasource:
+      accessKey: mock
+      secretKey: mock
