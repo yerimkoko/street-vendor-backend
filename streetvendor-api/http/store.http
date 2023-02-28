@@ -1,8 +1,3 @@
-### 나의 가게 목록을 조회합니다.
-GET {{host_api}}/api/v1/my-stores
-Authorization: Bearer {{SESSION}}
-
-
 ### 나의 가게 영업 정보를 수정합니다.
 PUT {{host_api}}/api/v1/store/sales-status/1
 Content-Type: application/json

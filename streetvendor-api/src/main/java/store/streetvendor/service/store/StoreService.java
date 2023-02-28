@@ -65,7 +65,7 @@ public class StoreService {
     @Transactional(readOnly = true)
     public StoreDetailResponse getStoreDetail(Long storeId) {
         Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        storeCountRepository.incrByCount(store.getId());
+        // storeCountRepository.incrByCount(store.getId());
         return StoreDetailResponse.of(store);
     }
 
