@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.store.*;
+import store.streetvendor.core.utils.ConvertUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,11 +33,12 @@ public class StoreDetailResponse {
 
     private List<StoreImageResponse> storeImageResponses;
 
+    private String reviewAverage;
+
+    private int reviewCount;
+
     @Builder
-    public StoreDetailResponse(Long storeId, String storeName, String locationDescription,
-                               String storeDescription, Location location, StoreSalesStatus salesStatus, StoreCategory category,
-                               List<MenuDetailResponse> menuList, List<StoreBusinessDayResponse> businessHours,
-                               List<StoreImageResponse> imageResponses) {
+    public StoreDetailResponse(Long storeId, String storeName, String locationDescription, String storeDescription, Location location, StoreSalesStatus salesStatus, StoreCategory category, List<MenuDetailResponse> menuList, List<StoreBusinessDayResponse> businessHours, List<StoreImageResponse> storeImageResponses, String reviewAverage, int reviewCount) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.locationDescription = locationDescription;
@@ -46,8 +48,11 @@ public class StoreDetailResponse {
         this.category = category;
         this.menuList = menuList;
         this.businessHours = businessHours;
-        this.storeImageResponses = imageResponses;
+        this.storeImageResponses = storeImageResponses;
+        this.reviewAverage = reviewAverage;
+        this.reviewCount = reviewCount;
     }
+
 
     public static StoreDetailResponse of(Store store) {
         List<MenuDetailResponse> menuDetailResponse = store.getMenus().stream()
@@ -74,7 +79,9 @@ public class StoreDetailResponse {
             .businessHours(businessHours.stream()
                 .map(StoreBusinessDayResponse::of)
                 .collect(Collectors.toList()))
-            .imageResponses(imageResponses)
+            .storeImageResponses(imageResponses)
+            .reviewAverage(ConvertUtil.getAverageSpoon(store))
+            .reviewCount(store.getReviews().size())
             .build();
     }
 }
