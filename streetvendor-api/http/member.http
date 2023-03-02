@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
     "name": "고토끼",
-    "nickName": "토키3",
-    "email": "kittoo2@gmail.com",
+    "nickName": "토키4",
+    "email": "kittoo4@gmail.com",
     "pictureUrl": "tokki.jpg"
 }
 

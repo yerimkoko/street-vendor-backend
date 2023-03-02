@@ -35,10 +35,10 @@ public class StoreDetailResponse {
 
     private String reviewAverage;
 
-    private int reviewCount;
+    private Integer reviewCount;
 
     @Builder
-    public StoreDetailResponse(Long storeId, String storeName, String locationDescription, String storeDescription, Location location, StoreSalesStatus salesStatus, StoreCategory category, List<MenuDetailResponse> menuList, List<StoreBusinessDayResponse> businessHours, List<StoreImageResponse> storeImageResponses, String reviewAverage, int reviewCount) {
+    public StoreDetailResponse(Long storeId, String storeName, String locationDescription, String storeDescription, Location location, StoreSalesStatus salesStatus, StoreCategory category, List<MenuDetailResponse> menuList, List<StoreBusinessDayResponse> businessHours, List<StoreImageResponse> storeImageResponses, String reviewAverage, Integer reviewCount) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.locationDescription = locationDescription;
