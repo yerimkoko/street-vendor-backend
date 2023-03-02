@@ -14,6 +14,10 @@ public class ConvertUtil {
     }
 
     public static String getAverageSpoon(Store store) {
+        if (store.getReviews() == null) {
+            return "아직 리뷰가 없어요";
+        }
+
         long total = store.getReviews().stream()
             .mapToLong(review -> Review.getGradeValue(review.getRate()))
             .sum();
