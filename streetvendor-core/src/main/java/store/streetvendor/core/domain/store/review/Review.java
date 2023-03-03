@@ -49,6 +49,9 @@ public class Review extends BaseTimeEntity {
     }
 
     public static long getGradeValue(Rate rate) {
+        if (rate == null) {
+            return 0;
+        }
         return rate.getValue();
     }
 
