@@ -58,6 +58,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     private String removeBearer(String header) {
         return header.split(BEARER_PREFIX)[1];
+
+
+
     }
 
 }

@@ -18,8 +18,6 @@ class SignOutMemberTest {
         // then
         assertThat(signOutMember.getMemberId()).isEqualTo(member.getId());
         assertThat(signOutMember.getEmail()).isEqualTo(member.getEmail());
-        assertThat(signOutMember.getBossName()).isEqualTo(member.getBossName());
-        assertThat(signOutMember.getPhoneNumber()).isEqualTo(member.getPhoneNumber());
         assertThat(signOutMember.getNickName()).isEqualTo(member.getNickName());
         assertThat(signOutMember.getProfileUrl()).isEqualTo(member.getProfileUrl());
         assertThat(signOutMember.getProvider()).isEqualTo(member.getProvider());

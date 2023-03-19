@@ -32,38 +32,22 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private MemberProvider provider;
 
-    @Column
-    private String bossName;
-
-    @Column
-    private String phoneNumber;
 
     @Builder
-    public Member(String name, String nickName, String email, String profileUrl, MemberProvider provider, String bossName, String phoneNumber) {
+    public Member(String name, String nickName, String email, String profileUrl, MemberProvider provider) {
         this.name = name;
         this.nickName = nickName;
         this.email = email;
         this.profileUrl = profileUrl;
         this.provider = provider;
-        this.bossName = bossName;
-        this.phoneNumber = phoneNumber;
     }
 
     public static Member newGoogleInstance(String name, String nickName, String email, String profileUrl) {
-        return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE, null, null);
-    }
-
-    public static Member bossInstance(String name, String nickName, String email, String profileUrl, String bossName, String phoneNumber) {
-        return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE, bossName, phoneNumber);
+        return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE);
     }
 
     public static Member signOutMemberInstance(String name, String nickName, String email, String profileUrl) {
-        return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE, null, null);
-    }
-
-    public void setBossNameAndNumber(String bossName, String phoneNumber) {
-        this.bossName = bossName;
-        this.phoneNumber = phoneNumber;
+        return new Member(name, nickName, email, profileUrl, MemberProvider.GOOGLE);
     }
 
     public void changeProfileUrl(String profileUrl) {
@@ -81,8 +65,6 @@ public class Member extends BaseTimeEntity {
             .name(this.getName())
             .nickName(this.getNickName())
             .email(this.getEmail())
-            .bossName(this.getBossName())
-            .phoneNumber(this.getPhoneNumber())
             .profileUrl(this.getProfileUrl())
             .build();
     }
