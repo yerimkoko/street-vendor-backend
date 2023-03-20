@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import store.streetvendor.SetupBoss;
+import store.streetvendor.SetUpBoss;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.domain.store.menu.Menu;
 import store.streetvendor.core.domain.store.menu.MenuRepository;
@@ -19,7 +19,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class BossServiceTest extends SetupBoss {
+public class BossServiceTest extends SetUpBoss {
 
     @Autowired
     private BossService bossService;

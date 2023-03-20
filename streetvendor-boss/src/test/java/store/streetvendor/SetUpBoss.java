@@ -7,7 +7,7 @@ import store.streetvendor.core.domain.boss.Boss;
 import store.streetvendor.core.domain.boss.BossRepository;
 
 @SpringBootTest
-public abstract class SetupBoss {
+public abstract class SetUpBoss {
 
     @Autowired
     public BossRepository bossRepository;

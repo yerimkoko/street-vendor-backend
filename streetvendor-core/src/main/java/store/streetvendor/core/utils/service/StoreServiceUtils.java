@@ -11,8 +11,8 @@ import store.streetvendor.core.exception.NotFoundException;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StoreServiceUtils {
 
-    public static Store findStoreByStoreIdAndMemberId(StoreRepository storeRepository, Long storeId, Long memberId) {
-        Store store = storeRepository.findStoreByStoreIdAndBossId(storeId, memberId);
+    public static Store findStoreByStoreIdAndMemberId(StoreRepository storeRepository, Long storeId, Long bossId) {
+        Store store = storeRepository.findStoreByStoreIdAndBossId(storeId, bossId);
         validateStore(store, storeId);
         return store;
     }

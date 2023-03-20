@@ -3,11 +3,9 @@ package store.streetvendor.service.store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.streetvendor.core.domain.boss.BossRepository;
 import store.streetvendor.core.domain.store.star.Star;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.store.*;
-import store.streetvendor.core.exception.DuplicatedException;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
 import store.streetvendor.core.domain.store.review.Review;
 import store.streetvendor.core.domain.store.star.StarRepository;
@@ -35,31 +33,6 @@ public class StoreService {
 
     private final StoreCountRepository storeCountRepository;
 
-
-    @Transactional(readOnly = true)
-    public List<MyStoreInfo> getMyStores(Long memberId) {
-        List<Store> stores = storeRepository.findStoreByBossId(memberId);
-        return getMyStores(stores);
-    }
-
-    @Transactional
-    public void updateMyStore(Long memberId, Long storeId, StoreUpdateRequest request) {
-        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
-        store.updateStoreInfo(request.getName(), request.getDescription(), request.getLocation(), request.getCategory());
-        store.updateMenus(request.toMenus(store));
-        store.updatePayments(request.getPaymentMethods());
-        store.updateBusinessDaysInfo(request.toBusinessHours(store));
-        store.updateStoreImages(request.toStoreImages(store));
-    }
-
-    @Transactional
-    public void deleteMyStore(Long memberId, Long storeId) {
-        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
-        if (store.getSalesStatus() == StoreSalesStatus.OPEN) {
-            throw new DuplicatedException(String.format("<%s>의 가게는 열려있습니다. 먼저 영업을 종료해주세요.", store.getId()));
-        }
-        store.delete();
-    }
 
 
     @Transactional(readOnly = true)

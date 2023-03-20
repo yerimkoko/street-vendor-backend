@@ -11,9 +11,7 @@ import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
 import store.streetvendor.core.utils.dto.store.request.*;
 import store.streetvendor.core.utils.dto.store.response.*;
 import store.streetvendor.service.store.StoreService;
-import store.streetvendor.core.utils.dto.store.response.projection.StoreAndMemberAndStarResponse;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -21,24 +19,6 @@ import java.util.List;
 public class StoreController {
 
     private final StoreService storeService;
-
-
-    @Auth
-    @ApiOperation(value = "내 가게 정보 업데이트 하기")
-    @PutMapping("/api/v1/store/{storeId}")
-    public ApiResponse<String> updateStore(@MemberId Long memberId, @PathVariable Long storeId,
-                                           @Valid @RequestBody StoreUpdateRequest request) {
-        storeService.updateMyStore(memberId, storeId, request);
-        return ApiResponse.OK;
-    }
-
-    @Auth
-    @ApiOperation(value = "가게 삭제하기")
-    @DeleteMapping("/api/v1/store/{storeId}")
-    public ApiResponse<String> deleteStore(@MemberId Long memberId, @PathVariable Long storeId) {
-        storeService.deleteMyStore(memberId, storeId);
-        return ApiResponse.OK;
-    }
 
     @Auth
     @ApiOperation(value = "가게 상세 정보 조회하기")
@@ -80,67 +60,12 @@ public class StoreController {
         return ApiResponse.OK;
     }
 
-    @Auth
-    @ApiOperation(value = "리뷰 등록하기")
-    @PostMapping("/api/v1/store/review/{storeId}")
-    public ApiResponse<String> addNewEvaluation(@MemberId Long memberId, @PathVariable Long storeId, @RequestBody AddStoreReviewRequest request) {
-        storeService.addEvaluation(memberId, storeId, request);
-        return ApiResponse.OK;
-    }
-
-    @Deprecated
-    @Auth
-    @ApiOperation(value = "리뷰 수정하기")
-    @PutMapping("/api/v1/store/review/{storeId}")
-    public ApiResponse<String> updateReview(@MemberId Long memberId, @PathVariable Long storeId, @RequestBody UpdateStoreReviewRequest request) {
-        storeService.updateReview(memberId, storeId, request);
-        return ApiResponse.OK;
-    }
-
-    @Auth
-    @ApiOperation(value = "리뷰 삭제하기")
-    @DeleteMapping("/api/v1/store/review")
-    public ApiResponse<String> deleteReview(@MemberId Long memberId, @RequestParam Long storeId, @RequestParam Long reviewId) {
-        storeService.deleteReview(memberId, storeId, reviewId);
-        return ApiResponse.OK;
-    }
-
-    @ApiOperation(value = "가게 리뷰 조회하기")
-    @GetMapping("/api/v1/store/review/{storeId}")
-    public ApiResponse<StoreReviewResponse> getStoreReviews(@PathVariable Long storeId) {
-        return ApiResponse.success(storeService.getStoreReviews(storeId));
-    }
-
     @ApiOperation(value = "표시된 가게 조회하기")
     @GetMapping("/api/v1/store/{storeId}")
     public ApiResponse<StoreInfoResponse> getStoreInfo(@PathVariable Long storeId) {
         return ApiResponse.success(storeService.getStoreInfo(storeId));
     }
 
-
-    @Auth
-    @ApiOperation(value = "가게 즐겨찾기 추가하기")
-    @PostMapping("/api/v1/star")
-    public ApiResponse<String> addStar(@MemberId Long memberId, Long storeId) {
-        storeService.addStar(memberId, storeId);
-        return ApiResponse.OK;
-    }
-
-    @Auth
-    @ApiOperation(value = "가게 즐겨찾기 삭제하기")
-    @DeleteMapping("/api/v1/star/{starId}")
-    public ApiResponse<String> deleteStar(@PathVariable Long starId, @MemberId Long memberId) {
-        storeService.deleteStar(starId, memberId);
-        return ApiResponse.OK;
-    }
-
-    @Auth
-    @ApiOperation(value = "나의 즐겨찾기 가게 조회하기")
-    @GetMapping("/api/v1/stars")
-    public ApiResponse<List<StoreAndMemberAndStarResponse>> getMyStarStores(@MemberId Long memberId) {
-        return ApiResponse.success(storeService.getMyStars(memberId));
-
-    }
 
     @Auth
     @ApiOperation(value = "인기 가게와 인기 메뉴들")

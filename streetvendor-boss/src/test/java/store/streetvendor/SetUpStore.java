@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @SpringBootTest
-public abstract class SetUpStore extends SetupBoss {
+public abstract class SetUpStore extends SetUpBoss {
 
     @Autowired
     public StoreRepository storeRepository;

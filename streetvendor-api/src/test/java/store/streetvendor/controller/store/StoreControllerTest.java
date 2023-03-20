@@ -14,14 +14,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import store.streetvendor.StoreFixture;
 import store.streetvendor.AuthInterceptor;
 import store.streetvendor.core.domain.store.*;
-import store.streetvendor.core.domain.store.review.Review;
 import store.streetvendor.core.utils.dto.store.request.*;
 import store.streetvendor.service.store.StoreService;
 import store.streetvendor.core.utils.dto.store.response.StoreDetailResponse;
 import store.streetvendor.core.utils.dto.store.response.StoreResponse;
-import store.streetvendor.core.utils.dto.store.response.StoreReviewResponse;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -126,44 +123,6 @@ class StoreControllerTest {
     }
 
     @Test
-    void 내_가게_정보_업데이트_하기() throws Exception {
-        // given
-        String name = "새로운 가게 이름";
-        List<StoreImageRequest> storeImages = List.of(StoreImageRequest.builder()
-            .isThumbNail(true)
-            .imageUrl("tokki")
-            .build());
-        String description = "사랑해";
-
-        StoreUpdateRequest request = StoreUpdateRequest.testBuilder()
-            .name(name)
-            .menus(Collections.emptyList())
-            .businessHours(Collections.emptyList())
-            .storeImages(storeImages)
-            .paymentMethods(Collections.emptyList())
-            .description(description)
-            .build();
-
-        // then
-        mockMvc.perform(put("/api/v1/store/1")
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-    }
-
-    @Test
-    void 가게를_삭제하다() throws Exception {
-        // when & then
-        mockMvc.perform(delete("/api/v1/store/1")
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-    }
-
-    @Test
     void 메뉴_상태_수정하기() throws Exception {
         // when & then
         mockMvc.perform(put("/api/v1/store/1/menu/1/ON_SALE")
@@ -173,85 +132,13 @@ class StoreControllerTest {
             .andExpect(status().isOk());
     }
 
-    @Test
-    void 리뷰_등록하기() throws Exception {
-        // given
-        String comment = "뽀미는 직각직각";
-        Rate rate = Rate.five;
-        AddStoreReviewRequest request = AddStoreReviewRequest.builder()
-            .comment(comment)
-            .rate(rate)
-            .build();
 
-        // when & then
-        mockMvc.perform(post("/api/v1/store/review/1")
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
 
-    }
 
-    @Test
-    void 리뷰_수정하기() throws Exception {
-        String comment = "뽀미는 사실은 세모였어요";
-        Rate rate = Rate.five;
-        UpdateStoreReviewRequest request = UpdateStoreReviewRequest.builder()
-            .comment(comment)
-            .rate(rate)
-            .build();
 
-        // when & then
-        mockMvc.perform(put("/api/v1/store/review/1")
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-    }
 
-    @Test
-    void 가게_리뷰_조회하기() throws Exception {
-        // given
-        Store store = StoreFixture.store();
-        Long storeId = 1L;
-        Long memberId = 1L;
-        StoreReviewResponse response = StoreReviewResponse.of(
-            storeId,
-            List.of(Review.of(store, memberId, Rate.five, "최고의 가게")));
 
-        BDDMockito.when(storeService.getStoreReviews(storeId))
-            .thenReturn(response);
 
-        // when & then
-        mockMvc.perform(get("/api/v1/store/review/1")
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.data.storeId").value(storeId));
-    }
-
-    @Test
-    void 가게_즐겨찾기_추가하기() throws Exception {
-        // when & then
-        mockMvc.perform(post("/api/v1/star")
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-    }
-
-    @Test
-    void 가게_즐겨찾기_삭제하기() throws Exception {
-        // when & then
-        mockMvc.perform(delete("/api/v1/star/1")
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-    }
 
 
 }
