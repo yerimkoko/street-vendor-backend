@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import store.streetvendor.Auth;
 import store.streetvendor.MemberId;
 import store.streetvendor.core.domain.store.StoreCategory;
-import store.streetvendor.core.utils.dto.ApiResponse;
+import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
 import store.streetvendor.core.utils.dto.store.request.*;
 import store.streetvendor.core.utils.dto.store.response.*;

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import store.streetvendor.Auth;
 import store.streetvendor.MemberId;
-import store.streetvendor.core.utils.dto.ApiResponse;
+import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.store.response.projection.StoreAndMemberAndStarResponse;
 import store.streetvendor.service.store.StoreService;
 

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import store.streetvendor.config.Admin;
 import store.streetvendor.config.AdminId;
-import store.streetvendor.core.utils.dto.ApiResponse;
+import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.service.dto.request.AddNewNotificationRequest;
 import store.streetvendor.service.dto.request.NotificationListRequest;
 import store.streetvendor.service.dto.request.UpdateNotificationRequest;

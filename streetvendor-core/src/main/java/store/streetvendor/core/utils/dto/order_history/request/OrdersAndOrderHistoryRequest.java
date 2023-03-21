@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.order.OrderStatus;
 import store.streetvendor.core.domain.order.OrderStatusCanceled;
 import store.streetvendor.core.utils.dto.order_history.response.OrderHistoryMenuResponse;
-import store.streetvendor.core.utils.dto.response.OrderMenuResponse;
+import store.streetvendor.core.utils.dto.order.response.OrderMenuResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;

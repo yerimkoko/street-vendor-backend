@@ -7,7 +7,6 @@ import store.streetvendor.core.domain.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,17 +23,17 @@ public class Notification extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
+    @Column
     private String notificationImage;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
 
-    @Column(nullable = false)
+    @Column
     private LocalDate startDate;
 
-    @Column(nullable = false)
+    @Column
     private LocalDate endDate;
 
     @Builder
@@ -64,6 +63,15 @@ public class Notification extends BaseTimeEntity {
             .notificationImage(notificationImage)
             .startDate(startDate)
             .endDate(endDate)
+            .build();
+    }
+
+    public static Notification newFaq(String title, String content, String notificationImage) {
+        return Notification.builder()
+            .title(title)
+            .content(content)
+            .notificationType(NotificationType.FAQ)
+            .notificationImage(notificationImage)
             .build();
     }
 }

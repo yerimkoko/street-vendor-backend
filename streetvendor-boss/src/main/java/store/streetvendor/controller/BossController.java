@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import store.streetvendor.auth.Boss;
 import store.streetvendor.auth.BossId;
-import store.streetvendor.core.utils.dto.ApiResponse;
+import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.service.BossService;
 import store.streetvendor.core.utils.dto.store.request.AddNewStoreRequest;
 import store.streetvendor.service.dto.request.BossSignUpRequest;

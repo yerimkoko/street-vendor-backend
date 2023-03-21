@@ -6,7 +6,7 @@ import store.streetvendor.config.Admin;
 import store.streetvendor.config.AdminId;
 import store.streetvendor.core.config.auth.dto.request.AuthRequest;
 import store.streetvendor.core.config.auth.dto.response.AuthResponse;
-import store.streetvendor.core.utils.dto.ApiResponse;
+import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import store.streetvendor.service.dto.request.AdminSignUpRequest;

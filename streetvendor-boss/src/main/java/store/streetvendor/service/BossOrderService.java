@@ -2,10 +2,8 @@ package store.streetvendor.service;
 
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.NotFound;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.streetvendor.core.domain.boss.Boss;
 import store.streetvendor.core.domain.boss.BossRepository;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
@@ -21,8 +19,8 @@ import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.service.OrderServiceUtils;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
 import store.streetvendor.core.utils.dto.order_history.request.AddNewOrderHistoryRequest;
-import store.streetvendor.core.utils.dto.response.MemberOrderHistoryResponse;
-import store.streetvendor.core.utils.dto.response.OrderListToBossResponse;
+import store.streetvendor.core.utils.dto.order_history.MemberOrderHistoryResponse;
+import store.streetvendor.core.utils.dto.order.response.OrderListToBossResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;

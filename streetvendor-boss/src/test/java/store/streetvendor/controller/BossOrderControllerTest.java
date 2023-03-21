@@ -20,7 +20,7 @@ import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.order.OrderStatus;
 import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.core.domain.store.PaymentMethod;
-import store.streetvendor.core.utils.dto.response.OrderListToBossResponse;
+import store.streetvendor.core.utils.dto.order.response.OrderListToBossResponse;
 import store.streetvendor.service.BossOrderService;
 
 import java.util.List;

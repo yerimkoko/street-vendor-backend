@@ -29,4 +29,11 @@ public class NotificationRepositoryCustomImpl implements NotificationRepositoryC
             .fetch();
     }
 
+    @Override
+    public List<Notification> findNotificationByNotificationType(NotificationType type) {
+        return jpaQueryFactory.selectFrom(notification)
+            .where(notification.notificationType.eq(type))
+            .fetch();
+    }
+
 }

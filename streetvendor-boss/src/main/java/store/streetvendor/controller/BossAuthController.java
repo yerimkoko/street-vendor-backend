@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import store.streetvendor.core.config.auth.dto.request.AuthRequest;
 import store.streetvendor.core.config.auth.dto.response.AuthResponse;
-import store.streetvendor.core.utils.dto.ApiResponse;
+import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.service.BossAuthenticationService;
 
 import javax.validation.Valid;

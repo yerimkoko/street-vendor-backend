@@ -1,4 +1,4 @@
-package store.streetvendor.core.utils.dto;
+package store.streetvendor.core.exception;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +11,7 @@ import store.streetvendor.core.exception.AlreadyExistedException;
 import store.streetvendor.core.exception.DuplicatedException;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.exception.UnAuthorizedException;
+import store.streetvendor.core.utils.ApiResponse;
 
 import java.net.BindException;
 

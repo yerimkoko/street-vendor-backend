@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import store.streetvendor.auth.Boss;
 import store.streetvendor.auth.BossId;
-import store.streetvendor.core.utils.dto.ApiResponse;
+import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.store.request.StoreUpdateRequest;
 import store.streetvendor.service.BossStoreService;
 

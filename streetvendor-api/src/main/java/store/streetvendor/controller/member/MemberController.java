@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import store.streetvendor.Auth;
 import store.streetvendor.MemberId;
 import store.streetvendor.core.aws.AwsS3Service;
-import store.streetvendor.core.utils.dto.ApiResponse;
+import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.service.member.MemberService;
 import store.streetvendor.core.utils.dto.member.request.MemberSignUpRequestDto;
 import store.streetvendor.core.utils.dto.member.response.MemberInfoResponse;
