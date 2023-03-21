@@ -1,0 +1,8 @@
+### 공지사항을 등록한다.
+POST {{host_api}}/api/v1/notification/faq
+Content-Type: application/json
+
+{
+    "title": "가게 위치 등록 설명",
+    "content": "- 사장님께서 처음 가게 위치를 등록하실때 지도로 좌표를 찍어 등록하게 됩니다."
+}
