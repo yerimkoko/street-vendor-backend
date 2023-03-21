@@ -32,20 +32,34 @@ public class Questions extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private QuestionsType type;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private QuestionsStatus status;
+
     @Column
     private Long adminId;
-
 
     @OneToMany(mappedBy = "questions", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<QuestionsImage> questionsImages = new ArrayList<>();
 
+    public void addQuestionImages(List<QuestionsImage> images) {
+        for (QuestionsImage image : images) {
+            this.addQuestionImage(image);
+        }
+    }
+
+    private void addQuestionImage(QuestionsImage image) {
+        this.questionsImages.add(image);
+    }
+
     @Builder
-    public Questions(Long memberId, String title, String content, QuestionsType type, Long adminId) {
+    public Questions(Long memberId, String title, String content, QuestionsType type, Long adminId, QuestionsStatus status) {
         this.memberId = memberId;
         this.title = title;
         this.content = content;
         this.type = type;
         this.adminId = adminId;
+        this.status = status;
     }
 
     public static Questions newQuestions(Long memberId, String title, String content, QuestionsType type) {
@@ -53,6 +67,7 @@ public class Questions extends BaseTimeEntity {
             .memberId(memberId)
             .title(title)
             .adminId(null)
+            .status(QuestionsStatus.REPLY_WAITING)
             .content(content)
             .type(type)
             .build();
@@ -68,14 +83,5 @@ public class Questions extends BaseTimeEntity {
             .build();
     }
 
-    public void addQuestionsImage(List<QuestionsImage> images) {
-        for (QuestionsImage image : images) {
-            addQuestionsImage(image);
-        }
-    }
-
-    public void addQuestionsImage(QuestionsImage image) {
-        this.questionsImages.add(image);
-    }
 
 }

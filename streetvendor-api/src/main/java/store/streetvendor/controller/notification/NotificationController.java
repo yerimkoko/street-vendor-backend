@@ -31,4 +31,5 @@ public class NotificationController {
         notificationService.createFaq(request);
         return ApiResponse.OK;
     }
+
 }

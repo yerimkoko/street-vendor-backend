@@ -2,9 +2,6 @@ package store.streetvendor.core.utils.dto.store.request;
 
 import lombok.*;
 import store.streetvendor.core.domain.store.*;
-import store.streetvendor.core.utils.dto.store.request.BusinessHourRequest;
-import store.streetvendor.core.utils.dto.store.request.MenuRequest;
-import store.streetvendor.core.utils.dto.store.request.StoreImageRequest;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -60,7 +57,6 @@ public class AddNewStoreRequest {
         store.addBusinessDays(businessHours.stream()
             .map(businessHour -> businessHour.toEntity(store))
             .collect(Collectors.toList()));
-
         store.addStoreImages(storeImages.stream()
             .map(image -> image.toEntity(store))
             .collect(Collectors.toList()));

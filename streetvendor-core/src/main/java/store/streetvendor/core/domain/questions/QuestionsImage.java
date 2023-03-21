@@ -29,4 +29,11 @@ public class QuestionsImage extends BaseTimeEntity {
         this.imageUrl = imageUrl;
     }
 
+    public static QuestionsImage newImage(Questions questions, String imagesUrl) {
+        return QuestionsImage.builder()
+            .imageUrl(imagesUrl)
+            .questions(questions)
+            .build();
+    }
+
 }

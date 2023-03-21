@@ -79,7 +79,7 @@ public class BossServiceTest extends SetUpBoss {
         assertThat(businessHours.get(0).getOpeningTime()).isEqualTo(OpeningTime.of(businessHourRequest.getStartTime(), businessHourRequest.getEndTime()));
     }
 
-        @Test
+    @Test
     void 새로운_가게를_등록히면_가게의_정보가_등록된다() {
         // given
         AddNewStoreRequest request = AddNewStoreRequest.testBuilder()
