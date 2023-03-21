@@ -19,5 +19,4 @@ public class QuestionsImageRequest {
         return QuestionsImage.newImage(questions, url);
     }
 
-
 }

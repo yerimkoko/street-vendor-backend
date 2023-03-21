@@ -1,6 +1,5 @@
 package store.streetvendor.controller.member;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -27,9 +26,6 @@ class MemberControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    // @Autowired
-    // private ObjectMapper objectMapper;
 
     @MockBean
     private MemberService memberService;
