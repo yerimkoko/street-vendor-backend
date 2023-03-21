@@ -3,7 +3,7 @@ package store.streetvendor.core.utils.dto.question.request;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.questions.Questions;
-import store.streetvendor.core.domain.questions.QuestionsImage;
+import store.streetvendor.core.domain.questions.image.QuestionsImage;
 
 @NoArgsConstructor
 @Getter

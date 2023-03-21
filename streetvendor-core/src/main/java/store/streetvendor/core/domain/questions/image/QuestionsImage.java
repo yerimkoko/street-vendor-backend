@@ -1,10 +1,11 @@
-package store.streetvendor.core.domain.questions;
+package store.streetvendor.core.domain.questions.image;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.BaseTimeEntity;
+import store.streetvendor.core.domain.questions.Questions;
 
 import javax.persistence.*;
 

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.BaseTimeEntity;
 import store.streetvendor.core.domain.admin.Admin;
+import store.streetvendor.core.domain.questions.image.QuestionsImage;
 
 import javax.persistence.*;
 import java.util.ArrayList;
