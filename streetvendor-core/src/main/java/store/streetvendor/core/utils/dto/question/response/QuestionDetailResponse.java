@@ -4,12 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.questions.Questions;
-import store.streetvendor.core.domain.questions.image.QuestionsImage;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Getter
 @NoArgsConstructor
+@Getter
 public class QuestionDetailResponse {
 
     private String type;
@@ -18,12 +18,12 @@ public class QuestionDetailResponse {
 
     private String content;
 
-    private List<QuestionsImage> images;
+    private List<QuestionDetailImageResponse> images;
 
     private String writtenBy;
 
     @Builder
-    public QuestionDetailResponse(String type, String title, String content, List<QuestionsImage> images, String writtenBy) {
+    public QuestionDetailResponse(String type, String title, String content, List<QuestionDetailImageResponse> images, String writtenBy) {
         this.type = type;
         this.title = title;
         this.content = content;
@@ -36,7 +36,9 @@ public class QuestionDetailResponse {
             .type(questions.getType().getDescription())
             .title(questions.getTitle())
             .content(questions.getContent())
-            .images(questions.getQuestionsImages())
+            .images(questions.getQuestionsImages().stream()
+                .map(QuestionDetailImageResponse::of)
+                .collect(Collectors.toList()))
             .writtenBy(validateWrittenBy(questions))
             .build();
     }

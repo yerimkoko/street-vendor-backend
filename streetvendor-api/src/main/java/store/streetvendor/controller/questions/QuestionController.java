@@ -38,7 +38,6 @@ public class QuestionController {
     }
 
     @Auth
-    @Deprecated
     @ApiOperation(value = "[문의사항] 나의 문의 내역에서 상세 내용을 조회한다")
     @GetMapping("/api/v1/question/{questionId}")
     public ApiResponse<List<QuestionDetailResponse>> getQuestionDetail(@MemberId Long memberId,
