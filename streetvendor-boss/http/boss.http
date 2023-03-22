@@ -34,18 +34,20 @@ Authorization: Bearer {{SESSION}}
     },
     "description": "가게 설명",
     "category": "BUNG_EO_PPANG",
+    "localDescription": "국민은행 앞",
+    "storeDescription": "떡볶이 맛집",
     "menus": [
         {
             "pictureUrl": "https://menu.com",
-            "name": "팥 붕어빵",
-            "price": 2000,
-            "menuCount": 2
+            "name": "떡볶이",
+            "price": 4000,
+            "menuCount": 1
         },
         {
             "pictureUrl": "https://menu.com",
-            "name": "슈크림",
+            "name": "오뎅",
             "price": 2000,
-            "menuCount": 3
+            "menuCount": 2
         }
     ],
     "paymentMethods": [

@@ -1,0 +1,70 @@
+-- INSERT INTO MEMBER(name, nick_name, email, profile_url)
+-- VALUES ('고토끼', '토끼이', 'googoo@gmail.com', 'dddd')
+
+
+insert into member
+(created_at, updated_at, email, name, nick_name, profile_url, provider)
+values
+    (now(), now(), 'gochi97@naver.com', '고예림', '토끼', 'fff', 'GOOGLE');
+
+insert into member
+(created_at, updated_at, email, name, nick_name, profile_url, provider)
+values
+    (now(), now(), 'whrmawnrmawn@gmail.com', '조금주', '꿍주', 'fff', 'GOOGLE');
+
+insert into notification(
+                      title, content, created_at, updated_at, notification_type
+)
+values ( '사장님과 손님 페이지는 무엇일까요?', '무엇이냐면요', now(), now(), 'FAQ');
+
+
+
+
+insert into store(
+                  created_at, updated_at, boss_id, category, latitude, longitude,
+                  location_description, name, sales_status, status, store_description
+)
+values (now(), now(), 1, 'TTEOK_BOKKI', 37.7708104, 126.7021019, '국민은행 앞', '사거리 떡볶이',
+        'CLOSED', 'ACTIVE', '떡볶이 맛집');
+
+insert into store(
+    created_at, updated_at, boss_id, category, latitude, longitude,
+    location_description, name, sales_status, status, store_description
+)
+values (now(), now(), 1, 'TTEOK_BOKKI', 37.7718104, 126.7021019, '우리은행 앞', '삼거리 떡볶이',
+        'OPEN', 'ACTIVE', '떡볶이가 맛있는 집');
+
+insert into store(
+    created_at, updated_at, boss_id, category, latitude, longitude,
+    location_description, name, sales_status, status, store_description
+)
+values (now(), now(), 1, 'BUNG_EO_PPANG', 37.7718104, 126.7031019, '파리바게트 앞', '신호등 떡볶이',
+        'OPEN', 'ACTIVE', '슈크림 붕어빵이 맛있는 집');
+
+insert into payment(created_at, updated_at, payment_method, store_id)
+values ( now(), now(), 'ACCOUNT_TRANSFER', 1);
+
+insert into payment(created_at, updated_at, payment_method, store_id)
+values ( now(), now(), 'ACCOUNT_TRANSFER', 2);
+
+insert into payment(created_at, updated_at, payment_method, store_id)
+values ( now(), now(), 'ACCOUNT_TRANSFER', 3);
+
+
+insert into menu(created_at, updated_at, menu_count, name, picture_url, price, sales_status, store_id)
+values ( now(), now(), 1, '떡볶이', 'sdfsdf', 4000, 'ON_SALE', 1);
+
+insert into menu(created_at, updated_at, menu_count, name, picture_url, price, sales_status, store_id)
+values ( now(), now(), 1, '떡볶이', 'sdfsdf', 4000, 'ON_SALE', 2);
+
+insert into menu(created_at, updated_at, menu_count, name, picture_url, price, sales_status, store_id)
+values ( now(), now(), 3, '슈크림 붕어빵', 'sdfsdf', 2000, 'ON_SALE', 3);
+
+insert into business_hours(days, end_time, start_time, store_id)
+values ( 'MON', '12:00:00', '08:00:00', 2);
+
+insert into business_hours(days, end_time, start_time, store_id)
+values ( 'TUE', '12:00:00', '08:00:00', 3);
+
+insert into business_hours(days, end_time, start_time, store_id)
+values ( 'SUN', '12:00:00', '08:00:00', 1);
