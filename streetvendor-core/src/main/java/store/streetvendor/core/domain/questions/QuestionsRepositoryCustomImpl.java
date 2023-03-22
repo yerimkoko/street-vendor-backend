@@ -1,5 +1,6 @@
 package store.streetvendor.core.domain.questions;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -12,9 +13,32 @@ public class QuestionsRepositoryCustomImpl implements QuestionsRepositoryCustom{
 
     private final JPAQueryFactory jpaQueryFactory;
     @Override
-    public List<Questions> findQuestionsByMemberId(Long memberId) {
+    public List<Questions> findQuestionsByMemberId(Long memberId, Long cursor, int size) {
         return jpaQueryFactory.selectFrom(questions)
-            .where(questions.memberId.eq(memberId))
+            .where(questions.memberId.eq(memberId),
+                existedCursor(cursor),
+                questions.adminId.isNull())
+            .orderBy(questions.id.desc())
+            .limit(size)
             .fetch();
     }
+
+    @Override
+    public List<Questions> findQuestionsDetailByMemberId(Long memberId, Long questionId, Long cursor, int size) {
+        return jpaQueryFactory.selectFrom(questions)
+            .where(questions.memberId.eq(memberId),
+                questions.id.eq(questionId),
+                existedCursor(cursor))
+            .orderBy(questions.id.desc())
+            .limit(size)
+            .fetch();
+    }
+
+    private BooleanExpression existedCursor(Long cursor) {
+        if (cursor == null) {
+            return null;
+        }
+        return questions.id.lt(cursor);
+    }
+
 }

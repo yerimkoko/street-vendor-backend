@@ -74,13 +74,14 @@ public class Questions extends BaseTimeEntity {
             .build();
     }
 
-    public static Questions replyQuestions(Questions questions, Admin admin, String title, String content) {
+    public static Questions replyQuestions(Questions questions, Admin admin, String content) {
         return Questions.builder()
             .memberId(questions.memberId)
             .adminId(admin.getId())
-            .title(title)
+            .title("RE: " + questions.title)
             .content(content)
             .type(questions.getType())
+            .status(QuestionsStatus.REPLY_COMPLETED)
             .build();
     }
 

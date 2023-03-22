@@ -18,3 +18,9 @@ Authorization: Bearer {{SESSION}}
 GET {{host_api}}/api/v1/question
 Content-Type: application/json
 Authorization: Bearer {{SESSION}}
+
+
+### 문의사항을 상세 조회한다
+GET {{host_api}}/api/v1/question/1
+Content-Type: application/json
+Authorization: Bearer {{SESSION}}

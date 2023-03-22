@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface QuestionsRepositoryCustom {
 
-    List<Questions> findQuestionsByMemberId(Long memberId);
+    List<Questions> findQuestionsByMemberId(Long memberId, Long cursor, int size);
+
+    List<Questions> findQuestionsDetailByMemberId(Long memberId, Long questionId, Long cursor, int size);
 
 }

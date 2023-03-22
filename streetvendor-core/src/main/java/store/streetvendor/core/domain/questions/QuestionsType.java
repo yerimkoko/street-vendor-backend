@@ -10,4 +10,9 @@ public enum QuestionsType {
 
     private final String description;
 
+    public String getDescription() {
+        return this.description;
+    };
+
+
 }

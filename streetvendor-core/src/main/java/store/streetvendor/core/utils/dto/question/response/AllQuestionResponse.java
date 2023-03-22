@@ -4,14 +4,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.questions.Questions;
-import store.streetvendor.core.domain.questions.QuestionsStatus;
-import store.streetvendor.core.domain.questions.QuestionsType;
 
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
 public class AllQuestionResponse {
+
+    private Long questionId;
 
     private String type;
 
@@ -22,7 +22,8 @@ public class AllQuestionResponse {
     private LocalDateTime createdAt;
 
     @Builder
-    public AllQuestionResponse(String type, String status, String title, LocalDateTime createdAt) {
+    public AllQuestionResponse(Long questionId, String type, String status, String title, LocalDateTime createdAt) {
+        this.questionId = questionId;
         this.type = type;
         this.status = status;
         this.title = title;
@@ -32,8 +33,9 @@ public class AllQuestionResponse {
 
     public static AllQuestionResponse of(Questions questions) {
         return AllQuestionResponse.builder()
-            .type(questions.getType().name())
-            .status(questions.getStatus().name())
+            .questionId(questions.getId())
+            .type(questions.getType().getDescription())
+            .status(questions.getStatus().getDescription())
             .title(questions.getTitle())
             .createdAt(questions.getCreatedAt())
             .build();
