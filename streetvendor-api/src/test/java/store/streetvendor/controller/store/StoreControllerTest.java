@@ -46,30 +46,6 @@ class StoreControllerTest {
         BDDMockito.when(authInterceptor.preHandle(any(), any(), any())).thenReturn(true);
     }
 
-//    @Test
-//    void 사장님_정보가_있을때_창업을한다() throws Exception {
-//        // given
-//        AddNewStoreRequest request = AddNewStoreRequest.testBuilder()
-//            .category(StoreCategory.BUNG_EO_PPANG)
-//            .location(new Location(33.233, 22.33))
-//            .storeDescription("붕어빵 맛집.")
-//            .locationDescription("까치울역 인근입니다.")
-//            .name("토끼네")
-//            .menus(Collections.emptyList())
-//            .storeImages(Collections.emptyList())
-//            .paymentMethods(Collections.emptyList())
-//            .businessHours(Collections.emptyList())
-//            .build();
-//
-//        // when & then
-//        mockMvc.perform(post("/api/v1/store")
-//                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-//                .content(objectMapper.writeValueAsString(request))
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .accept(MediaType.APPLICATION_JSON))
-//            .andDo(print())
-//            .andExpect(status().isOk());
-//    }
 
     @Test
     @Disabled
@@ -121,24 +97,6 @@ class StoreControllerTest {
             .andExpect(jsonPath("$.data.salesStatus").value(store.getSalesStatus().name()))
             .andExpect(jsonPath("$.data.locationDescription").value(store.getLocationDescription()));
     }
-
-    @Test
-    void 메뉴_상태_수정하기() throws Exception {
-        // when & then
-        mockMvc.perform(put("/api/v1/store/1/menu/1/ON_SALE")
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-    }
-
-
-
-
-
-
-
-
 
 
 }

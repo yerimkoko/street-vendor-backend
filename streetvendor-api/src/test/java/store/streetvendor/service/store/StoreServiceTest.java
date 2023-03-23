@@ -6,18 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.core.domain.boss.Boss;
 import store.streetvendor.core.domain.store.*;
-import store.streetvendor.core.domain.store.storeimage.StoreImage;
 import store.streetvendor.core.domain.store.menu.Menu;
 import store.streetvendor.core.domain.store.menu.MenuRepository;
-import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
-import store.streetvendor.core.domain.review.ReviewRepository;
 import store.streetvendor.core.domain.store.storeimage.StoreImageRepository;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
 import store.streetvendor.core.utils.dto.store.request.*;
 import store.streetvendor.service.SetupBoss;
-import store.streetvendor.core.utils.dto.store.response.StoreDetailResponse;
 
-import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,9 +39,6 @@ class StoreServiceTest extends SetupBoss {
     @Autowired
     private StoreImageRepository storeImageRepository;
 
-    @Autowired
-    private ReviewRepository reviewRepository;
-
 
     @Autowired
     private StoreCountRepository storeCountRepository;
@@ -54,13 +46,12 @@ class StoreServiceTest extends SetupBoss {
 
     @AfterEach
     void cleanUp() {
-        reviewRepository.deleteAllInBatch();
-        businessHoursRepository.deleteAllInBatch();
-        paymentRepository.deleteAllInBatch();
-        menuRepository.deleteAllInBatch();
-        storeImageRepository.deleteAllInBatch();
-        storeRepository.deleteAllInBatch();
-        memberRepository.deleteAllInBatch();
+        businessHoursRepository.deleteAll();
+        paymentRepository.deleteAll();
+        menuRepository.deleteAll();
+        storeImageRepository.deleteAll();
+        storeRepository.deleteAll();
+        memberRepository.deleteAll();
     }
 
     private void assertMenu(Menu menu, Long storeId, String menuName, int count, int menuPrice, String menuPictureUrl) {
@@ -114,24 +105,6 @@ class StoreServiceTest extends SetupBoss {
         assertThat(stores).hasSize(1);
         assertThat(stores.get(0).getCategory()).isEqualTo(category);
         assertThat(stores.get(0).getSalesStatus()).isEqualTo(open);
-    }
-
-    @Test
-    void 가게의_메뉴상태를_변경한다() {
-        // given
-        Store store = createStore(boss);
-        MenuSalesStatus soldOut = MenuSalesStatus.SOLD_OUT;
-
-        Menu menu = createMenu(store);
-        menuRepository.save(menu);
-
-        // when
-        storeService.changeMenuStatus(store.getId(), boss.getId(), menu.getId(), soldOut);
-
-        // then
-        List<Menu> menus = menuRepository.findAll();
-        assertThat(menus).hasSize(1);
-        assertThat(menus.get(0).getSalesStatus()).isEqualTo(soldOut);
     }
 
 

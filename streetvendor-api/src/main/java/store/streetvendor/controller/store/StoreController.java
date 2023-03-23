@@ -4,10 +4,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import store.streetvendor.Auth;
-import store.streetvendor.MemberId;
 import store.streetvendor.core.domain.store.StoreCategory;
 import store.streetvendor.core.utils.ApiResponse;
-import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
 import store.streetvendor.core.utils.dto.store.request.*;
 import store.streetvendor.core.utils.dto.store.response.*;
 import store.streetvendor.service.store.StoreService;
@@ -50,14 +48,6 @@ public class StoreController {
     @GetMapping("/api/v1/store/category/{category}")
     public ApiResponse<List<StoreResponse>> storesByCategory(@RequestBody StoreCategoryRequest request, @PathVariable StoreCategory category) {
         return ApiResponse.success(storeService.getStoresByCategoryAndLocationAndStoreStatus(request, category));
-    }
-
-    @Auth
-    @ApiOperation(value = "메뉴 상태 수정하기(soldOut, onSales)")
-    @PutMapping("/api/v1/store/{storeId}/menu/{menuId}/{menuSalesStatus}")
-    public ApiResponse<String> changeMenuStatus(@MemberId Long bossId, @PathVariable Long storeId, @PathVariable Long menuId, @PathVariable MenuSalesStatus menuSalesStatus) {
-        storeService.changeMenuStatus(storeId, bossId, menuId, menuSalesStatus);
-        return ApiResponse.OK;
     }
 
     @ApiOperation(value = "표시된 가게 조회하기")

@@ -1,5 +1,6 @@
 package store.streetvendor.service.review;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +24,12 @@ public class ReviewServiceTest {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @AfterEach
+    void cleanUp() {
+        reviewRepository.deleteAll();
+        storeRepository.deleteAll();
+    }
 
     @Test
     void 리뷰를_등록한다() {
