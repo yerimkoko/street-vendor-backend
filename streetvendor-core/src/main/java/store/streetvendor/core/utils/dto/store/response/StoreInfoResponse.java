@@ -3,7 +3,6 @@ package store.streetvendor.core.utils.dto.store.response;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.core.domain.store.review.Review;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.StoreCategory;
 import store.streetvendor.core.domain.store.StoreSalesStatus;
@@ -48,20 +47,18 @@ public class StoreInfoResponse {
             .storeCategory(store.getCategory())
             .pictureUrl(findMainUrl(store))
             .locationDescription(store.getStoreDescription())
-            .spoon(getAverageSpoon(store))
             .salesStatus(store.getSalesStatus())
-            .reviews(store.getReviews().size())
             .build();
 
     }
 
-    private static String getAverageSpoon(Store store) {
-        long total = store.getReviews().stream()
-            .mapToLong(review -> Review.getGradeValue(review.getRate()))
-            .sum();
-
-        return String.format("%.1f", total / (double)store.getReviews().size());
-    }
+//    private static String getAverageSpoon(Store store) {
+//        long total = store.getReviews().stream()
+//            .mapToLong(review -> Review.getGradeValue(review.getRate()))
+//            .sum();
+//
+//        return String.format("%.1f", total / (double)store.getReviews().size());
+//    }
 
     private static String findMainUrl(Store store) {
         if (store.getStoreImages().isEmpty()) {

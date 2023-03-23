@@ -67,14 +67,6 @@ public class StoreController {
     }
 
 
-    @Auth
-    @ApiOperation(value = "인기 가게와 인기 메뉴들")
-    @GetMapping("/api/v1/stores/menus")
-    public ApiResponse<PopularStoresAndMenusResponse> getStoresAndMenus(@RequestParam Double latitude,
-                                                                        @RequestParam Double longitude) {
-        return ApiResponse.success(storeService.popularStoresAndMenus(latitude, longitude));
-    }
-
     @ApiOperation(value = "[개발용] 전체 가게 불러오기")
     @GetMapping("/api/v1/stores/dev")
     public ApiResponse<List<StoreDevResponse>> getAllStores() {

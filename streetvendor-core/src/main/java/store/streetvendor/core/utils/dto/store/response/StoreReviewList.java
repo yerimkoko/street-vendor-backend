@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.store.Rate;
-import store.streetvendor.core.domain.store.review.Review;
+import store.streetvendor.core.domain.review.Review;
 
 @NoArgsConstructor
 @Getter

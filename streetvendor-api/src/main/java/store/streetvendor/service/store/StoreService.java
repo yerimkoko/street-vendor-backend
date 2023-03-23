@@ -7,14 +7,12 @@ import store.streetvendor.core.domain.store.star.Star;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
-import store.streetvendor.core.domain.store.review.Review;
 import store.streetvendor.core.domain.store.star.StarRepository;
 import store.streetvendor.core.redis.storecount.StoreCountKey;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
 import store.streetvendor.core.utils.dto.store.request.*;
 import store.streetvendor.core.utils.dto.store.response.*;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
-import store.streetvendor.core.utils.dto.store.response.projection.StoreAndMemberAndStarResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,21 +66,21 @@ public class StoreService {
             .collect(Collectors.toList());
     }
 
-    @Transactional
-    public void storeOpen(Long memberId, Long storeId) {
-        StoreSalesStatus open = StoreSalesStatus.OPEN;
-        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberIdAndSalesStatus(storeRepository, storeId, memberId, open);
-        Store findAlreadyOpenedStore = storeRepository.findStoreByMemberIdAndSalesStatusStore(memberId, open);
-        StoreServiceUtils.findStoreOpenedAndNotSameStatus(store, findAlreadyOpenedStore);
-        store.changeSalesStatus(open);
-    }
-
-    @Transactional
-    public void storeClose(Long memberId, Long storeId) {
-        StoreSalesStatus closed = StoreSalesStatus.CLOSED;
-        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberIdAndSalesStatus(storeRepository, storeId, memberId, closed);
-        store.changeSalesStatus(closed);
-    }
+//    @Transactional
+//    public void storeOpen(Long memberId, Long storeId) {
+//        StoreSalesStatus open = StoreSalesStatus.OPEN;
+//        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberIdAndSalesStatus(storeRepository, storeId, memberId, open);
+//        Store findAlreadyOpenedStore = storeRepository.findStoreByMemberIdAndSalesStatusStore(memberId, open);
+//        StoreServiceUtils.findStoreOpenedAndNotSameStatus(store, findAlreadyOpenedStore);
+//        store.changeSalesStatus(open);
+//    }
+//
+//    @Transactional
+//    public void storeClose(Long memberId, Long storeId) {
+//        StoreSalesStatus closed = StoreSalesStatus.CLOSED;
+//        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberIdAndSalesStatus(storeRepository, storeId, memberId, closed);
+//        store.changeSalesStatus(closed);
+//    }
 
     @Transactional(readOnly = true)
     public List<StoreResponse> getStoresByCategoryAndLocationAndStoreStatus(StoreCategoryRequest request, StoreCategory category) {
@@ -101,36 +99,6 @@ public class StoreService {
 
     }
 
-    private List<MyStoreInfo> getMyStores(List<Store> stores) {
-        return stores.stream()
-            .map(MyStoreInfo::of)
-            .collect(Collectors.toList());
-    }
-
-    @Transactional
-    public void addEvaluation(Long memberId, Long storeId, AddStoreReviewRequest request) {
-        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        store.addReview(Review.of(store, memberId, request.getRate(), request.getComment()));
-        storeRepository.save(store);
-    }
-
-    @Transactional
-    public void updateReview(Long memberId, Long storeId, UpdateStoreReviewRequest request) {
-        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        store.updateReview(request.getReviewId(), Review.of(store, memberId, request.getRate(), request.getComment()), memberId);
-    }
-
-    @Transactional
-    public void deleteReview(Long memberId, Long storeId, Long reviewId) {
-        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        store.deleteReview(reviewId, memberId);
-    }
-
-    @Transactional(readOnly = true)
-    public StoreReviewResponse getStoreReviews(Long storeId) {
-        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        return StoreReviewResponse.of(store.getId(), store.getReviews());
-    }
 
     @Transactional(readOnly = true)
     public StoreInfoResponse getStoreInfo(Long storeId) {
@@ -138,20 +106,6 @@ public class StoreService {
         return StoreInfoResponse.of(store);
     }
 
-    @Transactional
-    public void addStar(Long memberId, Long storeId) {
-        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        store.addStar(Star.of(store, memberId));
-        storeRepository.save(store);
-    }
-
-    @Transactional(readOnly = true)
-    public List<StoreAndMemberAndStarResponse> getMyStars(Long memberId) {
-        List<Star> stars = starRepository.findMyStars(memberId);
-        return stars.stream()
-            .map(StoreAndMemberAndStarResponse::of)
-            .collect(Collectors.toList());
-    }
 
     @Transactional
     public void deleteStar(Long memberId, Long starId) {
@@ -160,21 +114,6 @@ public class StoreService {
             throw new NotFoundException(String.format("[%s]에 해당하는 가게는 존재하지 않습니다.", starId));
         }
         star.delete();
-    }
-
-    // TODO: 인기 음식들 가져오기
-    @Transactional(readOnly = true)
-    public PopularStoresAndMenusResponse popularStoresAndMenus(double latitude, double longitude) {
-
-        List<Store> stores = storeRepository.findAllStoresByLocationAndDistanceLessThan(latitude, longitude, distance);
-
-        List<PopularStoresResponse> popularStoresResponses = stores.stream()
-            .filter(store -> storeCountRepository.getValueByKey(StoreCountKey.of(store.getId())) >= minStoreHits)
-            .map(PopularStoresResponse::of)
-            .collect(Collectors.toList());
-
-        return new PopularStoresAndMenusResponse(popularStoresResponses, null);
-
     }
 
     @Transactional(readOnly = true)

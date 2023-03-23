@@ -3,7 +3,7 @@ package store.streetvendor.core.utils.dto.store.response;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.core.domain.store.review.Review;
+import store.streetvendor.core.domain.review.Review;
 
 import java.util.List;
 import java.util.stream.Collectors;

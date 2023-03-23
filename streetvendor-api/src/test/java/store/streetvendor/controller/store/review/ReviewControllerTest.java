@@ -11,20 +11,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import store.streetvendor.AuthInterceptor;
-import store.streetvendor.StoreFixture;
-import store.streetvendor.core.domain.store.Rate;
-import store.streetvendor.core.domain.store.Store;
-import store.streetvendor.core.domain.store.review.Review;
-import store.streetvendor.core.utils.dto.store.request.AddStoreReviewRequest;
-import store.streetvendor.core.utils.dto.store.response.StoreReviewResponse;
-import store.streetvendor.service.store.StoreService;
-
-import java.util.List;
+import store.streetvendor.controller.review.ReviewController;
+import store.streetvendor.core.utils.dto.review.AddReviewRequest;
+import store.streetvendor.service.review.ReviewService;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ReviewController.class)
@@ -40,7 +32,7 @@ class ReviewControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private StoreService storeService;
+    private ReviewService reviewService;
 
     @BeforeEach
     void createAuthInterceptor() {
@@ -48,39 +40,17 @@ class ReviewControllerTest {
     }
 
     @Test
-    void 가게_리뷰_조회하기() throws Exception {
-        // given
-        Store store = StoreFixture.store();
-        Long storeId = 1L;
-        Long memberId = 1L;
-        StoreReviewResponse response = StoreReviewResponse.of(
-            storeId,
-            List.of(Review.of(store, memberId, Rate.five, "최고의 가게")));
-
-        BDDMockito.when(storeService.getStoreReviews(storeId))
-            .thenReturn(response);
-
-        // when & then
-        mockMvc.perform(get("/api/v1/store/review/1")
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.data.storeId").value(storeId));
-    }
-
-    @Test
     void 리뷰_등록하기() throws Exception {
         // given
         String comment = "뽀미는 직각직각";
-        Rate rate = Rate.five;
-        AddStoreReviewRequest request = AddStoreReviewRequest.builder()
+        int rate = 5;
+        AddReviewRequest request = AddReviewRequest.builder()
             .comment(comment)
             .rate(rate)
             .build();
 
         // when & then
-        mockMvc.perform(post("/api/v1/store/review/1")
+        mockMvc.perform(post("/api/v1/review/1")
                 .header(HttpHeaders.AUTHORIZATION, "TOKEN")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))

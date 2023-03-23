@@ -17,12 +17,6 @@ public class StoreServiceUtils {
         return store;
     }
 
-    public static Store findStoreByStoreIdAndMemberIdAndSalesStatus(StoreRepository storeRepository, Long storeId, Long memberId, StoreSalesStatus salesStatus) {
-        Store store = storeRepository.findStoreByStoreIdAndBossId(storeId, memberId);
-        validateStore(store, storeId);
-        validateSalesStatus(store, salesStatus);
-        return store;
-    }
 
     public static Store findByStoreId(StoreRepository storeRepository, Long storeId) {
         Store store = storeRepository.findStoreByStoreId(storeId);
@@ -49,10 +43,5 @@ public class StoreServiceUtils {
         }
     }
 
-    private static void validateSalesStatus(Store store, StoreSalesStatus salesStatus) {
-        if (store.getSalesStatus() == salesStatus) {
-            throw new AlreadyExistedException(String.format("(%s)는 이미 (%s) 상태입니다.", store.getId(), salesStatus));
-        }
-    }
 
 }

@@ -6,14 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.core.domain.boss.Boss;
 import store.streetvendor.core.domain.store.*;
-import store.streetvendor.core.exception.AlreadyExistedException;
 import store.streetvendor.core.domain.store.star.StarStatus;
 import store.streetvendor.core.domain.store.storeimage.StoreImage;
 import store.streetvendor.core.domain.store.menu.Menu;
 import store.streetvendor.core.domain.store.menu.MenuRepository;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
-import store.streetvendor.core.domain.store.review.Review;
-import store.streetvendor.core.domain.store.review.ReviewRepository;
+import store.streetvendor.core.domain.review.ReviewRepository;
 import store.streetvendor.core.domain.store.star.Star;
 import store.streetvendor.core.domain.store.star.StarRepository;
 import store.streetvendor.core.domain.store.storeimage.StoreImageRepository;
@@ -26,7 +24,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static store.streetvendor.core.domain.store.StoreCategory.OTHER_DESSERT;
 
 @SpringBootTest
@@ -72,8 +69,6 @@ class StoreServiceTest extends SetupBoss {
         memberRepository.deleteAllInBatch();
     }
 
-
-
     private void assertMenu(Menu menu, Long storeId, String menuName, int count, int menuPrice, String menuPictureUrl) {
         assertThat(menu.getStore().getId()).isEqualTo(storeId);
         assertThat(menu.getName()).isEqualTo(menuName);
@@ -81,17 +76,6 @@ class StoreServiceTest extends SetupBoss {
         assertThat(menu.getPrice()).isEqualTo(menuPrice);
         assertThat(menu.getPictureUrl()).isEqualTo(menuPictureUrl);
     }
-
-
-
-
-
-
-
-
-
-
-
 
     @Test
     void 가게를_상세조회한다() {
@@ -143,67 +127,6 @@ class StoreServiceTest extends SetupBoss {
 
     }
 
-    @Test
-    void 가게_운영을_시킨다() {
-        // given
-        Store store = storeFixture(boss.getId());
-        storeRepository.save(store);
-
-        // when
-        storeService.storeOpen(boss.getId(), store.getId());
-
-        // then
-        List<Store> stores = storeRepository.findAll();
-        assertThat(stores).hasSize(1);
-        assertThat(stores.get(0).getSalesStatus()).isEqualTo(StoreSalesStatus.OPEN);
-    }
-
-    @Test
-    void 가게를_종료시킨다() {
-        // given
-        Store store = storeRepository.save(Store.newSalesStore(boss.getId(), "토끼네", new Location(33.33, 33.33), "sdfsdf", "sdfsdf", StoreCategory.BUNG_EO_PPANG));
-
-        // when
-        storeService.storeClose(boss.getId(), store.getId());
-
-        // when
-        List<Store> stores = storeRepository.findAll();
-        assertThat(stores).hasSize(1);
-        assertThat(stores.get(0).getSalesStatus()).isEqualTo(StoreSalesStatus.CLOSED);
-
-    }
-
-    @Test
-    void 이미_운영중인_가게가_있는경우() {
-        // given
-        Store store = createSalesStore(boss);
-
-        // when & then
-        assertThatThrownBy(() -> storeService.storeOpen(boss.getId(), store.getId()))
-            .isInstanceOf(AlreadyExistedException.class);
-
-    }
-
-    @Test
-    void 운영중인_가게에_운영하기를_호출할_경우() {
-        // given
-        Store store = createSalesStore(boss);
-
-        // when & then
-        assertThatThrownBy(() -> storeService.storeOpen(boss.getId(), store.getId()))
-            .isInstanceOf(AlreadyExistedException.class);
-    }
-
-    @Test
-    void 종료된_가게에_종료를_호출할경우() {
-        // given
-        Store store = storeFixture(boss.getId());
-        storeRepository.save(store);
-
-        // when & then
-        assertThatThrownBy(() -> storeService.storeClose(boss.getId(), store.getId()))
-            .isInstanceOf(AlreadyExistedException.class);
-    }
 
     @Test
     void 카테고리별로_운영중인_가게를_보여준다() {
@@ -247,110 +170,6 @@ class StoreServiceTest extends SetupBoss {
     }
 
     @Test
-    void 별점이_등록된다() {
-        // given
-        Store store = createStore(boss);
-        Long memberId = 999L;
-        String comment = "진짜 맛집이에요.";
-        Rate rate = Rate.five;
-        AddStoreReviewRequest request = AddStoreReviewRequest.builder()
-            .comment(comment)
-            .rate(rate)
-            .build();
-
-        // when
-        storeService.addEvaluation(memberId, store.getId(), request);
-
-        // then
-        List<Store> stores = storeRepository.findAll();
-        assertThat(stores).hasSize(1);
-
-        List<Review> reviews = reviewRepository.findAll();
-        assertThat(reviews).hasSize(1);
-
-        assertReview(reviews.get(0), comment, rate, store.getId());
-
-    }
-
-    private void assertReview(Review review, String comment, Rate rate, Long storeId) {
-        assertThat(review.getComment()).isEqualTo(comment);
-        assertThat(review.getRate()).isEqualTo(rate);
-        assertThat(review.getStore().getId()).isEqualTo(storeId);
-
-    }
-
-    @Test
-    void 리뷰를_수정한다() {
-        // given
-        Store store = createStore(boss);
-        String comment = "진짜 맛집이에요.";
-        String updateComment = "인정하는 맛집";
-
-        Rate rate = Rate.five;
-        Rate upgradeRate = Rate.three;
-
-        Review review = reviewRepository.save(Review.of(store, store.getBossId(), rate, comment));
-
-        UpdateStoreReviewRequest request = UpdateStoreReviewRequest.builder()
-            .reviewId(review.getId())
-            .comment(updateComment)
-            .rate(upgradeRate)
-            .build();
-
-        // when
-        storeService.updateReview(store.getBossId(), store.getId(), request);
-
-        // then
-        List<Store> stores = storeRepository.findAll();
-        assertThat(stores).hasSize(1);
-
-        List<Review> reviews = reviewRepository.findAll();
-        assertThat(reviews).hasSize(1);
-
-        assertReview(reviews.get(0), updateComment, upgradeRate, store.getId());
-
-    }
-
-    @Test
-    void 리뷰를_삭제한다() {
-        Store store = createStore(boss);
-        Long memberId = 999L;
-        String comment = "진짜 맛집이에요.";
-        Rate rate = Rate.five;
-        Review review = reviewRepository.save(Review.of(store, memberId, rate, comment));
-
-        // when
-        storeService.deleteReview(memberId, store.getId(), review.getId());
-
-        // then
-        List<Store> stores = storeRepository.findAll();
-        assertThat(stores).hasSize(1);
-
-        List<Review> reviews = reviewRepository.findAll();
-        assertThat(reviews).isEmpty();
-
-    }
-
-    @Test
-    void 가게를_즐겨찾기에_추가한다() {
-        // given
-        Store store = createStore(boss);
-        Long memberId = 999L;
-
-        // when
-        storeService.addStar(memberId, store.getId());
-
-        // then
-        List<Store> stores = storeRepository.findAll();
-        assertThat(stores).hasSize(1);
-
-        List<Star> stars = starRepository.findAll();
-        assertThat(stars).hasSize(1);
-
-        assertThat(stars.get(0).getStore().getId()).isEqualTo(store.getId());
-    }
-
-    @Test
     void 가게_즐겨찾기를_제거한다() {
         // given
         Store store = createStore(boss);
@@ -365,27 +184,6 @@ class StoreServiceTest extends SetupBoss {
         assertThat(stars.get(0).getStatus()).isEqualTo(StarStatus.DELETE);
     }
 
-    @Test
-    void 내가_즐겨찾기_한_가게들을_가져온다() {
-        // given
-        Store store = createStore(boss);
-        Long memberId = 199L;
-        Star star = createStar(store, memberId);
-
-        // when
-        storeService.getMyStars(memberId);
-
-        // then
-        List<Store> stores = storeRepository.findAll();
-        assertThat(stores).hasSize(1);
-
-        List<Star> stars = starRepository.findAll();
-        assertThat(stars).hasSize(1);
-        assertThat(stars.get(0).getMemberId()).isEqualTo(memberId);
-        assertThat(stars.get(0).getId()).isEqualTo(star.getId());
-        assertThat(stars.get(0).getStore().getId()).isEqualTo(store.getId());
-
-    }
 
 
     private Store createStore(Boss boss) {
@@ -423,17 +221,12 @@ class StoreServiceTest extends SetupBoss {
         String locationDescription = "군포역 2번 출구 앞";
         StoreCategory category = OTHER_DESSERT;
         Location location = new Location(34.2222, 128.222);
-
-
         return Store.newInstance(memberId, name, location, storeDescription, locationDescription, category);
     }
 
     private Menu createMenu(Store store) {
         return Menu.of(store, "붕어빵", 2, 2000, "pictureUrl");
     }
-
-
-
 
 
     private void assertStore(Store store, String name, Location location, String description, Long memberId, StoreCategory category) {

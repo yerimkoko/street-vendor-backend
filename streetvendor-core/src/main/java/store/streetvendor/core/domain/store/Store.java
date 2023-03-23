@@ -6,7 +6,7 @@ import store.streetvendor.core.domain.store.storemenu.StoreMenu;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.store.menu.Menu;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
-import store.streetvendor.core.domain.store.review.Review;
+import store.streetvendor.core.domain.review.Review;
 import store.streetvendor.core.domain.store.star.Star;
 import store.streetvendor.core.domain.store.storeimage.StoreImage;
 
@@ -35,6 +35,7 @@ public class Store extends BaseTimeEntity {
     private String name;
 
     @Embedded
+    @Column
     private Location location;
 
     private String storeDescription;
@@ -62,11 +63,6 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<StoreImage> storeImages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Review> reviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Star> stars = new ArrayList<>();
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<StoreMenu> storeMenus = new ArrayList<>();
@@ -174,13 +170,6 @@ public class Store extends BaseTimeEntity {
         this.storeImages.add(storeImage);
     }
 
-    public void addReview(Review review) {
-        this.reviews.add(review);
-    }
-
-    public void addStar(Star star) {
-        this.stars.add(star);
-    }
 
     public void updateStoreInfo(String name, String description, Location location, StoreCategory category) {
         this.name = name;
@@ -194,18 +183,6 @@ public class Store extends BaseTimeEntity {
         this.addMenus(newMenus);
     }
 
-    public void updateReview(Long reviewId, Review review, Long memberId) {
-        this.reviews.remove(findReview(reviewId, memberId));
-        this.reviews.add(review);
-    }
-
-    public Review findReview(Long reviewId, Long memberId) {
-        return this.reviews.stream()
-            .filter(review -> review.getId().equals(reviewId)
-                & review.getMemberId().equals(memberId))
-            .findFirst()
-            .orElseThrow(() -> new NotFoundException(String.format("<%s>에 해당하는 리뷰는 존재하지 않습니다.", reviewId)));
-    }
 
     public void updateBusinessDaysInfo(List<BusinessHours> businessHours) {
         this.businessDays.clear();
@@ -223,14 +200,10 @@ public class Store extends BaseTimeEntity {
         this.addStoreImages(storeImages);
     }
 
-
     public void delete() {
         this.status = StoreStatus.DELETED;
     }
 
-    public void deleteReview(Long reviewId, Long memberId) {
-        this.reviews.remove(findReview(reviewId, memberId));
-    }
 
     public void changeMenuSalesStatus(Long menuId, MenuSalesStatus salesStatus) {
         this.menus.stream()

@@ -1,4 +1,4 @@
-package store.streetvendor.core.domain.store.review;
+package store.streetvendor.core.domain.review;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,4 +1,4 @@
-package store.streetvendor.core.domain.store.review;
+package store.streetvendor.core.domain.review;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,36 +23,31 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
+    @Column(nullable = false)
     private Long memberId;
 
+    @Column(nullable = false)
     private String comment;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Rate rate;
 
     @Builder
-    public Review(Long id, Store store, Long memberId, String comment, Rate rate) {
-        this.id = id;
+    public Review(Store store, Long memberId, String comment, Rate rate) {
         this.store = store;
         this.memberId = memberId;
         this.comment = comment;
         this.rate = rate;
     }
 
-    public static Review of(Store store, Long memberId, Rate rate, String comment) {
+    public static Review newInstance(Store store, Long memberId, Rate rate, String comment) {
         return Review.builder()
             .comment(comment)
             .memberId(memberId)
             .store(store)
             .rate(rate)
             .build();
-    }
-
-    public static long getGradeValue(Rate rate) {
-        if (rate == null) {
-            return 0;
-        }
-        return rate.getValue();
     }
 
 }

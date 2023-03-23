@@ -3,7 +3,6 @@ package store.streetvendor.core.domain.store.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import store.streetvendor.core.domain.store.Store;
-import store.streetvendor.core.domain.store.StoreSalesStatus;
 import store.streetvendor.core.domain.store.StoreStatus;
 
 import static store.streetvendor.core.domain.store.QStore.store;
@@ -34,26 +33,6 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
             ).fetchOne();
     }
 
-    @Override
-    public Store findStoreByMemberIdAndSalesStatusStore(Long bossId, StoreSalesStatus salesStatus) {
-        return jpaQueryFactory.selectFrom(store)
-            .where(
-                store.bossId.eq(bossId),
-                store.salesStatus.eq(salesStatus),
-                store.status.eq(StoreStatus.ACTIVE)
-            )
-            .fetchOne();
-    }
-
-
-    @Override
-    public List<Store> findStoreByBossId(Long bossId) {
-        return jpaQueryFactory.selectFrom(store)
-            .where(
-                store.bossId.eq(bossId),
-                store.status.eq(StoreStatus.ACTIVE)
-            ).fetch();
-    }
 
     @Override
     public List<Store> findAllStoreBySizeAndLastId(int size, long lastId) {

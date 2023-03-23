@@ -1,9 +1,9 @@
-package store.streetvendor.core.domain.store.review;
+package store.streetvendor.core.domain.review;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import static store.streetvendor.core.domain.store.review.QReview.review;
+import static store.streetvendor.core.domain.review.QReview.review;
 
 
 @RequiredArgsConstructor

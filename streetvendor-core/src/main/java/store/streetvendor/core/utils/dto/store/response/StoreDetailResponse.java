@@ -80,8 +80,6 @@ public class StoreDetailResponse {
                 .map(StoreBusinessDayResponse::of)
                 .collect(Collectors.toList()))
             .storeImageResponses(imageResponses)
-            .reviewAverage(ConvertUtil.getAverageSpoon(store))
-            .reviewCount(store.getReviews().size())
             .build();
     }
 }
