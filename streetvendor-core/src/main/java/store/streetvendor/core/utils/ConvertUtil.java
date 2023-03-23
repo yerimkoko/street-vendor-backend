@@ -2,8 +2,6 @@ package store.streetvendor.core.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import store.streetvendor.core.domain.store.Store;
-import store.streetvendor.core.domain.review.Review;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConvertUtil {

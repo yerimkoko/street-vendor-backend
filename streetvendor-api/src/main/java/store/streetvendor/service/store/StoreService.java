@@ -3,12 +3,9 @@ package store.streetvendor.service.store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.streetvendor.core.domain.store.star.Star;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
-import store.streetvendor.core.domain.store.star.StarRepository;
-import store.streetvendor.core.redis.storecount.StoreCountKey;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
 import store.streetvendor.core.utils.dto.store.request.*;
 import store.streetvendor.core.utils.dto.store.response.*;
@@ -27,7 +24,6 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
 
-    private final StarRepository starRepository;
 
     private final StoreCountRepository storeCountRepository;
 
@@ -106,15 +102,6 @@ public class StoreService {
         return StoreInfoResponse.of(store);
     }
 
-
-    @Transactional
-    public void deleteStar(Long memberId, Long starId) {
-        Star star = starRepository.findByStarIdAndMemberId(starId, memberId);
-        if (star == null) {
-            throw new NotFoundException(String.format("[%s]에 해당하는 가게는 존재하지 않습니다.", starId));
-        }
-        star.delete();
-    }
 
     @Transactional(readOnly = true)
     public List<StoreDevResponse> getDevStores() {

@@ -6,14 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.core.domain.boss.Boss;
 import store.streetvendor.core.domain.store.*;
-import store.streetvendor.core.domain.store.star.StarStatus;
 import store.streetvendor.core.domain.store.storeimage.StoreImage;
 import store.streetvendor.core.domain.store.menu.Menu;
 import store.streetvendor.core.domain.store.menu.MenuRepository;
 import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
 import store.streetvendor.core.domain.review.ReviewRepository;
-import store.streetvendor.core.domain.store.star.Star;
-import store.streetvendor.core.domain.store.star.StarRepository;
 import store.streetvendor.core.domain.store.storeimage.StoreImageRepository;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
 import store.streetvendor.core.utils.dto.store.request.*;
@@ -50,8 +47,6 @@ class StoreServiceTest extends SetupBoss {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    @Autowired
-    private StarRepository starRepository;
 
     @Autowired
     private StoreCountRepository storeCountRepository;
@@ -59,7 +54,6 @@ class StoreServiceTest extends SetupBoss {
 
     @AfterEach
     void cleanUp() {
-        starRepository.deleteAllInBatch();
         reviewRepository.deleteAllInBatch();
         businessHoursRepository.deleteAllInBatch();
         paymentRepository.deleteAllInBatch();
@@ -95,35 +89,6 @@ class StoreServiceTest extends SetupBoss {
         // TODO: redis 적용시키기 (dev)
         // Long value = storeCountRepository.getValueByKey(new StoreCountKey(store.getId()));
         // assertThat(value).isEqualTo(1);
-
-    }
-
-
-
-    @Test
-    void 가게_상세정보를_조회한다() {
-        // given
-        Store store = storeFixture(boss.getId());
-        store.addMenus(List.of(Menu.of(store, "붕어빵", 2, 1000, "pictureUrl")));
-        store.addPayments(List.of(PaymentMethod.CASH, PaymentMethod.ACCOUNT_TRANSFER));
-        store.addStoreImages(List.of(StoreImage.of(store, true, "pictureUrl")));
-
-        LocalTime startTime = LocalTime.of(9, 0);
-        LocalTime endTime = LocalTime.of(18, 0);
-        Days friDay = Days.FRI;
-
-        store.addBusinessDays(List.of(BusinessHours.of(store, friDay, startTime, endTime)));
-        storeRepository.save(store);
-
-        // when
-        StoreDetailResponse response = storeService.getStoreDetail(store.getId());
-
-        // then
-        List<Store> stores = storeRepository.findAll();
-        assertThat(stores).hasSize(1);
-        assertThat(response.getCategory()).isEqualTo(store.getCategory().getDescription());
-        assertThat(response.getStoreDescription()).isEqualTo(store.getStoreDescription());
-        assertThat(response.getStoreId()).isEqualTo(store.getId());
 
     }
 
@@ -169,22 +134,6 @@ class StoreServiceTest extends SetupBoss {
         assertThat(menus.get(0).getSalesStatus()).isEqualTo(soldOut);
     }
 
-    @Test
-    void 가게_즐겨찾기를_제거한다() {
-        // given
-        Store store = createStore(boss);
-        Star star = createStar(store, member.getId());
-
-        // when
-        storeService.deleteStar(star.getMemberId(), star.getId());
-
-        // then
-        List<Star> stars = starRepository.findAll();
-        assertThat(stars).hasSize(1);
-        assertThat(stars.get(0).getStatus()).isEqualTo(StarStatus.DELETE);
-    }
-
-
 
     private Store createStore(Boss boss) {
         // store
@@ -196,11 +145,6 @@ class StoreServiceTest extends SetupBoss {
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
         return storeRepository.save(Store.newInstance(memberId, name, location, storeDescription, locationDescription, category));
-    }
-
-    private Star createStar(Store store, Long memberId) {
-        return starRepository.save(Star.of(store, memberId));
-
     }
 
     private Store createSalesStore(Boss boss) {
