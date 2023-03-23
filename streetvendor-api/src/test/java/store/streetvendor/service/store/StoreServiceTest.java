@@ -137,7 +137,7 @@ class StoreServiceTest extends SetupBoss {
         // then
         List<Store> stores = storeRepository.findAll();
         assertThat(stores).hasSize(1);
-        assertThat(response.getCategory()).isEqualTo(store.getCategory());
+        assertThat(response.getCategory()).isEqualTo(store.getCategory().getDescription());
         assertThat(response.getStoreDescription()).isEqualTo(store.getStoreDescription());
         assertThat(response.getStoreId()).isEqualTo(store.getId());
 
