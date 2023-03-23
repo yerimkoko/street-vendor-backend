@@ -25,7 +25,7 @@ public class StoreDetailResponse {
 
     private StoreSalesStatus salesStatus;
 
-    private StoreCategory category;
+    private String category;
 
     private List<MenuDetailResponse> menuList;
 
@@ -38,7 +38,7 @@ public class StoreDetailResponse {
     private Integer reviewCount;
 
     @Builder
-    public StoreDetailResponse(Long storeId, String storeName, String locationDescription, String storeDescription, Location location, StoreSalesStatus salesStatus, StoreCategory category, List<MenuDetailResponse> menuList, List<StoreBusinessDayResponse> businessHours, List<StoreImageResponse> storeImageResponses, String reviewAverage, Integer reviewCount) {
+    public StoreDetailResponse(Long storeId, String storeName, String locationDescription, String storeDescription, Location location, StoreSalesStatus salesStatus, String category, List<MenuDetailResponse> menuList, List<StoreBusinessDayResponse> businessHours, List<StoreImageResponse> storeImageResponses, String reviewAverage, Integer reviewCount) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.locationDescription = locationDescription;
@@ -70,7 +70,7 @@ public class StoreDetailResponse {
         return StoreDetailResponse.builder()
             .storeId(store.getId())
             .storeName(store.getName())
-            .category(store.getCategory())
+            .category(store.getCategory().getDescription())
             .menuList(menuDetailResponse)
             .location(store.getLocation())
             .salesStatus(store.getSalesStatus())
