@@ -3,6 +3,7 @@ package store.streetvendor.service.dto.request;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import store.streetvendor.core.domain.notification.Notification;
 import store.streetvendor.core.domain.notification.NotificationType;
 
 import javax.validation.constraints.NotNull;
@@ -50,5 +51,8 @@ public class AddNewNotificationRequest {
         return endDate;
     }
 
+    public Notification toEntity() {
+        return Notification.newNotification(title, content, notificationType, notificationImage, startDateEq(startDate), endDateEq(endDate));
+    }
 
 }

@@ -40,7 +40,7 @@ spring:
     defer-datasource-initialization: true
   sql:
     init:
-      data-locations: classpath:schema-h2.sql, classpath:data.sql
+      data-locations: classpath:schema-h2.sql
       mode: always
 
 

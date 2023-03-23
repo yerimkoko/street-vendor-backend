@@ -27,7 +27,7 @@ public class NotificationService {
     @Transactional
     public void addNotificationService(Long adminId, AddNewNotificationRequest request) {
         AdminServiceUtils.findAdmin(adminId, adminRepository);
-        notificationRepository.save(Notification.newNotification(request.getTitle(), request.getContent(), request.getNotificationType(), request.getNotificationImage(), request.getStartDate(), request.getEndDate()));
+        notificationRepository.save(request.toEntity());
     }
 
     @Transactional(readOnly = true)
