@@ -29,7 +29,7 @@ public class ReviewController {
         return ApiResponse.OK;
     }
 
-    @ApiOperation(value = "[리뷰] 모든 리뷰 가져오기")
+    @ApiOperation(value = "[리뷰] 가게에 있는 리뷰 가져오기")
     @GetMapping("/api/v1/reviews/{storeId}")
     public ApiResponse<List<ReviewResponse>> getAllReviews(@PathVariable Long storeId,
                                                            @RequestParam(required = false) Long cursor,
