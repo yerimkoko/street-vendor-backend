@@ -47,10 +47,11 @@ class ReviewControllerTest {
         AddReviewRequest request = AddReviewRequest.builder()
             .comment(comment)
             .rate(rate)
+            .orderId(1L)
             .build();
 
         // when & then
-        mockMvc.perform(post("/api/v1/review/1")
+        mockMvc.perform(post("/api/v1/review")
                 .header(HttpHeaders.AUTHORIZATION, "TOKEN")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))

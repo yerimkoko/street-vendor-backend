@@ -8,7 +8,6 @@ import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.order.OrderRepository;
 import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.core.domain.review.ReviewRepository;
-import store.streetvendor.core.domain.store.StoreRepository;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
 import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
