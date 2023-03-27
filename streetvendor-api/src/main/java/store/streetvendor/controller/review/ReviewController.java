@@ -6,10 +6,12 @@ import org.springframework.web.bind.annotation.*;
 import store.streetvendor.Auth;
 import store.streetvendor.MemberId;
 import store.streetvendor.core.utils.ApiResponse;
-import store.streetvendor.core.utils.dto.review.AddReviewRequest;
+import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
+import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
 import store.streetvendor.service.review.ReviewService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,19 +22,21 @@ public class ReviewController {
 
     @Auth
     @ApiOperation(value = "[리뷰] 등록하기")
-    @PostMapping("/api/v1/review/{storeId}")
+    @PostMapping("/api/v1/review")
     public ApiResponse<String> addNewEvaluation(@MemberId Long memberId,
-                                                @PathVariable Long storeId,
                                                 @Valid @RequestBody AddReviewRequest request) {
-        reviewService.addReview(request, memberId, storeId);
+        reviewService.addReview(request, memberId);
         return ApiResponse.OK;
     }
 
-    @Auth
-    @ApiOperation(value = "[리뷰] 삭제하기")
-    @DeleteMapping("/api/v1/store/review")
-    public ApiResponse<String> deleteReview(@MemberId Long memberId, @RequestParam Long storeId, @RequestParam Long reviewId) {
-        return ApiResponse.OK;
+    @ApiOperation(value = "[리뷰] 모든 리뷰 가져오기")
+    @GetMapping("/api/v1/reviews/{storeId}")
+    public ApiResponse<List<ReviewResponse>> getAllReviews(@PathVariable Long storeId,
+                                                           @RequestParam(required = false) Long cursor,
+                                                           @RequestParam(required = false, defaultValue = "5") int size) {
+
+        return ApiResponse.success(reviewService.getReviews(storeId, cursor, size));
+
     }
 
 }

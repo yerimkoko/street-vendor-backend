@@ -1,11 +1,12 @@
-package store.streetvendor.core.utils.dto.review;
+package store.streetvendor.core.utils.dto.review.request;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import store.streetvendor.core.domain.member.Member;
+import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.core.domain.review.Review;
 import store.streetvendor.core.domain.store.Rate;
-import store.streetvendor.core.domain.store.Store;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -22,14 +23,18 @@ public class AddReviewRequest {
     @NotBlank
     private String comment;
 
+    @NotNull
+    private Long orderId;
+
     @Builder
-    public AddReviewRequest(int rate, String comment) {
+    public AddReviewRequest(int rate, String comment, Long orderId) {
         this.rate = rate;
         this.comment = comment;
+        this.orderId = orderId;
     }
 
-    public Review toEntity(Long memberId, Store store) {
-        return Review.newInstance(store, memberId, Rate.of(rate), comment);
+    public Review toEntity(Member member, Orders order) {
+        return Review.newInstance(order, member, Rate.of(rate), comment);
     }
 
 }

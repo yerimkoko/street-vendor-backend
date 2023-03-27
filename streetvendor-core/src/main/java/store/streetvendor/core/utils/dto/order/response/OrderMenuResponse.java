@@ -14,13 +14,16 @@ public class OrderMenuResponse {
 
     private int count;
 
+    private String imageUrl;
+
     private int price;
 
     @Builder
-    public OrderMenuResponse(Long menuId, String menuName, int count, int price) {
+    public OrderMenuResponse(Long menuId, String menuName, int count, int price, String imageUrl) {
         this.menuId = menuId;
         this.menuName = menuName;
         this.count = count;
+        this.imageUrl = imageUrl;
         this.price = price;
     }
 
@@ -28,6 +31,7 @@ public class OrderMenuResponse {
         return OrderMenuResponse.builder()
             .menuId(orderMenu.getMenu().getId())
             .menuName(orderMenu.getMenu().getName())
+            .imageUrl(orderMenu.getPictureUrl())
             .count(orderMenu.getMenu().getMenuCount() * orderMenu.getCount())
             .price(orderMenu.getMenu().getPrice() * orderMenu.getCount())
             .build();

@@ -12,7 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import store.streetvendor.AuthInterceptor;
 import store.streetvendor.controller.review.ReviewController;
-import store.streetvendor.core.utils.dto.review.AddReviewRequest;
+import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
 import store.streetvendor.service.review.ReviewService;
 
 import static org.mockito.ArgumentMatchers.any;
