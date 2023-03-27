@@ -18,8 +18,8 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
 
     @Transactional(readOnly = true)
-    public List<FaqResponse> getFaqList() {
-        return notificationRepository.findNotificationByNotificationType(NotificationType.FAQ).stream()
+    public List<FaqResponse> getFaqList(NotificationType type) {
+        return notificationRepository.findNotificationByNotificationType(type).stream()
             .map(FaqResponse::of)
             .collect(Collectors.toList());
     }

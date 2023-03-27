@@ -70,7 +70,7 @@ public class Notification extends BaseTimeEntity {
         return Notification.builder()
             .title(title)
             .content(content)
-            .notificationType(NotificationType.FAQ)
+            .notificationType(NotificationType.FAQ_USER)
             .notificationImage(notificationImage)
             .build();
     }

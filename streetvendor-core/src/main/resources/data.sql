@@ -15,9 +15,13 @@ values
 insert into notification(
                       title, content, created_at, updated_at, notification_type
 )
-values ( '사장님과 손님 페이지는 무엇일까요?', '무엇이냐면요', now(), now(), 'FAQ');
+values ( '[사장님 전용]사장님과 손님 페이지는 무엇일까요?', '무엇이냐면요', now(), now(), 'FAQ_BOSS');
 
 
+insert into notification(
+    title, content, created_at, updated_at, notification_type
+)
+values ( '[손님 전용] 메뉴 변경이 되지 않아요', '메뉴 변경이 되지 않을 때에는 아래의 연락처로 연락주세요.', now(), now(), 'FAQ_USER');
 
 
 insert into store(

@@ -60,21 +60,6 @@ public class StoreService {
             .collect(Collectors.toList());
     }
 
-//    @Transactional
-//    public void storeOpen(Long memberId, Long storeId) {
-//        StoreSalesStatus open = StoreSalesStatus.OPEN;
-//        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberIdAndSalesStatus(storeRepository, storeId, memberId, open);
-//        Store findAlreadyOpenedStore = storeRepository.findStoreByMemberIdAndSalesStatusStore(memberId, open);
-//        StoreServiceUtils.findStoreOpenedAndNotSameStatus(store, findAlreadyOpenedStore);
-//        store.changeSalesStatus(open);
-//    }
-//
-//    @Transactional
-//    public void storeClose(Long memberId, Long storeId) {
-//        StoreSalesStatus closed = StoreSalesStatus.CLOSED;
-//        Store store = StoreServiceUtils.findStoreByStoreIdAndMemberIdAndSalesStatus(storeRepository, storeId, memberId, closed);
-//        store.changeSalesStatus(closed);
-//    }
 
     @Transactional(readOnly = true)
     public List<StoreResponse> getStoresByCategoryAndLocationAndStoreStatus(StoreCategoryRequest request, StoreCategory category) {
