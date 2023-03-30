@@ -1,6 +1,3 @@
--- INSERT INTO MEMBER(name, nick_name, email, profile_url)
--- VALUES ('고토끼', '토끼이', 'googoo@gmail.com', 'dddd')
-
 
 insert into member
 (created_at, updated_at, email, name, nick_name, profile_url, provider)
@@ -11,6 +8,18 @@ insert into member
 (created_at, updated_at, email, name, nick_name, profile_url, provider)
 values
     (now(), now(), 'whrmawnrmawn@gmail.com', '조금주', '꿍주', 'fff', 'GOOGLE');
+
+
+insert into member
+(created_at, updated_at, email, name, nick_name, profile_url, provider)
+values
+    (now(), now(), 'pdom0327@gmail.com', '안호빈', 'Pdom', null, 'GOOGLE');
+
+insert into member
+(created_at, updated_at, email, name, nick_name, profile_url, provider)
+values
+    (now(), now(), 'starpaks7@gmail.com', '윤운일', 'star', null, 'GOOGLE');
+
 
 insert into notification(
                       title, content, created_at, updated_at, notification_type
