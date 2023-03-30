@@ -24,7 +24,7 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
     @Override
     public List<Review> findByStoreId(Long storeId, Long cursor, int size) {
         return jpaQueryFactory.selectFrom(review)
-            .where(review.order.store.id.eq(storeId),
+            .where(review.order.storeInfo.storeId.eq(storeId),
                 existedCursor(cursor))
             .orderBy(review.id.desc())
             .limit(size)

@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.member.Member;
-import store.streetvendor.core.domain.order.Orders;
+import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.review.Review;
 import store.streetvendor.core.domain.store.Rate;
 
@@ -33,7 +33,7 @@ public class AddReviewRequest {
         this.orderId = orderId;
     }
 
-    public Review toEntity(Member member, Orders order) {
+    public Review toEntity(Member member, OrderHistory order) {
         return Review.newInstance(order, member, Rate.of(rate), comment);
     }
 

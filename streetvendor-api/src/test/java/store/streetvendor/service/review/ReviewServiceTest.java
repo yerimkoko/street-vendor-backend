@@ -8,7 +8,10 @@ import store.streetvendor.MemberFixture;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.order.OrderRepository;
+import store.streetvendor.core.domain.order.OrderStatusCanceled;
 import store.streetvendor.core.domain.order.Orders;
+import store.streetvendor.core.domain.order_history.OrderHistory;
+import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.review.Review;
 import store.streetvendor.core.domain.review.ReviewRepository;
 import store.streetvendor.core.domain.store.*;
@@ -36,10 +39,14 @@ public class ReviewServiceTest extends MemberFixture {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private OrderHistoryRepository orderHistoryRepository;
+
 
     @AfterEach
     void cleanUp() {
         reviewRepository.deleteAll();
+        orderHistoryRepository.deleteAll();
         orderRepository.deleteAll();
         storeRepository.deleteAll();
         memberRepository.deleteAll();
@@ -50,11 +57,10 @@ public class ReviewServiceTest extends MemberFixture {
         // given
         String comment = "리뷰 입니다.";
         int rate = 1;
-
         AddReviewRequest request = AddReviewRequest.builder()
             .comment(comment)
             .rate(rate)
-            .orderId(order().getId())
+            .orderId(createOrderHistory(order()).getId())
             .build();
 
         // when
@@ -70,7 +76,15 @@ public class ReviewServiceTest extends MemberFixture {
 
     private Orders order() {
         Orders order = Orders.newOrder(store(), createMember().getId(), PaymentMethod.ACCOUNT_TRANSFER);
-        return orderRepository.save(order);
+        orderRepository.save(order);
+        return order;
+    }
+
+
+    private OrderHistory createOrderHistory(Orders order) {
+        OrderHistory orderHistory = OrderHistory.newHistory(order.getStore(), order, createMember().getId(), OrderStatusCanceled.ACTIVE);
+        orderHistoryRepository.save(orderHistory);
+        return orderHistory;
     }
 
     private Store store() {

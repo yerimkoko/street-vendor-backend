@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.review.Review;
+import store.streetvendor.core.utils.dto.order.response.OrderHistoryMenuResponse;
 import store.streetvendor.core.utils.dto.order.response.OrderMenuResponse;
 
 import java.util.List;
@@ -21,24 +22,24 @@ public class ReviewResponse {
 
     private int rate;
 
-    private List<OrderMenuResponse> orderMenuResponses;
+    private List<OrderHistoryMenuResponse> orderHistoryMenuResponses;
 
     @Builder
-    public ReviewResponse(Long storeId, Long reviewId, String userNickName, int rate, List<OrderMenuResponse> orderMenuResponses) {
+    public ReviewResponse(Long storeId, Long reviewId, String userNickName, int rate, List<OrderHistoryMenuResponse> orderMenuResponses) {
         this.storeId = storeId;
         this.reviewId = reviewId;
         this.userNickName = userNickName;
         this.rate = rate;
-        this.orderMenuResponses = orderMenuResponses;
+        this.orderHistoryMenuResponses = orderMenuResponses;
     }
 
     public static ReviewResponse of(Review review) {
         return ReviewResponse.builder()
-            .orderMenuResponses(review.getOrder().getOrderMenus().stream()
-                .map(OrderMenuResponse::of)
+            .orderMenuResponses(review.getOrder().getMenus().stream()
+                .map(OrderHistoryMenuResponse::of)
                 .collect(Collectors.toList()))
             .reviewId(review.getId())
-            .storeId(review.getOrder().getStore().getId())
+            .storeId(review.getOrder().getStoreInfo().getStoreId())
             .userNickName(review.getMember().getNickName())
             .rate(review.getRate().getValue())
             .build();

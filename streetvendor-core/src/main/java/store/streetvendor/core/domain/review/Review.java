@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.BaseTimeEntity;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.order.Orders;
+import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.store.Rate;
 
 import javax.persistence.*;
@@ -21,8 +22,8 @@ public class Review extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id", nullable = false)
-    private Orders order;
+    @JoinColumn(name = "order_history_id", nullable = false)
+    private OrderHistory order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
@@ -36,14 +37,14 @@ public class Review extends BaseTimeEntity {
     private Rate rate;
 
     @Builder
-    public Review(Orders order, Member member, String comment, Rate rate) {
+    public Review(OrderHistory order, Member member, String comment, Rate rate) {
         this.order = order;
         this.member = member;
         this.comment = comment;
         this.rate = rate;
     }
 
-    public static Review newInstance(Orders order, Member member, Rate rate, String comment) {
+    public static Review newInstance(OrderHistory order, Member member, Rate rate, String comment) {
         return Review.builder()
             .comment(comment)
             .member(member)

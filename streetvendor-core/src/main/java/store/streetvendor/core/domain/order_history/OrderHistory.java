@@ -55,8 +55,6 @@ public class OrderHistory extends BaseTimeEntity {
         this.orderCreateTime = orderCreateTime;
     }
 
-
-
     @Builder(access = AccessLevel.PRIVATE)
     public static OrderHistory newHistory(Store store, Orders order, Long memberId, OrderStatusCanceled orderStatus) {
         return OrderHistory.builder()

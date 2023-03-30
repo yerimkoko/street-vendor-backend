@@ -2,6 +2,8 @@ package store.streetvendor.core.utils.service;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import store.streetvendor.core.domain.order_history.OrderHistory;
+import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.order.OrderRepository;
 import store.streetvendor.core.domain.order.Orders;
@@ -22,9 +24,21 @@ public class OrderServiceUtils {
         return order;
     }
 
+    public static OrderHistory findOrderHistoryByOrderId(OrderHistoryRepository orderHistoryRepository, Long orderId) {
+        OrderHistory orderHistory = orderHistoryRepository.findOrderHistoryByOrderId(orderId);
+        validateOrderHistory(orderHistory, orderId);
+        return orderHistory;
+    }
+
     private static void validateOrder(Orders order, Long orderId) {
         if (order == null) {
             throw new NotFoundException((String.format("(%s)에 해당하는 주문이 없습니다.", orderId)));
+        }
+    }
+
+    private static void validateOrderHistory(OrderHistory orderHistory, Long orderId) {
+        if (orderHistory == null) {
+            throw new NotFoundException(String.format("[%s]에 해당하는 주문은 존재하지 않습니다.", orderId));
         }
     }
 

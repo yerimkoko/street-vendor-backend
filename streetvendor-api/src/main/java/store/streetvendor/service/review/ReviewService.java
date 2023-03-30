@@ -7,7 +7,10 @@ import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.order.OrderRepository;
 import store.streetvendor.core.domain.order.Orders;
+import store.streetvendor.core.domain.order_history.OrderHistory;
+import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.review.ReviewRepository;
+import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
 import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
@@ -26,11 +29,16 @@ public class ReviewService {
 
     private final MemberRepository memberRepository;
 
+    private final OrderHistoryRepository orderHistoryRepository;
+
     @Transactional
     public void addReview(AddReviewRequest request, Long memberId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
-        Orders order = OrderServiceUtils.findByOrderId(orderRepository, request.getOrderId());
-        reviewRepository.save(request.toEntity(member, order));
+        OrderHistory orderHistory = orderHistoryRepository.findOrderHistoryById(request.getOrderId());
+        if (orderHistory == null) {
+            throw new NotFoundException(String.format("[%s]에 존재하는 id는 없습니다.", request.getOrderId()));
+        }
+        reviewRepository.save(request.toEntity(member, orderHistory));
     }
 
     @Transactional(readOnly = true)
