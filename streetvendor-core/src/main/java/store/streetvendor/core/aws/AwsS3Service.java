@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import store.streetvendor.core.aws.request.FileUploadRequest;
+import store.streetvendor.core.aws.response.ImageUrlResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,9 +48,8 @@ public class AwsS3Service {
 
     }
 
-    private List<String> uploadImage(List<MultipartFile> multipartFiles) {
+    public List<String> uploadImage(List<MultipartFile> multipartFiles) {
         List<String> fileNameList = new ArrayList<>();
-
         multipartFiles.forEach(file -> {
             String fileName = createFileName(file.getOriginalFilename());
             ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -67,6 +68,37 @@ public class AwsS3Service {
 
         return fileNameList;
     }
+
+    public List<ImageUrlResponse> uploadImageFiles(List<FileUploadRequest> requests) {
+        List<ImageUrlResponse> imageUrlResponses = new ArrayList<>();
+        requests.forEach(request -> {
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentLength(request.getFile().getSize());
+            objectMetadata.setContentType(request.getFile().getContentType());
+
+            try (InputStream inputStream = request.getFile().getInputStream()) {
+                amazonS3.putObject(new PutObjectRequest(bucket,
+                    getFileName(request),
+                    inputStream,
+                    objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            } catch (IOException e) {
+                throw new IllegalArgumentException("이미지 업로드에 실패했습니다.");
+            }
+
+            imageUrlResponses.add(ImageUrlResponse.of(getFileName(request)));
+
+        });
+
+        return imageUrlResponses;
+
+    }
+
+    private String getFileName(FileUploadRequest request) {
+        return request.getFileNameWithBucketDirectory(request.getFile().getOriginalFilename());
+    }
+
+
 
     private String createFileName(String fileName) {
         return UUID.randomUUID().toString().concat(getFileExtension(fileName));

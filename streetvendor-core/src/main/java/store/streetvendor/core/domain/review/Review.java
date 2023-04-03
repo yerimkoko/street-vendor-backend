@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.BaseTimeEntity;
 import store.streetvendor.core.domain.member.Member;
-import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.store.Rate;
 
@@ -36,6 +35,7 @@ public class Review extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Rate rate;
 
+
     @Builder
     public Review(OrderHistory order, Member member, String comment, Rate rate) {
         this.order = order;
@@ -52,5 +52,4 @@ public class Review extends BaseTimeEntity {
             .rate(rate)
             .build();
     }
-
 }

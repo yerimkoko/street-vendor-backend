@@ -26,20 +26,11 @@ public class StoreService {
     private final StoreCountRepository storeCountRepository;
 
 
-
     @Transactional(readOnly = true)
     public StoreDetailResponse getStoreDetail(Long storeId) {
         Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
         // storeCountRepository.incrByCount(store.getId());
         return StoreDetailResponse.of(store);
-    }
-
-    @Transactional(readOnly = true)
-    public List<StoreSimpleResponse> getAllStoreList(int size, long lastId) {
-        List<Store> stores = storeRepository.findAllStoreBySizeAndLastId(size, lastId);
-        return stores.stream()
-            .map(StoreSimpleResponse::of)
-            .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

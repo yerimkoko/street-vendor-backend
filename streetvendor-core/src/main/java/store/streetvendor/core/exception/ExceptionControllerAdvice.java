@@ -53,6 +53,13 @@ public class ExceptionControllerAdvice {
         return ApiResponse.error(e.getErrorCode().getCode(), e.getMessage());
     }
 
+    @ExceptionHandler(InvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<Object> invalidException(InvalidException e) {
+        log.error(e.getMessage(), e);
+        return ApiResponse.error(e.getErrorCode().getCode(), e.getMessage());
+    }
+
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiResponse<Object> handleNotFoundException(NotFoundException e) {

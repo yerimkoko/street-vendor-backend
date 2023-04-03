@@ -32,6 +32,11 @@ insert into notification(
 )
 values ( '[손님 전용] 메뉴 변경이 되지 않아요', '메뉴 변경이 되지 않을 때에는 아래의 연락처로 연락주세요.', now(), now(), 'FAQ_USER');
 
+insert into notification(
+    title, content, created_at, updated_at, notification_type
+)
+values ( '[공지사항] 공지사항입니다.', '공지사항입니다.', now(), now(), 'NOTIFICATION');
+
 
 insert into store(
                   created_at, updated_at, boss_id, category, latitude, longitude,
@@ -101,3 +106,7 @@ values ( 'SUN', '12:00:00', '08:00:00', 1);
 
 insert into business_hours(days, end_time, start_time, store_id)
 values ( 'SUN', '12:00:00', '08:00:00', 4);
+
+
+insert into review(orderHistoryId, memberId, comment, rate, created_at, updated_at)
+values ( 1, 1, "여기는 진짜 맛있어요 인정", 'FIVE', now(), now() )

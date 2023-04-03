@@ -60,7 +60,7 @@ public class ReviewServiceTest extends MemberFixture {
         AddReviewRequest request = AddReviewRequest.builder()
             .comment(comment)
             .rate(rate)
-            .orderId(createOrderHistory(order()).getId())
+            .orderId(createOrderHistory(order()).getOrderId())
             .build();
 
         // when
@@ -71,6 +71,13 @@ public class ReviewServiceTest extends MemberFixture {
         assertThat(reviews).hasSize(1);
         assertThat(reviews.get(0).getRate().getValue()).isEqualTo(rate);
         assertThat(reviews.get(0).getComment()).isEqualTo(comment);
+
+    }
+
+    @Test
+    void 없는_아이디일때() {
+        // when & then
+
 
     }
 
