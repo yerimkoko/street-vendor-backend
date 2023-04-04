@@ -110,7 +110,7 @@ values ( 'SUN', '12:00:00', '08:00:00', 4);
 
 
 insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status)
-values ( 1, "설명", "위치 설명", 1, 1, 1, "ACCOUNT", now(),  "CASH");
+values ( 1, "설명", "위치 설명", 1, 1, 1, "CASH", now(),  "CANCELED");
 
 insert into review(order_history_id, member_id, comment, rate, created_at, updated_at)
 values ( 1, 1, "여기는 진짜 맛있어요 인정", 'FIVE', now(), now() );
