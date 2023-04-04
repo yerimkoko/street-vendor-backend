@@ -14,6 +14,7 @@ import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.review.Review;
 import store.streetvendor.core.domain.review.ReviewImage;
+import store.streetvendor.core.domain.review.ReviewImageRepository;
 import store.streetvendor.core.domain.review.ReviewRepository;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
 import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
@@ -28,6 +29,8 @@ import java.util.stream.Collectors;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+
+    private final ReviewImageRepository reviewImageRepository;
 
     private final MemberRepository memberRepository;
 
@@ -50,7 +53,8 @@ public class ReviewService {
             .map(imageUrlResponse -> ReviewImage.of(review, imageUrlResponse.getImageUrl()))
             .collect(Collectors.toList());
 
-        review.addReviewImages(reviewImages);
+
+        reviewImageRepository.saveAll(reviewImages);
 
         reviewRepository.save(review);
 
