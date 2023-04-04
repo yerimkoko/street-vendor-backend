@@ -29,9 +29,7 @@ import java.util.stream.Collectors;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-
-    private final ReviewImageRepository reviewImageRepository;
-
+    
     private final MemberRepository memberRepository;
 
     private final OrderHistoryRepository orderHistoryRepository;
@@ -53,10 +51,10 @@ public class ReviewService {
             .map(imageUrlResponse -> ReviewImage.of(review, imageUrlResponse.getImageUrl()))
             .collect(Collectors.toList());
 
-
-        reviewImageRepository.saveAll(reviewImages);
+        review.addReviewImages(reviewImages);
 
         reviewRepository.save(review);
+
 
     }
 
