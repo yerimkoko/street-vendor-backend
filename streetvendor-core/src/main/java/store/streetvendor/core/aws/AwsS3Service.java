@@ -58,7 +58,7 @@ public class AwsS3Service {
 
             try (InputStream inputStream = request.getFile().getInputStream()) {
                 amazonS3.putObject(new PutObjectRequest(bucket,
-                    getFileName(request),
+                    getFileOriginalName(request),
                     inputStream,
                     objectMetadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
@@ -66,7 +66,7 @@ public class AwsS3Service {
                 throw new IllegalArgumentException("이미지 업로드에 실패했습니다.");
             }
 
-            imageUrlResponses.add(ImageUrlResponse.of(getFileName(request)));
+            imageUrlResponses.add(ImageUrlResponse.of(getFileOriginalName(request)));
 
         });
 
@@ -74,10 +74,9 @@ public class AwsS3Service {
 
     }
 
-    private String getFileName(FileUploadRequest request) {
-        return request.getFileNameWithBucketDirectory(request.getFile().getName());
+    private String getFileOriginalName(FileUploadRequest request) {
+        return request.getFileNameWithBucketDirectory(request.getFile().getOriginalFilename());
     }
-
 
 
     private String createFileName(String fileName) {
