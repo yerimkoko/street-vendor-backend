@@ -29,13 +29,15 @@ import java.util.stream.Collectors;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    
+
     private final MemberRepository memberRepository;
 
     private final OrderHistoryRepository orderHistoryRepository;
 
     private final AwsS3Service s3Service;
 
+
+    @Transactional
     public void addReview(AddReviewRequest request, List<MultipartFile> images, Long memberId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
 
