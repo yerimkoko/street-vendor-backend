@@ -9,3 +9,8 @@ Authorization: Bearer {{SESSION}}
     "orderId": 1
 
 }
+
+### 리뷰를 불러온다.
+GET {{host_api}}/api/v1/reviews/1
+Content-Type: application/json
+Authorization: Bearer {{SESSION}}

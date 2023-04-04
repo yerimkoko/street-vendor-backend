@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.review.Review;
 import store.streetvendor.core.utils.dto.order.response.OrderHistoryMenuResponse;
-import store.streetvendor.core.utils.dto.order.response.OrderMenuResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,13 +23,16 @@ public class ReviewResponse {
 
     private List<OrderHistoryMenuResponse> orderHistoryMenuResponses;
 
+    private List<ReviewImageResponse> reviewImageResponses;
+
     @Builder
-    public ReviewResponse(Long storeId, Long reviewId, String userNickName, int rate, List<OrderHistoryMenuResponse> orderMenuResponses) {
+    public ReviewResponse(Long storeId, Long reviewId, String userNickName, int rate, List<OrderHistoryMenuResponse> orderMenuResponses, List<ReviewImageResponse> reviewImageResponses) {
         this.storeId = storeId;
         this.reviewId = reviewId;
         this.userNickName = userNickName;
         this.rate = rate;
         this.orderHistoryMenuResponses = orderMenuResponses;
+        this.reviewImageResponses = reviewImageResponses;
     }
 
     public static ReviewResponse of(Review review) {
@@ -42,6 +44,9 @@ public class ReviewResponse {
             .storeId(review.getOrder().getStoreInfo().getStoreId())
             .userNickName(review.getMember().getNickName())
             .rate(review.getRate().getValue())
+            .reviewImageResponses(review.getReviewImages().stream()
+                .map(ReviewImageResponse::of)
+                .collect(Collectors.toList()))
             .build();
     }
 }
