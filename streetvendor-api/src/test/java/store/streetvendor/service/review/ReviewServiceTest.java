@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 import store.streetvendor.MemberFixture;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
@@ -17,6 +19,7 @@ import store.streetvendor.core.domain.review.ReviewRepository;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -64,20 +67,13 @@ public class ReviewServiceTest extends MemberFixture {
             .build();
 
         // when
-        reviewService.addReview(request, createMember().getId());
+        reviewService.addReview(request, Collections.emptyList(), createMember().getId());
 
         // then
         List<Review> reviews = reviewRepository.findAll();
         assertThat(reviews).hasSize(1);
         assertThat(reviews.get(0).getRate().getValue()).isEqualTo(rate);
         assertThat(reviews.get(0).getComment()).isEqualTo(comment);
-
-    }
-
-    @Test
-    void 없는_아이디일때() {
-        // when & then
-
 
     }
 

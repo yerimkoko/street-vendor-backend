@@ -18,8 +18,9 @@ public class ReviewImage extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long reviewId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private Review review;
 
     @Column(nullable = false)
     private Long memberId;
@@ -32,17 +33,17 @@ public class ReviewImage extends BaseTimeEntity {
     private ReviewImageStatus status;
 
     @Builder(access = AccessLevel.PACKAGE)
-    public ReviewImage(@NotNull Long reviewId, @NotNull Long memberId, @NotNull String imageUrl, @NotNull ReviewImageStatus status) {
-        this.reviewId = reviewId;
+    public ReviewImage(@NotNull Review review, @NotNull Long memberId, @NotNull String imageUrl, @NotNull ReviewImageStatus status) {
+        this.review = review;
         this.memberId = memberId;
         this.imageUrl = imageUrl;
         this.status = status;
     }
 
-    public static ReviewImage of(@NotNull Long reviewId, @NotNull Long memberId, @NotNull String imageUrl) {
+    public static ReviewImage of(Review review, @NotNull String imageUrl) {
         return ReviewImage.builder()
-            .reviewId(reviewId)
-            .memberId(memberId)
+            .review(review)
+            .memberId(review.getMember().getId())
             .imageUrl(imageUrl)
             .status(ReviewImageStatus.ACTIVE)
             .build();

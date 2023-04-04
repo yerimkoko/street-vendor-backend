@@ -3,10 +3,17 @@ package store.streetvendor.service.review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import store.streetvendor.core.aws.AwsS3Service;
+import store.streetvendor.core.aws.ImageFileType;
+import store.streetvendor.core.aws.request.FileUploadRequest;
+import store.streetvendor.core.aws.request.ImageFileUploadRequest;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
+import store.streetvendor.core.domain.review.Review;
+import store.streetvendor.core.domain.review.ReviewImage;
 import store.streetvendor.core.domain.review.ReviewRepository;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
 import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
@@ -26,12 +33,27 @@ public class ReviewService {
 
     private final OrderHistoryRepository orderHistoryRepository;
 
-    @Transactional
-    public void addReview(AddReviewRequest request, Long memberId) {
+    private final AwsS3Service s3Service;
+
+    public void addReview(AddReviewRequest request, List<MultipartFile> images, Long memberId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
+
         OrderHistory orderHistory = OrderServiceUtils.findOrderHistoryByOrderId(orderHistoryRepository, request.getOrderId());
 
-        reviewRepository.save(request.toEntity(member, orderHistory));
+        Review review = request.toEntity(member, orderHistory);
+
+        List<FileUploadRequest> fileUploadRequests = images.stream()
+            .map(imageFile -> ImageFileUploadRequest.of(imageFile, ImageFileType.REVIEW_IMAGE))
+            .collect(Collectors.toList());
+
+        List<ReviewImage> reviewImages = s3Service.uploadImageFiles(fileUploadRequests).stream()
+            .map(imageUrlResponse -> ReviewImage.of(review, imageUrlResponse.getImageUrl()))
+            .collect(Collectors.toList());
+
+        review.addReviewImages(reviewImages);
+
+        reviewRepository.save(review);
+
     }
 
     @Transactional(readOnly = true)

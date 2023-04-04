@@ -11,7 +11,6 @@ import store.streetvendor.core.domain.store.Rate;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -27,7 +26,6 @@ public class AddReviewRequest {
     @NotNull
     private Long orderId;
 
-    private List<AddReviewImageRequest> request;
 
     @Builder
     public AddReviewRequest(int rate, String comment, Long orderId) {

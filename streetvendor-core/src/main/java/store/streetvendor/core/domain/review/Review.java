@@ -10,6 +10,8 @@ import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.store.Rate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +37,16 @@ public class Review extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Rate rate;
 
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<ReviewImage> reviewImages = new ArrayList<>();
+
+    public void addReviewImages(List<ReviewImage> reviewImages) {
+        this.reviewImages.addAll(reviewImages);
+    }
+
+    public void addReviewImage(ReviewImage image) {
+        this.reviewImages.add(image);
+    }
 
     @Builder
     public Review(OrderHistory order, Member member, String comment, Rate rate) {
