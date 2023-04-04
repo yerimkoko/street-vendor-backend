@@ -32,6 +32,7 @@ public class OrderHistory extends BaseTimeEntity {
     private Long orderId;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
     @Column(nullable = false)
