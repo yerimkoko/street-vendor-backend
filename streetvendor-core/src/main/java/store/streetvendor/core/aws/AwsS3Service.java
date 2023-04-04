@@ -75,7 +75,7 @@ public class AwsS3Service {
     }
 
     private String getFileName(FileUploadRequest request) {
-        return request.getFileNameWithBucketDirectory(request.getFile().getOriginalFilename());
+        return request.getFileNameWithBucketDirectory(request.getFile().getName());
     }
 
 
