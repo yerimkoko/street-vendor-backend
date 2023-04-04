@@ -3,7 +3,6 @@ package store.streetvendor.controller.review;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +27,7 @@ public class ReviewImageController {
     @Auth
     @PostMapping("/api/v1/review/images")
     public ApiResponse<List<ReviewImageResponse>> addReview(@RequestPart List<MultipartFile> images,
-                                                            @RequestBody AddReviewImageRequest request,
+                                                            @RequestPart(value = "request") AddReviewImageRequest request,
                                                             @MemberId Long memberId) {
         if (images.isEmpty()) {
             throw new InvalidException(String.format("유저 [%s]가 업로드한 리뷰[%s]의 파일이 비어있습니다.", memberId, request.getReviewId()));
