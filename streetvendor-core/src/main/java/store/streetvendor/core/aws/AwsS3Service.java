@@ -48,30 +48,30 @@ public class AwsS3Service {
 
     }
 
+    public ImageUrlResponse uploadImageFile(FileUploadRequest request) {
+
+        String fileName = getFileOriginalName(request);
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(request.getFile().getSize());
+        objectMetadata.setContentType(request.getFile().getContentType());
+        try (InputStream inputStream = request.getFile().getInputStream()) {
+            amazonS3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+        } catch (IOException e) {
+            throw new IllegalArgumentException("이미지 업로드에 실패했습니다.");
+        }
+
+        return ImageUrlResponse.of(fileName);
+
+    }
+
 
     public List<ImageUrlResponse> uploadImageFiles(List<FileUploadRequest> requests) {
         List<ImageUrlResponse> imageUrlResponses = new ArrayList<>();
-        requests.forEach(request -> {
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentLength(request.getFile().getSize());
-            objectMetadata.setContentType(request.getFile().getContentType());
-
-            try (InputStream inputStream = request.getFile().getInputStream()) {
-                amazonS3.putObject(new PutObjectRequest(bucket,
-                    getFileOriginalName(request),
-                    inputStream,
-                    objectMetadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
-            } catch (IOException e) {
-                throw new IllegalArgumentException("이미지 업로드에 실패했습니다.");
-            }
-
-            imageUrlResponses.add(ImageUrlResponse.of(getFileOriginalName(request)));
-
-        });
-
+        for(FileUploadRequest request : requests) {
+            imageUrlResponses.add(uploadImageFile(request));
+        }
         return imageUrlResponses;
-
     }
 
     private String getFileOriginalName(FileUploadRequest request) {
