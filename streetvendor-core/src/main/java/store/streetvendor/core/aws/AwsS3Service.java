@@ -48,26 +48,6 @@ public class AwsS3Service {
 
     }
 
-    public List<String> uploadImage(List<MultipartFile> multipartFiles) {
-        List<String> fileNameList = new ArrayList<>();
-        multipartFiles.forEach(file -> {
-            String fileName = createFileName(file.getOriginalFilename());
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentLength(file.getSize());
-            objectMetadata.setContentType(file.getContentType());
-
-            try (InputStream inputStream = file.getInputStream()) {
-                amazonS3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
-            } catch (IOException e) {
-                throw new IllegalArgumentException("이미지 업로드에 실패했습니다.");
-            }
-
-            fileNameList.add(fileName);
-        });
-
-        return fileNameList;
-    }
 
     public List<ImageUrlResponse> uploadImageFiles(List<FileUploadRequest> requests) {
         List<ImageUrlResponse> imageUrlResponses = new ArrayList<>();

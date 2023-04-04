@@ -109,4 +109,4 @@ values ( 'SUN', '12:00:00', '08:00:00', 4);
 
 
 insert into review(orderHistoryId, memberId, comment, rate, created_at, updated_at)
-values ( 1, 1, "여기는 진짜 맛있어요 인정", 'FIVE', now(), now() )
+values ( 1, 1, "여기는 진짜 맛있어요 인정", 'FIVE', now(), now() );
