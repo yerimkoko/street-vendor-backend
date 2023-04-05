@@ -14,7 +14,6 @@ import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.review.Review;
 import store.streetvendor.core.domain.review.ReviewImage;
-import store.streetvendor.core.domain.review.ReviewImageRepository;
 import store.streetvendor.core.domain.review.ReviewRepository;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
 import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
@@ -61,9 +60,9 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReviewResponse> getReviews(Long storeId, Long cursor, int size) {
+    public List<ReviewResponse> getReviews(Long storeId, Long cursor, int size, String baseUrl) {
         return reviewRepository.findByStoreId(storeId, cursor, size).stream()
-            .map(ReviewResponse::of)
+            .map(review -> ReviewResponse.of(review, baseUrl))
             .collect(Collectors.toList());
     }
 }
