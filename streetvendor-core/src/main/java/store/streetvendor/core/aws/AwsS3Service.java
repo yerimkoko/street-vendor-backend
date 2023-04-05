@@ -68,7 +68,7 @@ public class AwsS3Service {
 
     public List<ImageUrlResponse> uploadImageFiles(List<FileUploadRequest> requests) {
         List<ImageUrlResponse> imageUrlResponses = new ArrayList<>();
-        for(FileUploadRequest request : requests) {
+        for (FileUploadRequest request : requests) {
             imageUrlResponses.add(uploadImageFile(request));
         }
         return imageUrlResponses;

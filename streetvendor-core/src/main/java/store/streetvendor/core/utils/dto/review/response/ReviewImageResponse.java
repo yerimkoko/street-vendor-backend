@@ -10,14 +10,16 @@ public class ReviewImageResponse {
 
     private Long imageId;
 
-    private String imageUrl;
+    private String baseUrl;
+
 
     public ReviewImageResponse(Long imageId, String imageUrl) {
         this.imageId = imageId;
-        this.imageUrl = imageUrl;
+        this.baseUrl = imageUrl;
+
     }
 
-    public static ReviewImageResponse of(ReviewImage image) {
-        return new ReviewImageResponse(image.getId(), image.getImageUrl());
+    public static ReviewImageResponse of(ReviewImage image, String baseUrl) {
+        return new ReviewImageResponse(image.getId(), baseUrl + image.getImageUrl());
     }
 }
