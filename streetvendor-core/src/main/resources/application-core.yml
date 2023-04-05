@@ -54,7 +54,7 @@ spring:
   datasource:
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://street-vendor-db.c9xwwpd2dycj.ap-northeast-2.rds.amazonaws.com/street_vendor_dev
+      jdbc-url: jdbc:mysql://street-vendor-db.c9xwwpd2dycj.ap-northeast-2.rds.amazonaws.com/street-vendor-db
       username: ${secret.spring.datasource.username}
       password: ${secret.spring.datasource.password}
   jpa:
