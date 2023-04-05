@@ -10,12 +10,12 @@ public class ReviewImageResponse {
 
     private Long imageId;
 
-    private String baseUrl;
+    private String imageUrl;
 
 
     public ReviewImageResponse(Long imageId, String imageUrl) {
         this.imageId = imageId;
-        this.baseUrl = imageUrl;
+        this.imageUrl = imageUrl;
 
     }
 
