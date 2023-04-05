@@ -11,6 +11,7 @@ cloud:
       secretKey: ${secret.spring.datasource.secretKey}
     s3:
       bucket: street-vendor-image
+      baseUrl: https://street-vendor-image.s3.ap-northeast-2.amazonaws.com/
     region:
       static: ap-northeast-2
     stack:
