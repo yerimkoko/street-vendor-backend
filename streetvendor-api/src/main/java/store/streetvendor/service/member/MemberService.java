@@ -3,6 +3,11 @@ package store.streetvendor.service.member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import store.streetvendor.core.aws.AwsS3Service;
+import store.streetvendor.core.aws.ImageFileType;
+import store.streetvendor.core.aws.request.FileUploadRequest;
+import store.streetvendor.core.aws.request.ImageFileUploadRequest;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
@@ -19,6 +24,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     private final SignOutMemberRepository signOutMemberRepository;
+
+    private final AwsS3Service s3Service;
 
     @Transactional
     public Long signUp(MemberSignUpRequestDto requestDto) {
@@ -45,10 +52,10 @@ public class MemberService {
     }
 
     @Transactional
-    public void changeProfileImage(Long memberId, String profileUrl) {
+    public void changeProfileImage(Long memberId, MultipartFile profileUrl) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
-        member.changeProfileUrl(profileUrl);
-
+        FileUploadRequest request = ImageFileUploadRequest.of(profileUrl, ImageFileType.MEMBER_IMAGE);
+        member.changeProfileUrl(s3Service.uploadImageFile(request).getImageUrl());
     }
 
 

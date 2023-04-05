@@ -57,8 +57,7 @@ public class MemberController {
     @ApiOperation(value = "프로필 사진 수정하기")
     @PostMapping("/api/v1/my-page/profileUrl")
     public ApiResponse<String> changeMyProfile(@MemberId Long memberId, @RequestPart MultipartFile profileUrl) {
-        String file = awsS3Service.upload(profileUrl);
-        memberService.changeProfileImage(memberId, file);
+        memberService.changeProfileImage(memberId, profileUrl);
         return ApiResponse.OK;
     }
 
