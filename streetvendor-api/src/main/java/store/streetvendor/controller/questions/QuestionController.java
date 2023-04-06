@@ -3,6 +3,7 @@ package store.streetvendor.controller.questions;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import store.streetvendor.Auth;
 import store.streetvendor.MemberId;
 import store.streetvendor.core.utils.ApiResponse;
@@ -23,8 +24,9 @@ public class QuestionController {
     @ApiOperation(value = "[문의사항] 1:1 문의를 작성한다")
     @PostMapping("/api/v1/question")
     public ApiResponse<String> createQuestion(@MemberId Long memberId,
-                                      @RequestBody AddQuestionRequest request) {
-        questionService.createQuestion(memberId, request);
+                                              @RequestPart AddQuestionRequest request,
+                                              @RequestPart List<MultipartFile> multipartFiles) {
+        questionService.createQuestion(memberId, request, multipartFiles);
         return ApiResponse.OK;
     }
 

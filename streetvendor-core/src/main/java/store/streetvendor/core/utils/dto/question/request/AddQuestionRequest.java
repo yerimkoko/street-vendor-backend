@@ -7,9 +7,6 @@ import store.streetvendor.core.domain.questions.QuestionsType;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -24,22 +21,14 @@ public class AddQuestionRequest {
     @NotBlank
     private String content;
 
-    @Size(max = 5)
-    private List<QuestionsImageRequest> images;
-
-    public AddQuestionRequest(QuestionsType type, String title, String content, List<QuestionsImageRequest> images) {
+    public AddQuestionRequest(QuestionsType type, String title, String content) {
         this.type = type;
         this.title = title;
         this.content = content;
-        this.images = images;
     }
 
     public Questions toEntity(Long memberId) {
-        Questions questions = Questions.newQuestions(memberId, title, content, type);
-        questions.addQuestionImages(images.stream()
-            .map(image -> image.toEntity(questions))
-            .collect(Collectors.toList()));
-        return questions;
+        return Questions.newQuestions(memberId, title, content, type);
     }
 
 }

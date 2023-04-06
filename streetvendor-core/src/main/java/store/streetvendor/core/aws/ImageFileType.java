@@ -12,6 +12,7 @@ import java.util.UUID;
 public enum ImageFileType implements FileType {
     REVIEW_IMAGE("review/"),
     STORE_IMAGE("store/"),
+    QUESTION_IMAGE("question/"),
     MEMBER_IMAGE("member/")
     ;
 

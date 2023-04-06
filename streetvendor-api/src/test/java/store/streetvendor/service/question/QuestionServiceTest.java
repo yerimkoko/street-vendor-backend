@@ -41,10 +41,10 @@ public class QuestionServiceTest extends MemberFixture {
         QuestionsType type = QuestionsType.OTHERS;
         String title = "치킨이 먹고 싶은데요";
         String content = "어떤 치킨이냐면요.";
-        AddQuestionRequest request = new AddQuestionRequest(type, title, content, Collections.EMPTY_LIST);
+        AddQuestionRequest request = new AddQuestionRequest(type, title, content);
 
         // when
-        questionService.createQuestion(getMember().getId(), request);
+        questionService.createQuestion(getMember().getId(), request, Collections.emptyList());
 
         // then
         List<Questions> questions = questionsRepository.findAll();

@@ -15,6 +15,7 @@ public class QuestionsImageRequest {
         this.url = url;
     }
 
+
     public QuestionsImage toEntity(Questions questions) {
         return QuestionsImage.newImage(questions, url);
     }
