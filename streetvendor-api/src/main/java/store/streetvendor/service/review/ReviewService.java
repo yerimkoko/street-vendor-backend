@@ -49,7 +49,7 @@ public class ReviewService {
             .collect(Collectors.toList());
 
         List<ReviewImage> reviewImages = s3Service.uploadImageFiles(fileUploadRequests).stream()
-            .map(imageUrlResponse -> ReviewImage.of(review, imageUrlResponse.getImageUrl()))
+            .map(imageUrlResponse -> ReviewImage.newInstance(review, imageUrlResponse.getImageUrl()))
             .collect(Collectors.toList());
 
         review.addReviewImages(reviewImages);

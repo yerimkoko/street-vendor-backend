@@ -40,13 +40,12 @@ public class ReviewImage extends BaseTimeEntity {
         this.status = status;
     }
 
-    public static ReviewImage of(Review review, @NotNull String imageUrl) {
+    public static ReviewImage newInstance(Review review, @NotNull String imageUrl) {
         return ReviewImage.builder()
             .review(review)
             .memberId(review.getMember().getId())
             .imageUrl(imageUrl)
             .status(ReviewImageStatus.ACTIVE)
             .build();
-
     }
 }

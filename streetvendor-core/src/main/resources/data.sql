@@ -111,5 +111,74 @@ values ( 'SUN', '12:00:00', '08:00:00', 4);
 insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
 values ( 1, "설명", "위치 설명", 1, 1, 1, "CASH", now(),  "CANCELED", now(), now());
 
+insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
+values ( 1, "설명", "위치 설명", 1, 2, 1, "CASH", now(),  "CANCELED", now(), now());
+
+insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
+values ( 2, "설명", "위치 설명", 1, 3, 1, "CASH", now(),  "CANCELED", now(), now());
+
+insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
+values ( 2, "설명", "위치 설명", 1, 4, 1, "CASH", now(),  "CANCELED", now(), now());
+
+insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
+values ( 3, "설명", "위치 설명", 1, 1, 1, "CASH", now(),  "CANCELED", now(), now());
+
+insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
+values ( 3, "설명", "위치 설명", 1, 2, 1, "CASH", now(),  "CANCELED", now(), now());
+
+insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
+values ( 4, "설명", "위치 설명", 1, 3, 1, "CASH", now(),  "CANCELED", now(), now());
+
+insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
+values ( 4, "설명", "위치 설명", 1, 4, 1, "CASH", now(),  "CANCELED", now(), now());
+
+
 insert into review(order_history_id, member_id, comment, rate, created_at, updated_at)
 values ( 1, 1, "여기는 진짜 맛있어요 인정", 'FIVE', now(), now() );
+
+insert into review(order_history_id, member_id, comment, rate, created_at, updated_at)
+values ( 2, 2, "여기는 진짜 맛있어요 인정", 'FIVE', now(), now() );
+
+insert into review(order_history_id, member_id, comment, rate, created_at, updated_at)
+values ( 3, 3, "여기는 진짜 맛있어요 인정", 'FIVE', now(), now() );
+
+insert into review(order_history_id, member_id, comment, rate, created_at, updated_at)
+values ( 4, 4, "여기는 진짜 맛있어요 인정", 'FIVE', now(), now() );
+
+insert into review(order_history_id, member_id, comment, rate, created_at, updated_at)
+values ( 5, 1, "여기는 진짜 맛있어요 인정", 'FIVE', now(), now() );
+
+insert into review(order_history_id, member_id, comment, rate, created_at, updated_at)
+values ( 6, 2, "여기는 진짜 맛있어요 인정", 'FIVE', now(), now() );
+
+insert into review(order_history_id, member_id, comment, rate, created_at, updated_at)
+values ( 7, 3, "여기는 진짜 맛있어요 인정", 'FIVE', now(), now() );
+
+insert into review(order_history_id, member_id, comment, rate, created_at, updated_at)
+values ( 8, 4, "여기는 진짜 맛있어요 인정", 'FIVE', now(), now() );
+
+
+insert into review_image(review_id, member_id, image_url, status)
+values ( 1, 1, "review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg", 'ACTIVE' );
+
+insert into review_image(review_id, member_id, image_url, status)
+values ( 2, 2, "review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg", 'ACTIVE' );
+
+insert into review_image(review_id, member_id, image_url, status)
+values ( 3, 3, "review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg", 'ACTIVE' );
+
+insert into review_image(review_id, member_id, image_url, status)
+values ( 4, 4, "review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg", 'ACTIVE' );
+
+insert into review_image(review_id, member_id, image_url, status)
+values ( 5, 1, "review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg", 'ACTIVE' );
+
+insert into review_image(review_id, member_id, image_url, status)
+values ( 6, 2, "review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg", 'ACTIVE' );
+
+insert into review_image(review_id, member_id, image_url, status)
+values ( 7, 3, "review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg", 'ACTIVE' );
+
+insert into review_image(review_id, member_id, image_url, status)
+values ( 8, 4, "review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg", 'ACTIVE' );
+
