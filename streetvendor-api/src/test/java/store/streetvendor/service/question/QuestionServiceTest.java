@@ -38,7 +38,7 @@ public class QuestionServiceTest extends MemberFixture {
     @Test
     void 문의사항을_추가한다() {
         // given
-        QuestionsType type = QuestionsType.OTHERS;
+        QuestionsType type = QuestionsType.ETC;
         String title = "치킨이 먹고 싶은데요";
         String content = "어떤 치킨이냐면요.";
         AddQuestionRequest request = new AddQuestionRequest(type, title, content);

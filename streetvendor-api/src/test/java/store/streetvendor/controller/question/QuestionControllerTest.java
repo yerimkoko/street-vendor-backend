@@ -52,7 +52,7 @@ class QuestionControllerTest {
     @Disabled
     void 문의사항을_작성한다() throws Exception {
         // given
-        QuestionsType type = QuestionsType.OTHERS;
+        QuestionsType type = QuestionsType.ETC;
         String title = "제목입니다.";
         String content = "내용 입니다.";
         AddQuestionRequest request = new AddQuestionRequest(type, title, content);
