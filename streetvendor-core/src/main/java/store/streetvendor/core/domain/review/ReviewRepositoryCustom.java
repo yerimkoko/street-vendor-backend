@@ -6,4 +6,5 @@ public interface ReviewRepositoryCustom {
     Review findByReviewIdAndMemberId(Long memberId, Long reviewId);
 
     List<Review> findByStoreId(Long storeId, Long cursor, int size);
+
 }

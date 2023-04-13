@@ -39,14 +39,23 @@ public class Store extends BaseTimeEntity {
 
     private String locationDescription;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StoreCategory category;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StoreStatus status;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StoreSalesStatus salesStatus;
+
+    @Column
+    private Double reviewAverageValue;
+
+    @Column(nullable = false)
+    private long reviewCount;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Menu> menus = new ArrayList<>();
@@ -64,18 +73,20 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<StoreMenu> storeMenus = new ArrayList<>();
 
-
     @Builder
-    private Store(Long bossId, String name, Location location, StoreSalesStatus salesStatus, String storeDescription, String locationDescription, StoreStatus status, StoreCategory category) {
+    public Store(Long bossId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category, StoreStatus status, StoreSalesStatus salesStatus, Double reviewAverageValue, long reviewCount) {
         this.bossId = bossId;
         this.name = name;
         this.location = location;
-        this.salesStatus = salesStatus;
         this.storeDescription = storeDescription;
         this.locationDescription = locationDescription;
-        this.status = status;
         this.category = category;
+        this.status = status;
+        this.salesStatus = salesStatus;
+        this.reviewAverageValue = reviewAverageValue;
+        this.reviewCount = reviewCount;
     }
+
 
     public static Store newInstance(Long bossId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category) {
         return Store.builder()
@@ -87,6 +98,7 @@ public class Store extends BaseTimeEntity {
             .locationDescription(locationDescription)
             .status(StoreStatus.ACTIVE)
             .category(category)
+            .reviewCount(0)
             .build();
     }
 

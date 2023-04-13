@@ -15,6 +15,7 @@ import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.review.Review;
 import store.streetvendor.core.domain.review.ReviewImage;
 import store.streetvendor.core.domain.review.ReviewRepository;
+import store.streetvendor.core.domain.review.reviewcount.ReviewCountRepository;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
 import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
@@ -35,6 +36,8 @@ public class ReviewService {
 
     private final AwsS3Service s3Service;
 
+    private final ReviewCountRepository reviewCountRepository;
+
 
     @Transactional
     public void addReview(AddReviewRequest request, List<MultipartFile> images, Long memberId) {
@@ -54,7 +57,7 @@ public class ReviewService {
 
         review.addReviewImages(reviewImages);
 
-        reviewRepository.save(review);
+        reviewCountRepository.incrByCount(orderHistory.getStoreInfo().getStoreId());
 
 
     }

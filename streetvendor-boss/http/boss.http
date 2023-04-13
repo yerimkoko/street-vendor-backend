@@ -16,9 +16,6 @@ Content-Type: application/json
 client.global.set("SESSION", response.body["data"])
  %}
 
-
-
-
 ### 새로운 가게를 등록합니다.
 POST {{host_api}}/boss/v1/create-store
 Content-Type: application/json

@@ -31,6 +31,7 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
             .fetch();
     }
 
+
     private BooleanExpression existedCursor(Long cursor) {
         if(cursor == null) {
             return null;

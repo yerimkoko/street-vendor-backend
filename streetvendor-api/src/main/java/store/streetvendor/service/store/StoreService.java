@@ -3,12 +3,15 @@ package store.streetvendor.service.store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.streetvendor.core.domain.review.reviewcount.ReviewCountRepositoryImpl;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
+import store.streetvendor.core.utils.dto.store.MemberLikeStoreListResponse;
 import store.streetvendor.core.utils.dto.store.request.*;
 import store.streetvendor.core.utils.dto.store.response.*;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,8 +25,11 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
 
-
     private final StoreCountRepository storeCountRepository;
+
+    private final MemberLikeStoreRepository memberLikeStoreRepository;
+
+    private final ReviewCountRepositoryImpl reviewCountRepository;
 
 
     @Transactional(readOnly = true)
@@ -75,6 +81,20 @@ public class StoreService {
         List<Store> stores = storeRepository.findAll();
         return stores.stream()
             .map(StoreDevResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void addMemberLikeStore(@NotNull Long memberId, Long storeId) {
+        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
+        memberLikeStoreRepository.save(MemberLikeStore.newInstance(memberId, store));
+    }
+
+    @Transactional(readOnly = true)
+    public List<MemberLikeStoreListResponse> getMemberLikeStore(Long memberId, double currentLatitude, double currentLongitude, Integer cursor, int size) {
+        List<MemberLikeStore> memberLikeStores = memberLikeStoreRepository.findByMemberId(memberId, cursor, size);
+        return memberLikeStores.stream()
+            .map(memberLikeStore -> MemberLikeStoreListResponse.of(memberLikeStore.getStore(), currentLatitude, currentLongitude, reviewCountRepository.getValueByKey(memberLikeStore.getStore().getId())))
             .collect(Collectors.toList());
     }
 

@@ -43,9 +43,13 @@ class StoreServiceTest extends SetupBoss {
     @Autowired
     private StoreCountRepository storeCountRepository;
 
+    @Autowired
+    private MemberLikeStoreRepository memberLikeStoreRepository;
+
 
     @AfterEach
     void cleanUp() {
+        memberLikeStoreRepository.deleteAll();
         businessHoursRepository.deleteAll();
         paymentRepository.deleteAll();
         menuRepository.deleteAll();
@@ -83,6 +87,23 @@ class StoreServiceTest extends SetupBoss {
 
     }
 
+    @Test
+    void 가게를_좋아요한다() {
+        // given
+        Long memberId = 999L;
+        Store store = createSalesStore(boss);
+
+        // when
+        storeService.addMemberLikeStore(memberId, store.getId());
+
+        // then
+        List<MemberLikeStore> stores = memberLikeStoreRepository.findAll();
+
+        assertThat(stores).hasSize(1);
+        assertThat(stores.get(0).getStore().getId()).isEqualTo(store.getId());
+        assertThat(stores.get(0).getMemberId()).isEqualTo(memberId);
+    }
+
 
     @Test
     void 카테고리별로_운영중인_가게를_보여준다() {
@@ -105,19 +126,6 @@ class StoreServiceTest extends SetupBoss {
         assertThat(stores).hasSize(1);
         assertThat(stores.get(0).getCategory()).isEqualTo(category);
         assertThat(stores.get(0).getSalesStatus()).isEqualTo(open);
-    }
-
-
-    private Store createStore(Boss boss) {
-        // store
-        Long memberId = this.boss.getId();
-        String name = "토끼의 붕어빵 가게";
-        Location location = new Location(37.78639644286605, 126.40572677813635);
-        String storeDescription = "슈크림 맛집 입니다!";
-        String locationDescription = "당정역 1번 출구 앞";
-        StoreCategory category = StoreCategory.BUNG_EO_PPANG;
-
-        return storeRepository.save(Store.newInstance(memberId, name, location, storeDescription, locationDescription, category));
     }
 
     private Store createSalesStore(Boss boss) {

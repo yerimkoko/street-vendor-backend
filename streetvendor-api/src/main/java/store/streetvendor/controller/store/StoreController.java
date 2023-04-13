@@ -4,8 +4,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import store.streetvendor.Auth;
+import store.streetvendor.MemberId;
 import store.streetvendor.core.domain.store.StoreCategory;
 import store.streetvendor.core.utils.ApiResponse;
+import store.streetvendor.core.utils.dto.store.MemberLikeStoreListResponse;
 import store.streetvendor.core.utils.dto.store.request.*;
 import store.streetvendor.core.utils.dto.store.response.*;
 import store.streetvendor.service.store.StoreService;
@@ -55,6 +57,27 @@ public class StoreController {
     @GetMapping("/api/v1/stores/dev")
     public ApiResponse<List<StoreDevResponse>> getAllStores() {
         return ApiResponse.success(storeService.getDevStores());
+    }
+
+    @Auth
+    @ApiOperation(value = "[좋아요] 내가 좋아요 한 가게 가져오기")
+    @GetMapping("/api/v1/stores/like")
+    public ApiResponse<List<MemberLikeStoreListResponse>> getMemberLikeStores(@MemberId Long memberId,
+                                                                              @RequestParam double currentLatitude,
+                                                                              @RequestParam double currentLongitude,
+                                                                              @RequestParam(required = false) Integer cursor,
+                                                                              @RequestParam(required = false, defaultValue = "5") int size) {
+        return ApiResponse.success(storeService.getMemberLikeStore(memberId, currentLatitude, currentLongitude, cursor, size));
+    }
+
+    @Auth
+    @ApiOperation(value = "[좋아요] 가게 좋아요 하기")
+    @PostMapping("/api/v1/stores/like")
+    public ApiResponse<String> memberLikeStore(@MemberId Long memberId,
+                                               @RequestParam Long storeId) {
+
+        storeService.addMemberLikeStore(memberId, storeId);
+        return ApiResponse.OK;
     }
 
 }
