@@ -87,7 +87,7 @@ class StoreServiceTest extends SetupBoss {
     }
 
     @Test
-    void 가게를_좋아요한다() {
+    void 가게를_좋아요_한다() {
         // given
         Long memberId = 999L;
         Store store = createSalesStore(boss);
@@ -101,6 +101,22 @@ class StoreServiceTest extends SetupBoss {
         assertThat(stores).hasSize(1);
         assertThat(stores.get(0).getStore().getId()).isEqualTo(store.getId());
         assertThat(stores.get(0).getMemberId()).isEqualTo(memberId);
+    }
+
+    @Test
+    void 가게_좋아요를_취소한다() {
+        // given
+        Long memberId = 999L;
+        Store store = createSalesStore(boss);
+        MemberLikeStore memberLikeStore = memberLikeStoreRepository.save(MemberLikeStore.newInstance(memberId, store));
+
+        // when
+        storeService.deleteLikeStore(memberId, memberLikeStore.getStore().getId());
+
+        // then
+        List<MemberLikeStore> memberLikeStores = memberLikeStoreRepository.findAll();
+        assertThat(memberLikeStores).hasSize(1);
+        assertThat(memberLikeStores.get(0).getStatus()).isEqualTo(MemberLikeStoreStatus.INACTIVE);
     }
 
 

@@ -24,17 +24,26 @@ public class MemberLikeStore extends BaseTimeEntity {
     @Column(nullable = false)
     private Long memberId;
 
+    @Enumerated(EnumType.STRING)
+    private MemberLikeStoreStatus status;
+
     @Builder
-    public MemberLikeStore(Store store, Long memberId) {
+    public MemberLikeStore(Store store, Long memberId, MemberLikeStoreStatus status) {
         this.store = store;
         this.memberId = memberId;
+        this.status = status;
     }
 
     public static MemberLikeStore newInstance(@NotNull Long memberId, @NotNull Store store) {
         return MemberLikeStore.builder()
             .memberId(memberId)
             .store(store)
+            .status(MemberLikeStoreStatus.ACTIVE)
             .build();
+    }
+
+    public void delete() {
+        this.status = MemberLikeStoreStatus.INACTIVE;
     }
 
 }

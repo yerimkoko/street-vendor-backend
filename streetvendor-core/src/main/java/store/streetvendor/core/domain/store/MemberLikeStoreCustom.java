@@ -6,4 +6,6 @@ public interface MemberLikeStoreCustom {
 
     List<MemberLikeStore> findByMemberId(Long memberId, Integer cursor, int size);
 
+    MemberLikeStore findLikeStoreByMemberIdAndStoreId(Long memberId, Long storeId);
+
 }

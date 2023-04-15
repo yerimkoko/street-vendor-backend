@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.core.domain.review.reviewcount.ReviewCountRepositoryImpl;
 import store.streetvendor.core.domain.store.*;
+import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
 import store.streetvendor.core.utils.dto.store.MemberLikeStoreListResponse;
 import store.streetvendor.core.utils.dto.store.request.*;
@@ -96,6 +97,15 @@ public class StoreService {
         return memberLikeStores.stream()
             .map(memberLikeStore -> MemberLikeStoreListResponse.of(memberLikeStore.getStore(), currentLatitude, currentLongitude, reviewCountRepository.getValueByKey(memberLikeStore.getStore().getId())))
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deleteLikeStore(Long memberId, Long storeId) {
+        MemberLikeStore memberLikeStore = memberLikeStoreRepository.findLikeStoreByMemberIdAndStoreId(memberId, storeId);
+        if (memberLikeStore == null) {
+            throw new NotFoundException(String.format("[%s]에 해당하는 가게는 없습니다.", storeId));
+        }
+        memberLikeStore.delete();
     }
 
 }

@@ -18,9 +18,19 @@ public class MemberLikeStoreCustomImpl implements MemberLikeStoreCustom{
         return jpaQueryFactory.selectFrom(memberLikeStore)
             .where(memberLikeStore.memberId.eq(memberId),
                 memberLikeStore.store.status.eq(StoreStatus.ACTIVE),
-                getCursor(cursor))
+                getCursor(cursor),
+                memberLikeStore.status.eq(MemberLikeStoreStatus.ACTIVE))
             .limit(size)
             .fetch();
+    }
+
+    @Override
+    public MemberLikeStore findLikeStoreByMemberIdAndStoreId(Long memberId, Long storeId) {
+        return jpaQueryFactory.selectFrom(memberLikeStore)
+            .where(memberLikeStore.memberId.eq(memberId),
+                memberLikeStore.store.id.eq(storeId),
+                memberLikeStore.status.eq(MemberLikeStoreStatus.ACTIVE))
+            .fetchOne();
     }
 
 
