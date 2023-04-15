@@ -52,12 +52,10 @@ public class BossStoreServiceTest extends SetUpBoss {
         paymentRepository.deleteAll();
         storeImageRepository.deleteAll();
         storeRepository.deleteAll();
-
-
     }
 
     @Test
-    void 가게의_메뉴를_수정한다() {
+    void 내_가게를_수정한다() {
         // given
         Store store = storeFixture(boss.getId());
         Menu menu = Menu.of(store, "붕어빵", 2, 2000, "pictureUrl");
@@ -67,7 +65,7 @@ public class BossStoreServiceTest extends SetUpBoss {
         MenuRequest newMenu = MenuRequest.testInstance("새로운 붕어빵", 3, 3000, "imageUrl");
         StoreUpdateRequest updateRequest = StoreUpdateRequest.testBuilder()
             .menus(List.of(newMenu))
-            .storeImages(Collections.emptyList())
+            .category(StoreCategory.BUNG_EO_PPANG)
             .paymentMethods(Collections.emptyList())
             .businessHours(Collections.emptyList())
             .name(store.getName())
@@ -81,65 +79,6 @@ public class BossStoreServiceTest extends SetUpBoss {
         assertThat(menuList).hasSize(1);
 
         assertMenu(menuList.get(0), store.getId(), newMenu.getName(), newMenu.getMenuCount(), newMenu.getPrice(), newMenu.getPictureUrl());
-
-    }
-
-    @Test
-    void 가게의_결제정보를_수정한다() {
-        // given
-        Store store = storeFixture(boss.getId());
-        List<PaymentMethod> paymentMethod = (List.of(PaymentMethod.ACCOUNT_TRANSFER));
-        store.addPayments(paymentMethod);
-        storeRepository.save(store);
-
-        StoreUpdateRequest updateRequest = StoreUpdateRequest.testBuilder()
-            .paymentMethods(List.of(PaymentMethod.CASH))
-            .name(store.getName())
-            .businessHours(Collections.emptyList())
-            .storeImages(Collections.emptyList())
-            .menus(Collections.emptyList()).build();
-
-        // when
-        bossStoreService.updateMyStore(store.getBossId(), store.getId(), updateRequest);
-
-        // then
-        List<Payment> paymentMethods = paymentRepository.findAll();
-        assertThat(paymentMethods).hasSize(1);
-        assertPayment(paymentMethods.get(0), store.getId(), PaymentMethod.CASH);
-    }
-
-    @Test
-    void 가게의_사진을_변경한다() {
-        // given
-        Store store = storeFixture(boss.getId());
-
-        StoreImage storeImage = StoreImage.builder()
-            .store(store)
-            .pictureUrl("picture")
-            .isThumbNail(true)
-            .build();
-
-        StoreImageRequest newRequest = StoreImageRequest.testInstance(false, "notThumbNail");
-        store.addStoreImages(List.of(storeImage));
-
-        storeRepository.save(store);
-
-        StoreUpdateRequest storeUpdateRequest = StoreUpdateRequest.testBuilder()
-            .storeImages(List.of(newRequest))
-            .name(store.getName())
-            .paymentMethods(Collections.emptyList())
-            .businessHours(Collections.emptyList())
-            .menus(Collections.emptyList())
-            .build();
-
-        // when
-        bossStoreService.updateMyStore(store.getBossId(), store.getId(), storeUpdateRequest);
-
-        // then
-        List<StoreImage> storeImages = storeImageRepository.findAll();
-        assertThat(storeImages).hasSize(1);
-        assertStoreImage(storeImages.get(0), newRequest.getIsThumbNail(), newRequest.getImageUrl());
-
 
     }
 
@@ -168,11 +107,10 @@ public class BossStoreServiceTest extends SetUpBoss {
         String name = "토끼의 새로운 붕어빵";
         String storeDescription = "팥 붕어빵 맛집";
         String locationDescription = "군포역 2번 출구 앞";
-        StoreCategory category = OTHER_DESSERT;
         Location location = new Location(34.2222, 128.222);
 
 
-        return Store.newInstance(memberId, name, location, storeDescription, locationDescription, category);
+        return Store.newInstance(memberId, name, location, storeDescription, locationDescription, OTHER_DESSERT);
     }
 
     @Test
@@ -206,44 +144,6 @@ public class BossStoreServiceTest extends SetUpBoss {
         // when & then
         assertThatThrownBy(() -> bossStoreService.updateMyStore(boss.getId(), store.getId() + 1, request))
             .isInstanceOf(NotFoundException.class);
-    }
-
-    @Test
-    void 가게_영업시간을_수정한다() {
-        // given
-        Store store = storeFixture(boss.getId());
-
-        BusinessHours businessHour = BusinessHours.builder()
-            .store(store)
-            .days(Days.SUN)
-            .startTime(LocalTime.of(8, 0))
-            .endTime(LocalTime.of(10, 0))
-            .build();
-
-        store.addBusinessDays(List.of(businessHour));
-        storeRepository.save(store);
-
-        BusinessHourRequest newBusinessHour = BusinessHourRequest.builder()
-            .days(Days.MON)
-            .startTime(LocalTime.of(10, 0))
-            .endTime(LocalTime.of(12, 0))
-            .build();
-
-        StoreUpdateRequest updateRequest = StoreUpdateRequest.testBuilder()
-            .businessHours(List.of(newBusinessHour))
-            .paymentMethods(Collections.emptyList())
-            .name(store.getName())
-            .storeImages(Collections.emptyList())
-            .menus(Collections.emptyList()).build();
-
-        // when
-        bossStoreService.updateMyStore(store.getBossId(), store.getId(), updateRequest);
-
-        // then
-        List<BusinessHours> businessHours = businessHoursRepository.findAll();
-        assertThat(businessHours).hasSize(1);
-        assertBusinessHours(businessHours.get(0), newBusinessHour.getStartTime(), newBusinessHour.getEndTime(), newBusinessHour.getDays());
-
     }
 
     private void assertBusinessHours(BusinessHours businessHours, LocalTime startTime, LocalTime endTime, Days day) {

@@ -57,7 +57,10 @@ public class ReviewService {
 
         review.addReviewImages(reviewImages);
 
+        reviewRepository.save(review);
+
         reviewCountRepository.incrByCount(orderHistory.getStoreInfo().getStoreId());
+
 
 
     }

@@ -144,9 +144,8 @@ class StoreServiceTest extends SetupBoss {
         String name = "토끼의 새로운 붕어빵";
         String storeDescription = "팥 붕어빵 맛집";
         String locationDescription = "군포역 2번 출구 앞";
-        StoreCategory category = OTHER_DESSERT;
         Location location = new Location(34.2222, 128.222);
-        return Store.newInstance(memberId, name, location, storeDescription, locationDescription, category);
+        return Store.newInstance(memberId, name, location, storeDescription, locationDescription, OTHER_DESSERT);
     }
 
     private Menu createMenu(Store store) {

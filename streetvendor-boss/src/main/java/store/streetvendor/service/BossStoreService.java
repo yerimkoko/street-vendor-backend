@@ -23,7 +23,6 @@ public class BossStoreService {
         store.updateMenus(request.toMenus(store));
         store.updatePayments(request.getPaymentMethods());
         store.updateBusinessDaysInfo(request.toBusinessHours(store));
-        store.updateStoreImages(request.toStoreImages(store));
     }
 
     @Transactional

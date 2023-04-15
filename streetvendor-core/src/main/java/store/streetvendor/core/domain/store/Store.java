@@ -51,11 +51,8 @@ public class Store extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private StoreSalesStatus salesStatus;
 
-    @Column
-    private Double reviewAverageValue;
-
     @Column(nullable = false)
-    private long reviewCount;
+    private Double averageValue;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Menu> menus = new ArrayList<>();
@@ -74,17 +71,16 @@ public class Store extends BaseTimeEntity {
     private final List<StoreMenu> storeMenus = new ArrayList<>();
 
     @Builder
-    public Store(Long bossId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category, StoreStatus status, StoreSalesStatus salesStatus, Double reviewAverageValue, long reviewCount) {
+    public Store(Long bossId, String name, Location location, String storeDescription, String locationDescription, Double averageValue, StoreCategory category, StoreStatus status, StoreSalesStatus salesStatus) {
         this.bossId = bossId;
         this.name = name;
         this.location = location;
         this.storeDescription = storeDescription;
         this.locationDescription = locationDescription;
+        this.averageValue = averageValue;
         this.category = category;
         this.status = status;
         this.salesStatus = salesStatus;
-        this.reviewAverageValue = reviewAverageValue;
-        this.reviewCount = reviewCount;
     }
 
 
@@ -97,8 +93,8 @@ public class Store extends BaseTimeEntity {
             .storeDescription(storeDescription)
             .locationDescription(locationDescription)
             .status(StoreStatus.ACTIVE)
+            .averageValue(0.0)
             .category(category)
-            .reviewCount(0)
             .build();
     }
 
@@ -111,6 +107,7 @@ public class Store extends BaseTimeEntity {
             .storeDescription(storeDescription)
             .locationDescription(locationDescription)
             .status(StoreStatus.ACTIVE)
+            .averageValue(0.0)
             .category(category)
             .build();
     }
