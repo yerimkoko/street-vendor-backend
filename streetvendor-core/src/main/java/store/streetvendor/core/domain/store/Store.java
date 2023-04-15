@@ -52,7 +52,7 @@ public class Store extends BaseTimeEntity {
     private StoreSalesStatus salesStatus;
 
     @Column(nullable = false)
-    private Double averageValue;
+    private double averageValue;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Menu> menus = new ArrayList<>();
