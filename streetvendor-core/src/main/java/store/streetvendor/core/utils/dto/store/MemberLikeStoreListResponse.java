@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.storeimage.StoreImage;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 public class MemberLikeStoreListResponse {
@@ -50,7 +48,7 @@ public class MemberLikeStoreListResponse {
             .storeName(store.getName())
             .category(store.getCategory().getDescription())
             .storeDescription(store.getStoreDescription())
-            .thumbNail(getThumbNail(store.getStoreImages()))
+            .thumbNail(getThumbNail(store.findMainImage()))
             .locationDescription(store.getLocationDescription())
             .storeStatus(store.getSalesStatus().getDescription())
             .reviewCount(reviewCount)
@@ -69,15 +67,10 @@ public class MemberLikeStoreListResponse {
         return EARTH_RADIUS * c * 1000;
     }
 
-    private static String getThumbNail(List<StoreImage> images) {
-        StoreImage storeImage = images.stream()
-            .filter(image -> image.getIsThumbNail().equals(true))
-            .findFirst()
-            .orElse(null);
-
-        if (storeImage == null) {
+    private static String getThumbNail(StoreImage image) {
+        if (image == null) {
             return null;
         }
-        return storeImage.getPictureUrl();
+        return image.getPictureUrl();
     }
 }
