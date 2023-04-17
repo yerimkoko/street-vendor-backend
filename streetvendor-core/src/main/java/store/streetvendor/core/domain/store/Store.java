@@ -51,8 +51,8 @@ public class Store extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private StoreSalesStatus salesStatus;
 
-    @Column(nullable = false)
-    private double averageValue;
+    @Column
+    private Double averageValue;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Menu> menus = new ArrayList<>();
