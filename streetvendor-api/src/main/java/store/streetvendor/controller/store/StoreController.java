@@ -45,7 +45,7 @@ public class StoreController {
                                                                  @RequestParam double longitude,
                                                                  @RequestParam double latitude,
                                                                  @RequestParam(required = false) Integer cursor,
-                                                                 @RequestParam(required = false, value = "5") int size) {
+                                                                 @RequestParam(required = false, defaultValue = "5") int size) {
 
         return ApiResponse.success(storeService.getStoresByCategoryAndLocationAndStoreStatus(category, baseUrl, longitude, latitude, cursor, size));
     }
