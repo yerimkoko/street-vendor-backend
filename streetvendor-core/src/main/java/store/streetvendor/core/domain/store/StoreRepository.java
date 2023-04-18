@@ -62,13 +62,16 @@ public interface StoreRepository extends JpaRepository<Store, Long>, StoreReposi
         "    )" +
         "  ) AS distance" +
         "  FROM store" +
-        "  WHERE store.status = 'ACTIVE' " +
-        "  GROUP BY id" +
+        "  WHERE store.status = 'ACTIVE' AND store.id < :cursor" +
+        "  GROUP BY store.id" +
         "  HAVING distance < :distance" +
-        "  ORDER BY distance", nativeQuery = true)
+        "  ORDER BY distance" +
+        "  LIMIT :size", nativeQuery = true)
     List<Store> findAllStoresByLocationAndDistanceLessThan(@Param("latitude") final Double latitude,
                                                            @Param("longitude") final Double longitude,
-                                                           @Param("distance") final Double distance);
+                                                           @Param("distance") final Double distance,
+                                                           @Param("cursor") final Integer cursor,
+                                                           @Param("size") final int size);
 
 
 }

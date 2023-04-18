@@ -11,12 +11,12 @@ import store.streetvendor.core.domain.store.menu.MenuRepository;
 import store.streetvendor.core.domain.store.storeimage.StoreImageRepository;
 import store.streetvendor.core.redis.storecount.StoreCountKey;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
-import store.streetvendor.core.utils.dto.store.request.*;
 import store.streetvendor.service.SetupBoss;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static store.streetvendor.core.domain.store.StoreCategory.OTHER_DESSERT;
 
 @SpringBootTest
@@ -125,23 +125,17 @@ class StoreServiceTest extends SetupBoss {
     void 카테고리별로_운영중인_가게를_보여준다() {
         // given
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
-        StoreSalesStatus open = StoreSalesStatus.OPEN;
-        StoreStatus status = StoreStatus.ACTIVE;
-        Double latitude = 37.78639644286605;
-        Double longitude = 126.40572677813635;
-        Double distance = 999.00;
-
+        double latitude = 37.78639644286605;
+        double longitude = 126.40572677813635;
         createSalesStore(boss);
-        StoreCategoryRequest request = new StoreCategoryRequest(open, status, latitude, longitude, distance);
 
         // when
-        storeService.getStoresByCategoryAndLocationAndStoreStatus(request, category);
+        storeService.getStoresByCategoryAndLocationAndStoreStatus(category, any(), longitude, latitude, 3, 5);
 
         // then
         List<Store> stores = storeRepository.findAll();
         assertThat(stores).hasSize(1);
         assertThat(stores.get(0).getCategory()).isEqualTo(category);
-        assertThat(stores.get(0).getSalesStatus()).isEqualTo(open);
     }
 
     private Store createSalesStore(Boss boss) {

@@ -1,6 +1,7 @@
 package store.streetvendor.service.store;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.core.domain.review.reviewcount.ReviewCountRepositoryImpl;
@@ -49,32 +50,19 @@ public class StoreService {
             .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public List<StoreResponse> getAllStoresByLocation(StoreDistanceRequest request) {
-        List<Store> stores = storeRepository
-            .findAllStoresByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance());
-        return stores.stream()
-            .map(StoreResponse::of)
-            .collect(Collectors.toList());
-    }
 
 
     @Transactional(readOnly = true)
-    public List<StoreInfoResponse> getStoresByCategoryAndLocationAndStoreStatus(StoreCategoryRequest request, StoreCategory category) {
-        return storeRepository.findAllStoresByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance())
+    public List<StoreInfoResponse> getStoresByCategoryAndLocationAndStoreStatus(StoreCategory category, String baseUrl, double longitude, double latitude, Integer cursor, int size) {
+
+        return storeRepository.findAllStoresByLocationAndDistanceLessThan(latitude, longitude, distance, cursor, size)
             .stream()
-            .map(StoreInfoResponse::of)
+            .map(store -> StoreInfoResponse.of(store, baseUrl, getReviewCount(store.getId()), longitude, latitude))
             .filter(store -> store.hasCategory(category)
                 && store.isSalesStatus(store.getSalesStatus()))
             .collect(Collectors.toList());
     }
 
-
-    @Transactional(readOnly = true)
-    public StoreInfoResponse getStoreInfo(Long storeId) {
-        Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
-        return StoreInfoResponse.of(store);
-    }
 
 
     @Transactional(readOnly = true)
@@ -95,7 +83,7 @@ public class StoreService {
     public List<MemberLikeStoreListResponse> getMemberLikeStore(Long memberId, double currentLatitude, double currentLongitude, Integer cursor, int size) {
         List<MemberLikeStore> memberLikeStores = memberLikeStoreRepository.findByMemberId(memberId, cursor, size);
         return memberLikeStores.stream()
-            .map(memberLikeStore -> MemberLikeStoreListResponse.of(memberLikeStore.getStore(), currentLatitude, currentLongitude, reviewCountRepository.getValueByKey(memberLikeStore.getStore().getId())))
+            .map(memberLikeStore -> MemberLikeStoreListResponse.of(memberLikeStore.getStore(), currentLatitude, currentLongitude, getReviewCount(memberLikeStore.getStore().getId())))
             .collect(Collectors.toList());
     }
 
@@ -106,6 +94,10 @@ public class StoreService {
             throw new NotFoundException(String.format("[%s]에 해당하는 가게는 없습니다.", storeId));
         }
         memberLikeStore.delete();
+    }
+
+    private long getReviewCount(Long storeId) {
+        return reviewCountRepository.getValueByKey(storeId);
     }
 
 }

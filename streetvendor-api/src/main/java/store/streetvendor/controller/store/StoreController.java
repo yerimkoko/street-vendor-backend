@@ -38,23 +38,18 @@ public class StoreController {
         return ApiResponse.success(storeService.getOpenedStoresByLocation(request));
     }
 
-    @ApiOperation(value = "거리로부터 전체 가게 조회하기")
-    @GetMapping("/api/v1/stores/location")
-    public ApiResponse<List<StoreResponse>> closedStoresByLocation(StoreDistanceRequest request) {
-        return ApiResponse.success(storeService.getAllStoresByLocation(request));
-    }
 
     @ApiOperation(value = "카테고리로 가게 조회하기")
     @GetMapping("/api/v1/store/category/{category}")
-    public ApiResponse<List<StoreInfoResponse>> storesByCategory(@RequestBody StoreCategoryRequest request, @PathVariable StoreCategory category) {
-        return ApiResponse.success(storeService.getStoresByCategoryAndLocationAndStoreStatus(request, category));
+    public ApiResponse<List<StoreInfoResponse>> storesByCategory(@PathVariable StoreCategory category,
+                                                                 @RequestParam double longitude,
+                                                                 @RequestParam double latitude,
+                                                                 @RequestParam(required = false) Integer cursor,
+                                                                 @RequestParam(required = false, value = "5") int size) {
+
+        return ApiResponse.success(storeService.getStoresByCategoryAndLocationAndStoreStatus(category, baseUrl, longitude, latitude, cursor, size));
     }
 
-    @ApiOperation(value = "표시된 가게 조회하기")
-    @GetMapping("/api/v1/store/{storeId}")
-    public ApiResponse<StoreInfoResponse> getStoreInfo(@PathVariable Long storeId) {
-        return ApiResponse.success(storeService.getStoreInfo(storeId));
-    }
 
 
     @ApiOperation(value = "[개발용] 전체 가게 불러오기")
