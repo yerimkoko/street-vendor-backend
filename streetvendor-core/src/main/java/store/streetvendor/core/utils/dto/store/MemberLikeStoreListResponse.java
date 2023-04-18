@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.storeimage.StoreImage;
+import store.streetvendor.core.utils.DistanceUtils;
 
 @Getter
 @NoArgsConstructor
@@ -53,18 +54,8 @@ public class MemberLikeStoreListResponse {
             .storeStatus(store.getSalesStatus().getDescription())
             .reviewCount(reviewCount)
             .spoon(store.getAverageValue())
-            .distance(getDistance(store.getLocation().getLatitude(), latitude, store.getLocation().getLongitude(), longitude))
+            .distance(DistanceUtils.getDistance(store.getLocation().getLatitude(), latitude, store.getLocation().getLongitude(), longitude))
             .build();
-    }
-
-    public static double getDistance(double storeLatitude, double currentLatitude, double storeLongitude, double currentLongitude) {
-        double distanceLatitude = Math.toRadians(storeLatitude - currentLatitude);
-        double distanceLongitude = Math.toRadians(storeLongitude - currentLongitude);
-        double a = Math.sin(distanceLatitude / 2) * Math.sin(distanceLatitude / 2) +
-            Math.cos(Math.toRadians(currentLatitude)) * Math.cos(Math.toRadians(storeLatitude)) *
-                Math.sin(distanceLongitude / 2) * Math.sin(distanceLongitude / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return EARTH_RADIUS * c * 1000;
     }
 
     private static String getThumbNail(StoreImage image) {

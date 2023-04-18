@@ -52,6 +52,8 @@ public interface StoreRepository extends JpaRepository<Store, Long>, StoreReposi
         @Param("distance") final Double distance);
 
 
+
+    // TODO: queryDsl로 페이징 적용
     @Query(value = "SELECT *, (" +
         "    6371 * acos (" +
         "      cos ( radians( :latitude ) )  " +
@@ -62,11 +64,10 @@ public interface StoreRepository extends JpaRepository<Store, Long>, StoreReposi
         "    )" +
         "  ) AS distance" +
         "  FROM store" +
-        "  WHERE store.status = 'ACTIVE' AND store.id < :cursor" +
+        "  WHERE store.status = 'ACTIVE'" +
         "  GROUP BY store.id" +
         "  HAVING distance < :distance" +
-        "  ORDER BY distance" +
-        "  LIMIT :size", nativeQuery = true)
+        "  ORDER BY distance" , nativeQuery = true)
     List<Store> findAllStoresByLocationAndDistanceLessThan(@Param("latitude") final Double latitude,
                                                            @Param("longitude") final Double longitude,
                                                            @Param("distance") final Double distance,
