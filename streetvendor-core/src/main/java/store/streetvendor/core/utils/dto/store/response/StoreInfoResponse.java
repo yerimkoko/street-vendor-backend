@@ -52,13 +52,6 @@ public class StoreInfoResponse {
 
     }
 
-//    private static String getAverageSpoon(Store store) {
-//        long total = store.getReviews().stream()
-//            .mapToLong(review -> Review.getGradeValue(review.getRate()))
-//            .sum();
-//
-//        return String.format("%.1f", total / (double)store.getReviews().size());
-//    }
 
     private static String findMainUrl(Store store) {
         if (store.getStoreImages().isEmpty()) {
@@ -66,5 +59,13 @@ public class StoreInfoResponse {
         }
         return store.findMainImage().getPictureUrl();
 
+    }
+
+    public boolean hasCategory(StoreCategory category) {
+        return this.getStoreCategory().equals(category);
+    }
+
+    public boolean isSalesStatus(StoreSalesStatus salesStatus) {
+        return this.getSalesStatus().equals(salesStatus);
     }
 }

@@ -42,11 +42,5 @@ public class StoreResponse {
             .build();
     }
 
-    public boolean hasCategory(StoreCategory category) {
-        return this.getCategory().equals(category);
-    }
 
-    public boolean isSalesStatus(StoreSalesStatus salesStatus) {
-        return this.getSalesStatus().equals(salesStatus);
-    }
 }

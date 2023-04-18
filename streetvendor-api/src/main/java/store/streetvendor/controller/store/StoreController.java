@@ -46,7 +46,7 @@ public class StoreController {
 
     @ApiOperation(value = "카테고리로 가게 조회하기")
     @GetMapping("/api/v1/store/category/{category}")
-    public ApiResponse<List<StoreResponse>> storesByCategory(@RequestBody StoreCategoryRequest request, @PathVariable StoreCategory category) {
+    public ApiResponse<List<StoreInfoResponse>> storesByCategory(@RequestBody StoreCategoryRequest request, @PathVariable StoreCategory category) {
         return ApiResponse.success(storeService.getStoresByCategoryAndLocationAndStoreStatus(request, category));
     }
 
@@ -76,11 +76,20 @@ public class StoreController {
 
     @Auth
     @ApiOperation(value = "[좋아요] 가게 좋아요 하기")
-    @PostMapping("/api/v1/stores/like")
+    @PostMapping("/api/v1/store/like")
     public ApiResponse<String> memberLikeStore(@MemberId Long memberId,
                                                @RequestParam Long storeId) {
 
         storeService.addMemberLikeStore(memberId, storeId);
+        return ApiResponse.OK;
+    }
+
+    @Auth
+    @ApiOperation(value = "[좋아요] 취소하기")
+    @DeleteMapping("/api/v1/store/like/cancel")
+    public ApiResponse<String> cancelMemberLikeStore(@MemberId Long memberId,
+                                                     @RequestParam Long storeId) {
+        storeService.deleteLikeStore(memberId, storeId);
         return ApiResponse.OK;
     }
 

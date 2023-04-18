@@ -60,10 +60,10 @@ public class StoreService {
 
 
     @Transactional(readOnly = true)
-    public List<StoreResponse> getStoresByCategoryAndLocationAndStoreStatus(StoreCategoryRequest request, StoreCategory category) {
+    public List<StoreInfoResponse> getStoresByCategoryAndLocationAndStoreStatus(StoreCategoryRequest request, StoreCategory category) {
         return storeRepository.findAllStoresByLocationAndDistanceLessThan(request.getLatitude(), request.getLongitude(), request.getDistance())
             .stream()
-            .map(StoreResponse::of)
+            .map(StoreInfoResponse::of)
             .filter(store -> store.hasCategory(category)
                 && store.isSalesStatus(store.getSalesStatus()))
             .collect(Collectors.toList());

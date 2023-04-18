@@ -15,9 +15,9 @@ import store.streetvendor.StoreFixture;
 import store.streetvendor.AuthInterceptor;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.utils.dto.store.request.*;
+import store.streetvendor.core.utils.dto.store.response.StoreInfoResponse;
 import store.streetvendor.service.store.StoreService;
 import store.streetvendor.core.utils.dto.store.response.StoreDetailResponse;
-import store.streetvendor.core.utils.dto.store.response.StoreResponse;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ class StoreControllerTest {
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
         BDDMockito.when(storeService.getStoresByCategoryAndLocationAndStoreStatus(request, category))
-            .thenReturn(List.of(StoreResponse.of(store)));
+            .thenReturn(List.of(StoreInfoResponse.of(store)));
 
         // when & then
         mockMvc.perform(get("/api/v1/store/category/" + category)
