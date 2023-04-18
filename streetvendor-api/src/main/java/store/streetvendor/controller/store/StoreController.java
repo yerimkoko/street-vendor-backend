@@ -2,6 +2,7 @@ package store.streetvendor.controller.store;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import store.streetvendor.Auth;
 import store.streetvendor.MemberId;
@@ -20,11 +21,14 @@ public class StoreController {
 
     private final StoreService storeService;
 
+    @Value("${cloud.aws.s3.baseUrl}")
+    private String baseUrl;
+
     @Auth
     @ApiOperation(value = "가게 상세 정보 조회하기")
     @GetMapping("/api/v1/store/detail/{storeId}")
     public ApiResponse<StoreDetailResponse> detailResponse(@PathVariable Long storeId) {
-        return ApiResponse.success(storeService.getStoreDetail(storeId));
+        return ApiResponse.success(storeService.getStoreDetail(storeId, baseUrl));
     }
 
 
@@ -56,7 +60,7 @@ public class StoreController {
     @ApiOperation(value = "[개발용] 전체 가게 불러오기")
     @GetMapping("/api/v1/stores/dev")
     public ApiResponse<List<StoreDevResponse>> getAllStores() {
-        return ApiResponse.success(storeService.getDevStores());
+        return ApiResponse.success(storeService.getDevStores(baseUrl));
     }
 
     @Auth

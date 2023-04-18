@@ -34,10 +34,10 @@ public class StoreService {
 
 
     @Transactional(readOnly = true)
-    public StoreDetailResponse getStoreDetail(Long storeId) {
+    public StoreDetailResponse getStoreDetail(Long storeId, String baseUrl) {
         Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
         storeCountRepository.incrByCount(store.getId());
-        return StoreDetailResponse.of(store);
+        return StoreDetailResponse.of(store, baseUrl);
     }
 
     @Transactional(readOnly = true)
@@ -78,10 +78,10 @@ public class StoreService {
 
 
     @Transactional(readOnly = true)
-    public List<StoreDevResponse> getDevStores() {
+    public List<StoreDevResponse> getDevStores(String baseUrl) {
         List<Store> stores = storeRepository.findAll();
         return stores.stream()
-            .map(StoreDevResponse::of)
+            .map(store -> StoreDevResponse.of(store, baseUrl))
             .collect(Collectors.toList());
     }
 

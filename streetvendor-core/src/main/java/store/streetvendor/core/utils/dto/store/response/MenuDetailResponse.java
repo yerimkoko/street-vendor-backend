@@ -26,13 +26,13 @@ public class MenuDetailResponse {
         this.menuSalesStatus = menuSalesStatus;
     }
 
-    public static MenuDetailResponse of(Menu menu) {
+    public static MenuDetailResponse of(Menu menu, String baseUrl) {
         return MenuDetailResponse.builder()
             .menuId(menu.getId())
             .menuName(menu.getName())
             .menuCount(menu.getMenuCount())
             .menuPrice(menu.getPrice())
-            .pictureUrl(menu.getPictureUrl())
+            .pictureUrl(baseUrl + menu.getPictureUrl())
             .menuSalesStatus(menu.getSalesStatus())
             .build();
     }

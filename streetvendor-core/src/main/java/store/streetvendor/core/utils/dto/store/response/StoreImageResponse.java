@@ -21,12 +21,12 @@ public class StoreImageResponse {
         this.pictureUrl = pictureUrl;
     }
 
-    public static StoreImageResponse of(StoreImage storeImage) {
+    public static StoreImageResponse of(StoreImage storeImage, String baseUrl) {
         return StoreImageResponse
             .builder()
             .id(storeImage.getId())
             .isThumbNail(storeImage.getIsThumbNail())
-            .pictureUrl(storeImage.getPictureUrl())
+            .pictureUrl(baseUrl + storeImage.getPictureUrl())
             .build();
     }
 

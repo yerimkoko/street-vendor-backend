@@ -83,8 +83,9 @@ class StoreControllerTest {
     void 가게의_상세정보를_조회한다() throws Exception {
         // given
         Store store = StoreFixture.store();
-        BDDMockito.when(storeService.getStoreDetail(any()))
-            .thenReturn(StoreDetailResponse.of(StoreFixture.store()));
+        String baseUrl = "baseUrl";
+        BDDMockito.when(storeService.getStoreDetail(any(), any()))
+            .thenReturn(StoreDetailResponse.of(store, baseUrl));
 
         // when & then
         mockMvc.perform(get("/api/v1/store/detail/999")

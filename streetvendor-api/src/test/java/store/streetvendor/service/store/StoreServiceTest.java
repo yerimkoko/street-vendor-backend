@@ -71,10 +71,11 @@ class StoreServiceTest extends SetupBoss {
     void 가게를_상세조회한다() {
         // given
         Store store = storeFixture(boss.getId());
+        String baseUrl = "baseUrl";
         storeRepository.save(store);
 
         // when
-        storeService.getStoreDetail(store.getId());
+        storeService.getStoreDetail(store.getId(), baseUrl);
 
         // then
         List<Store> stores = storeRepository.findAll();

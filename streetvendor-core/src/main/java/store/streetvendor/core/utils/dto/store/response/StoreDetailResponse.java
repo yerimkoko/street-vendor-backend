@@ -54,9 +54,9 @@ public class StoreDetailResponse {
     }
 
 
-    public static StoreDetailResponse of(Store store) {
+    public static StoreDetailResponse of(Store store, String baseUrl) {
         List<MenuDetailResponse> menuDetailResponse = store.getMenus().stream()
-            .map(MenuDetailResponse::of)
+            .map(menu -> MenuDetailResponse.of(menu, baseUrl))
             .collect(Collectors.toList());
 
         List<BusinessHours> businessHours = store.getBusinessDays().stream()
@@ -64,7 +64,7 @@ public class StoreDetailResponse {
             .collect(Collectors.toList());
 
         List<StoreImageResponse> imageResponses = store.getStoreImages().stream()
-            .map(StoreImageResponse::of)
+            .map(image -> StoreImageResponse.of(image, baseUrl))
             .collect(Collectors.toList());
 
         return StoreDetailResponse.builder()

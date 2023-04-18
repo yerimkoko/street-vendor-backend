@@ -83,16 +83,16 @@ values ( now(), now(), 'ACCOUNT_TRANSFER', 4);
 
 
 insert into menu(created_at, updated_at, menu_count, name, picture_url, price, sales_status, store_id)
-values ( now(), now(), 1, '떡볶이', 'sdfsdf', 4000, 'ON_SALE', 1);
+values ( now(), now(), 1, '떡볶이', 'review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg', 4000, 'ON_SALE', 1);
 
 insert into menu(created_at, updated_at, menu_count, name, picture_url, price, sales_status, store_id)
-values ( now(), now(), 1, '떡볶이', 'sdfsdf', 4000, 'ON_SALE', 2);
+values ( now(), now(), 1, '떡볶이', 'review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg', 4000, 'ON_SALE', 2);
 
 insert into menu(created_at, updated_at, menu_count, name, picture_url, price, sales_status, store_id)
-values ( now(), now(), 3, '슈크림 붕어빵', 'sdfsdf', 2000, 'ON_SALE', 3);
+values ( now(), now(), 3, '슈크림 붕어빵', 'review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg', 2000, 'ON_SALE', 3);
 
 insert into menu(created_at, updated_at, menu_count, name, picture_url, price, sales_status, store_id)
-values ( now(), now(), 1, '떡볶이', 'sdfsdf', 4000, 'ON_SALE', 4);
+values ( now(), now(), 1, '떡볶이', 'review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg', 4000, 'ON_SALE', 4);
 
 
 
