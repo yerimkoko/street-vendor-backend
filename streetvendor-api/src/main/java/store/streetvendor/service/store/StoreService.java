@@ -55,7 +55,7 @@ public class StoreService {
     @Transactional(readOnly = true)
     public List<StoreInfoResponse> getStoresByCategoryAndLocationAndStoreStatus(StoreCategory category, String baseUrl, double longitude, double latitude, Integer cursor, int size) {
 
-        return storeRepository.findAllStoresByLocationAndDistanceLessThan(latitude, longitude, distance, cursor, size)
+        return storeRepository.findAllStoresByLocationAndDistanceLessThan(latitude, longitude, distance)
             .stream()
             .map(store -> StoreInfoResponse.of(store, baseUrl, getReviewCount(store.getId()), longitude, latitude))
             .filter(store -> store.hasCategory(category)
