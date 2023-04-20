@@ -3,6 +3,7 @@ package store.streetvendor.core.domain.store;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import store.streetvendor.core.exception.ConflictException;
 
 import javax.persistence.Embeddable;
 import java.time.LocalTime;
@@ -29,7 +30,7 @@ public class OpeningTime {
 
     private void validateOpeningTime(LocalTime startTime, LocalTime endTime) {
         if (startTime.isAfter(endTime)) {
-            throw new IllegalArgumentException(String.format("영업 시작 시간 (%s)이 종료 시간 (%s) 보다 느릴 수 없습니다", startTime, endTime));
+            throw new ConflictException(String.format("영업 시작 시간 (%s)이 종료 시간 (%s) 보다 느릴 수 없습니다", startTime, endTime));
         }
     }
 

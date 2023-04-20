@@ -30,7 +30,6 @@ public class SignOutMember extends BaseTimeEntity {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String profileUrl;
 
     @Column(nullable = false)

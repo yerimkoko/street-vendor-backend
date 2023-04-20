@@ -4,7 +4,6 @@ import lombok.*;
 import store.streetvendor.core.domain.BaseTimeEntity;
 import store.streetvendor.core.domain.store.storemenu.StoreMenu;
 import store.streetvendor.core.domain.store.menu.Menu;
-import store.streetvendor.core.domain.store.menu.MenuSalesStatus;
 import store.streetvendor.core.domain.store.storeimage.StoreImage;
 
 import javax.persistence.*;
@@ -210,12 +209,6 @@ public class Store extends BaseTimeEntity {
         this.status = StoreStatus.DELETED;
     }
 
-
-    public void changeMenuSalesStatus(Long menuId, MenuSalesStatus salesStatus) {
-        this.menus.stream()
-            .filter(menu -> menu.isMenuId(menuId))
-            .forEach(menu -> menu.changeMenuStatus(salesStatus));
-    }
 
     public void changeSalesStatus(StoreSalesStatus salesStatus) {
         this.salesStatus = salesStatus;
