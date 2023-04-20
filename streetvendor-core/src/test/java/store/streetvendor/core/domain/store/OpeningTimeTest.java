@@ -1,6 +1,7 @@
 package store.streetvendor.core.domain.store;
 
 import org.junit.jupiter.api.Test;
+import store.streetvendor.core.exception.ConflictException;
 
 import java.time.LocalTime;
 
@@ -15,7 +16,7 @@ class OpeningTimeTest {
         LocalTime endTime = LocalTime.of(8, 59);
 
         // when & then
-        assertThatThrownBy(() -> OpeningTime.of(startTime, endTime)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> OpeningTime.of(startTime, endTime)).isInstanceOf(ConflictException.class);
     }
 
 }
