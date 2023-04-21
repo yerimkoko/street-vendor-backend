@@ -65,7 +65,7 @@ public class OrderHistoryService {
 
     @Transactional(readOnly = true)
     public OrderDetailResponse getOrderHistoryDetail(Long memberId, Long orderHistoryId) {
-        OrderHistory orderHistory = orderHistoryRepository.findOrderHistoryByOrderIdAndMemberId(orderHistoryId, memberId);
+        OrderHistory orderHistory = orderHistoryRepository.findOrderHistoryByOrderIdAndMemberId(orderHistoryId, memberId).get(0);
         return OrderDetailResponse.historyOf(orderHistory, orderHistory.getStoreInfo().getStoreId());
     }
 

@@ -4,8 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 import store.streetvendor.MemberFixture;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
@@ -60,14 +58,15 @@ public class ReviewServiceTest extends MemberFixture {
         // given
         String comment = "리뷰 입니다.";
         int rate = 1;
+        OrderHistory orderHistory = createOrderHistory(createOrder());
         AddReviewRequest request = AddReviewRequest.builder()
             .comment(comment)
             .rate(rate)
-            .orderId(createOrderHistory(order()).getOrderId())
+            .orderId(orderHistory.getOrderId())
             .build();
 
         // when
-        reviewService.addReview(request, Collections.emptyList(), createMember().getId());
+        reviewService.addReview(request, Collections.emptyList(), orderHistory.getMemberId());
 
         // then
         List<Review> reviews = reviewRepository.findAll();
@@ -77,7 +76,7 @@ public class ReviewServiceTest extends MemberFixture {
 
     }
 
-    private Orders order() {
+    private Orders createOrder() {
         Orders order = Orders.newOrder(store(), createMember().getId(), PaymentMethod.ACCOUNT_TRANSFER);
         orderRepository.save(order);
         return order;

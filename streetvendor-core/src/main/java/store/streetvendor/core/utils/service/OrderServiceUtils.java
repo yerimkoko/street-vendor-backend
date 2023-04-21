@@ -8,6 +8,8 @@ import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.domain.order.OrderRepository;
 import store.streetvendor.core.domain.order.Orders;
 
+import java.util.List;
+
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderServiceUtils {
@@ -28,6 +30,14 @@ public class OrderServiceUtils {
         OrderHistory orderHistory = orderHistoryRepository.findOrderHistoryByOrderId(orderId);
         validateOrderHistory(orderHistory, orderId);
         return orderHistory;
+    }
+
+    public static List<OrderHistory> findOrderHistoryByOrderIdAndMemberId(OrderHistoryRepository orderHistoryRepository, Long orderId, Long memberId) {
+        List<OrderHistory> histories = orderHistoryRepository.findOrderHistoryByOrderIdAndMemberId(orderId, memberId);
+        if (histories.isEmpty()) {
+            throw new NotFoundException(String.format("[%s]에 해당하는 주문은 존재하지 않습니다.", orderId));
+        }
+        return histories;
     }
 
     private static void validateOrder(Orders order, Long orderId) {

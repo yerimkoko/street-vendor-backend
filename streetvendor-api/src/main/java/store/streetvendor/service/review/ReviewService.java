@@ -43,9 +43,9 @@ public class ReviewService {
     public void addReview(AddReviewRequest request, List<MultipartFile> images, Long memberId) {
         Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
 
-        OrderHistory orderHistory = OrderServiceUtils.findOrderHistoryByOrderId(orderHistoryRepository, request.getOrderId());
+        List<OrderHistory> orderHistories = OrderServiceUtils.findOrderHistoryByOrderIdAndMemberId(orderHistoryRepository, request.getOrderId(), memberId);
 
-        Review review = request.toEntity(member, orderHistory);
+        Review review = request.toEntity(member, orderHistories.get(0));
 
         List<FileUploadRequest> fileUploadRequests = images.stream()
             .map(imageFile -> ImageFileUploadRequest.of(imageFile, ImageFileType.REVIEW_IMAGE))
@@ -59,7 +59,7 @@ public class ReviewService {
 
         reviewRepository.save(review);
 
-        reviewCountRepository.incrByCount(orderHistory.getStoreInfo().getStoreId());
+        reviewCountRepository.incrByCount(orderHistories.get(0).getStoreInfo().getStoreId());
 
 
 
