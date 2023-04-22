@@ -13,4 +13,10 @@ public class BossServiceUtil {
         }
         return boss;
     }
+
+    public static void validateBoss(Boss boss, Long bossId) {
+        if (boss == null) {
+            throw new NotFoundException(String.format("[%s]에 해당하는 사장님은 존재하지 않습니다.", bossId));
+        }
+    }
 }

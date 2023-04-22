@@ -14,9 +14,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import store.streetvendor.BossFixture;
 import store.streetvendor.auth.BossInterceptor;
-import store.streetvendor.MemberFixture;
 import store.streetvendor.StoreFixture;
-import store.streetvendor.core.domain.member.Member;
+import store.streetvendor.core.domain.boss.Boss;
 import store.streetvendor.core.domain.order.OrderStatus;
 import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.core.domain.store.PaymentMethod;
@@ -42,6 +41,7 @@ class BossOrderControllerTest {
     @MockBean
     private BossOrderService bossOrderService;
 
+
     @BeforeEach
     void createBossInterceptor() {
         BDDMockito.when(bossInterceptor.preHandle(any(), any(), any()))
@@ -54,15 +54,16 @@ class BossOrderControllerTest {
     @Disabled
     void 사장님이_진행중인_주문을_불러온다() throws Exception {
         // given
-        Member member = MemberFixture.member();
-        Orders order = Orders.preparingOrder(StoreFixture.store(), member.getId(), PaymentMethod.CASH);
+        Boss boss = Boss.newGoogleInstance("dd", "name", "1002-222-22222", "gochi97@naver.com", "profileUrl", "0202");
+
+        Orders order = Orders.preparingOrder(StoreFixture.store(), boss.getId(), PaymentMethod.CASH);
 
         MultiValueMap<String, String> status = new LinkedMultiValueMap<>();
         status.add("orderStatus", OrderStatus.REQUEST.name());
         status.add("storeId", "1");
 
         BDDMockito.when(bossOrderService.getAllOrders(1L, BossFixture.boss().getId(), OrderStatus.PREPARING))
-            .thenReturn(List.of(OrderListToBossResponse.of(order, member)));
+            .thenReturn(List.of(OrderListToBossResponse.of(order, boss)));
 
         // when
         mockMvc.perform(get("/api/v1/orders/1")

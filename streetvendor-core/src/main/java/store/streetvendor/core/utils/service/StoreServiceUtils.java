@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.StoreRepository;
-import store.streetvendor.core.domain.store.StoreSalesStatus;
 import store.streetvendor.core.exception.AlreadyExistedException;
 import store.streetvendor.core.exception.NotFoundException;
 
@@ -37,7 +36,7 @@ public class StoreServiceUtils {
     }
 
 
-    private static void validateStore(Store store, Long storeId) {
+    public static void validateStore(Store store, Long storeId) {
         if (store == null) {
             throw new NotFoundException(String.format("해당하는 (%s) 상점이 존재하지 않습니다.", storeId));
         }

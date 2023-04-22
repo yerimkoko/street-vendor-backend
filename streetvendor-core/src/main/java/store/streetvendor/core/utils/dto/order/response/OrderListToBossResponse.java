@@ -3,7 +3,7 @@ package store.streetvendor.core.utils.dto.order.response;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.core.domain.member.Member;
+import store.streetvendor.core.domain.boss.Boss;
 import store.streetvendor.core.domain.order.OrderMenu;
 import store.streetvendor.core.domain.order.OrderStatus;
 import store.streetvendor.core.domain.order.Orders;
@@ -38,13 +38,13 @@ public class OrderListToBossResponse {
         this.orderMenus = orderMenus;
     }
 
-    public static OrderListToBossResponse of(Orders orders, Member member) {
+    public static OrderListToBossResponse of(Orders orders, Boss boss) {
         return OrderListToBossResponse.builder()
             .orderMenus(orders.getOrderMenus().stream()
                 .map(OrderMenuResponse::of)
                 .collect(Collectors.toList())
             )
-            .nickName(member.getNickName())
+            .nickName(boss.getNickName())
             .orderId(orders.getId())
             .orderStatus(orders.getOrderStatus())
             .createTime(orders.getCreatedAt())

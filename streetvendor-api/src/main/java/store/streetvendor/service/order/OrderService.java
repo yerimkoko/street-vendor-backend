@@ -61,11 +61,12 @@ public class OrderService {
 
     @Transactional
     public void cancelOrderByUser(Long orderId, Long memberId) {
-        Orders order = OrderServiceUtils.findMyOrderByOrderIdAndMemberId(orderRepository, orderId, memberId);
-
+        Orders order = orderRepository.findByOrderAndMemberId(orderId, memberId);
+        OrderServiceUtils.validateOrder(order, orderId);
         order.validateUserCan();
 
-        Store store = StoreServiceUtils.findByStoreId(storeRepository, order.getStore().getId());
+        Store store = storeRepository.findStoreByStoreId(order.getStore().getId());
+        StoreServiceUtils.validateStore(store, order.getStore().getId());
 
         OrderHistory orderHistory = OrderHistory.cancel(order, store);
 

@@ -29,8 +29,8 @@ public class MemberService {
 
     @Transactional
     public Long signUp(MemberSignUpRequestDto requestDto) {
-        validateDuplicatedNickName(requestDto.getNickName());
-        validateDuplicatedEmail(requestDto.getEmail());
+        MemberServiceUtils.validateNickName(memberRepository, requestDto.getNickName());
+        MemberServiceUtils.validateDuplicatedEmail(memberRepository, requestDto.getEmail());
         Member member = memberRepository.save(requestDto.toEntity());
         return member.getId();
     }
@@ -38,7 +38,8 @@ public class MemberService {
 
     @Transactional
     public Long signOut(Long memberId) {
-        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
+        Member member = memberRepository.findMemberById(memberId);
+        MemberServiceUtils.validateMember(member, memberId);
         signOutMemberRepository.save(member.signOut());
         memberRepository.delete(member);
         return memberId;
@@ -47,39 +48,26 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MemberInfoResponse getMyInformation(Long memberId) {
-        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
+        Member member = memberRepository.findMemberById(memberId);
+        MemberServiceUtils.validateMember(member, memberId);
         return MemberInfoResponse.getInfo(member);
     }
 
     @Transactional
     public void changeProfileImage(Long memberId, MultipartFile profileUrl) {
-        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
+        Member member = memberRepository.findMemberById(memberId);
+        MemberServiceUtils.validateMember(member, memberId);
         FileUploadRequest request = ImageFileUploadRequest.of(profileUrl, ImageFileType.MEMBER_IMAGE);
         member.changeProfileUrl(s3Service.uploadImageFile(request).getImageUrl());
     }
 
 
-
     @Transactional
     public void changeNickName(Long memberId, String nickName) {
-        validateDuplicatedNickName(nickName);
-        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
+        MemberServiceUtils.validateNickName(memberRepository, nickName);
+        Member member = memberRepository.findMemberById(memberId);
+        MemberServiceUtils.validateMember(member, memberId);
         member.changeNickName(nickName);
-    }
-
-
-    private void validateDuplicatedNickName(String nickName) {
-        Member member = memberRepository.findMemberByNickName(nickName);
-        if (member != null) {
-            throw new DuplicatedException(String.format("(%s)는 이미 사용중인 닉네임 입니다. 다른 닉네임을 입력해주세요.", nickName));
-        }
-    }
-
-    private void validateDuplicatedEmail(String email) {
-        Member member = memberRepository.findMemberIdByEmail(email);
-        if (member != null) {
-            throw new DuplicatedException(String.format("(%s)는 이미 가입된 회원입니다. 기존 이메일로 로그인해주세요.", email));
-        }
     }
 
 }

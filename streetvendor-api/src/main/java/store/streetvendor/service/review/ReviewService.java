@@ -41,9 +41,12 @@ public class ReviewService {
 
     @Transactional
     public void addReview(AddReviewRequest request, List<MultipartFile> images, Long memberId) {
-        Member member = MemberServiceUtils.findByMemberId(memberRepository, memberId);
+        Member member = memberRepository.findMemberById(memberId);
+        MemberServiceUtils.validateMember(member, memberId);
 
-        List<OrderHistory> orderHistories = OrderServiceUtils.findOrderHistoryByOrderIdAndMemberId(orderHistoryRepository, request.getOrderId(), memberId);
+        List<OrderHistory> orderHistories = orderHistoryRepository.findOrderHistoryByOrderIdAndMemberId(request.getOrderId(), memberId);
+        OrderServiceUtils.validateOrderHistoryIsEmpty(orderHistories, request.getOrderId());
+
 
         Review review = request.toEntity(member, orderHistories.get(0));
 
@@ -60,8 +63,6 @@ public class ReviewService {
         reviewRepository.save(review);
 
         reviewCountRepository.incrByCount(orderHistories.get(0).getStoreInfo().getStoreId());
-
-
 
     }
 
