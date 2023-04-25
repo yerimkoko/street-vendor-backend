@@ -60,7 +60,7 @@ public class MemberOrderHistoryResponse {
         }
 
         return MemberOrderHistoryResponse.builder()
-            .firstMenuName(orderHistory.getMenus().get(0).getMenuName())
+            .firstMenuName(validateMenus(orderHistory))
             .storeId(orderHistory.getStoreInfo().getStoreId())
             .orderId(orderHistory.getOrderId())
             .status(orderHistory.getOrderCanceledStatus())
@@ -83,10 +83,19 @@ public class MemberOrderHistoryResponse {
             .orderStatus(orders.getOrderStatus())
             .orderCreateAt(orders.getCreatedAt())
             .storeName(orders.getStore().getName())
-            .totalAmount(orders.getOrderMenus().stream().mapToInt(OrderMenu::getTotalPrice).sum())
+            .totalAmount(orders.getOrderMenus().stream()
+                .mapToInt(OrderMenu::getTotalPrice).sum())
             .totalMenuCount(orders.getOrderMenus().size())
             .payment(orders.getPaymentMethod())
             .build();
+
+    }
+
+    private static String validateMenus(OrderHistory orderHistory) {
+        if (orderHistory.getMenus().isEmpty()) {
+            return null;
+        }
+        return orderHistory.getMenus().get(0).getMenuName();
 
     }
 
