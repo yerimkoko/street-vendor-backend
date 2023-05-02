@@ -1,6 +1,5 @@
 package store.streetvendor.controller.store;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -11,18 +10,20 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import store.streetvendor.StoreFixture;
 import store.streetvendor.AuthInterceptor;
-import store.streetvendor.core.domain.store.*;
+import store.streetvendor.StoreFixture;
+import store.streetvendor.core.domain.store.Store;
+import store.streetvendor.core.domain.store.StoreCategory;
+import store.streetvendor.core.utils.dto.store.response.StoreDetailResponse;
 import store.streetvendor.core.utils.dto.store.response.StoreInfoResponse;
 import store.streetvendor.service.store.StoreService;
-import store.streetvendor.core.utils.dto.store.response.StoreDetailResponse;
 
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @WebMvcTest(StoreController.class)

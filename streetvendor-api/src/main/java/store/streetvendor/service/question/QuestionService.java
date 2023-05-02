@@ -27,10 +27,20 @@ public class QuestionService {
     private final AwsS3Service s3Service;
 
     @Transactional
-    public void createQuestion(Long memberId, AddQuestionRequest request, List<MultipartFile> multipartFiles) {
+    public void createQuestion(Long memberId, AddQuestionRequest request, List<MultipartFile> imageFiles) {
 
         Questions question = request.toEntity(memberId);
-        List<FileUploadRequest> uploadRequest = multipartFiles.stream()
+
+        if (!imageFiles.isEmpty()) {
+            addQuestionImages(question, imageFiles);
+        }
+
+        questionsRepository.save(request.toEntity(memberId));
+    }
+
+    private void addQuestionImages(Questions question, List<MultipartFile> imageFiles) {
+
+        List<FileUploadRequest> uploadRequest = imageFiles.stream()
             .map(multipartFile -> ImageFileUploadRequest.of(multipartFile, ImageFileType.QUESTION_IMAGE))
             .collect(Collectors.toList());
 
@@ -40,7 +50,6 @@ public class QuestionService {
 
         question.addQuestionImages(questions);
 
-        questionsRepository.save(request.toEntity(memberId));
     }
 
     @Transactional(readOnly = true)

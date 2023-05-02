@@ -55,10 +55,6 @@ public class MemberOrderHistoryResponse {
 
 
     public static MemberOrderHistoryResponse historyOf(OrderHistory orderHistory) {
-        if (orderHistory == null) {
-            return null;
-        }
-
         return MemberOrderHistoryResponse.builder()
             .firstMenuName(validateMenus(orderHistory))
             .storeId(orderHistory.getStoreInfo().getStoreId())
@@ -73,9 +69,7 @@ public class MemberOrderHistoryResponse {
     }
 
     public static MemberOrderHistoryResponse orderOf(Orders orders) {
-        if (orders == null) {
-            return null;
-        }
+
         return MemberOrderHistoryResponse.builder()
             .payment(orders.getPaymentMethod())
             .storeId(orders.getStore().getId())

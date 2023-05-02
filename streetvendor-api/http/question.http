@@ -1,6 +1,7 @@
-> {%
-client.global.set("SESSION", response.body["data"])
-%}
+#> {%
+#client.global.set("SESSION", response.body["data"])
+#%}
+
 
 ### 문의사항을 등록한다.
 POST {{host_api}}/api/v1/question
@@ -10,8 +11,7 @@ Authorization: Bearer {{SESSION}}
 {
     "type": "OTHERS",
     "title": "환불이 안돼요ㅠㅠ",
-    "content": "돈이 언제 들어올까요?",
-    "images": []
+    "content": "돈이 언제 들어올까요?"
 }
 
 ### 나의 문의사항을 조회한다

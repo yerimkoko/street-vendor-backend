@@ -90,7 +90,6 @@ class MemberControllerTest {
         mockMvc.perform(multipart("/api/v1/my-page/profileUrl")
                 .file(profileUrl)
                 .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }

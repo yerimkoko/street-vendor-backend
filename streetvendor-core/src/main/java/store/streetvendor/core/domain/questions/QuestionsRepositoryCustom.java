@@ -8,4 +8,6 @@ public interface QuestionsRepositoryCustom {
 
     List<Questions> findQuestionsDetailByMemberId(Long memberId, Long questionId, Long cursor, int size);
 
+    Questions findByQuestionId(Long questionId);
+
 }

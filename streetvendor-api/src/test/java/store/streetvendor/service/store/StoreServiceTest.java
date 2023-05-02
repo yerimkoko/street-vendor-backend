@@ -9,6 +9,7 @@ import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.domain.store.menu.Menu;
 import store.streetvendor.core.domain.store.menu.MenuRepository;
 import store.streetvendor.core.domain.store.storeimage.StoreImageRepository;
+import store.streetvendor.core.exception.ConflictException;
 import store.streetvendor.core.redis.storecount.StoreCountKey;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
 import store.streetvendor.service.SetupBoss;
@@ -16,6 +17,7 @@ import store.streetvendor.service.SetupBoss;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static store.streetvendor.core.domain.store.StoreCategory.OTHER_DESSERT;
 
@@ -102,6 +104,18 @@ class StoreServiceTest extends SetupBoss {
         assertThat(stores).hasSize(1);
         assertThat(stores.get(0).getStore().getId()).isEqualTo(store.getId());
         assertThat(stores.get(0).getMemberId()).isEqualTo(memberId);
+    }
+
+    @Test
+    void 유저가_이미_좋아요를_했을때() {
+        // given
+        Long memberId = 999L;
+        Store store = createSalesStore(boss);
+        memberLikeStoreRepository.save(MemberLikeStore.newInstance(memberId, store));
+
+        // when & then
+        assertThatThrownBy(() -> storeService.addMemberLikeStore(memberId, store.getId()))
+            .isInstanceOf(ConflictException.class);
     }
 
     @Test

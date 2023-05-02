@@ -25,10 +25,12 @@ public class QuestionController {
     @PostMapping("/api/v1/question")
     public ApiResponse<String> createQuestion(@MemberId Long memberId,
                                               @RequestPart AddQuestionRequest request,
-                                              @RequestPart List<MultipartFile> multipartFiles) {
+                                              @RequestPart(required = false) List<MultipartFile> multipartFiles) {
         questionService.createQuestion(memberId, request, multipartFiles);
+
         return ApiResponse.OK;
     }
+
 
     @Auth
     @ApiOperation(value = "[문의사항] 내가 작성한 문의사항을 조회한다")

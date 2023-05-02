@@ -34,6 +34,13 @@ public class QuestionsRepositoryCustomImpl implements QuestionsRepositoryCustom{
             .fetch();
     }
 
+    @Override
+    public Questions findByQuestionId(Long questionId) {
+        return jpaQueryFactory.selectFrom(questions)
+            .where(questions.id.eq(questionId))
+            .fetchOne();
+    }
+
     private BooleanExpression existedCursor(Long cursor) {
         if (cursor == null) {
             return null;

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.core.domain.review.reviewcount.ReviewCountRepositoryImpl;
 import store.streetvendor.core.domain.store.*;
+import store.streetvendor.core.exception.ConflictException;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.redis.storecount.StoreCountRepository;
 import store.streetvendor.core.utils.dto.store.MemberLikeStoreListResponse;
@@ -76,6 +77,11 @@ public class StoreService {
     @Transactional
     public void addMemberLikeStore(@NotNull Long memberId, Long storeId) {
         Store store = StoreServiceUtils.findByStoreId(storeRepository, storeId);
+        MemberLikeStore memberLikeStore = memberLikeStoreRepository.findLikeStoreByMemberIdAndStoreId(memberId, store.getId());
+        if (memberLikeStore != null) {
+            throw new ConflictException("이미 좋아요를 했습니다. 좋아요는 한 번만 할 수 있습니다.");
+        }
+
         memberLikeStoreRepository.save(MemberLikeStore.newInstance(memberId, store));
     }
 
