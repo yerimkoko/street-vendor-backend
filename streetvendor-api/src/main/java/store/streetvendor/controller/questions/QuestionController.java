@@ -14,6 +14,7 @@ import store.streetvendor.core.utils.dto.question.response.AllQuestionResponse;
 import store.streetvendor.core.utils.dto.question.response.QuestionDetailResponse;
 import store.streetvendor.service.question.QuestionService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,7 +29,7 @@ public class QuestionController {
     @ApiOperation(value = "[문의사항] 1:1 문의를 작성한다")
     @PostMapping("/api/v1/question")
     public ApiResponse<String> createQuestion(@MemberId Long memberId,
-                                              @RequestBody AddQuestionRequest request) {
+                                              @RequestBody @Valid AddQuestionRequest request) {
         questionService.createQuestion(memberId, request);
 
         return ApiResponse.OK;
