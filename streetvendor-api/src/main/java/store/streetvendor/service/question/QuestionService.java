@@ -54,9 +54,9 @@ public class QuestionService {
 
 
     @Transactional(readOnly = true)
-    public List<AllQuestionResponse> getMyQuestion(Long memberId, Long cursor, int size) {
+    public List<AllQuestionResponse> getMyQuestion(Long memberId, Long cursor, int size, String baseUrl) {
         return questionsRepository.findQuestionsByMemberId(memberId, cursor, size).stream()
-            .map(AllQuestionResponse::of)
+            .map(question -> AllQuestionResponse.of(question, baseUrl))
             .collect(Collectors.toList());
     }
 

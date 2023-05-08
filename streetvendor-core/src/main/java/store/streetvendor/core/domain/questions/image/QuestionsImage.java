@@ -22,6 +22,7 @@ public class QuestionsImage extends BaseTimeEntity {
     @JoinColumn(name = "questions_id", nullable = false)
     private Questions questions;
 
+    @Column
     private String imageUrl;
 
     @Builder

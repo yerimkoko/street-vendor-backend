@@ -2,6 +2,7 @@ package store.streetvendor.controller.questions;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import store.streetvendor.Auth;
@@ -22,6 +23,9 @@ import java.util.List;
 public class QuestionController {
 
     private final static int MAX_QUESTION_IMAGES = 5;
+
+    @Value("${cloud.aws.s3.baseUrl}")
+    private String baseUrl;
 
     private final QuestionService questionService;
 
@@ -58,7 +62,7 @@ public class QuestionController {
     public ApiResponse<List<AllQuestionResponse>> getMyQuestions(@MemberId Long memberId,
                                                                  @RequestParam(required = false) Long cursor,
                                                                  @RequestParam(required = false, defaultValue = "5") int size) {
-        return ApiResponse.success(questionService.getMyQuestion(memberId, cursor, size));
+        return ApiResponse.success(questionService.getMyQuestion(memberId, cursor, size, baseUrl));
     }
 
     @Auth
