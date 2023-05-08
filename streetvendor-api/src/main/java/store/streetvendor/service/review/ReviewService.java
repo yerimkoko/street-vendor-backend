@@ -47,7 +47,6 @@ public class ReviewService {
         List<OrderHistory> orderHistories = orderHistoryRepository.findOrderHistoryByOrderIdAndMemberId(request.getOrderId(), memberId);
         OrderServiceUtils.validateOrderHistoryIsEmpty(orderHistories, request.getOrderId());
 
-
         Review review = request.toEntity(member, orderHistories.get(0));
 
         List<FileUploadRequest> fileUploadRequests = images.stream()

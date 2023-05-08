@@ -10,4 +10,6 @@ public interface QuestionsRepositoryCustom {
 
     Questions findByQuestionId(Long questionId);
 
+    Questions findByQuestionIdAndMemberId(Long questionId, Long memberId);
+
 }

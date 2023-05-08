@@ -27,37 +27,33 @@ public class QuestionService {
     private final AwsS3Service s3Service;
 
     @Transactional
-    public void createQuestion(Long memberId, AddQuestionRequest request, List<MultipartFile> imageFiles) {
-
-        Questions question = request.toEntity(memberId);
-
-        if (!imageFiles.isEmpty()) {
-            addQuestionImages(question, imageFiles);
-        }
-
+    public void createQuestion(Long memberId, AddQuestionRequest request) {
         questionsRepository.save(request.toEntity(memberId));
     }
 
-    private void addQuestionImages(Questions question, List<MultipartFile> imageFiles) {
+    @Transactional
+    public void addQuestionImages(Long memberId, Long questionId, List<MultipartFile> imageFiles) {
+
+        Questions question = questionsRepository.findByQuestionIdAndMemberId(questionId, memberId);
 
         List<FileUploadRequest> uploadRequest = imageFiles.stream()
             .map(multipartFile -> ImageFileUploadRequest.of(multipartFile, ImageFileType.QUESTION_IMAGE))
             .collect(Collectors.toList());
 
-        List<QuestionsImage> questions = s3Service.uploadImageFiles(uploadRequest).stream()
+        List<QuestionsImage> questionImages = s3Service.uploadImageFiles(uploadRequest).stream()
             .map(imageUrlResponse -> QuestionsImage.newImage(question, imageUrlResponse.getImageUrl()))
             .collect(Collectors.toList());
 
-        question.addQuestionImages(questions);
+        question.addQuestionImages(questionImages);
 
     }
+
 
     @Transactional(readOnly = true)
     public List<AllQuestionResponse> getMyQuestion(Long memberId, Long cursor, int size) {
         return questionsRepository.findQuestionsByMemberId(memberId, cursor, size).stream()
             .map(AllQuestionResponse::of)
             .collect(Collectors.toList());
-
     }
 
     @Transactional(readOnly = true)

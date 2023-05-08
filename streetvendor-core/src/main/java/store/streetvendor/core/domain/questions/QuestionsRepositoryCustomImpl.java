@@ -41,6 +41,14 @@ public class QuestionsRepositoryCustomImpl implements QuestionsRepositoryCustom{
             .fetchOne();
     }
 
+    @Override
+    public Questions findByQuestionIdAndMemberId(Long questionId, Long memberId) {
+        return jpaQueryFactory.selectFrom(questions)
+            .where(questions.id.eq(questionId),
+                questions.memberId.eq(memberId))
+            .fetchOne();
+    }
+
     private BooleanExpression existedCursor(Long cursor) {
         if (cursor == null) {
             return null;

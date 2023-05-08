@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import store.streetvendor.Auth;
 import store.streetvendor.MemberId;
-import store.streetvendor.core.exception.InvalidException;
 import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
 import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
@@ -31,10 +30,7 @@ public class ReviewController {
     @PostMapping("/api/v1/review")
     public ApiResponse<String> addNewEvaluation(@MemberId Long memberId,
                                                 @Valid @RequestPart AddReviewRequest request,
-                                                @RequestPart List<MultipartFile> images) {
-        if (images.isEmpty()) {
-            throw new InvalidException(String.format("유저 [%s]가 업로드한 리뷰의 파일이 비어있습니다.", memberId));
-        }
+                                                @RequestPart(required = false) List<MultipartFile> images) {
         reviewService.addReview(request, images, memberId);
         return ApiResponse.OK;
     }

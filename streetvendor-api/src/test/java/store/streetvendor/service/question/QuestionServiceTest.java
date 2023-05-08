@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.multipart.MultipartFile;
 import store.streetvendor.MemberFixture;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
@@ -13,7 +12,6 @@ import store.streetvendor.core.domain.questions.QuestionsRepository;
 import store.streetvendor.core.domain.questions.QuestionsType;
 import store.streetvendor.core.utils.dto.question.request.AddQuestionRequest;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,7 +43,7 @@ public class QuestionServiceTest extends MemberFixture {
         AddQuestionRequest request = new AddQuestionRequest(type, title, content);
 
         // when
-        questionService.createQuestion(getMember().getId(), request, Collections.emptyList());
+        questionService.createQuestion(getMember().getId(), request);
 
         // then
         List<Questions> questions = questionsRepository.findAll();
