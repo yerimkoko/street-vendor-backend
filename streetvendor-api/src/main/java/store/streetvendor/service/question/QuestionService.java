@@ -11,6 +11,7 @@ import store.streetvendor.core.aws.request.ImageFileUploadRequest;
 import store.streetvendor.core.domain.questions.Questions;
 import store.streetvendor.core.domain.questions.QuestionsRepository;
 import store.streetvendor.core.domain.questions.image.QuestionsImage;
+import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.utils.dto.question.request.AddQuestionRequest;
 import store.streetvendor.core.utils.dto.question.response.AllQuestionResponse;
 import store.streetvendor.core.utils.dto.question.response.QuestionDetailResponse;
@@ -35,6 +36,9 @@ public class QuestionService {
     public void addQuestionImages(Long memberId, Long questionId, List<MultipartFile> imageFiles) {
 
         Questions question = questionsRepository.findByQuestionIdAndMemberId(questionId, memberId);
+        if (question == null) {
+            throw new NotFoundException(String.format("[%s]에 해당하는 문의사항은 존재하지 않습니다.", questionId));
+        }
 
         List<FileUploadRequest> uploadRequest = imageFiles.stream()
             .map(multipartFile -> ImageFileUploadRequest.of(multipartFile, ImageFileType.QUESTION_IMAGE))
