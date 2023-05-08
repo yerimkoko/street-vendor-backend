@@ -18,7 +18,7 @@ public class QuestionsImage extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questions_id", nullable = false)
     private Questions questions;
 
