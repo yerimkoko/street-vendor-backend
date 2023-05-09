@@ -21,7 +21,7 @@ public class ReviewCountRepositoryImpl implements ReviewCountRepository {
     }
 
     @Override
-    public Long getValueByKey(Long storeId) {
+    public long getValueByKey(Long storeId) {
         ReviewCountKey key = ReviewCountKey.builder()
             .storeId(storeId)
             .build();

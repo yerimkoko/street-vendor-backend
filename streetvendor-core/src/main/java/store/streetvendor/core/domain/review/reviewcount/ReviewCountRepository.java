@@ -4,6 +4,6 @@ public interface ReviewCountRepository {
 
     void incrByCount(Long storeId);
 
-    Long getValueByKey(Long storeId);
+    long getValueByKey(Long storeId);
 
 }
