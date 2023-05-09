@@ -7,10 +7,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import store.streetvendor.core.exception.AlreadyExistedException;
-import store.streetvendor.core.exception.DuplicatedException;
-import store.streetvendor.core.exception.NotFoundException;
-import store.streetvendor.core.exception.UnAuthorizedException;
 import store.streetvendor.core.utils.ApiResponse;
 
 import java.net.BindException;
@@ -77,6 +73,13 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(AlreadyExistedException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiResponse<Object> handleAlreadyExistedException(AlreadyExistedException e) {
+        log.error(e.getErrorCode().getCode(), e);
+        return ApiResponse.error(e.getErrorCode().getCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiResponse<Object> handleConflictException(ConflictException e) {
         log.error(e.getErrorCode().getCode(), e);
         return ApiResponse.error(e.getErrorCode().getCode(), e.getMessage());
     }
