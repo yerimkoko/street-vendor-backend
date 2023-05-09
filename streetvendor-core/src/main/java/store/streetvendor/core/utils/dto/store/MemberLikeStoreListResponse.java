@@ -44,7 +44,7 @@ public class MemberLikeStoreListResponse {
         this.spoon = spoon;
     }
 
-    public static MemberLikeStoreListResponse of(Store store, double latitude, double longitude, long reviewCount) {
+    public static MemberLikeStoreListResponse of(Store store, double latitude, double longitude) {
         return MemberLikeStoreListResponse.builder()
             .storeName(store.getName())
             .category(store.getCategory().getDescription())
@@ -52,7 +52,6 @@ public class MemberLikeStoreListResponse {
             .thumbNail(getThumbNail(store.findMainImage()))
             .locationDescription(store.getLocationDescription())
             .storeStatus(store.getSalesStatus().getDescription())
-            .reviewCount(reviewCount)
             .spoon(store.getAverageValue())
             .distance(DistanceUtils.getDistance(store.getLocation().getLatitude(), latitude, store.getLocation().getLongitude(), longitude))
             .build();

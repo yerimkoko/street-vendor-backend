@@ -1,7 +1,6 @@
 package store.streetvendor.service.store;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.streetvendor.core.domain.review.reviewcount.ReviewCountRepositoryImpl;
@@ -89,7 +88,7 @@ public class StoreService {
     public List<MemberLikeStoreListResponse> getMemberLikeStore(Long memberId, double currentLatitude, double currentLongitude, Integer cursor, int size) {
         List<MemberLikeStore> memberLikeStores = memberLikeStoreRepository.findByMemberId(memberId, cursor, size);
         return memberLikeStores.stream()
-            .map(memberLikeStore -> MemberLikeStoreListResponse.of(memberLikeStore.getStore(), currentLatitude, currentLongitude, getReviewCount(memberLikeStore.getStore().getId())))
+            .map(memberLikeStore -> MemberLikeStoreListResponse.of(memberLikeStore.getStore(), currentLatitude, currentLongitude))
             .collect(Collectors.toList());
     }
 
