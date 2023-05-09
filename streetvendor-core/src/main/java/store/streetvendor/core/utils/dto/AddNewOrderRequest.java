@@ -10,6 +10,8 @@ import store.streetvendor.core.domain.store.PaymentMethod;
 import store.streetvendor.core.domain.store.Store;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,25 +21,39 @@ public class AddNewOrderRequest {
 
     private double distance;
 
+    @NotNull
     private List<OrderMenusRequest> menus;
 
+    @NotNull
     private Location location;
 
+    @NotNull
     private PaymentMethod paymentMethod;
 
+    @NotNull
     private long storeId;
 
+    @NotBlank
+    private String memberPhoneNumber;
+
+    @NotNull
+    private LocalDateTime pickUpTime;
+
+
+
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
-    public AddNewOrderRequest(@NotBlank long storeId, PaymentMethod paymentMethod, List<OrderMenusRequest> menus, Location location) {
+    public AddNewOrderRequest(@NotBlank long storeId, PaymentMethod paymentMethod, List<OrderMenusRequest> menus, Location location, String memberPhoneNumber, LocalDateTime pickUpTime) {
         this.storeId = storeId;
         this.location = location;
         this.paymentMethod = paymentMethod;
         this.menus = menus;
         this.distance = 2;
+        this.memberPhoneNumber = memberPhoneNumber;
+        this.pickUpTime = pickUpTime;
     }
 
     public Orders toEntity(Store store, Long memberId, PaymentMethod paymentMethod) {
-        Orders order = Orders.newOrder(store, memberId, paymentMethod);
+        Orders order = Orders.newOrder(store, memberId, paymentMethod, pickUpTime);
 
         List<OrderMenu> orderMenus = this.menus.stream()
             .map(orderMenu -> orderMenu.toEntity(order, store))

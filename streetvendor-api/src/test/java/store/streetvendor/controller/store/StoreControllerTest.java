@@ -53,7 +53,7 @@ class StoreControllerTest {
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
 
         BDDMockito.when(storeService.getStoresByCategoryAndLocationAndStoreStatus(category, any(), any(), any(), any(), any()))
-            .thenReturn(List.of(StoreInfoResponse.of(store, any(), any(), any(), any())));
+            .thenReturn(List.of(StoreInfoResponse.of(store, any(), any(), any())));
 
         // when & then
         mockMvc.perform(get("/api/v1/store/category/" + category + "?longitude=33.333&latitude=128.33")

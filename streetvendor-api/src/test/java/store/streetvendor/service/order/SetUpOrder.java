@@ -8,6 +8,8 @@ import store.streetvendor.core.domain.order.OrderRepository;
 import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.service.store.SetUpStore;
 
+import java.time.LocalDateTime;
+
 @SpringBootTest
 public abstract class SetUpOrder extends SetUpStore {
 
@@ -18,7 +20,7 @@ public abstract class SetUpOrder extends SetUpStore {
 
     @BeforeEach
     protected void setUpOrder() {
-        order = Orders.newOrder(store, boss.getId(), paymentMethod);
+        order = Orders.newOrder(store, boss.getId(), paymentMethod, LocalDateTime.now().plusHours(1L));
         orderRepository.save(order);
     }
 

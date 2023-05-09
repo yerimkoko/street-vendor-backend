@@ -16,6 +16,7 @@ import store.streetvendor.core.utils.dto.AddNewOrderRequest;
 import store.streetvendor.core.utils.dto.OrderMenusRequest;
 import store.streetvendor.service.store.SetUpStore;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,12 +56,14 @@ class OrdersServiceTest extends SetUpStore {
     void 주문을_한다() {
         // given
         Location location = new Location(30.78639644286605, 126.40572677813635);
+        LocalDateTime pickUpTime = LocalDateTime.now().plusHours(1L);
 
         AddNewOrderRequest addNewOrderRequest = AddNewOrderRequest.testBuilder()
             .storeId(store.getId())
             .location(location)
             .paymentMethod(paymentMethod)
             .menus(List.of(createMenuRequest()))
+            .pickUpTime(pickUpTime)
             .build();
 
         // when
@@ -69,7 +72,8 @@ class OrdersServiceTest extends SetUpStore {
         // then
         List<Orders> orders = orderRepository.findAll();
         assertThat(orders).hasSize(1);
-        assertOrder(orders.get(0), member.getId(), store.getId());
+        assertOrder(orders.get(0), member.getId(), store.getId(), pickUpTime);
+
 
         List<OrderMenu> orderMenus = orderMenuRepository.findAll();
         assertThat(orderMenus).hasSize(1);
@@ -152,14 +156,16 @@ class OrdersServiceTest extends SetUpStore {
 
     }
 
-    void assertOrder(Orders orders, Long memberId, Long storeId) {
+    void assertOrder(Orders orders, Long memberId, Long storeId, LocalDateTime pickUpTime) {
         assertThat(orders.getMemberId()).isEqualTo(memberId);
         assertThat(orders.getStore().getId()).isEqualTo(storeId);
+        assertThat(orders.getPickUpTime()).isEqualTo(pickUpTime);
     }
 
 
     private Orders order() {
-        return Orders.newOrder(store, member.getId(), paymentMethod);
+        LocalDateTime pickUpTime = LocalDateTime.now().plusHours(1L);
+        return Orders.newOrder(store, member.getId(), paymentMethod, pickUpTime);
     }
 
     private OrderMenusRequest createMenuRequest() {

@@ -43,7 +43,7 @@ insert into store(
                   location_description, name, sales_status, status, store_description, average_value
 )
 values (now(), now(), 1, 'TTEOK_BOKKI', 37.7708104, 126.7021019, '국민은행 앞', '사거리 떡볶이',
-        'CLOSED', 'ACTIVE', '떡볶이 맛집', 0.0);
+        'OPEN', 'ACTIVE', '떡볶이 맛집', 0.0);
 
 insert into store(
     created_at, updated_at, boss_id, category, latitude, longitude,

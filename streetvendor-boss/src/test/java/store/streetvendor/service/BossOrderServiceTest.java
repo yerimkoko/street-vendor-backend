@@ -12,6 +12,7 @@ import store.streetvendor.core.domain.store.menu.Menu;
 import store.streetvendor.core.utils.dto.order_history.request.AddNewOrderHistoryRequest;
 import store.streetvendor.core.utils.dto.order_history.request.OrderHistoryMenusRequest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,7 +43,7 @@ class BossOrderServiceTest extends SetUpStore {
     @Test
     void 사장님이_들어온_주문을_확인하고_PREPARING_상태로_변경한다() {
         // given
-        Orders order = orderRepository.save(Orders.newOrder(store, boss.getId(), paymentMethod));
+        Orders order = orderRepository.save(Orders.newOrder(store, boss.getId(), paymentMethod, LocalDateTime.now().plusHours(1L)));
 
         // when
         bossOrderService.changeStatusToPreparing(store.getId(), boss.getId(), order.getId());
@@ -57,7 +58,8 @@ class BossOrderServiceTest extends SetUpStore {
     @Test
     void 사장님에게_주문상태가_PREPARING_일때_READY_TO_PICK_UP_으로_변경한다() {
         // given
-        Orders order = orderRepository.save(Orders.preparingOrder(store, boss.getId(), paymentMethod));
+        LocalDateTime pickUpTime = LocalDateTime.now().plusHours(1L);
+        Orders order = orderRepository.save(Orders.preparingOrder(store, boss.getId(), paymentMethod, pickUpTime));
 
         OrderHistoryMenusRequest request = OrderHistoryMenusRequest.builder()
             .menu(menu)
@@ -133,7 +135,7 @@ class BossOrderServiceTest extends SetUpStore {
 
 
     private Orders order() {
-        return Orders.newOrder(store, boss.getId(), paymentMethod);
+        return Orders.newOrder(store, boss.getId(), paymentMethod, LocalDateTime.now().plusHours(1L));
     }
 
 }

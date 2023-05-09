@@ -22,6 +22,7 @@ import store.streetvendor.core.domain.store.PaymentMethod;
 import store.streetvendor.core.utils.dto.order.response.OrderListToBossResponse;
 import store.streetvendor.service.BossOrderService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -56,7 +57,7 @@ class BossOrderControllerTest {
         // given
         Boss boss = Boss.newGoogleInstance("dd", "name", "1002-222-22222", "gochi97@naver.com", "profileUrl", "0202");
 
-        Orders order = Orders.preparingOrder(StoreFixture.store(), boss.getId(), PaymentMethod.CASH);
+        Orders order = Orders.preparingOrder(StoreFixture.store(), boss.getId(), PaymentMethod.CASH, LocalDateTime.now().plusHours(1L));
 
         MultiValueMap<String, String> status = new LinkedMultiValueMap<>();
         status.add("orderStatus", OrderStatus.REQUEST.name());

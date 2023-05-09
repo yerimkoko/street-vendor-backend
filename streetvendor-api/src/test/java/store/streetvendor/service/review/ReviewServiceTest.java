@@ -17,6 +17,7 @@ import store.streetvendor.core.domain.review.ReviewRepository;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -76,7 +77,7 @@ public class ReviewServiceTest extends MemberFixture {
     }
 
     private Orders createOrder() {
-        Orders order = Orders.newOrder(store(), createMember().getId(), PaymentMethod.ACCOUNT_TRANSFER);
+        Orders order = Orders.newOrder(store(), createMember().getId(), PaymentMethod.ACCOUNT_TRANSFER, LocalDateTime.now().plusHours(1L));
         orderRepository.save(order);
         return order;
     }

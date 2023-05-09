@@ -46,7 +46,7 @@ public class OrderService {
             request.getDistance());
 
         if (store == null) {
-            throw new NotFoundException(String.format("거리 내에 찾으시는 가게 (%s)가 없습니다.", request.getStoreId()));
+            throw new NotFoundException(String.format("거리 내에 찾으시는 가게 (%s)가 없거나 영업중인 가게가 아닙니다.", request.getStoreId()));
         }
 
         orderRepository.save(request.toEntity(store, memberId, request.getPaymentMethod()));
