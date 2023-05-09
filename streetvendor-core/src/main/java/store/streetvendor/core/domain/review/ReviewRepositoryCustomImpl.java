@@ -22,6 +22,14 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom{
     }
 
     @Override
+    public Review findByOrderIdAndMemberId(Long memberId, Long orderId) {
+        return jpaQueryFactory.selectFrom(review)
+            .where(review.member.id.eq(memberId),
+                review.order.orderId.eq(orderId))
+            .fetchOne();
+    }
+
+    @Override
     public List<Review> findByStoreId(Long storeId, Long cursor, int size) {
         return jpaQueryFactory.selectFrom(review)
             .where(review.order.storeInfo.storeId.eq(storeId),

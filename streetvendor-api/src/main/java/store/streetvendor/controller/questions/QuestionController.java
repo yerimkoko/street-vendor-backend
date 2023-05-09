@@ -13,6 +13,7 @@ import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.question.request.AddQuestionRequest;
 import store.streetvendor.core.utils.dto.question.response.AllQuestionResponse;
 import store.streetvendor.core.utils.dto.question.response.QuestionDetailResponse;
+import store.streetvendor.core.utils.dto.question.response.QuestionsImageResponse;
 import store.streetvendor.service.question.QuestionService;
 
 import javax.validation.Valid;
@@ -32,17 +33,17 @@ public class QuestionController {
     @Auth
     @ApiOperation(value = "[문의사항] 1:1 문의를 작성한다")
     @PostMapping("/api/v1/question")
-    public ApiResponse<String> createQuestion(@MemberId Long memberId,
+    public ApiResponse<Long> createQuestion(@MemberId Long memberId,
                                               @RequestBody @Valid AddQuestionRequest request) {
-        questionService.createQuestion(memberId, request);
+        Long questionId = questionService.createQuestion(memberId, request);
 
-        return ApiResponse.OK;
+        return ApiResponse.success(questionId);
     }
 
     @Auth
     @ApiOperation(value = "[문의사항] 문의사항에 사진을 등록한다")
     @PostMapping("/api/v1/question/images/{questionId}")
-    public ApiResponse<String> createQuestionImages(@MemberId Long memberId,
+    public ApiResponse<List<QuestionsImageResponse>> createQuestionImages(@MemberId Long memberId,
                                                     @PathVariable Long questionId,
                                                     @RequestPart List<MultipartFile> imageFiles) {
         if (imageFiles.isEmpty()) {
@@ -51,8 +52,8 @@ public class QuestionController {
         if (imageFiles.size() > MAX_QUESTION_IMAGES) {
             throw new ConflictException(String.format("최대 [%s]장 까지 가능합니다.", MAX_QUESTION_IMAGES));
         }
-        questionService.addQuestionImages(memberId, questionId, imageFiles);
-        return ApiResponse.OK;
+        List<QuestionsImageResponse> questionsImageResponses = questionService.addQuestionImages(memberId, questionId, imageFiles, baseUrl);
+        return ApiResponse.success(questionsImageResponses);
     }
 
 

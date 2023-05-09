@@ -16,7 +16,10 @@ import store.streetvendor.core.domain.review.Review;
 import store.streetvendor.core.domain.review.ReviewImage;
 import store.streetvendor.core.domain.review.ReviewRepository;
 import store.streetvendor.core.domain.review.reviewcount.ReviewCountRepository;
+import store.streetvendor.core.exception.ConflictException;
+import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
+import store.streetvendor.core.utils.dto.review.response.ReviewImageResponse;
 import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.service.OrderServiceUtils;
@@ -40,28 +43,46 @@ public class ReviewService {
 
 
     @Transactional
-    public void addReview(AddReviewRequest request, List<MultipartFile> images, Long memberId) {
+    public Long addReview(AddReviewRequest request, Long memberId) {
         Member member = memberRepository.findMemberById(memberId);
         MemberServiceUtils.validateMember(member, memberId);
+        Review findReview = reviewRepository.findByOrderIdAndMemberId(memberId, request.getOrderId());
+        if (findReview != null) {
+            throw new ConflictException(String.format("[%s]에 대한 리뷰는 이미 작성하셨습니다.", request.getOrderId()));
+        }
 
         List<OrderHistory> orderHistories = orderHistoryRepository.findOrderHistoryByOrderIdAndMemberId(request.getOrderId(), memberId);
         OrderServiceUtils.validateOrderHistoryIsEmpty(orderHistories, request.getOrderId());
 
         Review review = request.toEntity(member, orderHistories.get(0));
 
-        List<FileUploadRequest> fileUploadRequests = images.stream()
+        reviewCountRepository.incrByCount(orderHistories.get(0).getStoreInfo().getStoreId());
+
+        return reviewRepository.save(review).getId();
+
+    }
+
+    @Transactional
+    public List<ReviewImageResponse> addReviewImages(List<MultipartFile> reviewImages, Long reviewId, Long memberId, String baseUrl) {
+
+        Review review = reviewRepository.findByReviewIdAndMemberId(memberId, reviewId);
+        if (review == null) {
+            throw new NotFoundException(String.format("[%s]에 해당하는 review 는 존재하지 않습니다.", reviewId));
+        }
+
+        List<FileUploadRequest> fileUploadRequests = reviewImages.stream()
             .map(imageFile -> ImageFileUploadRequest.of(imageFile, ImageFileType.REVIEW_IMAGE))
             .collect(Collectors.toList());
 
-        List<ReviewImage> reviewImages = s3Service.uploadImageFiles(fileUploadRequests).stream()
+        List<ReviewImage> reviewImageList = s3Service.uploadImageFiles(fileUploadRequests).stream()
             .map(imageUrlResponse -> ReviewImage.newInstance(review, imageUrlResponse.getImageUrl()))
             .collect(Collectors.toList());
 
-        review.addReviewImages(reviewImages);
+        review.addReviewImages(reviewImageList);
 
-        reviewRepository.save(review);
-
-        reviewCountRepository.incrByCount(orderHistories.get(0).getStoreInfo().getStoreId());
+        return reviewImageList.stream()
+            .map(image -> ReviewImageResponse.of(image, baseUrl))
+            .collect(Collectors.toList());
 
     }
 

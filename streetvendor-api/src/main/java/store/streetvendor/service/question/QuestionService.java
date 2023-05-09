@@ -15,6 +15,7 @@ import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.utils.dto.question.request.AddQuestionRequest;
 import store.streetvendor.core.utils.dto.question.response.AllQuestionResponse;
 import store.streetvendor.core.utils.dto.question.response.QuestionDetailResponse;
+import store.streetvendor.core.utils.dto.question.response.QuestionsImageResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,12 +29,13 @@ public class QuestionService {
     private final AwsS3Service s3Service;
 
     @Transactional
-    public void createQuestion(Long memberId, AddQuestionRequest request) {
-        questionsRepository.save(request.toEntity(memberId));
+    public Long createQuestion(Long memberId, AddQuestionRequest request) {
+        Questions questions = questionsRepository.save(request.toEntity(memberId));
+        return questions.getId();
     }
 
     @Transactional
-    public void addQuestionImages(Long memberId, Long questionId, List<MultipartFile> imageFiles) {
+    public List<QuestionsImageResponse> addQuestionImages(Long memberId, Long questionId, List<MultipartFile> imageFiles, String baseUrl) {
 
         Questions question = questionsRepository.findByQuestionIdAndMemberId(questionId, memberId);
         if (question == null) {
@@ -49,6 +51,10 @@ public class QuestionService {
             .collect(Collectors.toList());
 
         question.addQuestionImages(questionImages);
+
+        return questionImages.stream()
+            .map(image -> QuestionsImageResponse.of(image, baseUrl))
+            .collect(Collectors.toList());
 
     }
 

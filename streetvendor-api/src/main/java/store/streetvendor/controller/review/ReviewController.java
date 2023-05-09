@@ -9,6 +9,7 @@ import store.streetvendor.Auth;
 import store.streetvendor.MemberId;
 import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
+import store.streetvendor.core.utils.dto.review.response.ReviewImageResponse;
 import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
 import store.streetvendor.service.review.ReviewService;
 
@@ -28,12 +29,22 @@ public class ReviewController {
     @Auth
     @ApiOperation(value = "[리뷰] 등록하기")
     @PostMapping("/api/v1/review")
-    public ApiResponse<String> addNewEvaluation(@MemberId Long memberId,
-                                                @Valid @RequestPart AddReviewRequest request,
-                                                @RequestPart(required = false) List<MultipartFile> images) {
-        reviewService.addReview(request, images, memberId);
-        return ApiResponse.OK;
+    public ApiResponse<Long> addNewEvaluation(@MemberId Long memberId,
+                                              @Valid @RequestBody AddReviewRequest request) {
+
+        return ApiResponse.success(reviewService.addReview(request, memberId));
     }
+
+    @Auth
+    @ApiOperation(value = "[리뷰] 이미지 등록하기")
+    @PostMapping("/api/v1/review/images/{reviewId}")
+    public ApiResponse<List<ReviewImageResponse>> addReviewImage(@MemberId Long memberId,
+                                                                 @PathVariable Long reviewId,
+                                                                 @RequestPart List<MultipartFile> reviewImages) {
+
+        return ApiResponse.success(reviewService.addReviewImages(reviewImages, reviewId, memberId, baseUrl));
+    }
+
 
     @ApiOperation(value = "[리뷰] 가게에 있는 리뷰 가져오기")
     @GetMapping("/api/v1/reviews/{storeId}")

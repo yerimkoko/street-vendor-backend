@@ -17,7 +17,6 @@ import store.streetvendor.core.domain.review.ReviewRepository;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -66,7 +65,7 @@ public class ReviewServiceTest extends MemberFixture {
             .build();
 
         // when
-        reviewService.addReview(request, Collections.emptyList(), orderHistory.getMemberId());
+        reviewService.addReview(request, orderHistory.getMemberId());
 
         // then
         List<Review> reviews = reviewRepository.findAll();
