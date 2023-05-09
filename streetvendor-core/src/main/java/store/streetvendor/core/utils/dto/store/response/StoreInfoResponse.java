@@ -50,7 +50,7 @@ public class StoreInfoResponse {
         this.badge = badge;
     }
 
-    public static StoreInfoResponse of(Store store, String baseUrl, long reviewCount, double longitude, double latitude) {
+    public static StoreInfoResponse of(Store store, String baseUrl, double longitude, double latitude) {
         return StoreInfoResponse.builder()
             .storeId(store.getId())
             .storeName(store.getName())
@@ -58,7 +58,6 @@ public class StoreInfoResponse {
             .pictureUrl(findMainUrl(store, baseUrl))
             .locationDescription(store.getStoreDescription())
             .spoon(store.getAverageValue())
-            .reviews(reviewCount)
             .distance(DistanceUtils.getDistance(store.getLocation().getLatitude(), latitude, store.getLocation().getLongitude(), longitude))
             .salesStatus(store.getSalesStatus())
             .badge(getBadge(store))

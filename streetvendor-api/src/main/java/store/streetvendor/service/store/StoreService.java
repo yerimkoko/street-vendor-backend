@@ -57,7 +57,7 @@ public class StoreService {
 
         return storeRepository.findAllStoresByLocationAndDistanceLessThan(latitude, longitude, distance)
             .stream()
-            .map(store -> StoreInfoResponse.of(store, baseUrl, getReviewCount(store.getId()), longitude, latitude))
+            .map(store -> StoreInfoResponse.of(store, baseUrl, longitude, latitude))
             .filter(store -> store.hasCategory(category)
                 && store.isSalesStatus(store.getSalesStatus()))
             .collect(Collectors.toList());
@@ -96,7 +96,7 @@ public class StoreService {
     public void deleteLikeStore(Long memberId, Long storeId) {
         MemberLikeStore memberLikeStore = memberLikeStoreRepository.findLikeStoreByMemberIdAndStoreId(memberId, storeId);
         if (memberLikeStore == null) {
-            throw new NotFoundException(String.format("[%s]에 해당하는 가게는 없습니다.", storeId));
+            throw new NotFoundException(String.format("[%s]에 좋아요 하지 않았습니다.", storeId));
         }
         memberLikeStore.delete();
     }

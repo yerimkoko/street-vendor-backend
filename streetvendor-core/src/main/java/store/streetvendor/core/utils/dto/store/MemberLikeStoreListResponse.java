@@ -11,8 +11,6 @@ import store.streetvendor.core.utils.DistanceUtils;
 @NoArgsConstructor
 public class MemberLikeStoreListResponse {
 
-    private static final int EARTH_RADIUS = 6371;
-
     private String storeName;
 
     private String category;
