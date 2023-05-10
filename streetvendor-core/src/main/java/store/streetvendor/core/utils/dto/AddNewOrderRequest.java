@@ -47,7 +47,7 @@ public class AddNewOrderRequest {
         this.location = location;
         this.paymentMethod = paymentMethod;
         this.menus = menus;
-        this.distance = 2;
+        this.distance = 2.0;
         this.memberPhoneNumber = memberPhoneNumber;
         this.pickUpTime = pickUpTime;
     }

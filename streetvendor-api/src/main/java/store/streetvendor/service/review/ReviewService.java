@@ -19,14 +19,11 @@ import store.streetvendor.core.domain.review.ReviewImage;
 import store.streetvendor.core.domain.review.ReviewRepository;
 import store.streetvendor.core.domain.review.reviewcount.ReviewCountRepository;
 import store.streetvendor.core.exception.ConflictException;
-import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
-import store.streetvendor.core.utils.dto.review.response.ReviewImageResponse;
 import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.service.OrderServiceUtils;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
