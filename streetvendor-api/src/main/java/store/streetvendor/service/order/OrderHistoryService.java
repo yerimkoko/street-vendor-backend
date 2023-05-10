@@ -10,9 +10,11 @@ import store.streetvendor.core.domain.order.OrderRepository;
 import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
+import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.utils.dto.order_history.response.OrderDetailResponse;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.dto.order_history.MemberOrderHistoryResponse;
+import store.streetvendor.service.order.dto.response.OrderDetailViewResponse;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -59,9 +61,17 @@ public class OrderHistoryService {
     }
 
     @Transactional(readOnly = true)
-    public OrderDetailResponse getOrderDetail(Long memberId, Long orderId) {
+    public OrderDetailViewResponse getOrderDetail(Long memberId, Long orderId) {
         Orders order = orderRepository.findByOrderAndMemberId(orderId, memberId);
-        return OrderDetailResponse.of(order, order.getStore());
+        if (order == null) {
+            OrderHistory orderHistory = orderHistoryRepository.findOrderHistoryById(orderId);
+            if (orderHistory == null) {
+                throw new NotFoundException(String.format("[%s]에 해당하는 주문은 존재하지 않습니다.", orderId));
+            }
+            OrderDetailViewResponse.of(orderHistory);
+        }
+
+        return OrderDetailViewResponse.orderOf(order);
     }
 
     @Transactional(readOnly = true)

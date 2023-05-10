@@ -9,6 +9,7 @@ import store.streetvendor.core.domain.store.Location;
 import store.streetvendor.core.domain.store.PaymentMethod;
 import store.streetvendor.core.domain.store.Store;
 
+import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -19,7 +20,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class AddNewOrderRequest {
 
-    private double distance = 2.0;
+    @DecimalMax("2.0")
+    private Double distance = 2.0;
 
     @NotNull
     private List<OrderMenusRequest> menus;

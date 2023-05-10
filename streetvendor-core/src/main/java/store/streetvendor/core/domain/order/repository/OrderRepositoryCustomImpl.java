@@ -51,6 +51,11 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
             .fetchOne();
     }
 
+    @Override
+    public Orders findByIdAndMemberId(Long id, Long memberId) {
+        return null;
+    }
+
     private BooleanExpression getUserStatusEq(OrderStatus status) {
         if (status == null) {
             return null;

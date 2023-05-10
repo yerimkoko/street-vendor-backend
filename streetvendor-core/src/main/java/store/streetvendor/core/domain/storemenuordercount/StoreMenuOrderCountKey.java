@@ -10,7 +10,10 @@ import java.time.Duration;
 @Getter
 public class StoreMenuOrderCountKey implements StringRedisKey<StoreMenuOrderCountKey, Long> {
 
+    private static final long DEFAULT_VALUE = 0L;
+
     private final Long storeId;
+
     private final Long menuId;
 
     @Builder
@@ -29,6 +32,9 @@ public class StoreMenuOrderCountKey implements StringRedisKey<StoreMenuOrderCoun
 
     @Override
     public Long deserializeValue(String value) {
+        if (value == null) {
+            return DEFAULT_VALUE;
+        }
         try {
             return Long.valueOf(value);
         } catch (Exception e) {

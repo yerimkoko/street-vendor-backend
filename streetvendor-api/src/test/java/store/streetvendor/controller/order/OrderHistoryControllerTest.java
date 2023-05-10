@@ -9,8 +9,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import store.streetvendor.AuthInterceptor;
-import store.streetvendor.core.utils.dto.order_history.response.OrderDetailResponse;
 import store.streetvendor.service.order.OrderHistoryService;
+import store.streetvendor.service.order.dto.response.OrderDetailViewResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -47,11 +47,10 @@ class OrderHistoryControllerTest {
         int totalPrice = 35000;
 
         BDDMockito.when(orderHistoryService.getOrderDetail(any(), any()))
-            .thenReturn(OrderDetailResponse.builder()
+            .thenReturn(OrderDetailViewResponse.builder()
                 .orderId(orderId)
-                .menuIds(menuIds)
                 .orderTime(orderTime)
-                .totalPrice(totalPrice)
+                .totalOrderAmount(totalPrice)
                 .storeId(storeId)
                 .build());
 

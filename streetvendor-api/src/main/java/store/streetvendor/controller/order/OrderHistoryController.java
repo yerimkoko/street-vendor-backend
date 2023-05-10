@@ -11,6 +11,7 @@ import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.order_history.response.OrderDetailResponse;
 import store.streetvendor.core.utils.dto.order_history.MemberOrderHistoryResponse;
 import store.streetvendor.service.order.OrderHistoryService;
+import store.streetvendor.service.order.dto.response.OrderDetailViewResponse;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class OrderHistoryController {
     @Auth
     @ApiOperation(value = "[사용자] 주문 내역을 상세 조회한다")
     @GetMapping("/api/v1/order/{orderId}")
-    public ApiResponse<OrderDetailResponse> getOrderDetail(@MemberId Long memberId, @PathVariable Long orderId) {
+    public ApiResponse<OrderDetailViewResponse> getOrderDetail(@MemberId Long memberId, @PathVariable Long orderId) {
         return ApiResponse.success(orderHistoryService.getOrderDetail(memberId, orderId));
     }
 

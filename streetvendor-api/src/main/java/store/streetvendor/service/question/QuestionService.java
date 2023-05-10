@@ -47,7 +47,6 @@ public class QuestionService {
     }
 
 
-    @Transactional
     public List<ImageUrlResponse> addQuestionImages(List<MultipartFile> imageFiles) {
         List<FileUploadRequest> uploadRequest = imageFiles.stream()
             .map(multipartFile -> ImageFileUploadRequest.of(multipartFile, ImageFileType.QUESTION_IMAGE))

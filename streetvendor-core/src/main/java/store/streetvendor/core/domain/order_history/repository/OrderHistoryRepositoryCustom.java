@@ -10,9 +10,8 @@ public interface OrderHistoryRepositoryCustom  {
 
     List<OrderHistory> findOrderHistoryByMemberId(Long memberId);
 
-    OrderHistory findOrderHistoryByOrderId(Long orderId);
+    OrderHistory findOrderHistoryById(Long id);
 
-    OrderHistory findOrderHistoryById(Long orderHistoryId);
 
     List<OrderHistory> findOrderHistoryByOrderIdAndMemberId(Long orderId, Long memberId);
 

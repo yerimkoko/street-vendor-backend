@@ -10,6 +10,7 @@ import store.streetvendor.service.order.OrderService;
 import store.streetvendor.core.utils.dto.AddNewOrderRequest;
 import store.streetvendor.core.utils.dto.order_history.response.OrderAndHistoryResponse;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class OrderController {
     @Auth
     @ApiOperation(value = "[사용자] 사용자가 주문한다.")
     @PostMapping("/api/v1/order")
-    public ApiResponse<String> addNewOrder(@RequestBody AddNewOrderRequest request, @MemberId Long memberId) {
+    public ApiResponse<String> addNewOrder(@Valid @RequestBody AddNewOrderRequest request, @MemberId Long memberId) {
         orderService.addNewOrder(request, memberId);
         return ApiResponse.OK;
     }

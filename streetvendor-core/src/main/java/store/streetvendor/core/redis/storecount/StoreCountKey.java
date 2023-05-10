@@ -11,6 +11,8 @@ import java.time.Duration;
 @Getter
 public class StoreCountKey implements StringRedisKey<StoreCountKey, Long> {
 
+    private static final long DEFAULT_VALUE = 0L;
+
     private final Long storeId;
 
     @Builder
@@ -31,6 +33,9 @@ public class StoreCountKey implements StringRedisKey<StoreCountKey, Long> {
 
     @Override
     public Long deserializeValue(String value) {
+        if (value == null) {
+            return DEFAULT_VALUE;
+        }
         try {
             return Long.valueOf(value);
         } catch (Exception e) {
