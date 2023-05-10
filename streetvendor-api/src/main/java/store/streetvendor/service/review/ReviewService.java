@@ -3,11 +3,13 @@ package store.streetvendor.service.review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import store.streetvendor.core.aws.AwsS3Service;
 import store.streetvendor.core.aws.ImageFileType;
 import store.streetvendor.core.aws.request.FileUploadRequest;
 import store.streetvendor.core.aws.request.ImageFileUploadRequest;
+import store.streetvendor.core.aws.response.ImageUrlResponse;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.order_history.OrderHistory;
@@ -24,6 +26,7 @@ import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.service.OrderServiceUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +46,7 @@ public class ReviewService {
 
 
     @Transactional
-    public Long addReview(AddReviewRequest request, Long memberId) {
+    public void addReview(AddReviewRequest request, Long memberId) {
         Member member = memberRepository.findMemberById(memberId);
         MemberServiceUtils.validateMember(member, memberId);
         Review findReview = reviewRepository.findByOrderIdAndMemberId(memberId, request.getOrderId());
@@ -56,34 +59,34 @@ public class ReviewService {
 
         Review review = request.toEntity(member, orderHistories.get(0));
 
+        saveReviewImages(review, request.getReviewImages());
+
         reviewCountRepository.incrByCount(orderHistories.get(0).getStoreInfo().getStoreId());
 
-        return reviewRepository.save(review).getId();
+        reviewRepository.save(review);
 
     }
 
     @Transactional
-    public List<ReviewImageResponse> addReviewImages(List<MultipartFile> reviewImages, Long reviewId, Long memberId, String baseUrl) {
-
-        Review review = reviewRepository.findByReviewIdAndMemberId(memberId, reviewId);
-        if (review == null) {
-            throw new NotFoundException(String.format("[%s]에 해당하는 review 는 존재하지 않습니다.", reviewId));
-        }
-
+    public List<ImageUrlResponse> addReviewImages(List<MultipartFile> reviewImages) {
         List<FileUploadRequest> fileUploadRequests = reviewImages.stream()
             .map(imageFile -> ImageFileUploadRequest.of(imageFile, ImageFileType.REVIEW_IMAGE))
             .collect(Collectors.toList());
 
-        List<ReviewImage> reviewImageList = s3Service.uploadImageFiles(fileUploadRequests).stream()
+        return s3Service.uploadImageFiles(fileUploadRequests);
+
+    }
+
+    private void saveReviewImages(Review review, List<ImageUrlResponse> imageUrlResponses) {
+        if (CollectionUtils.isEmpty(imageUrlResponses)) {
+            return;
+        }
+
+        List<ReviewImage> reviewImageList = imageUrlResponses.stream()
             .map(imageUrlResponse -> ReviewImage.newInstance(review, imageUrlResponse.getImageUrl()))
             .collect(Collectors.toList());
 
         review.addReviewImages(reviewImageList);
-
-        return reviewImageList.stream()
-            .map(image -> ReviewImageResponse.of(image, baseUrl))
-            .collect(Collectors.toList());
-
     }
 
     @Transactional(readOnly = true)

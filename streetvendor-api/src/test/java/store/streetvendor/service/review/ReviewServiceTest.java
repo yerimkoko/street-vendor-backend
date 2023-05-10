@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.MemberFixture;
+import store.streetvendor.core.aws.response.ImageUrlResponse;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.order.OrderRepository;
@@ -13,6 +14,8 @@ import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.review.Review;
+import store.streetvendor.core.domain.review.ReviewImage;
+import store.streetvendor.core.domain.review.ReviewImageRepository;
 import store.streetvendor.core.domain.review.ReviewRepository;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
@@ -38,6 +41,9 @@ public class ReviewServiceTest extends MemberFixture {
     private ReviewRepository reviewRepository;
 
     @Autowired
+    private ReviewImageRepository reviewImageRepository;
+
+    @Autowired
     private OrderRepository orderRepository;
 
     @Autowired
@@ -46,6 +52,7 @@ public class ReviewServiceTest extends MemberFixture {
 
     @AfterEach
     void cleanUp() {
+        reviewImageRepository.deleteAll();
         reviewRepository.deleteAll();
         orderHistoryRepository.deleteAll();
         orderRepository.deleteAll();
@@ -59,10 +66,12 @@ public class ReviewServiceTest extends MemberFixture {
         String comment = "리뷰 입니다.";
         int rate = 1;
         OrderHistory orderHistory = createOrderHistory(createOrder());
+        ImageUrlResponse imageUrlResponse = ImageUrlResponse.of("imageUrl");
         AddReviewRequest request = AddReviewRequest.builder()
             .comment(comment)
             .rate(rate)
             .orderId(orderHistory.getOrderId())
+            .reviewImages(List.of(imageUrlResponse))
             .build();
 
         // when
@@ -73,6 +82,10 @@ public class ReviewServiceTest extends MemberFixture {
         assertThat(reviews).hasSize(1);
         assertThat(reviews.get(0).getRate().getValue()).isEqualTo(rate);
         assertThat(reviews.get(0).getComment()).isEqualTo(comment);
+
+        List<ReviewImage> reviewImages = reviewImageRepository.findAll();
+        assertThat(reviewImages).hasSize(1);
+        assertThat(reviewImages.get(0).getImageUrl()).isEqualTo(imageUrlResponse.getImageUrl());
 
     }
 

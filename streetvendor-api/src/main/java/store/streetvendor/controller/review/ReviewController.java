@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import store.streetvendor.Auth;
 import store.streetvendor.MemberId;
+import store.streetvendor.core.aws.response.ImageUrlResponse;
+import store.streetvendor.core.exception.InvalidException;
 import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
 import store.streetvendor.core.utils.dto.review.response.ReviewImageResponse;
@@ -29,20 +31,23 @@ public class ReviewController {
     @Auth
     @ApiOperation(value = "[리뷰] 등록하기")
     @PostMapping("/api/v1/review")
-    public ApiResponse<Long> addNewEvaluation(@MemberId Long memberId,
-                                              @Valid @RequestBody AddReviewRequest request) {
+    public ApiResponse<String> addNewEvaluation(@MemberId Long memberId,
+                                                @Valid @RequestBody AddReviewRequest request) {
 
-        return ApiResponse.success(reviewService.addReview(request, memberId));
+        reviewService.addReview(request, memberId);
+        return ApiResponse.OK;
     }
 
     @Auth
     @ApiOperation(value = "[리뷰] 이미지 등록하기")
-    @PostMapping("/api/v1/review/images/{reviewId}")
-    public ApiResponse<List<ReviewImageResponse>> addReviewImage(@MemberId Long memberId,
-                                                                 @PathVariable Long reviewId,
-                                                                 @RequestPart List<MultipartFile> reviewImages) {
+    @PostMapping("/api/v1/review/images")
+    public ApiResponse<List<ImageUrlResponse>> addReviewImage(@RequestPart List<MultipartFile> reviewImages) {
 
-        return ApiResponse.success(reviewService.addReviewImages(reviewImages, reviewId, memberId, baseUrl));
+        if (reviewImages.isEmpty()) {
+            throw new InvalidException("리뷰 이미지를 추가해주세요.");
+        }
+
+        return ApiResponse.success(reviewService.addReviewImages(reviewImages));
     }
 
 
