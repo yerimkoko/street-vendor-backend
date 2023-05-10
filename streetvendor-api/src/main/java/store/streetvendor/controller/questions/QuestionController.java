@@ -13,7 +13,6 @@ import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.question.request.AddQuestionRequest;
 import store.streetvendor.core.utils.dto.question.response.AllQuestionResponse;
 import store.streetvendor.core.utils.dto.question.response.QuestionDetailResponse;
-import store.streetvendor.core.utils.dto.question.response.QuestionsImageResponse;
 import store.streetvendor.service.question.QuestionService;
 
 import javax.validation.Valid;
@@ -33,27 +32,26 @@ public class QuestionController {
     @Auth
     @ApiOperation(value = "[문의사항] 1:1 문의를 작성한다")
     @PostMapping("/api/v1/question")
-    public ApiResponse<Long> createQuestion(@MemberId Long memberId,
+    public ApiResponse<String> createQuestion(@MemberId Long memberId,
                                               @RequestBody @Valid AddQuestionRequest request) {
-        Long questionId = questionService.createQuestion(memberId, request);
+        questionService.createQuestion(memberId, request);
 
-        return ApiResponse.success(questionId);
+        return ApiResponse.OK;
     }
 
     @Auth
     @ApiOperation(value = "[문의사항] 문의사항에 사진을 등록한다")
-    @PostMapping("/api/v1/question/images/{questionId}")
-    public ApiResponse<List<QuestionsImageResponse>> createQuestionImages(@MemberId Long memberId,
-                                                    @PathVariable Long questionId,
+    @PostMapping("/api/v1/question/images")
+    public ApiResponse<String> createQuestionImages(@MemberId Long memberId,
                                                     @RequestPart List<MultipartFile> imageFiles) {
         if (imageFiles.isEmpty()) {
-            throw new InvalidException(String.format("문의사항 [%s]에 해당하는 이미지 파일이 존재하지 않습니다.", questionId));
+            throw new InvalidException("해당하는 이미지 파일이 존재하지 않습니다.");
         }
         if (imageFiles.size() > MAX_QUESTION_IMAGES) {
             throw new ConflictException(String.format("최대 [%s]장 까지 가능합니다.", MAX_QUESTION_IMAGES));
         }
-        List<QuestionsImageResponse> questionsImageResponses = questionService.addQuestionImages(memberId, questionId, imageFiles, baseUrl);
-        return ApiResponse.success(questionsImageResponses);
+        questionService.addQuestionImages(imageFiles);
+        return ApiResponse.OK;
     }
 
 

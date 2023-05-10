@@ -40,7 +40,7 @@ public class QuestionServiceTest extends MemberFixture {
         QuestionsType type = QuestionsType.ETC;
         String title = "치킨이 먹고 싶은데요";
         String content = "어떤 치킨이냐면요.";
-        AddQuestionRequest request = new AddQuestionRequest(type, title, content);
+        AddQuestionRequest request = new AddQuestionRequest(type, title, content, null);
 
         // when
         questionService.createQuestion(getMember().getId(), request);
