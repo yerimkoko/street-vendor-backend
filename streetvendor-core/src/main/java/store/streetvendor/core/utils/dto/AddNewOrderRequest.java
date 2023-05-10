@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class AddNewOrderRequest {
 
-    private double distance;
+    private double distance = 2.0;
 
     @NotNull
     private List<OrderMenusRequest> menus;
@@ -40,14 +40,13 @@ public class AddNewOrderRequest {
     private LocalDateTime pickUpTime;
 
 
-
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
-    public AddNewOrderRequest(@NotBlank long storeId, PaymentMethod paymentMethod, List<OrderMenusRequest> menus, Location location, String memberPhoneNumber, LocalDateTime pickUpTime) {
+    public AddNewOrderRequest(@NotBlank long storeId, PaymentMethod paymentMethod, List<OrderMenusRequest> menus, Location location, String memberPhoneNumber, LocalDateTime pickUpTime, double distance) {
         this.storeId = storeId;
         this.location = location;
         this.paymentMethod = paymentMethod;
         this.menus = menus;
-        this.distance = 2.0;
+        this.distance = distance;
         this.memberPhoneNumber = memberPhoneNumber;
         this.pickUpTime = pickUpTime;
     }
