@@ -30,8 +30,9 @@ public class QuestionService {
 
     @Transactional
     public void createQuestion(Long memberId, AddQuestionRequest request) {
-        Questions questions = questionsRepository.save(request.toEntity(memberId));
+        Questions questions = request.toEntity(memberId);
         saveImageUrl(questions, request.getQuestionsImages());
+        questionsRepository.save(questions);
 
     }
 
