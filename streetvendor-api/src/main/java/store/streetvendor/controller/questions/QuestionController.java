@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import store.streetvendor.Auth;
 import store.streetvendor.MemberId;
+import store.streetvendor.core.aws.response.ImageUrlResponse;
 import store.streetvendor.core.exception.ConflictException;
 import store.streetvendor.core.exception.InvalidException;
 import store.streetvendor.core.utils.ApiResponse;
@@ -42,16 +43,14 @@ public class QuestionController {
     @Auth
     @ApiOperation(value = "[문의사항] 문의사항에 사진을 등록한다")
     @PostMapping("/api/v1/question/images")
-    public ApiResponse<String> createQuestionImages(@MemberId Long memberId,
-                                                    @RequestPart List<MultipartFile> imageFiles) {
+    public ApiResponse<List<ImageUrlResponse>> createQuestionImages(@RequestPart List<MultipartFile> imageFiles) {
         if (imageFiles.isEmpty()) {
             throw new InvalidException("해당하는 이미지 파일이 존재하지 않습니다.");
         }
         if (imageFiles.size() > MAX_QUESTION_IMAGES) {
             throw new ConflictException(String.format("최대 [%s]장 까지 가능합니다.", MAX_QUESTION_IMAGES));
         }
-        questionService.addQuestionImages(imageFiles);
-        return ApiResponse.OK;
+        return ApiResponse.success(questionService.addQuestionImages(imageFiles));
     }
 
 
