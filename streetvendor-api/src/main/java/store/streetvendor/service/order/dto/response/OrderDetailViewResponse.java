@@ -47,7 +47,7 @@ public class OrderDetailViewResponse {
             .orderId(orderHistory.getOrderId())
             .storeId(orderHistory.getStoreInfo().getStoreId())
             .storeName(orderHistory.getStoreInfo().getName())
-            .orderMenu(orderHistory.getMenus().get(0).getMenuName())
+            .orderMenu(getOrderHistoryMenuName(orderHistory))
             .orderTime(orderHistory.getOrderCreateTime())
             .paymentMethod(orderHistory.getPaymentMethod().name())
             .totalOrderAmount(orderHistory.getMenus().stream()
@@ -62,7 +62,7 @@ public class OrderDetailViewResponse {
             .orderId(order.getId())
             .storeId(order.getStore().getId())
             .storeName(order.getStore().getName())
-            .orderMenu(order.getOrderMenus().get(0).getMenu().getName())
+            .orderMenu(getOrderMenuName(order))
             .orderTime(order.getCreatedAt())
             .paymentMethod(order.getPaymentMethod().name())
             .totalOrderAmount(order.getOrderMenus().stream()
@@ -70,5 +70,19 @@ public class OrderDetailViewResponse {
                 .sum())
             .orderStatus(order.getOrderStatus().name())
             .build();
+    }
+
+    private static String getOrderMenuName(Orders orders) {
+        if (orders.getOrderMenus().isEmpty()) {
+            return null;
+        }
+        return orders.getOrderMenus().get(0).getMenu().getName();
+    }
+
+    private static String getOrderHistoryMenuName(OrderHistory orderHistory) {
+        if (orderHistory.getMenus().isEmpty()) {
+            return null;
+        }
+        return orderHistory.getMenus().get(0).getMenuName();
     }
 }
