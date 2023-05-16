@@ -55,16 +55,18 @@ class OrdersServiceTest extends SetUpStore {
     @Test
     void 주문을_한다() {
         // given
-        Location location = new Location(30.78639644286605, 126.40572677813635);
         LocalDateTime pickUpTime = LocalDateTime.now().plusHours(1L);
 
         AddNewOrderRequest addNewOrderRequest = AddNewOrderRequest.testBuilder()
             .storeId(store.getId())
-            .location(location)
+            .location(store.getLocation())
             .paymentMethod(paymentMethod)
             .menus(List.of(createMenuRequest()))
             .pickUpTime(pickUpTime)
             .build();
+
+        System.out.println("---------" + addNewOrderRequest.getDistance());
+
 
         // when
         orderService.addNewOrder(addNewOrderRequest, member.getId());
@@ -73,7 +75,6 @@ class OrdersServiceTest extends SetUpStore {
         List<Orders> orders = orderRepository.findAll();
         assertThat(orders).hasSize(1);
         assertOrder(orders.get(0), member.getId(), store.getId(), pickUpTime);
-
 
         List<OrderMenu> orderMenus = orderMenuRepository.findAll();
         assertThat(orderMenus).hasSize(1);

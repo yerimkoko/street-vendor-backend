@@ -54,6 +54,7 @@ public class OrderService {
         request.getMenus()
             .forEach(r -> storeMenuOrderCountRepository
                 .increaseByCount(store.getId(), r.getMenuId(), r.getCount()));
+
     }
 
 

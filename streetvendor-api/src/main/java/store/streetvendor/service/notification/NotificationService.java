@@ -3,10 +3,13 @@ package store.streetvendor.service.notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.streetvendor.core.domain.notification.Notification;
 import store.streetvendor.core.domain.notification.NotificationRepository;
 import store.streetvendor.core.domain.notification.NotificationType;
+import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.utils.dto.notification.request.FaqRequest;
 import store.streetvendor.core.utils.dto.notification.response.FaqResponse;
+import store.streetvendor.service.notification.dto.response.NotificationDetailResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +30,16 @@ public class NotificationService {
     @Transactional
     public void createFaq(FaqRequest request) {
         notificationRepository.save(request.toEntity());
+    }
+
+    @Transactional(readOnly = true)
+    public NotificationDetailResponse getFaqDetail(Long notificationId) {
+        Notification notification = notificationRepository.findByNotificationId(notificationId);
+        if (notification == null) {
+            throw new NotFoundException(String.format("[%s]에 해당하는 공지사항은 존재하지 않습니다.", notificationId));
+        }
+        return NotificationDetailResponse.of(notification);
+
     }
 
 }

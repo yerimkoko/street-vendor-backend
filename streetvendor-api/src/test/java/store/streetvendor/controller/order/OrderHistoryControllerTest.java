@@ -42,7 +42,6 @@ class OrderHistoryControllerTest {
         // given
         Long storeId = 100L;
         Long orderId = 999L;
-        List<Long> menuIds = List.of(1L, 2L, 3L, 4L);
         LocalDateTime orderTime = LocalDateTime.of(2022, 11, 25, 16, 8, 0,0);
         int totalPrice = 35000;
 
@@ -59,7 +58,7 @@ class OrderHistoryControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, "TOKEN"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data.orderId").value(orderId))
-            .andExpect(jsonPath("$.data.totalPrice").value(totalPrice))
+            .andExpect(jsonPath("$.data.totalOrderAmount").value(totalPrice))
             .andExpect(jsonPath("$.data.storeId").value(storeId));
 
     }

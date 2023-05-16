@@ -8,6 +8,7 @@ import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.notification.request.FaqRequest;
 import store.streetvendor.core.utils.dto.notification.response.FaqResponse;
 import store.streetvendor.service.notification.NotificationService;
+import store.streetvendor.service.notification.dto.response.NotificationDetailResponse;
 
 import java.util.List;
 
@@ -29,5 +30,12 @@ public class NotificationController {
         notificationService.createFaq(request);
         return ApiResponse.OK;
     }
+
+    @ApiOperation("[Faq] 공지사항 상세조회")
+    @GetMapping("/api/v1/notification/{notificationId}")
+    public ApiResponse<NotificationDetailResponse> getNotificationDetail(@PathVariable Long notificationId) {
+        return ApiResponse.success(notificationService.getFaqDetail(notificationId));
+    }
+
 
 }
