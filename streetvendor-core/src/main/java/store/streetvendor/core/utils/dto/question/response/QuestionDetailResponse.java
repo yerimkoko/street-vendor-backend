@@ -12,6 +12,11 @@ import java.util.stream.Collectors;
 @Getter
 public class QuestionDetailResponse {
 
+    private static final String ME = "나";
+
+    private static final String ADMIN = "관리자";
+
+
     private String type;
 
     private String title;
@@ -45,9 +50,9 @@ public class QuestionDetailResponse {
 
     public static String validateWrittenBy(Questions questions) {
         if (questions.getAdminId() == null) {
-            return "나";
+            return ME;
         }
-        return "관리자";
+        return ADMIN;
 
     }
 }

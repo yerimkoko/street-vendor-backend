@@ -29,12 +29,13 @@ public class OrderHistoryController {
     }
 
     @Auth
-    @ApiOperation(value = "[사용자] 주문 내역을 상세 조회한다")
+    @ApiOperation(value = "[주문 상세] 주문 내역을 상세 조회한다")
     @GetMapping("/api/v1/order/{orderId}")
     public ApiResponse<OrderDetailViewResponse> getOrderDetail(@MemberId Long memberId, @PathVariable Long orderId) {
         return ApiResponse.success(orderHistoryService.getOrderDetail(memberId, orderId));
     }
 
+    @Deprecated
     @Auth
     @ApiOperation(value = "[사용자] 주문히스토리의 내역을 상세 조회한다")
     @GetMapping("/api/v1/order-history/{orderHistoryId}")

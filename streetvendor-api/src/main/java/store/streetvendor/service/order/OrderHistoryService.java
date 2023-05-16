@@ -68,7 +68,7 @@ public class OrderHistoryService {
             if (orderHistory == null) {
                 throw new NotFoundException(String.format("[%s]에 해당하는 주문은 존재하지 않습니다.", orderId));
             }
-            OrderDetailViewResponse.of(orderHistory);
+            return OrderDetailViewResponse.of(orderHistory);
         }
 
         return OrderDetailViewResponse.orderOf(order);

@@ -39,6 +39,10 @@ public class Orders extends BaseTimeEntity {
     private PaymentMethod paymentMethod;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private OrderStatusCanceled orderStatusCanceled;
+
+    @Column(nullable = false)
     private LocalDateTime pickUpTime;
 
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -51,6 +55,7 @@ public class Orders extends BaseTimeEntity {
         this.paymentMethod = paymentMethod;
         this.orderStatus = orderStatus;
         this.pickUpTime = pickUpTime;
+        this.orderStatusCanceled = orderStatusCanceled;
     }
 
     public static Orders newOrder(Store store, Long memberId, PaymentMethod paymentMethod, LocalDateTime pickUpTime) {

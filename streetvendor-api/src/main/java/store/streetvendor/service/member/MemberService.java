@@ -10,11 +10,10 @@ import store.streetvendor.core.aws.request.FileUploadRequest;
 import store.streetvendor.core.aws.request.ImageFileUploadRequest;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
-import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.domain.sign_out_member.SignOutMemberRepository;
-import store.streetvendor.core.exception.DuplicatedException;
 import store.streetvendor.core.utils.dto.member.request.MemberSignUpRequestDto;
 import store.streetvendor.core.utils.dto.member.response.MemberInfoResponse;
+import store.streetvendor.core.utils.service.MemberServiceUtils;
 
 
 @RequiredArgsConstructor
@@ -58,7 +57,8 @@ public class MemberService {
         Member member = memberRepository.findMemberById(memberId);
         MemberServiceUtils.validateMember(member, memberId);
         FileUploadRequest request = ImageFileUploadRequest.of(profileUrl, ImageFileType.MEMBER_IMAGE);
-        member.changeProfileUrl(s3Service.uploadImageFile(request).getImageUrl());
+        String imageUrl = s3Service.uploadImageFile(request).getImageUrl();
+        member.changeProfileUrl(imageUrl);
     }
 
 

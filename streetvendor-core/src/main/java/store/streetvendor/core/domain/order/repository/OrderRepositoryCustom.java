@@ -15,7 +15,4 @@ public interface OrderRepositoryCustom {
 
     Orders findByOrderAndMemberId(Long orderId, Long memberId);
 
-    Orders findByIdAndMemberId(Long id, Long memberId);
-
-
 }

@@ -113,25 +113,25 @@ insert into order_history(store_id, description, location_description, boss_id, 
 values ( 1, '설명', '위치 설명', 1, 1, 1, 'CASH', now(), 'CANCELED', now(), now());
 
 insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
-values ( 1, '설명', '위치 설명', 1, 2, 1, 'CASH', now(), 'CANCELED', now(), now());
+values ( 1, '설명', '위치 설명', 1, 2, 2, 'CASH', now(), 'CANCELED', now(), now());
 
 insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
-values ( 2, '설명', '위치 설명', 1, 3, 1, 'CASH', now(), 'CANCELED', now(), now());
+values ( 2, '설명', '위치 설명', 1, 3, 3, 'CASH', now(), 'CANCELED', now(), now());
 
 insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
-values ( 2, '설명', '위치 설명', 1, 4, 1, 'CASH', now(), 'CANCELED', now(), now());
+values ( 2, '설명', '위치 설명', 1, 4, 4, 'CASH', now(), 'CANCELED', now(), now());
 
 insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
-values ( 3, '설명', '위치 설명', 1, 1, 1, 'CASH', now(), 'CANCELED', now(), now());
+values ( 3, '설명', '위치 설명', 1, 1, 5, 'CASH', now(), 'CANCELED', now(), now());
 
 insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
-values ( 3, '설명', '위치 설명', 1, 2, 1, 'CASH', now(), 'CANCELED', now(), now());
+values ( 3, '설명', '위치 설명', 1, 2, 6, 'CASH', now(), 'CANCELED', now(), now());
 
 insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
-values ( 4, '설명', '위치 설명', 1, 3, 1, 'CASH', now(), 'CANCELED', now(), now());
+values ( 4, '설명', '위치 설명', 1, 3, 7, 'CASH', now(), 'CANCELED', now(), now());
 
 insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
-values ( 4, '설명', '위치 설명', 1, 4, 1, 'CASH', now(), 'CANCELED', now(), now());
+values ( 4, '설명', '위치 설명', 1, 4, 8, 'CASH', now(), 'CANCELED', now(), now());
 
 insert into order_history(store_id, description, location_description, boss_id, member_id, order_id, payment_method, order_create_time, order_canceled_status, created_at, updated_at)
 values ( 2, '설명', '위치 설명', 1, 2, 2, 'CASH', now(), 'CANCELED', now(), now());

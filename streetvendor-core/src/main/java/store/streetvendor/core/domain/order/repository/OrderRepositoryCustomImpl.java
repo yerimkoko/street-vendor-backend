@@ -4,6 +4,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import store.streetvendor.core.domain.order.OrderStatus;
+import store.streetvendor.core.domain.order.OrderStatusCanceled;
 import store.streetvendor.core.domain.order.Orders;
 
 import java.util.List;
@@ -47,14 +48,13 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
         return jpaQueryFactory
             .selectFrom(orders)
             .where(orders.id.eq(orderId),
-                orders.memberId.eq(memberId))
+                orders.memberId.eq(memberId),
+                orders.orderStatusCanceled.eq(OrderStatusCanceled.ACTIVE)
+            )
             .fetchOne();
     }
 
-    @Override
-    public Orders findByIdAndMemberId(Long id, Long memberId) {
-        return null;
-    }
+
 
     private BooleanExpression getUserStatusEq(OrderStatus status) {
         if (status == null) {
