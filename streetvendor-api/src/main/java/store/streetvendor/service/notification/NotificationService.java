@@ -11,6 +11,7 @@ import store.streetvendor.core.utils.dto.notification.request.FaqRequest;
 import store.streetvendor.core.utils.dto.notification.response.FaqResponse;
 import store.streetvendor.service.notification.dto.response.NotificationDetailResponse;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,7 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
 
     @Transactional(readOnly = true)
-    public List<FaqResponse> getFaqList(NotificationType type) {
+    public List<FaqResponse> getFaqList(@NotNull NotificationType type) {
         return notificationRepository.findNotificationByNotificationType(type).stream()
             .map(FaqResponse::of)
             .collect(Collectors.toList());
