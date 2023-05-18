@@ -86,6 +86,15 @@ insert into menu(created_at, updated_at, menu_count, name, picture_url, price, s
 values ( now(), now(), 1, '떡볶이', 'review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg', 4000, 'ON_SALE', 1);
 
 insert into menu(created_at, updated_at, menu_count, name, picture_url, price, sales_status, store_id)
+values ( now(), now(), 3, '슈크림붕어빵', 'review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg', 2000, 'ON_SALE', 1);
+
+insert into menu(created_at, updated_at, menu_count, name, picture_url, price, sales_status, store_id)
+values ( now(), now(), 2, '순대', 'review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg', 4500, 'ON_SALE', 1);
+
+insert into menu(created_at, updated_at, menu_count, name, picture_url, price, sales_status, store_id)
+values ( now(), now(), 10, '군고구마', 'review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg', 20000, 'ON_SALE', 1);
+
+insert into menu(created_at, updated_at, menu_count, name, picture_url, price, sales_status, store_id)
 values ( now(), now(), 1, '떡볶이', 'review/645f45c6-54a7-46d1-8b5d-cf2b90c11167.jpg', 4000, 'ON_SALE', 2);
 
 insert into menu(created_at, updated_at, menu_count, name, picture_url, price, sales_status, store_id)
