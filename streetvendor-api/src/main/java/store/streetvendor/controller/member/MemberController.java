@@ -2,6 +2,7 @@ package store.streetvendor.controller.member;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import store.streetvendor.Auth;
@@ -25,6 +26,9 @@ public class MemberController {
 
     private final HttpSession httpSession;
 
+    @Value("${cloud.aws.s3.baseUrl}")
+    private String baseUrl;
+
 
     @ApiOperation("회원 가입")
     @PostMapping("/api/v1/sign-up")
@@ -38,7 +42,7 @@ public class MemberController {
     @ApiOperation(value = "마이 페이지")
     @GetMapping("/api/v1/my-page")
     public ApiResponse<MemberInfoResponse> memberInfo(@MemberId Long memberId) {
-        return ApiResponse.success(memberService.getMyInformation(memberId));
+        return ApiResponse.success(memberService.getMyInformation(memberId, baseUrl));
     }
 
 

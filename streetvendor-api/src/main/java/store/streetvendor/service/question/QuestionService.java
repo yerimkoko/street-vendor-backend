@@ -63,9 +63,9 @@ public class QuestionService {
     }
 
     @Transactional(readOnly = true)
-    public List<QuestionDetailResponse> getQuestionDetail(Long memberId, Long questionId, Long cursor, int size) {
+    public List<QuestionDetailResponse> getQuestionDetail(Long memberId, Long questionId, Long cursor, int size, String baseUrl) {
         return questionsRepository.findQuestionsDetailByMemberId(memberId, questionId, cursor, size).stream()
-            .map(QuestionDetailResponse::of)
+            .map(question -> QuestionDetailResponse.of(question, baseUrl))
             .collect(Collectors.toList());
     }
 

@@ -24,11 +24,11 @@ public class MemberInfoResponse {
         this.profileUrl = profileUrl;
     }
 
-    public static MemberInfoResponse getInfo(Member member) {
+    public static MemberInfoResponse getInfo(Member member, String baseUrl) {
         return MemberInfoResponse.builder()
             .email(member.getEmail())
             .memberId(member.getId())
-            .profileUrl(member.getProfileUrl())
+            .profileUrl(baseUrl + member.getProfileUrl())
             .nickName(member.getNickName())
             .build();
     }

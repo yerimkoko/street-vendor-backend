@@ -70,7 +70,7 @@ public class QuestionController {
                                                                        @PathVariable Long questionId,
                                                                        @RequestParam(required = false) Long cursor,
                                                                        @RequestParam(required = false, defaultValue = "5") int size) {
-        return ApiResponse.success(questionService.getQuestionDetail(memberId, questionId, cursor, size));
+        return ApiResponse.success(questionService.getQuestionDetail(memberId, questionId, cursor, size, baseUrl));
 
     }
 

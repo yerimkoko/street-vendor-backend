@@ -50,7 +50,7 @@ class MemberControllerTest {
         String nickName = "토끼";
         String profileUrl = "https://profile.png";
 
-        BDDMockito.when(memberService.getMyInformation(any())).thenReturn(MemberInfoResponse.builder()
+        BDDMockito.when(memberService.getMyInformation(any(), any())).thenReturn(MemberInfoResponse.builder()
             .memberId(memberId)
             .email(email)
             .nickName(nickName)

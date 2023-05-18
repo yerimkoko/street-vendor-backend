@@ -46,10 +46,10 @@ public class MemberService {
 
 
     @Transactional(readOnly = true)
-    public MemberInfoResponse getMyInformation(Long memberId) {
+    public MemberInfoResponse getMyInformation(Long memberId, String baseUrl) {
         Member member = memberRepository.findMemberById(memberId);
         MemberServiceUtils.validateMember(member, memberId);
-        return MemberInfoResponse.getInfo(member);
+        return MemberInfoResponse.getInfo(member, baseUrl);
     }
 
     @Transactional

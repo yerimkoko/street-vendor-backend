@@ -36,13 +36,13 @@ public class QuestionDetailResponse {
         this.writtenBy = writtenBy;
     }
 
-    public static QuestionDetailResponse of(Questions questions) {
+    public static QuestionDetailResponse of(Questions questions, String baseUrl) {
         return QuestionDetailResponse.builder()
             .type(questions.getType().getDescription())
             .title(questions.getTitle())
             .content(questions.getContent())
             .images(questions.getQuestionsImages().stream()
-                .map(QuestionDetailImageResponse::of)
+                .map(question -> QuestionDetailImageResponse.of(question, baseUrl))
                 .collect(Collectors.toList()))
             .writtenBy(validateWrittenBy(questions))
             .build();

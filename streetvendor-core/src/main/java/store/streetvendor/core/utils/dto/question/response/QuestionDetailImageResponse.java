@@ -14,8 +14,8 @@ public class QuestionDetailImageResponse {
         this.imageUrl = imageUrl;
     }
 
-    public static QuestionDetailImageResponse of(QuestionsImage image) {
-        return new QuestionDetailImageResponse(image.getImageUrl());
+    public static QuestionDetailImageResponse of(QuestionsImage image, String baseUrl) {
+        return new QuestionDetailImageResponse(baseUrl + image.getImageUrl());
     }
 }
 
