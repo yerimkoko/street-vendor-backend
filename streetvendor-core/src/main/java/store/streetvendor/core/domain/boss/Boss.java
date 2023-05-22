@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import store.streetvendor.core.domain.BaseTimeEntity;
 import store.streetvendor.core.domain.member.MemberProvider;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,18 +21,25 @@ public class Boss extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 20, nullable = false)
     private String nickName;
 
+    @Column(length = 20, nullable = false)
     private String name;
 
+    @Column(length = 100)
     private String accountNumber;
 
+    @Column(length = 200, nullable = false)
     private String email;
 
+    @Column(length = 500, nullable = false)
     private String profileUrl;
 
+    @Column(length = 200, nullable = false)
     private MemberProvider provider;
 
+    @Column(length = 50, nullable = false)
     private String phoneNumber;
 
     @Builder
