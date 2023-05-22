@@ -10,7 +10,7 @@ class SignOutMemberTest {
     @Test
     void 회원탈퇴를_한다() {
         // given
-        Member member = Member.newGoogleInstance("name", "nickName", "email", "profile");
+        Member member = Member.newGoogleUserInstance("name", "nickName", "email", "profile");
 
         // when
         SignOutMember signOutMember = member.signOut();

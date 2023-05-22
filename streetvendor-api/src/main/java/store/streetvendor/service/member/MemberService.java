@@ -37,7 +37,7 @@ public class MemberService {
 
     @Transactional
     public Long signOut(Long memberId) {
-        Member member = memberRepository.findMemberById(memberId);
+        Member member = memberRepository.findUserByUserId(memberId);
         MemberServiceUtils.validateMember(member, memberId);
         signOutMemberRepository.save(member.signOut());
         memberRepository.delete(member);
@@ -47,14 +47,14 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MemberInfoResponse getMyInformation(Long memberId, String baseUrl) {
-        Member member = memberRepository.findMemberById(memberId);
+        Member member = memberRepository.findUserByUserId(memberId);
         MemberServiceUtils.validateMember(member, memberId);
         return MemberInfoResponse.getInfo(member, baseUrl);
     }
 
     @Transactional
     public void changeProfileImage(Long memberId, MultipartFile profileUrl) {
-        Member member = memberRepository.findMemberById(memberId);
+        Member member = memberRepository.findUserByUserId(memberId);
         MemberServiceUtils.validateMember(member, memberId);
         FileUploadRequest request = ImageFileUploadRequest.of(profileUrl, ImageFileType.MEMBER_IMAGE);
         String imageUrl = s3Service.uploadImageFile(request).getImageUrl();
@@ -65,7 +65,7 @@ public class MemberService {
     @Transactional
     public void changeNickName(Long memberId, String nickName) {
         MemberServiceUtils.validateNickName(memberRepository, nickName);
-        Member member = memberRepository.findMemberById(memberId);
+        Member member = memberRepository.findUserByUserId(memberId);
         MemberServiceUtils.validateMember(member, memberId);
         member.changeNickName(nickName);
     }

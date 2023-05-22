@@ -33,7 +33,7 @@ public class OrderHistoryService {
 
     @Transactional(readOnly = true)
     public List<MemberOrderHistoryResponse> allOrders(Long memberId) {
-        Member member = memberRepository.findMemberById(memberId);
+        Member member = memberRepository.findUserByUserId(memberId);
         MemberServiceUtils.validateMember(member, memberId);
         Set<MemberOrderHistoryResponse> memberOrderHistories = new HashSet<>();
         memberOrderHistories.addAll(getMemberOrderHistory(member.getId()));

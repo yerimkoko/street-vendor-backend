@@ -10,6 +10,10 @@ import store.streetvendor.core.exception.NotFoundException;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberServiceUtils {
 
+    public static void findMemberByMemberId(MemberRepository memberRepository, Long memberId) {
+        memberRepository.findUserByUserId(memberId);
+    }
+
     public static void validateMember(Member member, Long memberId) {
         if (member == null) {
             throw new NotFoundException(String.format("(%s)에 해당하는 멤버는 존재하지 않습니다.", memberId));

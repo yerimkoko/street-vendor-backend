@@ -33,11 +33,8 @@ public class MemberSignUpRequestDto {
     }
 
     public Member toEntity() {
-        return Member.newGoogleInstance(name, nickName, email, profileUrl);
+        return Member.newGoogleUserInstance(name, nickName, email, profileUrl);
     }
 
-    public Member signOutMemberToEntity() {
-        return Member.signOutMemberInstance(name, nickName, email, profileUrl);
-    }
 
 }

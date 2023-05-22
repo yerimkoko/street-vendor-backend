@@ -9,7 +9,6 @@ import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.sign_out_member.SignOutMember;
 import store.streetvendor.core.domain.sign_out_member.SignOutMemberRepository;
-import store.streetvendor.core.exception.ConflictException;
 import store.streetvendor.core.exception.DuplicatedException;
 import store.streetvendor.core.utils.dto.member.request.MemberSignUpRequestDto;
 
@@ -123,7 +122,7 @@ class MemberServiceTest {
         String name = "고토끼";
         String profileUrl = "234234tokki.jpg";
 
-        return memberRepository.save(Member.newGoogleInstance(name, nickName, email, profileUrl));
+        return memberRepository.save(Member.newGoogleUserInstance(name, nickName, email, profileUrl));
 
     }
 

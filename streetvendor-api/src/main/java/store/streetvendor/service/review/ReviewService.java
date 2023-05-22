@@ -44,7 +44,7 @@ public class ReviewService {
 
     @Transactional
     public void addReview(AddReviewRequest request, Long memberId) {
-        Member member = memberRepository.findMemberById(memberId);
+        Member member = memberRepository.findUserByUserId(memberId);
         MemberServiceUtils.validateMember(member, memberId);
         Review findReview = reviewRepository.findByOrderIdAndMemberId(memberId, request.getOrderId());
         if (findReview != null) {

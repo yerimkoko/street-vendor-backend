@@ -4,10 +4,12 @@ import store.streetvendor.core.domain.member.Member;
 
 public interface MemberRepositoryCustom {
 
-    Member findMemberById(Long memberId);
+    Member findUserByUserId(Long userId);
 
     Member findMemberByNickName(String nickName);
 
     Member findMemberIdByEmail(String email);
+
+    Member findBossByBossId(Long bossId);
 
 }

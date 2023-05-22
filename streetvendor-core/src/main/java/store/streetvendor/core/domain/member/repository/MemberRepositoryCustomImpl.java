@@ -3,6 +3,7 @@ package store.streetvendor.core.domain.member.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import store.streetvendor.core.domain.member.Member;
+import store.streetvendor.core.domain.member.MemberType;
 
 import static store.streetvendor.core.domain.member.QMember.member;
 
@@ -12,10 +13,11 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Member findMemberById(Long memberId) {
+    public Member findUserByUserId(Long userId) {
         return queryFactory.selectFrom(member)
             .where(
-                member.id.eq(memberId)
+                member.id.eq(userId),
+                member.memberType.eq(MemberType.USER)
             ).fetchOne();
     }
 
@@ -33,6 +35,15 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
         return queryFactory.selectFrom(member)
             .where(
                 member.email.eq(email)
+            ).fetchOne();
+    }
+
+    @Override
+    public Member findBossByBossId(Long memberId) {
+        return queryFactory.selectFrom(member)
+            .where(
+                member.id.eq(memberId),
+                member.memberType.eq(MemberType.BOSS)
             ).fetchOne();
     }
 

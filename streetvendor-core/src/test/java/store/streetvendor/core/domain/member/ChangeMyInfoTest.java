@@ -10,7 +10,7 @@ class ChangeMyInfoTest {
     @Test
     void 프로필사진을_수정한다() {
         // given
-        Member member = Member.newGoogleInstance("name", "nickName", "email", "profileUrl");
+        Member member = Member.newGoogleUserInstance("name", "nickName", "email", "profileUrl");
         String profileUrl = "tokki";
 
         // when

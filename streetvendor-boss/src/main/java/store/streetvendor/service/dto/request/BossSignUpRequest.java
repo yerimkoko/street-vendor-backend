@@ -2,7 +2,7 @@ package store.streetvendor.service.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import store.streetvendor.core.domain.boss.Boss;
+import store.streetvendor.core.domain.member.Member;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -35,8 +35,8 @@ public class BossSignUpRequest {
         this.profileUrl = profileUrl;
     }
 
-    public Boss toEntity() {
-        return Boss.newGoogleInstance(nickName, name, null, email, profileUrl, phoneNumber);
+    public Member toEntity() {
+        return Member.newGoogleBossInstance(name, nickName, email, profileUrl, phoneNumber);
     }
 
 }
