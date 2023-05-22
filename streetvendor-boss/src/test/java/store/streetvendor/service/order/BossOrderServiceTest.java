@@ -1,4 +1,4 @@
-package store.streetvendor.service;
+package store.streetvendor.service.order;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

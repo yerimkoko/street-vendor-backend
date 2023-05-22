@@ -3,25 +3,25 @@ package store.streetvendor;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import store.streetvendor.core.domain.boss.Boss;
-import store.streetvendor.core.domain.boss.BossRepository;
+import store.streetvendor.core.domain.member.Member;
+import store.streetvendor.core.domain.member.MemberRepository;
 
 @SpringBootTest
 public abstract class SetUpBoss {
 
     @Autowired
-    public BossRepository bossRepository;
+    public MemberRepository memberRepository;
 
-    protected Boss boss = BossFixture.boss();
+    protected Member boss = BossFixture.boss();
 
     @BeforeEach
     void setUpBoss() {
-        bossRepository.save(boss);
+        memberRepository.save(boss);
 
     }
 
     protected void cleanup() {
-        bossRepository.deleteAll();
+        memberRepository.deleteAll();
     }
 
 }

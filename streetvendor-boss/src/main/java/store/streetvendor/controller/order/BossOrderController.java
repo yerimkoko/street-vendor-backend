@@ -1,8 +1,8 @@
-package store.streetvendor.controller;
+package store.streetvendor.controller.order;
 
 import store.streetvendor.auth.Boss;
 import store.streetvendor.auth.BossId;
-import store.streetvendor.service.BossOrderService;
+import store.streetvendor.service.order.BossOrderService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

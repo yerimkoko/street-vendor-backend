@@ -11,7 +11,13 @@ import store.streetvendor.core.exception.NotFoundException;
 public class MemberServiceUtils {
 
     public static void findMemberByMemberId(MemberRepository memberRepository, Long memberId) {
-        memberRepository.findUserByUserId(memberId);
+        Member member = memberRepository.findUserByUserId(memberId);
+        validateMember(member, memberId);
+    }
+
+    public static void findBossByBossId(MemberRepository memberRepository, Long bossId) {
+        Member member = memberRepository.findBossByBossId(bossId);
+        validateMember(member, bossId);
     }
 
     public static void validateMember(Member member, Long memberId) {
@@ -29,7 +35,7 @@ public class MemberServiceUtils {
     }
 
     public static void validateDuplicatedEmail(MemberRepository memberRepository, String email) {
-        Member member = memberRepository.findMemberIdByEmail(email);
+        Member member = memberRepository.findMemberByEmail(email);
         if (member != null) {
             throw new DuplicatedException(String.format("(%s)는 이미 가입된 회원입니다. 기존 이메일로 로그인해주세요.", email));
         }

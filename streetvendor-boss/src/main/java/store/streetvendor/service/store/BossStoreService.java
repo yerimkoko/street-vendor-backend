@@ -1,13 +1,16 @@
-package store.streetvendor.service;
+package store.streetvendor.service.store;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.StoreRepository;
 import store.streetvendor.core.domain.store.StoreSalesStatus;
 import store.streetvendor.core.exception.DuplicatedException;
+import store.streetvendor.core.utils.dto.store.request.AddNewStoreRequest;
 import store.streetvendor.core.utils.dto.store.request.StoreUpdateRequest;
+import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
 
 @RequiredArgsConstructor
@@ -15,6 +18,14 @@ import store.streetvendor.core.utils.service.StoreServiceUtils;
 public class BossStoreService {
 
     private final StoreRepository storeRepository;
+
+    private final MemberRepository memberRepository;
+
+    @Transactional
+    public void addNewStore(AddNewStoreRequest request, Long bossId) {
+        MemberServiceUtils.findBossByBossId(memberRepository, bossId);
+        storeRepository.save(request.toEntity(bossId));
+    }
 
     @Transactional
     public void updateMyStore(Long memberId, Long storeId, StoreUpdateRequest request) {

@@ -1,11 +1,10 @@
-package store.streetvendor.service;
+package store.streetvendor.service.order;
 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.streetvendor.core.domain.boss.Boss;
-import store.streetvendor.core.domain.boss.BossRepository;
+import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.order.OrderRepository;
 import store.streetvendor.core.domain.order.OrderStatus;
@@ -15,7 +14,7 @@ import store.streetvendor.core.domain.order_history.OrderHistory;
 import store.streetvendor.core.domain.order_history.OrderHistoryRepository;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.StoreRepository;
-import store.streetvendor.core.utils.service.BossServiceUtil;
+import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.service.OrderServiceUtils;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
 import store.streetvendor.core.utils.dto.order_history.request.AddNewOrderHistoryRequest;
@@ -37,7 +36,7 @@ public class BossOrderService {
 
     private final StoreRepository storeRepository;
 
-    private final BossRepository bossRepository;
+    private final MemberRepository memberRepository;
 
 
     @Transactional
@@ -63,8 +62,8 @@ public class BossOrderService {
 
     @Transactional(readOnly = true)
     public List<OrderListToBossResponse> getAllOrders(Long storeId, Long bossId, OrderStatus orderStatus) {
-        Boss boss = bossRepository.findByBossId(bossId);
-        BossServiceUtil.validateBoss(boss, bossId);
+        Member boss = memberRepository.findBossByBossId(bossId);
+        MemberServiceUtils.findBossByBossId(memberRepository, bossId);
 
         List<Orders> orders = orderRepository.findOrdersByStoreIdAndBossIdAndStatus(storeId, bossId, orderStatus);
         return orders.stream()

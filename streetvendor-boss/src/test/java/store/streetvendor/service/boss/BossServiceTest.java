@@ -1,4 +1,4 @@
-package store.streetvendor.service;
+package store.streetvendor.service.boss;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +11,7 @@ import store.streetvendor.core.domain.store.menu.MenuRepository;
 import store.streetvendor.core.utils.dto.store.request.AddNewStoreRequest;
 import store.streetvendor.core.utils.dto.store.request.BusinessHourRequest;
 import store.streetvendor.core.utils.dto.store.request.MenuRequest;
+import store.streetvendor.service.store.BossStoreService;
 
 import java.time.LocalTime;
 import java.util.Collections;
@@ -22,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BossServiceTest extends SetUpBoss {
 
     @Autowired
-    private BossService bossService;
+    private BossStoreService bossService;
 
     @Autowired
     private StoreRepository storeRepository;
@@ -42,7 +43,6 @@ public class BossServiceTest extends SetUpBoss {
         menuRepository.deleteAll();
         businessHoursRepository.deleteAll();
         storeRepository.deleteAll();
-        bossRepository.deleteAll();
     }
 
 

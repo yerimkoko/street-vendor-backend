@@ -14,7 +14,7 @@ import store.streetvendor.auth.BossInterceptor;
 import store.streetvendor.controller.store.BossStoreController;
 import store.streetvendor.core.utils.dto.store.request.StoreImageRequest;
 import store.streetvendor.core.utils.dto.store.request.StoreUpdateRequest;
-import store.streetvendor.service.BossStoreService;
+import store.streetvendor.service.store.BossStoreService;
 
 import java.util.Collections;
 import java.util.List;

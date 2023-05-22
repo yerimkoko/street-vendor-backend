@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-import store.streetvendor.core.domain.boss.BossRepository;
 import store.streetvendor.core.exception.ErrorCode;
 import store.streetvendor.core.exception.UnAuthorizedException;
 
@@ -26,8 +25,6 @@ public class BossInterceptor implements HandlerInterceptor {
     private static final String BEARER_PREFIX = "Bearer ";
 
     private final SessionRepository<? extends Session> sessionRepository;
-
-    private final BossRepository bossRepository;
 
     @Override
     public boolean preHandle(@NotNull HttpServletRequest request, HttpServletResponse response, Object handler) {

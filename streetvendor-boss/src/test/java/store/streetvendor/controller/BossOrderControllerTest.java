@@ -15,12 +15,13 @@ import org.springframework.util.MultiValueMap;
 import store.streetvendor.BossFixture;
 import store.streetvendor.auth.BossInterceptor;
 import store.streetvendor.StoreFixture;
-import store.streetvendor.core.domain.boss.Boss;
+import store.streetvendor.controller.order.BossOrderController;
+import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.order.OrderStatus;
 import store.streetvendor.core.domain.order.Orders;
 import store.streetvendor.core.domain.store.PaymentMethod;
 import store.streetvendor.core.utils.dto.order.response.OrderListToBossResponse;
-import store.streetvendor.service.BossOrderService;
+import store.streetvendor.service.order.BossOrderService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -47,15 +48,14 @@ class BossOrderControllerTest {
     void createBossInterceptor() {
         BDDMockito.when(bossInterceptor.preHandle(any(), any(), any()))
             .thenReturn(true);
-
     }
-
 
     @Test
     @Disabled
     void 사장님이_진행중인_주문을_불러온다() throws Exception {
         // given
-        Boss boss = Boss.newGoogleInstance("dd", "name", "1002-222-22222", "gochi97@naver.com", "profileUrl", "0202");
+
+        Member boss = Member.newGoogleBossInstance("name", "nickName", "gochi97@naver.com", "profileUrl", "01023456789");
 
         Orders order = Orders.preparingOrder(StoreFixture.store(), boss.getId(), PaymentMethod.CASH, LocalDateTime.now().plusHours(1L));
 

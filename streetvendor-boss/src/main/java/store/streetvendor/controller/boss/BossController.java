@@ -1,19 +1,15 @@
-package store.streetvendor.controller;
+package store.streetvendor.controller.boss;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import store.streetvendor.auth.Boss;
-import store.streetvendor.auth.BossId;
 import store.streetvendor.core.utils.ApiResponse;
-import store.streetvendor.service.BossService;
-import store.streetvendor.core.utils.dto.store.request.AddNewStoreRequest;
+import store.streetvendor.service.boss.BossService;
 import store.streetvendor.service.dto.request.BossSignUpRequest;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import static store.streetvendor.auth.BossConstants.BOSS_ID;
 
@@ -39,13 +35,7 @@ public class BossController {
         return ApiResponse.success(httpSession.getAttribute(BOSS_ID).toString());
     }
 
-    @Boss
-    @ApiOperation(value = "[사장님] 창업을 합니다.")
-    @PostMapping("/v1/create-store")
-    public ApiResponse<String> addNewStore(@Valid @RequestBody AddNewStoreRequest request, @BossId Long bossId) {
-        bossService.addNewStore(request, bossId);
-        return ApiResponse.OK;
-    }
+
 
 
 }

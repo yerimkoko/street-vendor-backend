@@ -31,7 +31,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public Member findMemberIdByEmail(String email) {
+    public Member findMemberByEmail(String email) {
         return queryFactory.selectFrom(member)
             .where(
                 member.email.eq(email)

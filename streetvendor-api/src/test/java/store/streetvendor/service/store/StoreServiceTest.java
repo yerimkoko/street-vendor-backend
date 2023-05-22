@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import store.streetvendor.core.domain.boss.Boss;
+import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.store.*;
 import store.streetvendor.core.domain.store.menu.Menu;
 import store.streetvendor.core.domain.store.menu.MenuRepository;
@@ -152,7 +152,7 @@ class StoreServiceTest extends SetupBoss {
         assertThat(stores.get(0).getCategory()).isEqualTo(category);
     }
 
-    private Store createSalesStore(Boss boss) {
+    private Store createSalesStore(Member boss) {
         Long memberId = this.boss.getId();
         String name = "토끼의 붕어빵 가게";
         Location location = new Location(34.232323, 128.242424);

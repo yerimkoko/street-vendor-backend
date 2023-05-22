@@ -1,4 +1,4 @@
-package store.streetvendor.service;
+package store.streetvendor.service.store;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -11,9 +11,7 @@ import store.streetvendor.core.domain.store.menu.MenuRepository;
 import store.streetvendor.core.domain.store.storeimage.StoreImage;
 import store.streetvendor.core.domain.store.storeimage.StoreImageRepository;
 import store.streetvendor.core.exception.NotFoundException;
-import store.streetvendor.core.utils.dto.store.request.BusinessHourRequest;
 import store.streetvendor.core.utils.dto.store.request.MenuRequest;
-import store.streetvendor.core.utils.dto.store.request.StoreImageRequest;
 import store.streetvendor.core.utils.dto.store.request.StoreUpdateRequest;
 
 import java.time.LocalTime;

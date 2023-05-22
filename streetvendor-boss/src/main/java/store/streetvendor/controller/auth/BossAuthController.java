@@ -1,4 +1,4 @@
-package store.streetvendor.controller;
+package store.streetvendor.controller.auth;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import store.streetvendor.core.config.auth.dto.request.AuthRequest;
 import store.streetvendor.core.config.auth.dto.response.AuthResponse;
 import store.streetvendor.core.utils.ApiResponse;
-import store.streetvendor.service.BossAuthenticationService;
+import store.streetvendor.service.auth.BossAuthenticationService;
 
 import javax.validation.Valid;
 

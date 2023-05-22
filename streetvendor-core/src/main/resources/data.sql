@@ -1,24 +1,24 @@
 
 insert into member
-(created_at, updated_at, email, name, nick_name, profile_url, provider)
+(created_at, updated_at, email, name, nick_name, profile_url, provider, member_type)
 values
-    (now(), now(), 'gochi97@naver.com', '고예림', '토끼', 'fff', 'GOOGLE');
+    (now(), now(), 'gochi97@naver.com', '고예림', '토끼', 'fff', 'GOOGLE', 'USER');
 
 insert into member
-(created_at, updated_at, email, name, nick_name, profile_url, provider)
+(created_at, updated_at, email, name, nick_name, profile_url, provider, member_type)
 values
-    (now(), now(), 'whrmawnrmawn@gmail.com', '조금주', '꿍주', 'fff', 'GOOGLE');
+    (now(), now(), 'whrmawnrmawn@gmail.com', '조금주', '꿍주', 'fff', 'GOOGLE', 'USER');
 
 
 insert into member
-(created_at, updated_at, email, name, nick_name, profile_url, provider)
+(created_at, updated_at, email, name, nick_name, profile_url, provider, member_type)
 values
-    (now(), now(), 'pdom0327@gmail.com', '안호빈', 'Pdom', null, 'GOOGLE');
+    (now(), now(), 'pdom0327@gmail.com', '안호빈', 'Pdom', null, 'GOOGLE', 'USER');
 
 insert into member
-(created_at, updated_at, email, name, nick_name, profile_url, provider)
+(created_at, updated_at, email, name, nick_name, profile_url, provider, 'member_type')
 values
-    (now(), now(), 'starpaks7@gmail.com', '윤운일', 'star', null, 'GOOGLE');
+    (now(), now(), 'starpaks7@gmail.com', '윤운일', 'star', null, 'GOOGLE', 'USER');
 
 
 insert into notification(

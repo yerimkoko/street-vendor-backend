@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import store.streetvendor.auth.Boss;
 import store.streetvendor.auth.BossId;
 import store.streetvendor.core.utils.ApiResponse;
+import store.streetvendor.core.utils.dto.store.request.AddNewStoreRequest;
 import store.streetvendor.core.utils.dto.store.request.StoreUpdateRequest;
-import store.streetvendor.service.BossStoreService;
+import store.streetvendor.service.store.BossStoreService;
 
 import javax.validation.Valid;
 
@@ -31,6 +32,14 @@ public class BossStoreController {
     @DeleteMapping("/api/v1/store/{storeId}")
     public ApiResponse<String> deleteStore(@BossId Long memberId, @PathVariable Long storeId) {
         bossStoreService.deleteMyStore(memberId, storeId);
+        return ApiResponse.OK;
+    }
+
+    @Boss
+    @ApiOperation(value = "[사장님] 창업을 합니다.")
+    @PostMapping("/v1/create-store")
+    public ApiResponse<String> addNewStore(@Valid @RequestBody AddNewStoreRequest request, @BossId Long bossId) {
+        bossStoreService.addNewStore(request, bossId);
         return ApiResponse.OK;
     }
 

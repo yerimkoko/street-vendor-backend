@@ -65,8 +65,6 @@ class OrdersServiceTest extends SetUpStore {
             .pickUpTime(pickUpTime)
             .build();
 
-        System.out.println("---------" + addNewOrderRequest.getDistance());
-
 
         // when
         orderService.addNewOrder(addNewOrderRequest, member.getId());
