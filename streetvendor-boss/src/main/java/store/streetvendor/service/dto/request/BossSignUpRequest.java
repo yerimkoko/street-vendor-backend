@@ -12,9 +12,8 @@ import javax.validation.constraints.Size;
 @Getter
 public class BossSignUpRequest {
 
+    @NotBlank
     private String name;
-
-    private String accountNumber;
 
     @NotBlank(message = "전화번호를 입력해주세요.")
     private String phoneNumber;
@@ -28,9 +27,8 @@ public class BossSignUpRequest {
 
     private String profileUrl;
 
-    public BossSignUpRequest(String name, String accountNumber, String phoneNumber, String nickName, String email, String profileUrl) {
+    public BossSignUpRequest(String name,  String phoneNumber, String nickName, String email, String profileUrl) {
         this.name = name;
-        this.accountNumber = accountNumber;
         this.phoneNumber = phoneNumber;
         this.nickName = nickName;
         this.email = email;
@@ -38,7 +36,7 @@ public class BossSignUpRequest {
     }
 
     public Boss toEntity() {
-        return Boss.newGoogleInstance(nickName, name, accountNumber, email, profileUrl, phoneNumber);
+        return Boss.newGoogleInstance(nickName, name, null, email, profileUrl, phoneNumber);
     }
 
 }
