@@ -13,9 +13,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import store.streetvendor.BossFixture;
-import store.streetvendor.auth.BossInterceptor;
 import store.streetvendor.StoreFixture;
 import store.streetvendor.controller.order.BossOrderController;
+import store.streetvendor.core.auth.AuthInterceptor;
 import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.order.OrderStatus;
 import store.streetvendor.core.domain.order.Orders;
@@ -38,7 +38,7 @@ class BossOrderControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private BossInterceptor bossInterceptor;
+    private AuthInterceptor bossInterceptor;
 
     @MockBean
     private BossOrderService bossOrderService;

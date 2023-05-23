@@ -14,7 +14,6 @@ public class BossService {
 
     private final MemberRepository memberRepository;
 
-
     @Transactional
     public Long bossSignUp(BossSignUpRequest request) {
         validateEmail(request.getEmail());

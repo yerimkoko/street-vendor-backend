@@ -11,7 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import store.streetvendor.AuthInterceptor;
+import store.streetvendor.core.auth.AuthInterceptor;
 import store.streetvendor.core.aws.AwsS3Service;
 import store.streetvendor.service.member.MemberService;
 import store.streetvendor.core.utils.dto.member.response.MemberInfoResponse;

@@ -1,11 +1,12 @@
-package store.streetvendor.auth;
+package store.streetvendor.core.auth;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.METHOD)
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Boss {
+public @interface MemberId {
+
 }

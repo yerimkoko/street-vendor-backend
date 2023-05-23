@@ -10,8 +10,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import store.streetvendor.auth.BossInterceptor;
 import store.streetvendor.controller.store.BossStoreController;
+import store.streetvendor.core.auth.AuthInterceptor;
 import store.streetvendor.core.utils.dto.store.request.StoreImageRequest;
 import store.streetvendor.core.utils.dto.store.request.StoreUpdateRequest;
 import store.streetvendor.service.store.BossStoreService;
@@ -34,14 +34,14 @@ class BossStoreControllerTest {
     private BossStoreService bossStoreService;
 
     @MockBean
-    private BossInterceptor bossInterceptor;
+    private AuthInterceptor authInterceptor;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @BeforeEach
     void createBoss() {
-        BDDMockito.when(bossInterceptor.preHandle(any(), any(), any())).thenReturn(true);
+        BDDMockito.when(authInterceptor.preHandle(any(), any(), any())).thenReturn(true);
     }
 
     @Test

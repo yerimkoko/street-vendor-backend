@@ -1,4 +1,4 @@
-package store.streetvendor;
+package store.streetvendor.core.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import store.streetvendor.core.config.auth.dto.response.AuthResponse;
 
 import javax.servlet.http.HttpSession;
 
-import static store.streetvendor.AuthConstants.MEMBER_ID;
+import static store.streetvendor.core.auth.AuthConstants.MEMBER_ID;
 
 @RequiredArgsConstructor
 @Service

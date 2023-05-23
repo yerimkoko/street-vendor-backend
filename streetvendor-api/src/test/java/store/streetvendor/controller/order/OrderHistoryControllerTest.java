@@ -8,12 +8,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
-import store.streetvendor.AuthInterceptor;
+import store.streetvendor.core.auth.AuthInterceptor;
 import store.streetvendor.service.order.OrderHistoryService;
 import store.streetvendor.service.order.dto.response.OrderDetailViewResponse;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

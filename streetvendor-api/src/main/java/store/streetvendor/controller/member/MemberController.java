@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import store.streetvendor.Auth;
-import store.streetvendor.MemberId;
+import store.streetvendor.core.auth.Auth;
+import store.streetvendor.core.auth.MemberId;
 import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.service.member.MemberService;
 import store.streetvendor.core.utils.dto.member.request.MemberSignUpRequestDto;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 
-import static store.streetvendor.AuthConstants.MEMBER_ID;
+import static store.streetvendor.core.auth.AuthConstants.MEMBER_ID;
 
 @RequiredArgsConstructor
 @RestController

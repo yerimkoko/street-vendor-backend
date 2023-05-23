@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import store.streetvendor.core.auth.AuthInterceptor;
+import store.streetvendor.core.auth.MemberIdResolver;
 
 import java.util.List;
 

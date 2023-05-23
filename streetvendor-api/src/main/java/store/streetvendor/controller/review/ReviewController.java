@@ -5,13 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import store.streetvendor.Auth;
-import store.streetvendor.MemberId;
+import store.streetvendor.core.auth.Auth;
+import store.streetvendor.core.auth.MemberId;
 import store.streetvendor.core.aws.response.ImageUrlResponse;
 import store.streetvendor.core.exception.InvalidException;
 import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.review.request.AddReviewRequest;
-import store.streetvendor.core.utils.dto.review.response.ReviewImageResponse;
 import store.streetvendor.core.utils.dto.review.response.ReviewResponse;
 import store.streetvendor.service.review.ReviewService;
 

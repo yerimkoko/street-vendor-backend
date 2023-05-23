@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import store.streetvendor.core.auth.GoogleAuthService;
 import store.streetvendor.core.config.auth.dto.request.AuthRequest;
 import store.streetvendor.core.config.auth.dto.response.AuthResponse;
 import store.streetvendor.core.utils.ApiResponse;
-import store.streetvendor.service.auth.BossAuthenticationService;
 
 import javax.validation.Valid;
 
@@ -17,12 +17,12 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class BossAuthController {
 
-    private final BossAuthenticationService authenticationService;
+    private final GoogleAuthService googleAuthService;
 
     @ApiOperation(value = "[사장님] 로그인을 한다.")
     @PostMapping("/v1/auth/google")
     public ApiResponse<AuthResponse> handleBossGoogleAuthentication(@Valid @RequestBody AuthRequest request) {
-        return ApiResponse.success(authenticationService.handleBossGoogleAuthentication(request));
+        return ApiResponse.success(googleAuthService.handleGoogleAuthentication(request));
     }
 
     @ApiOperation(value = "헬스체크")
