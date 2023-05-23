@@ -19,7 +19,7 @@ public class BossSignUpRequest {
     private String phoneNumber;
 
     @NotBlank(message = "닉네임을 입력해주세요.")
-    @Size(min = 2, max = 8, message = "닉네임은 2~8자 이어야 합니다.")
+    @Size(min = 2, max = 10, message = "닉네임은 2~10자 이어야 합니다.")
     private String nickName;
 
     @Email(message = "이메일 형식에 맞게 적어주세요.")

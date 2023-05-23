@@ -10,6 +10,7 @@ import store.streetvendor.service.boss.BossService;
 import store.streetvendor.service.dto.request.BossSignUpRequest;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import static store.streetvendor.auth.BossConstants.BOSS_ID;
 
@@ -23,7 +24,7 @@ public class BossController {
 
     @ApiOperation(value = "[사장님] 회원가입을 합니다.")
     @PostMapping("/v1/sign-up")
-    public ApiResponse<String> signUp(@RequestBody BossSignUpRequest request) {
+    public ApiResponse<String> signUp(@RequestBody @Valid BossSignUpRequest request) {
         Long bossId = bossService.bossSignUp(request);
         httpSession.setAttribute(BOSS_ID, bossId);
         return ApiResponse.success(httpSession.getId());
