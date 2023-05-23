@@ -16,7 +16,7 @@ values
     (now(), now(), 'pdom0327@gmail.com', '안호빈', 'Pdom', null, 'GOOGLE', 'USER');
 
 insert into member
-(created_at, updated_at, email, name, nick_name, profile_url, provider, 'member_type')
+(created_at, updated_at, email, name, nick_name, profile_url, provider, member_type)
 values
     (now(), now(), 'starpaks7@gmail.com', '윤운일', 'star', null, 'GOOGLE', 'USER');
 
