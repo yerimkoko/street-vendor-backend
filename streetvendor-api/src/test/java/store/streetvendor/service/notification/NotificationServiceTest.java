@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import store.streetvendor.core.domain.notification.Notification;
 import store.streetvendor.core.domain.notification.NotificationRepository;
+import store.streetvendor.core.domain.notification.NotificationType;
 import store.streetvendor.core.utils.dto.notification.request.FaqRequest;
+import store.streetvendor.domainservice.service.NotificationPlatformService;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class NotificationServiceTest {
     private NotificationRepository notificationRepository;
 
     @Autowired
-    private NotificationService notificationService;
+    private NotificationPlatformService notificationService;
 
     @AfterEach
     void cleanUp() {
@@ -31,7 +33,7 @@ public class NotificationServiceTest {
         // given
         String title = "가게 위치 등록 설명";
         String content = "- 사장님께서 처음 가게 위치를 등록하실때 지도로 좌표를 찍어 등록하게 됩니다.";
-        FaqRequest request = new FaqRequest(title, content, null);
+        FaqRequest request = new FaqRequest(title, content, null, NotificationType.FAQ_BOSS);
 
         // when
         notificationService.createFaq(request);

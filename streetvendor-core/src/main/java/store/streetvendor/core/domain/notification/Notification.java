@@ -66,11 +66,11 @@ public class Notification extends BaseTimeEntity {
             .build();
     }
 
-    public static Notification newFaq(String title, String content, String notificationImage) {
+    public static Notification newFaq(String title, String content, String notificationImage, NotificationType type) {
         return Notification.builder()
             .title(title)
             .content(content)
-            .notificationType(NotificationType.FAQ_USER)
+            .notificationType(type)
             .notificationImage(notificationImage)
             .build();
     }

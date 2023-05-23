@@ -10,6 +10,8 @@ import store.streetvendor.MemberId;
 import store.streetvendor.core.aws.response.ImageUrlResponse;
 import store.streetvendor.core.exception.ConflictException;
 import store.streetvendor.core.exception.InvalidException;
+import store.streetvendor.core.mapper.question.QuestionUtils;
+import store.streetvendor.core.mapper.question.dto.response.QuestionMapperResponse;
 import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.question.request.AddQuestionRequest;
 import store.streetvendor.core.utils.dto.question.response.AllQuestionResponse;
@@ -41,7 +43,7 @@ public class QuestionController {
     }
 
     @Auth
-    @ApiOperation(value = "[문의사항] 문의사항에 사진을 등록한다")
+    @ApiOperation(value = "[공통, 문의사항] 문의사항에 사진을 등록한다")
     @PostMapping("/api/v1/question/images")
     public ApiResponse<List<ImageUrlResponse>> createQuestionImages(@RequestPart List<MultipartFile> imageFiles) {
         if (imageFiles.isEmpty()) {
@@ -55,7 +57,7 @@ public class QuestionController {
 
 
     @Auth
-    @ApiOperation(value = "[문의사항] 내가 작성한 문의사항을 조회한다")
+    @ApiOperation(value = "[공통, 문의사항] 내가 작성한 문의사항을 조회한다")
     @GetMapping("/api/v1/question")
     public ApiResponse<List<AllQuestionResponse>> getMyQuestions(@MemberId Long memberId,
                                                                  @RequestParam(required = false) Long cursor,
@@ -64,7 +66,7 @@ public class QuestionController {
     }
 
     @Auth
-    @ApiOperation(value = "[문의사항] 나의 문의 내역에서 상세 내용을 조회한다")
+    @ApiOperation(value = "[공통, 문의사항] 나의 문의 내역에서 상세 내용을 조회한다")
     @GetMapping("/api/v1/question/{questionId}")
     public ApiResponse<List<QuestionDetailResponse>> getQuestionDetail(@MemberId Long memberId,
                                                                        @PathVariable Long questionId,
@@ -72,6 +74,12 @@ public class QuestionController {
                                                                        @RequestParam(required = false, defaultValue = "5") int size) {
         return ApiResponse.success(questionService.getQuestionDetail(memberId, questionId, cursor, size, baseUrl));
 
+    }
+
+    @ApiOperation(value = "[문의사항] 타입을 조회한다")
+    @GetMapping("/api/v1/question/question-type")
+    public ApiResponse<List<QuestionMapperResponse>> getQuestionType() {
+        return ApiResponse.success(QuestionUtils.getQuestionTypes());
     }
 
 }

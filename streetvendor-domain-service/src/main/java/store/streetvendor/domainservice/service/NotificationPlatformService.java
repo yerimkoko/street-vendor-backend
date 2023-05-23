@@ -1,4 +1,4 @@
-package store.streetvendor.service.notification;
+package store.streetvendor.domainservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,15 +9,15 @@ import store.streetvendor.core.domain.notification.NotificationType;
 import store.streetvendor.core.exception.NotFoundException;
 import store.streetvendor.core.utils.dto.notification.request.FaqRequest;
 import store.streetvendor.core.utils.dto.notification.response.FaqResponse;
-import store.streetvendor.service.notification.dto.response.NotificationDetailResponse;
+import store.streetvendor.domainservice.service.response.NotificationDetailResponse;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
-public class NotificationService {
+@RequiredArgsConstructor
+public class NotificationPlatformService {
 
     private final NotificationRepository notificationRepository;
 
@@ -40,7 +40,6 @@ public class NotificationService {
             throw new NotFoundException(String.format("[%s]에 해당하는 공지사항은 존재하지 않습니다.", notificationId));
         }
         return NotificationDetailResponse.of(notification);
-
     }
 
 }

@@ -1,8 +1,13 @@
 package store.streetvendor.core.domain.questions;
 
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+import lombok.Getter;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+@Getter
 public enum QuestionsType {
     ORDER("주문"),
     REVIEW("리뷰"),
@@ -12,9 +17,15 @@ public enum QuestionsType {
 
     private final String description;
 
-    public String getDescription() {
-        return this.description;
+    QuestionsType(String description) {
+        this.description = description;
     }
+
+    public static List<QuestionsType> questionsTypes() {
+        return Stream.of(QuestionsType.values())
+            .collect(Collectors.toList());
+    }
+
 
 
 }

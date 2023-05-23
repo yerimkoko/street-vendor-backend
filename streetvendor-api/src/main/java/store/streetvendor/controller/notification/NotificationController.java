@@ -7,8 +7,8 @@ import store.streetvendor.core.domain.notification.NotificationType;
 import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.notification.request.FaqRequest;
 import store.streetvendor.core.utils.dto.notification.response.FaqResponse;
-import store.streetvendor.service.notification.NotificationService;
-import store.streetvendor.service.notification.dto.response.NotificationDetailResponse;
+import store.streetvendor.domainservice.service.NotificationPlatformService;
+import store.streetvendor.domainservice.service.response.NotificationDetailResponse;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationController {
 
-    private final NotificationService notificationService;
+    private final NotificationPlatformService notificationService;
 
-    @ApiOperation("[Faq] faq 리스트를 불러온다.")
+    @ApiOperation("[공통, Faq] faq 리스트를 불러온다.")
     @GetMapping("/api/v1/notification/faq/{type}")
     public ApiResponse<List<FaqResponse>> findFaqList(@PathVariable NotificationType type) {
         return ApiResponse.success(notificationService.getFaqList(type));
@@ -31,7 +31,7 @@ public class NotificationController {
         return ApiResponse.OK;
     }
 
-    @ApiOperation("[Faq] 공지사항 상세조회")
+    @ApiOperation("[공통, FAQ] 공지사항 상세조회")
     @GetMapping("/api/v1/notification/{notificationId}")
     public ApiResponse<NotificationDetailResponse> getNotificationDetail(@PathVariable Long notificationId) {
         return ApiResponse.success(notificationService.getFaqDetail(notificationId));

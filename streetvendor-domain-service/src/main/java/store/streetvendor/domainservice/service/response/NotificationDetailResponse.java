@@ -1,4 +1,4 @@
-package store.streetvendor.service.notification.dto.response;
+package store.streetvendor.domainservice.service.response;
 
 import lombok.Builder;
 import lombok.Getter;
