@@ -20,6 +20,9 @@ public class Questions extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private Long parentId;
+
     @Column(nullable = false)
     private Long memberId;
 
@@ -54,8 +57,9 @@ public class Questions extends BaseTimeEntity {
     }
 
     @Builder
-    public Questions(Long memberId, String title, String content, QuestionsType type, Long adminId, QuestionsStatus status) {
+    public Questions(Long memberId, Long parentId, String title, String content, QuestionsType type, Long adminId, QuestionsStatus status) {
         this.memberId = memberId;
+        this.parentId = parentId;
         this.title = title;
         this.content = content;
         this.type = type;
@@ -70,6 +74,7 @@ public class Questions extends BaseTimeEntity {
             .adminId(null)
             .status(QuestionsStatus.REPLY_WAITING)
             .content(content)
+            .parentId(null)
             .type(type)
             .build();
     }
@@ -78,6 +83,7 @@ public class Questions extends BaseTimeEntity {
         return Questions.builder()
             .memberId(questions.memberId)
             .adminId(admin.getId())
+            .parentId(questions.id)
             .title("RE: " + questions.title)
             .content(content)
             .type(questions.getType())

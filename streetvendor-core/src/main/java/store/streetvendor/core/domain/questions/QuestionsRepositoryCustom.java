@@ -6,7 +6,7 @@ public interface QuestionsRepositoryCustom {
 
     List<Questions> findQuestionsByMemberId(Long memberId, Long cursor, int size);
 
-    List<Questions> findQuestionsDetailByMemberId(Long memberId, Long questionId, Long cursor, int size);
+    List<Questions> findQuestionsDetailByMemberIdAndParentId(Long memberId, Long questionId, Long cursor, int size);
 
     Questions findByQuestionId(Long questionId);
 
