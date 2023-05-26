@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Questions extends BaseTimeEntity {
 
+    private static final String RE = "RE: ";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -84,11 +85,15 @@ public class Questions extends BaseTimeEntity {
             .memberId(questions.memberId)
             .adminId(admin.getId())
             .parentId(questions.id)
-            .title("RE: " + questions.title)
+            .title(RE + questions.title)
             .content(content)
             .type(questions.getType())
             .status(QuestionsStatus.REPLY_COMPLETED)
             .build();
+    }
+
+    public void delete() {
+        this.status = QuestionsStatus.DELETED;
     }
 
 

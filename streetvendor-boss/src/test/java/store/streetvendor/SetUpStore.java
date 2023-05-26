@@ -49,11 +49,13 @@ public abstract class SetUpStore extends SetUpBoss {
 
     protected BusinessHours businessHours;
 
+    protected BankInfo bankInfo = new BankInfo(BankType.WOORI, "1002-222-2222");
+
 
     @BeforeEach
     void storeFixture() {
 
-        store = Store.newSalesStore(boss.getId(), boss.getName(), location, storeDescription, locationDescription, storeCategory);
+        store = Store.newSalesStore(boss.getId(), boss.getName(), location, storeDescription, locationDescription, storeCategory, bankInfo);
 
         menu = Menu.of(store, menuName, count, price, pictureUrl);
 

@@ -69,10 +69,8 @@ public class QuestionController {
     @ApiOperation(value = "[공통] [문의사항] 나의 문의 내역에서 상세 내용을 조회한다")
     @GetMapping("/api/v1/question/{questionId}")
     public ApiResponse<List<QuestionDetailResponse>> getQuestionDetail(@MemberId Long memberId,
-                                                                       @PathVariable Long questionId,
-                                                                       @RequestParam(required = false) Long cursor,
-                                                                       @RequestParam(required = false, defaultValue = "5") int size) {
-        return ApiResponse.success(questionService.getQuestionDetail(memberId, questionId, cursor, size, baseUrl));
+                                                                       @PathVariable Long questionId) {
+        return ApiResponse.success(questionService.getQuestionDetail(memberId, questionId, baseUrl));
 
     }
 
@@ -82,4 +80,12 @@ public class QuestionController {
         return ApiResponse.success(QuestionUtils.getQuestionTypes());
     }
 
+
+    @ApiOperation(value = "[공통] [문의사항] 나의 문의 내역 삭제하기")
+    @DeleteMapping("/api/v1/question/{questionId}")
+    public ApiResponse<String> deleteQuestion(@PathVariable Long questionId,
+                                              @MemberId Long memberId) {
+        questionService.deleteQuestion(questionId, memberId);
+        return ApiResponse.OK;
+    }
 }

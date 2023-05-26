@@ -1,5 +1,7 @@
 package store.streetvendor;
 
+import store.streetvendor.core.domain.store.BankInfo;
+import store.streetvendor.core.domain.store.BankType;
 import store.streetvendor.core.domain.store.Location;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.StoreCategory;
@@ -17,7 +19,9 @@ public class StoreFixture extends BossFixture {
 
         StoreCategory storeCategory = StoreCategory.BUNG_EO_PPANG;
 
-        return Store.newSalesStore(boss().getId(), name, location, storeDescription, locationDescription, storeCategory);
+        BankInfo bankInfo = new BankInfo(BankType.WOORI, "1002-222-2222");
+
+        return Store.newSalesStore(boss().getId(), name, location, storeDescription, locationDescription, storeCategory, bankInfo);
     }
 
 

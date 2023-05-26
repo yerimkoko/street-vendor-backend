@@ -24,13 +24,11 @@ public class QuestionsRepositoryCustomImpl implements QuestionsRepositoryCustom{
     }
 
     @Override
-    public List<Questions> findQuestionsDetailByMemberIdAndParentId(Long memberId, Long questionId, Long cursor, int size) {
+    public List<Questions> findQuestionsDetailByMemberIdAndParentId(Long memberId, Long questionId) {
         return jpaQueryFactory.selectFrom(questions)
             .where(questions.memberId.eq(memberId),
-                questions.id.eq(questionId).or(questions.parentId.eq(questionId)),
-                existedCursor(cursor))
+                questions.id.eq(questionId).or(questions.parentId.eq(questionId)))
             .orderBy(questions.id.desc())
-            .limit(size)
             .fetch();
     }
 

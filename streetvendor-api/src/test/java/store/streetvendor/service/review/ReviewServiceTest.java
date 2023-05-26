@@ -109,7 +109,8 @@ public class ReviewServiceTest extends MemberFixture {
         String locationDescription = "군포역 2번 출구 앞";
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
         Location location = new Location(34.2222, 128.222);
-        Store store = Store.newInstance(bossId, name, location, storeDescription, locationDescription, category);
+        BankInfo bankInfo = new BankInfo(BankType.WOORI, "1002-252-22222");
+        Store store = Store.newInstance(bossId, name, location, storeDescription, locationDescription, category, bankInfo);
         storeRepository.save(store);
 
         return store;

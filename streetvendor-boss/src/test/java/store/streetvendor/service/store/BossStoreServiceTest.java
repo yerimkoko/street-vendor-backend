@@ -106,9 +106,10 @@ public class BossStoreServiceTest extends SetUpBoss {
         String storeDescription = "팥 붕어빵 맛집";
         String locationDescription = "군포역 2번 출구 앞";
         Location location = new Location(34.2222, 128.222);
+        BankInfo bankInfo = new BankInfo(BankType.WOORI, "1002-222-2222");
 
 
-        return Store.newInstance(memberId, name, location, storeDescription, locationDescription, OTHER_DESSERT);
+        return Store.newInstance(memberId, name, location, storeDescription, locationDescription, OTHER_DESSERT, bankInfo);
     }
 
     @Test

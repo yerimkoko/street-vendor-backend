@@ -62,6 +62,7 @@ public class BossServiceTest extends SetUpBoss {
             .location(new Location(34.0, 128.0))
             .storeDescription("가게 설명")
             .locationDescription("위치 설명")
+            .bankInfo(new BankInfo(BankType.WOORI, "1002-222-2222"))
             .category(StoreCategory.BUNG_EO_PPANG)
             .paymentMethods(Collections.emptyList())
             .menus(Collections.emptyList())
@@ -87,6 +88,7 @@ public class BossServiceTest extends SetUpBoss {
             .location(new Location(34.0, 128.0))
             .storeDescription("가게 설명")
             .locationDescription("위치 설명")
+            .bankInfo(new BankInfo(BankType.WOORI, "1002-222-2222"))
             .category(StoreCategory.BUNG_EO_PPANG)
             .storeImages(Collections.emptyList())
             .businessHours(Collections.emptyList())
@@ -108,6 +110,8 @@ public class BossServiceTest extends SetUpBoss {
         // given
         MenuRequest menuRequest = MenuRequest.testInstance("붕어빵", 2, 2000, "pictureUrl");
 
+        BankInfo bankInfo = new BankInfo(BankType.WOORI, "1002-222-2222");
+
         AddNewStoreRequest request = AddNewStoreRequest.testBuilder()
             .name("가게 이름")
             .location(new Location(34.0, 128.0))
@@ -118,6 +122,7 @@ public class BossServiceTest extends SetUpBoss {
             .storeImages(Collections.emptyList())
             .businessHours(Collections.emptyList())
             .paymentMethods(Collections.emptyList())
+            .bankInfo(bankInfo)
             .build();
 
         // when
@@ -141,6 +146,7 @@ public class BossServiceTest extends SetUpBoss {
             .locationDescription("위치 설명")
             .category(StoreCategory.BUNG_EO_PPANG)
             .paymentMethods(List.of(PaymentMethod.CASH, PaymentMethod.ACCOUNT_TRANSFER))
+            .bankInfo(new BankInfo(BankType.WOORI, "1002-222-2222"))
             .menus(Collections.emptyList())
             .storeImages(Collections.emptyList())
             .businessHours(Collections.emptyList())

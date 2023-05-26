@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 public enum QuestionsStatus {
 
     REPLY_WAITING("답변 대기"),
-    REPLY_COMPLETED("답변 완료")
+    REPLY_COMPLETED("답변 완료"),
+
+    DELETED("삭제됨")
     ;
 
     private final String description;

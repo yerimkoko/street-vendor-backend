@@ -10,6 +10,7 @@ import store.streetvendor.core.domain.member.Member;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.questions.Questions;
 import store.streetvendor.core.domain.questions.QuestionsRepository;
+import store.streetvendor.core.domain.questions.QuestionsStatus;
 import store.streetvendor.core.domain.questions.QuestionsType;
 import store.streetvendor.core.domain.questions.image.QuestionImageRepository;
 import store.streetvendor.core.domain.questions.image.QuestionsImage;
@@ -65,6 +66,22 @@ public class QuestionServiceTest extends MemberFixture {
         assertThat(questionsImages.get(0).getImageUrl()).isEqualTo(response.getImageUrl());
 
     }
+
+    @Test
+    void 문의사항을_지운다() {
+        // given
+        Member member = getMember();
+        Questions questions = Questions.newQuestions(member.getId(), "title", "content", QuestionsType.ETC);
+        questionsRepository.save(questions);
+
+        // when
+        questionService.deleteQuestion(questions.getId(), member.getId());
+
+        // then
+        List<Questions> questionList = questionsRepository.findAll();
+        assertThat(questionList.get(0).getStatus()).isEqualTo(QuestionsStatus.DELETED);
+    }
+
 
     private Member getMember() {
         return memberRepository.save(member());

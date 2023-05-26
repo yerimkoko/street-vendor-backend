@@ -38,7 +38,8 @@ class ChangeMenuStatusTest {
 
     private Store createStore() {
         Location location = new Location(24.2222, 33.2222);
-        return Store.newSalesStore(999L, "붕어빵", location, "안뇽", "ㅋㅋ", StoreCategory.BUNG_EO_PPANG);
+        BankInfo bankInfo = new BankInfo(BankType.WOORI, "1002-222-2222");
+        return Store.newSalesStore(999L, "붕어빵", location, "안뇽", "ㅋㅋ", StoreCategory.BUNG_EO_PPANG, bankInfo);
     }
 
     private Menu createMenu(Store store) {

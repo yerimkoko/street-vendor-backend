@@ -53,6 +53,10 @@ public class Store extends BaseTimeEntity {
     @Column
     private Double averageValue;
 
+    @Column(nullable = false)
+    @Embedded
+    private BankInfo bankInfo;
+
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Menu> menus = new ArrayList<>();
 
@@ -70,7 +74,7 @@ public class Store extends BaseTimeEntity {
     private final List<StoreMenu> storeMenus = new ArrayList<>();
 
     @Builder
-    public Store(Long bossId, String name, Location location, String storeDescription, String locationDescription, Double averageValue, StoreCategory category, StoreStatus status, StoreSalesStatus salesStatus) {
+    public Store(Long bossId, String name, Location location, String storeDescription, String locationDescription, Double averageValue, StoreCategory category, StoreStatus status, StoreSalesStatus salesStatus, BankInfo bankInfo) {
         this.bossId = bossId;
         this.name = name;
         this.location = location;
@@ -80,10 +84,11 @@ public class Store extends BaseTimeEntity {
         this.category = category;
         this.status = status;
         this.salesStatus = salesStatus;
+        this.bankInfo = bankInfo;
     }
 
 
-    public static Store newInstance(Long bossId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category) {
+    public static Store newInstance(Long bossId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category, BankInfo bankInfo) {
         return Store.builder()
             .bossId(bossId)
             .name(name)
@@ -94,10 +99,11 @@ public class Store extends BaseTimeEntity {
             .status(StoreStatus.ACTIVE)
             .averageValue(0.0)
             .category(category)
+            .bankInfo(bankInfo)
             .build();
     }
 
-    public static Store newSalesStore(Long bossId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category) {
+    public static Store newSalesStore(Long bossId, String name, Location location, String storeDescription, String locationDescription, StoreCategory category, BankInfo bankInfo) {
         return Store.builder()
             .bossId(bossId)
             .name(name)
@@ -108,6 +114,7 @@ public class Store extends BaseTimeEntity {
             .status(StoreStatus.ACTIVE)
             .averageValue(0.0)
             .category(category)
+            .bankInfo(bankInfo)
             .build();
     }
 

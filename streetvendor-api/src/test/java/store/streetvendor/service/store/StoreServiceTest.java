@@ -159,8 +159,9 @@ class StoreServiceTest extends SetupBoss {
         String storeDescription = "슈크림 맛집 입니다!";
         String locationDescription = "당정역 1번 출구 앞";
         StoreCategory category = StoreCategory.BUNG_EO_PPANG;
+        BankInfo bankInfo = new BankInfo(BankType.WOORI, "1002-222-2222");
 
-        return storeRepository.save(Store.newSalesStore(memberId, name, location, storeDescription, locationDescription, category));
+        return storeRepository.save(Store.newSalesStore(memberId, name, location, storeDescription, locationDescription, category, bankInfo));
     }
 
     private Store storeFixture(Long memberId) {
@@ -169,7 +170,9 @@ class StoreServiceTest extends SetupBoss {
         String storeDescription = "팥 붕어빵 맛집";
         String locationDescription = "군포역 2번 출구 앞";
         Location location = new Location(34.2222, 128.222);
-        return Store.newInstance(memberId, name, location, storeDescription, locationDescription, OTHER_DESSERT);
+        BankInfo bankInfo = new BankInfo(BankType.WOORI, "1002-222-2222");
+
+        return Store.newInstance(memberId, name, location, storeDescription, locationDescription, OTHER_DESSERT, bankInfo);
     }
 
     private Menu createMenu(Store store) {

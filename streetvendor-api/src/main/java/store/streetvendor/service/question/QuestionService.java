@@ -63,11 +63,23 @@ public class QuestionService {
     }
 
     @Transactional(readOnly = true)
-    public List<QuestionDetailResponse> getQuestionDetail(Long memberId, Long questionId, Long cursor, int size, String baseUrl) {
-        return questionsRepository.findQuestionsDetailByMemberIdAndParentId(memberId, questionId, cursor, size).stream()
+    public List<QuestionDetailResponse> getQuestionDetail(Long memberId, Long questionId, String baseUrl) {
+        return questionsRepository.findQuestionsDetailByMemberIdAndParentId(memberId, questionId).stream()
             .map(question -> QuestionDetailResponse.of(question, baseUrl))
             .collect(Collectors.toList());
     }
 
-
+    /**
+     * 통합 테스트 코드에 문제가 있음
+     * @param questionId
+     * @param memberId
+     */
+    @Transactional
+    public void deleteQuestion(Long questionId, Long memberId) {
+        List<Questions> questions = questionsRepository.findQuestionsDetailByMemberIdAndParentId(memberId, questionId);
+        for (Questions question : questions) {
+            question.delete();
+        }
+        // questionsRepository.saveAll(questions);
+    }
 }

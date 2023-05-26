@@ -42,6 +42,8 @@ public abstract class SetUpStore extends SetupBoss {
 
     protected PaymentMethod paymentMethod = PaymentMethod.ACCOUNT_TRANSFER;
 
+    protected BankInfo bankInfo = new BankInfo(BankType.WOORI, "1002-222-2222");
+
     protected Store store;
 
     protected Menu menu;
@@ -54,7 +56,7 @@ public abstract class SetUpStore extends SetupBoss {
     @BeforeEach
     void storeFixture() {
 
-        store = Store.newSalesStore(boss.getId(), boss.getName(), location, storeDescription, locationDescription, storeCategory);
+        store = Store.newSalesStore(boss.getId(), boss.getName(), location, storeDescription, locationDescription, storeCategory, bankInfo);
 
         menu = Menu.of(store, menuName, count, price, pictureUrl);
 
