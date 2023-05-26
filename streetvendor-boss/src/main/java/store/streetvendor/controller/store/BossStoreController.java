@@ -3,14 +3,18 @@ package store.streetvendor.controller.store;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import store.streetvendor.core.auth.Auth;
 import store.streetvendor.core.auth.MemberId;
+import store.streetvendor.core.aws.response.ImageUrlResponse;
+import store.streetvendor.core.exception.InvalidException;
 import store.streetvendor.core.utils.ApiResponse;
 import store.streetvendor.core.utils.dto.store.request.AddNewStoreRequest;
 import store.streetvendor.core.utils.dto.store.request.StoreUpdateRequest;
 import store.streetvendor.service.store.BossStoreService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,6 +45,16 @@ public class BossStoreController {
     public ApiResponse<String> addNewStore(@Valid @RequestBody AddNewStoreRequest request, @MemberId Long bossId) {
         bossStoreService.addNewStore(request, bossId);
         return ApiResponse.OK;
+    }
+
+    @Auth
+    @ApiOperation(value = "[사장님] 가게 이미지를 추가합니다.")
+    @PostMapping("/v1/store/images")
+    public ApiResponse<List<ImageUrlResponse>> addStoreImages(@RequestPart List<MultipartFile> storeImages) {
+        if (storeImages.isEmpty()) {
+            throw new InvalidException("가게 이미지를 추가해주세요");
+        }
+        return ApiResponse.success(bossStoreService.addStoreImage(storeImages));
     }
 
 }

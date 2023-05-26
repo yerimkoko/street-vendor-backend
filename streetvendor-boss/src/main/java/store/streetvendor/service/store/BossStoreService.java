@@ -3,6 +3,12 @@ package store.streetvendor.service.store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import store.streetvendor.core.aws.AwsS3Service;
+import store.streetvendor.core.aws.ImageFileType;
+import store.streetvendor.core.aws.request.FileUploadRequest;
+import store.streetvendor.core.aws.request.ImageFileUploadRequest;
+import store.streetvendor.core.aws.response.ImageUrlResponse;
 import store.streetvendor.core.domain.member.MemberRepository;
 import store.streetvendor.core.domain.store.Store;
 import store.streetvendor.core.domain.store.StoreRepository;
@@ -13,6 +19,9 @@ import store.streetvendor.core.utils.dto.store.request.StoreUpdateRequest;
 import store.streetvendor.core.utils.service.MemberServiceUtils;
 import store.streetvendor.core.utils.service.StoreServiceUtils;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class BossStoreService {
@@ -21,10 +30,22 @@ public class BossStoreService {
 
     private final MemberRepository memberRepository;
 
+    private final AwsS3Service awsS3Service;
+
     @Transactional
     public void addNewStore(AddNewStoreRequest request, Long bossId) {
         MemberServiceUtils.findBossByBossId(memberRepository, bossId);
         storeRepository.save(request.toEntity(bossId));
+    }
+
+    @Transactional
+    public List<ImageUrlResponse> addStoreImage(List<MultipartFile> storeImages) {
+        List<FileUploadRequest> fileUploadRequests = storeImages.stream()
+            .map(imageFile -> ImageFileUploadRequest.of(imageFile, ImageFileType.STORE_IMAGE))
+            .collect(Collectors.toList());
+
+        return awsS3Service.uploadImageFiles(fileUploadRequests);
+
     }
 
     @Transactional
