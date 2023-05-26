@@ -69,17 +69,9 @@ public class QuestionService {
             .collect(Collectors.toList());
     }
 
-    /**
-     * 통합 테스트 코드에 문제가 있음
-     * @param questionId
-     * @param memberId
-     */
     @Transactional
     public void deleteQuestion(Long questionId, Long memberId) {
-        List<Questions> questions = questionsRepository.findQuestionsDetailByMemberIdAndParentId(memberId, questionId);
-        for (Questions question : questions) {
-            question.delete();
-        }
-        // questionsRepository.saveAll(questions);
+        Questions questions = questionsRepository.findByQuestionId(questionId, memberId);
+        questions.delete();
     }
 }

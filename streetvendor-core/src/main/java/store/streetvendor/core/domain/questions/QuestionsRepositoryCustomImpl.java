@@ -17,7 +17,8 @@ public class QuestionsRepositoryCustomImpl implements QuestionsRepositoryCustom{
         return jpaQueryFactory.selectFrom(questions)
             .where(questions.memberId.eq(memberId),
                 existedCursor(cursor),
-                questions.adminId.isNull())
+                questions.status.ne(QuestionsStatus.DELETED)
+                )
             .orderBy(questions.id.desc())
             .limit(size)
             .fetch();
@@ -27,15 +28,18 @@ public class QuestionsRepositoryCustomImpl implements QuestionsRepositoryCustom{
     public List<Questions> findQuestionsDetailByMemberIdAndParentId(Long memberId, Long questionId) {
         return jpaQueryFactory.selectFrom(questions)
             .where(questions.memberId.eq(memberId),
-                questions.id.eq(questionId).or(questions.parentId.eq(questionId)))
+                questions.id.eq(questionId).or(questions.parentId.eq(questionId)),
+                questions.status.ne(QuestionsStatus.DELETED))
             .orderBy(questions.id.desc())
             .fetch();
     }
 
     @Override
-    public Questions findByQuestionId(Long questionId) {
+    public Questions findByQuestionId(Long questionId, Long memberId) {
         return jpaQueryFactory.selectFrom(questions)
-            .where(questions.id.eq(questionId))
+            .where(questions.id.eq(questionId),
+                questions.memberId.eq(memberId),
+                questions.status.ne(QuestionsStatus.DELETED))
             .fetchOne();
     }
 

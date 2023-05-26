@@ -64,6 +64,7 @@ public class BossStoreServiceTest extends SetUpBoss {
         StoreUpdateRequest updateRequest = StoreUpdateRequest.testBuilder()
             .menus(List.of(newMenu))
             .category(StoreCategory.BUNG_EO_PPANG)
+            .bankInfo(new BankInfo(BankType.WOORI, "1002-222-2222"))
             .paymentMethods(Collections.emptyList())
             .businessHours(Collections.emptyList())
             .name(store.getName())

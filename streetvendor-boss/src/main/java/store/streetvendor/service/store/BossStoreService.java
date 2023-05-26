@@ -30,7 +30,7 @@ public class BossStoreService {
     @Transactional
     public void updateMyStore(Long memberId, Long storeId, StoreUpdateRequest request) {
         Store store = StoreServiceUtils.findStoreByStoreIdAndMemberId(storeRepository, storeId, memberId);
-        store.updateStoreInfo(request.getName(), request.getDescription(), request.getLocation(), request.getCategory());
+        store.updateStoreInfo(request.getName(), request.getDescription(), request.getLocation(), request.getCategory(), request.getBankInfo());
         store.updateMenus(request.toMenus(store));
         store.updatePayments(request.getPaymentMethods());
         store.updateBusinessDaysInfo(request.toBusinessHours(store));

@@ -21,6 +21,8 @@ public class StoreUpdateRequest {
 
     private StoreCategory category;
 
+    private BankInfo bankInfo;
+
     private List<MenuRequest> menus;
 
     private List<PaymentMethod> paymentMethods;
@@ -31,12 +33,13 @@ public class StoreUpdateRequest {
 
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
-    public StoreUpdateRequest(String name, Location location, String description,
+    public StoreUpdateRequest(String name, Location location, String description, BankInfo bankInfo,
                               List<MenuRequest> menus, List<PaymentMethod> paymentMethods, List<BusinessHourRequest> businessHours,
                               StoreCategory category, List<StoreImageRequest> storeImages) {
         this.name = name;
         this.location = location;
         this.description = description;
+        this.bankInfo = bankInfo;
         this.menus = menus;
         this.paymentMethods = paymentMethods;
         this.businessHours = businessHours;

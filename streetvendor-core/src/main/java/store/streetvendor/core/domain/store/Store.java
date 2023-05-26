@@ -183,11 +183,12 @@ public class Store extends BaseTimeEntity {
     }
 
 
-    public void updateStoreInfo(String name, String description, Location location, StoreCategory category) {
+    public void updateStoreInfo(String name, String description, Location location, StoreCategory category, BankInfo bankInfo) {
         this.name = name;
         this.storeDescription = description;
         this.location = location;
         this.category = category;
+        this.bankInfo = bankInfo;
     }
 
     public void updateMenus(List<Menu> newMenus) {
@@ -199,7 +200,6 @@ public class Store extends BaseTimeEntity {
     public void updateBusinessDaysInfo(List<BusinessHours> businessHours) {
         this.businessDays.clear();
         this.addBusinessDays(businessHours);
-
     }
 
     public void updatePayments(List<PaymentMethod> paymentMethods) {

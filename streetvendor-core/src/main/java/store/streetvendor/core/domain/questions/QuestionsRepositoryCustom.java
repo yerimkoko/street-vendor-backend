@@ -8,7 +8,7 @@ public interface QuestionsRepositoryCustom {
 
     List<Questions> findQuestionsDetailByMemberIdAndParentId(Long memberId, Long questionId);
 
-    Questions findByQuestionId(Long questionId);
+    Questions findByQuestionId(Long questionId, Long memberId);
 
     Questions findByQuestionIdAndMemberId(Long questionId, Long memberId);
 
