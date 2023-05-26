@@ -79,19 +79,4 @@ class MemberControllerTest {
 
     }
 
-
-    @Test
-    @Disabled
-    void 프로필_사진을_수정한다() throws Exception {
-        // given
-        MockMultipartFile profileUrl = new MockMultipartFile("images", "originalImage.png", MediaType.IMAGE_PNG_VALUE, "<<png data>>".getBytes());
-
-        // when & then
-        mockMvc.perform(multipart("/api/v1/my-page/profileUrl")
-                .file(profileUrl)
-                .header(HttpHeaders.AUTHORIZATION, "TOKEN")
-                .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-    }
-
 }

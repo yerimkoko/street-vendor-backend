@@ -40,32 +40,36 @@ values ( '[공지사항] 공지사항입니다.', '공지사항입니다.', now(
 
 insert into store(
                   created_at, updated_at, boss_id, category, latitude, longitude,
-                  location_description, name, sales_status, status, store_description, average_value
+                  location_description, name, sales_status, status, store_description, average_value,
+                  bank_type, account_number
 )
 values (now(), now(), 1, 'TTEOK_BOKKI', 37.7708104, 126.7021019, '국민은행 앞', '사거리 떡볶이',
-        'OPEN', 'ACTIVE', '떡볶이 맛집', 0.0);
+        'OPEN', 'ACTIVE', '떡볶이 맛집', 0.0, 'WOORI', '1002-252-2222');
 
 insert into store(
     created_at, updated_at, boss_id, category, latitude, longitude,
-    location_description, name, sales_status, status, store_description, average_value
+    location_description, name, sales_status, status, store_description, average_value,
+                  bank_type, account_number
 )
 values (now(), now(), 1, 'TTEOK_BOKKI', 37.7718104, 126.7021019, '우리은행 앞', '삼거리 떡볶이',
-        'OPEN', 'ACTIVE', '떡볶이가 맛있는 집', 0.0);
+        'OPEN', 'ACTIVE', '떡볶이가 맛있는 집', 0.0, 'WOORI', '1002-252-2222');
 
 insert into store(
     created_at, updated_at, boss_id, category, latitude, longitude,
-    location_description, name, sales_status, status, store_description, average_value
+    location_description, name, sales_status, status, store_description, average_value,
+                  bank_type, account_number
 )
 values (now(), now(), 1, 'BUNG_EO_PPANG', 37.7718104, 126.7031019, '파리바게트 앞', '신호등 떡볶이',
-        'OPEN', 'ACTIVE', '슈크림 붕어빵이 맛있는 집', 0.0);
+        'OPEN', 'ACTIVE', '슈크림 붕어빵이 맛있는 집', 0.0, 'WOORI', '1002-252-2222');
 
 insert into store(
     created_at, updated_at, boss_id, category, latitude, longitude,
     location_description, name, sales_status, status, store_description,
-    average_value
+    average_value, bank_type, account_number
 )
 values (now(), now(), 1, 'BUNG_EO_PPANG', 37.45064589999992, 126.71990259999976, '재민이네 집앞', '재민이가 만든 떡볶이',
-        'OPEN', 'ACTIVE', '정성을 팔고 있어요', 0.0);
+        'OPEN', 'ACTIVE', '정성을 팔고 있어요', 0.0, 'WOORI', '1002-252-2222'
+        );
 
 
 insert into payment(created_at, updated_at, payment_method, store_id)
